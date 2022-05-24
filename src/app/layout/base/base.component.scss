@@ -1,0 +1,69 @@
+// @import 'variables.scss';
+:host {
+  height: 100vh;
+  width: 100%;
+}
+.error-message {
+  margin: auto;
+  max-width: 300px;
+  text-align: center;
+}
+.error-icon {
+  display: block;
+  margin: auto;
+}
+
+.disclaimer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #0b273973;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-content {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    height: 90%;
+    width: 90%;
+    overflow: auto;
+    z-index: 101;
+    padding: 20px;
+    box-shadow: $shadow-lvl-2;
+  }
+  &-btn-ok {
+    color: #fff;
+    margin: 10px;
+    background-color: $color-primary;
+  }
+  &-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &-btn-cancel {
+    margin: 10px;
+    background-color: $color-grey-2;
+  }
+  &-text {
+    padding: 5px;
+    color: $color-secondary;
+  }
+  &-title {
+    padding: 5px;
+    font-family: "Telefonica-Bold";
+    color: $color-primary;
+  }
+  &-g-title {
+    padding: 5px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: "Telefonica-Bold";
+    color: $color-primary;
+  }
+}
