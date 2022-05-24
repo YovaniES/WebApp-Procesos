@@ -6,13 +6,20 @@ const routes: Routes = [
   { path: 'login',
     loadChildren: () => import('./views/auth/auth.module').then((m) => m.AuthModule),
   },
-  { path:'**',
+ /*  { path:'**',
     loadChildren: () => import('./views/errors/errors.module').then((m) => m.ErrorsModule),
-  },
-  /* {
+  }, */
+  {
     path:'',component:BaseComponent,
-    loadChildren:() => import('./views/pages/')
-  } */
+    children:[
+      { path:'home',
+        loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule)
+      },
+
+      // loadChildren:() => import('./views/pages/'),
+      { path:'', redirectTo:'home', pathMatch:'full'}
+    ]
+  }
 ];
 
 @NgModule({

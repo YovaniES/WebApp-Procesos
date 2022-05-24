@@ -1,0 +1,211 @@
+.cli-header{
+  background-color: #00BEC0;
+  color: #eef9f9;
+  line-height: 56px - 20;
+  height: 56px;
+  box-shadow: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000020;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 97;
+  display: flex;
+  flex-direction: row;
+}
+
+.personname{
+  line-height: 56px;
+  margin: 0 5px;
+  text-shadow: 0 1px 3px #0000002a;
+}
+.header-hiddenaside{
+  left: 70px;
+}
+.header-fixedaside{
+  left: 265px;
+}
+.header-nav-items{
+  flex: 1;
+}
+
+
+.header-icon{
+  display: none;
+  align-items: center;
+  width: 48px;
+  transition: .3s ease;
+  color: #04eafa;
+}
+.header-icon:active{
+  cursor: pointer;
+}
+.header-icon .mat-icon{
+  margin: auto;
+}
+
+.toolbar-header {
+  background-color: #00bec0;
+
+  position:fixed;
+
+}
+.menu-icon-header {
+  font-size: 25px;
+  margin-right: 12px;
+  cursor: pointer;
+  color: #ffffff;
+  margin-top: 15px;
+}
+
+
+.miniphoto-header{
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  margin: 10px 0;
+  & img{
+      position: absolute;
+      left: -100%;
+      right: -100%;
+      top: -100%;
+      bottom: -100%;
+      margin: auto;
+      min-height: 100%;
+      width: 40px;
+      min-width: 100%;
+  }
+}
+.logoheader{
+  overflow: hidden;
+  height: 56px;
+  padding: 15px;
+  display: flex;
+  color: #2B3447;
+  font-size: 1.1rem;
+  align-items: center;
+  justify-content: center;
+}
+.hlogo{
+  height: 40px;
+}
+.personas{
+  font-size: 1.3rem;
+  top: 28px;
+  left: 117px;
+  position: absolute;
+  font-weight: 500;
+  color: #59C2C9;
+}
+.logo-let{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  margin: 0 10px;
+  color: #F2F4FF
+}
+
+// MOBILE MENU
+.mobile-logo{
+  width: 200px;
+  margin: auto;
+  margin-top: 15px;
+}
+.cli-mobile-menu{
+  display: none;
+}
+.cli-mobile-menu-bg{
+  display: none;
+}
+.mobile-menu-active{
+  left: 0;
+}
+.mobile-menu-hidden{
+  left: -100%;
+}
+.mobile-menu-body{
+  width: 100%;
+  background-color: #F2F4FF
+}
+.mobile-menu-overlay{
+  background-color: #00000036;
+  width: 100%;
+  position: absolute;
+  z-index: 99;
+}
+.overlay-close{
+  margin: 31px 15px;
+  background-color: #e2e2e2;
+  color: #00a2cf;
+  border-radius: 14px;
+}
+.mobile-menu-logo{
+  position: relative;
+  display: flex;
+}
+.mobile-submenu-body{
+  width: 100%;
+  position: absolute;
+  top: 102px;
+  bottom: 0;
+  z-index: 102;
+  transition: .3s ease;
+  background-color: #00BEC0;
+  color: #fff;
+}
+.mobile-submenu-active{
+  left: 0;
+}
+.mobile-submenu-hidden{
+  left: -100%;
+}
+.cli-mobile-submenu{
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+.submenu-title{
+  padding: 9px 25px;
+  min-height: 44px;
+  display: flex;
+  flex-grow: 1;
+  align-items: stretch;
+  margin: 0;
+  position: relative;
+  transition: 0.3s ease;
+  background-color: #00BEC0;
+  border-bottom: solid 1px #00BEC0;
+  border-top: solid 1px #00BEC0;
+  text-align: center;
+  font-weight: 500;
+}
+.submenus-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+.mobile-submenu-link{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;;
+}
+.mobile-submenu-icon .mat-icon{
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+
+}
+
+@media (max-width: 850px) {
+  .personname{
+    line-height: 56px;
+    margin: 0 5px;
+    display: none;
+  }
+
+}

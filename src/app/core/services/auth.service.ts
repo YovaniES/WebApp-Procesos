@@ -2,17 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
 import { AuthResponse, Users } from '../interfaces/auth.interface';
-// import { AuthResponse, Users } from 'src/app/interfaces/auth.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  toggleUserPanel$ = new EventEmitter<boolean>();
+  toggleUserPanel = new EventEmitter<boolean>();
 
   private _usuario!: Users;
 
@@ -43,16 +42,16 @@ export class AuthService {
   }
 
   logout() {
-    this.router.navigateByUrl('public/qr');
+    this.router.navigateByUrl('login');
     localStorage.clear();
   }
 
-/*   getUsername() {
+  getUsername() {
     const decodedToken: any = this.decodeToken();
     return decodedToken ? decodedToken.displayname : '';
-  } */
+  }
 
- /*  decodeToken() {
+  decodeToken() {
     const token = this.getToken();
     if (token) {
       return jwt_decode(token);
@@ -60,7 +59,7 @@ export class AuthService {
       return null;
     }
   }
- */
+
   getToken() {
     return localStorage.getItem('token');
   }

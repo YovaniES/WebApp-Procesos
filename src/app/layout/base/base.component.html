@@ -1,1 +1,30 @@
-<p>base works!</p>
+<div *ngIf="loading" class="cli-body">
+  <app-header></app-header>
+  <app-aside (generalfixedAside)="changeSideFixed($event)"></app-aside>
+
+  <div
+    [ngClass]="{
+      'cli-canvas-fixedaside': fixedAside,
+      'cli-canvas-hiddenaside': !fixedAside
+    }"
+    class="cli-canvas"
+  >
+    <div class="cli-content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
+
+
+<div *ngIf="!loading" class="cli-body">
+  <div class="error-message">
+    <mat-spinner
+      *ngIf="loading && !menuError"
+      diameter="30"
+      style="margin: 5px auto"
+    ></mat-spinner>
+    <mat-icon class="error-icon" *ngIf="menuError">error</mat-icon>
+    {{ message }}
+  </div>
+</div>

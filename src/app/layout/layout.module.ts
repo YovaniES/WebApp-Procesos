@@ -1,28 +1,31 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
+import { MaterialModule } from '../material/material.module';
+import { CoreModule } from '../core/core.module';
+import { UserSectionComponent } from './header/user-section/user-section.component';
 import { AsideComponent } from './aside/aside.component';
 import { BaseComponent } from './base/base.component';
-
-
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
-    FooterComponent,
     HeaderComponent,
     AsideComponent,
-    BaseComponent
+    FooterComponent,
+    UserSectionComponent,
+    BaseComponent,
   ],
   exports:[
-    FooterComponent,
     HeaderComponent,
     AsideComponent,
-    BaseComponent,
+    FooterComponent,
+    UserSectionComponent,
+    BaseComponent
   ],
 
   imports: [
-    CommonModule
+    MaterialModule,
+    CoreModule
   ]
 })
 export class LayoutModule { }
