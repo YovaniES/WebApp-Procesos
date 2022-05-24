@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "webApp": {
+    "webapp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -31,10 +31,17 @@
               "src/assets"
             ],
             "styles": [
+              "src/styles.scss",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/assets/styles/style.angular.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "src/assets/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -73,10 +80,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "webApp:build:production"
+              "browserTarget": "webapp:build:production"
             },
             "development": {
-              "browserTarget": "webApp:build:development"
+              "browserTarget": "webapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "webApp:build"
+            "browserTarget": "webapp:build"
           }
         },
         "test": {
@@ -109,5 +116,5 @@
       }
     }
   },
-  "defaultProject": "webApp"
+  "defaultProject": "webapp"
 }

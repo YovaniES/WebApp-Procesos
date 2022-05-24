@@ -1,0 +1,195 @@
+.cli-aside{
+    position: fixed;
+    /* top: 0; */
+    top: $header-height;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+    background-color: $Webapp-white;
+
+    color: $font-color-5;
+    display: flex;
+    flex-direction: column;
+    box-shadow: $shadow-aside;
+}
+.aside-btn-float{
+    position: absolute;
+    z-index: 60;
+    background-color: #fff ;
+    box-shadow: $shadow-lvl-1;
+    right: -14px;
+    top: 13px;
+    color: #fff;
+    margin: auto;
+    padding: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:  0.3s ease;
+}
+.aside-btn-float:hover{
+    cursor: pointer;
+    background-color: $color-secondary;
+}
+.cli-aside-fixed{
+    width: $aside-fixed-width;
+}
+.cli-aside-hover{
+    width: $aside-hover-width;
+}
+.cli-aside-container{
+    flex:  1;
+}
+.cli-aside-overflow{
+    overflow: auto;
+}
+.cli-aside-menu{
+    margin: 0;
+    list-style: none;
+    padding: 15px 0;
+}
+
+.cli-menu-item{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    float: none;
+    padding: 0;
+    position: relative;
+}
+.menu-link{
+    padding: 9px 25px;
+    cursor: pointer;
+    min-height: 44px;
+    display: flex;
+    flex-grow: 1;
+    align-items: stretch;
+    margin: 0;
+    text-decoration: none;
+    position: relative;
+    transition: 0.3s ease;
+    //background-color: $color-primary;
+    background-color: $Webapp-white;
+    //color: $white;
+    color: $color-primary;
+    border-bottom: 1px solid $color-primary-l2;
+    border-top: 1px solid $color-primary-l2;
+
+}
+.menu-link:hover{
+    text-decoration: none ;
+    //background-color: $color-primary-d1;
+    background-color: $color-primary-l1;
+    color: #fff;
+}
+.active-link{
+    color: $color-primary !important;
+    //background-color: $color-primary-d1;
+    background-color: $Webapp-white;
+    border-right: 4px $color-primary-d2 solid;
+}
+.active-sublink{
+    background-color: $color-primary-l0;
+    border-right: 6px $color-secondary solid;
+    color: $color-secondary !important;
+}
+.menu-link-open{
+    //background-color: $color-primary-d1;
+    background-color: $color-primary-l1;
+    color: #fff;
+}
+.menu-icon{
+    flex: 0 0 35px;
+    font-size: 1rem;
+}
+.menu-arrow{
+    flex: 0 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    line-height: 0;
+    transition: 0.3s ease;
+}
+.menu-arrow-open{
+    transform: rotate(90deg);
+}
+.menu-link span, .submenu-link span{
+    font-weight: 400;
+    font-size: 1.1rem;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    padding: 0;
+}
+.sub-menu{
+    max-height: 0px;
+    overflow: hidden;
+    //background: $color-primary-l3;
+    background: $color-primary-l0;
+    flex-grow: 1;
+    flex-direction: column;
+    transition: 0.3s ease;
+}
+.sub-menu-displayed{
+    height: fit-content;
+    max-height: 800px;
+}
+.sub-menu ul{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+.submenu-link{
+    padding: 4px 25px 4px 40px;
+    //color: $Webapp-white;
+    color: $color-primary;
+    cursor: pointer;
+    min-height: 44px;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    margin: 0;
+    text-decoration: none;
+    position: relative;
+    transition: 0.3s ease;
+}
+.submenu-link:hover{
+    color: $font-color-5;
+    text-decoration: none;
+    background-color: $color-primary-l1;
+}
+
+.submenu-icon{
+    text-align: left;
+    flex: 0 0 35px;
+}
+.aside-divider{
+    width: 80%;
+    margin: auto;
+    border-bottom: 1px solid #d2d2d2;
+    box-shadow: 0 1px 3px 0 #0000004d;
+}
+
+
+.aside-hover-menu{
+    display: none;
+    position: absolute;
+    top: -50%;
+    left: $aside-hover-width;
+    background-color: #fff;
+    box-shadow: $shadow-lvl-2;
+    z-index: 96;
+}
+.cli-menu-item:hover .aside-hover-menu{
+    display: block;
+}
+
+@include mobile{
+    .cli-aside{
+        display: none;
+    }
+}
