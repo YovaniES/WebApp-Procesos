@@ -1,0 +1,72 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="cli-title-center c-male">Asignar permisos</div>
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Requerimiento -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Requerimiento</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form">
+            <div class="card-body">
+              <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Excelencia Operacional</label>
+                    <input type="text" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Operaciones Comerciales</label>
+                    <input type="text" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Tipos</label>
+                    <select class="custom-select" #t>
+                      <option [value]="t.value"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Subtipo</label>
+                    <select class="custom-select">
+                      <!-- <option
+                        *ngFor="let st of subTipos; let i = index"
+                        [value]="st.value"
+                      >
+                        {{ st.label }}
+                      </option> -->
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea rows="2" class="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

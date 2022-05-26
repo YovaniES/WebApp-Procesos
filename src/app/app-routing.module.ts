@@ -12,8 +12,10 @@ const routes: Routes = [
       { path:'home',
         loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule)
       },
-
-      // loadChildren:() => import('./views/pages/'),
+      {
+        path:'bandeja',
+        loadChildren: () => import ('./views/pages/factorizacion/factorizacion.module').then((m)=>m.FactorizacionModule)
+      },
       { path:'', redirectTo:'home', pathMatch:'full'}
     ]
   },

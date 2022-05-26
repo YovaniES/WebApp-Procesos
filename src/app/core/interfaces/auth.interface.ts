@@ -10,3 +10,31 @@ export interface AuthResponse {
   token?: string;
   message?: string;
 }
+
+
+export interface datasheet{
+  idssff:string,
+  name:string,
+  photouri:string,
+  gender:string,
+  toptalent:boolean,
+  toptalentJustification:string,
+  age:number,
+  old:number,
+  nationality:string,
+  location:string,
+  bu:string,
+  division:string,
+  position:string,
+  potencialTo:string,
+  potencialIcon:string,
+  mobilize:boolean,
+  countries:string[],
+  aboutme:string,
+  /* experience:myjobs[],
+  studies:backStudie[];
+  succesors:successor[], */
+  skills:string[],
+  pools:string[],
+  bigsix:{name:string,value:number}[]
+}

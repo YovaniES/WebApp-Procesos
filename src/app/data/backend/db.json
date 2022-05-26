@@ -1,0 +1,137 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "code": "ADM",
+      "text": "Gestión Personal",
+      "order": 1,
+      "icon": "admin_panel_settings",
+      "type": "leo",
+      "link": "administracion",
+      "enable": true,
+      "module": "administrador4",
+      "displayed": false,
+      "submenus": [
+        {
+          "code": "ADM-001",
+          "text": "Usuarios",
+          "order": 1,
+          "icon": "person",
+          "type": "aei",
+          "link": "administracion/usuarios",
+          "enable": true,
+          "module": "ADM",
+          "displayed": true
+        },
+        {
+          "code": "ADM-002",
+          "text": "Permisos",
+          "order": 2,
+          "icon": "https",
+          "type": "aei",
+          "link": "administracion/permisos",
+          "enable": false,
+          "module": "ADM",
+          "displayed": false
+        },
+        {
+          "code": "ADM-003",
+          "text": "Módulos de config.",
+          "order": 3,
+          "icon": "menu_open",
+          "type": "aei",
+          "link": "administracion/modulos",
+          "enable": true,
+          "module": "ADM",
+          "displayed": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "code": "MAN",
+      "text": "Mantenimiento",
+      "order": 1,
+      "icon": "business",
+      "type": "leo",
+      "link": "mantenimiento",
+      "enable": true,
+      "module": "mantenimiento",
+      "displayed": false,
+      "submenus": [
+        {
+          "code": "MAN-001",
+          "text": "Entidad",
+          "order": 20,
+          "icon": "business",
+          "type": "oso",
+          "link": "mantenimiento/company",
+          "enable": true,
+          "module": "MAN",
+          "displayed": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "code": "PAS",
+      "text": "Facturación",
+      "order": 1,
+      "icon": "badge",
+      "type": "leo",
+      "link": "terceros",
+      "enable": true,
+      "module": "administrador",
+      "displayed": false,
+      "submenus": [
+        {
+          "code": "PAS-001",
+          "text": "Facturación abc",
+          "order": 3,
+          "icon": "format_list_numbered",
+          "type": "oso",
+          "link": "terceros/encuesta",
+          "enable": true,
+          "module": "PAS",
+          "displayed": false
+        },
+        {
+          "code": "PAS-002",
+          "text": "Lista de pases",
+          "order": 2,
+          "icon": "checklist_rtl",
+          "type": "oso",
+          "link": "terceros/pases",
+          "enable": true,
+          "module": "PAS",
+          "displayed": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "code": "HER",
+      "text": "Nuevo proyecto",
+      "order": 1,
+      "icon": "build",
+      "type": "leo",
+      "link": "bandeja",
+      "enable": true,
+      "module": "administrador",
+      "displayed": false,
+      "submenus": [
+        {
+          "code": "PAS-001",
+          "text": "Bandeja",
+          "order": 3,
+          "icon": "format_list_numbered",
+          "type": "oso",
+          "link": "bandeja/operaciones",
+          "enable": true,
+          "module": "PAS",
+          "displayed": false
+        }
+      ]
+    }
+  ]
+}

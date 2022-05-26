@@ -24,6 +24,7 @@ export class AsideComponent implements OnInit {
     this.menuService.getMenu().subscribe((resp) => {
       this.menuList = resp;
       console.log('DATA', resp);
+
     });
   }
 
