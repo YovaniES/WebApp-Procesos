@@ -2,19 +2,506 @@
   <div class="cli-card-body">
     <div class="cli-title-center c-male">Asignar permisos</div>
 
-    <section class="content">
+    <!-- <div *ngIf="showing == 1" class="cli-form newvac-wrapper"> -->
+
+    <div class="cli-row">
+      <!-- Nombre del Proyecto -->
+      <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{
+            'c-green': request.name != null,
+            'c-orange':(request.name == null || request.name == '') && touched.name          }"
+        >
+          <mat-icon>title</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Nombre del proyecto</label>
+          <input
+            class="cli-input-white"
+            (blur)="touched.name = true"
+            [(ngModel)]="request.name"
+            [ngClass]="{
+              borwarnalert:
+                (request.name == null || request.name == '') && touched.name
+            }"
+            placeholder="RPA-PER-CAPL"
+          />
+          <small
+            *ngIf="(request.name == null || request.name == '') && touched.name"
+            class="cli-form-warn"
+          >
+            Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+      <!-- Código del Proyecto -->
+      <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{
+            'c-green': request.name != null,
+            'c-orange':
+              (request.name == null || request.name == '') && touched.name
+          }"
+        >
+          <mat-icon>private_connectivity</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Código del proyecto</label>
+          <input
+            class="cli-input-white"
+            (blur)="touched.name = true"
+            [(ngModel)]="request.name"
+            [ngClass]="{
+              borwarnalert:
+                (request.name == null || request.name == '') && touched.name
+            }"
+            placeholder="HISPAM-2201-1"
+          />
+          <small
+            *ngIf="(request.name == null || request.name == '') && touched.name"
+            class="cli-form-warn"
+          >
+            Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+      <!-- VP -->
+      <ng-container>
+        <div
+          [ngClass]="{
+            'c-green': request.type * 1 != 0,
+            'c-orange': request.type * 1 == 0 && touched.type
+          }"
+          class="cli-form-icon"
+        >
+          <mat-icon>private_connectivity</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>VP</label>
+          <select
+            [(ngModel)]="request.type"
+            class="cli-input-white"
+            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
+            (blur)="touched.type = true"
+          >
+            <option disabled value="0">-Seleccionar-</option>
+            <option value="1">INDRA-2020</option>
+            <option value="2">HISPAM-2202-1</option>
+            <option value="3">HISPAM-2201-1</option>
+          </select>
+          <small
+            *ngIf="request.type * 1 == 0 && touched.type"
+            class="cli-form-warn"
+            class="cli-form-warn"
+            >Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+      <!-- GERENCIA SOLICITANTE -->
+      <ng-container>
+        <div
+          [ngClass]="{
+            'c-green': request.type * 1 != 0,
+            'c-orange': request.type * 1 == 0 && touched.type
+          }"
+          class="cli-form-icon"
+        >
+          <mat-icon>private_connectivity</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Gerencia Solicitante</label>
+          <select
+            [(ngModel)]="request.type"
+            class="cli-input-white"
+            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
+            (blur)="touched.type = true"
+          >
+            <option disabled value="0">-Seleccionar-</option>
+            <option value="1">INDRA-2020</option>
+            <option value="2">HISPAM-2202-1</option>
+            <option value="3">HISPAM-2201-1</option>
+          </select>
+          <small
+            *ngIf="request.type * 1 == 0 && touched.type"
+            class="cli-form-warn"
+            class="cli-form-warn"
+            >Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+
+    <div class="cli-row">
+        <!-- PO DEL PROYECTO -->
+        <ng-container>
+          <div
+            [ngClass]="{
+              'c-green': request.type * 1 != 0,
+              'c-orange': request.type * 1 == 0 && touched.type
+            }"
+            class="cli-form-icon"
+          >
+            <mat-icon>assignment_ind</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>PO del proyecto</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Dagoberto Riva</option>
+              <option value="2">Raquel Melendez</option>
+              <option value="3">Wilmer Cordova</option>
+            </select>
+            <small
+              *ngIf="request.type * 1 == 0 && touched.type"
+              class="cli-form-warn"
+              class="cli-form-warn"
+              >Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
+
+        <!-- Responsable del pedido -->
+        <ng-container>
+          <div
+            [ngClass]="{
+              'c-green': request.type * 1 != 0,
+              'c-orange': request.type * 1 == 0 && touched.type
+            }"
+            class="cli-form-icon"
+          >
+            <mat-icon>person_outline</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Responsable del pedido</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">INDRA-2020</option>
+              <option value="2">HISPAM-2202-1</option>
+              <option value="3">HISPAM-2201-1</option>
+            </select>
+            <small
+              *ngIf="request.type * 1 == 0 && touched.type"
+              class="cli-form-warn"
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
+
+        <!-- Gerencia beneficiaria -->
+        <ng-container>
+          <div
+            [ngClass]="{
+              'c-green': request.type * 1 != 0,
+              'c-orange': request.type * 1 == 0 && touched.type
+            }"
+            class="cli-form-icon"
+          >
+            <mat-icon>domain</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Gerencia beneficiaria</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">INDRA-2020</option>
+              <option value="2">HISPAM-2202-1</option>
+              <option value="3">HISPAM-2201-1</option>
+            </select>
+            <div
+              *ngIf="request.type * 1 == 0 && touched.type"
+              class="cli-form-warn"
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- PLANNER -->
+        <ng-container>
+          <div
+            [ngClass]="{
+              'c-green': request.type * 1 != 0,
+              'c-orange': request.type * 1 == 0 && touched.type
+            }"
+            class="cli-form-icon"
+          >
+            <mat-icon>private_connectivity</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Planner</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">INDRA-2020</option>
+              <option value="2">HISPAM-2202-1</option>
+              <option value="3">HISPAM-2201-1</option>
+            </select>
+            <small
+              *ngIf="request.type * 1 == 0 && touched.type"
+              class="cli-form-warn"
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
+    </div>
+
+
+    <div class="cli-row">
+      <!-- Controller gerencia beneficiaria-->
+      <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{'c-green': request.type * 1 != 0,'c-orange': request.type * 1 == 0 && touched.type    }"
+        >
+          <mat-icon>edit_attributes</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Controller Gerencia beneficiaria </label>
+          <select
+            [(ngModel)]="request.type"
+            class="cli-input-white"
+            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
+            (blur)="touched.type = true"
+          >
+            <option disabled value="0">-Seleccionar-</option>
+            <option value="1">Externa</option>
+            <option value="2">Internas</option>
+            <option value="3">RPA-PER-CAPL</option>
+          </select>
+          <div
+            *ngIf="request.type * 1 == 0 && touched.type"
+            class="cli-form-warn"
+          >
+            Este campo es obligatorio
+          </div>
+        </div>
+      </ng-container>
+      <!-- Controller de Aprobación del BC-->
+      <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{'c-green': request.name != null,'c-orange':(request.name == null || request.name == '') && touched.name       }"
+        >
+          <mat-icon>how_to_reg</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Controller de Aprobación del BC</label>
+          <select
+            [(ngModel)]="request.type"
+            class="cli-input-white"
+            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
+            (blur)="touched.type = true"
+          >
+            <option disabled value="0">-Seleccionar-</option>
+            <option value="1">SI</option>
+            <option value="2">NO</option>
+            <option value="3">Evaluación</option>
+          </select>
+          <small
+            *ngIf="(request.name == null || request.name == '') && touched.name"
+            class="cli-form-warn"
+          >         Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+      <!-- TECNOLOGIA DE SOLUCIÓN  -->
+      <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{'c-green': request.name != null,'c-orange':(request.name == null || request.name == '') && touched.name       }"
+        >
+          <mat-icon>dynamic_form</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Tecnología de solución</label>
+          <select
+            [(ngModel)]="request.type"
+            class="cli-input-white"
+            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
+            (blur)="touched.type = true"
+          >
+            <option disabled value="0">-Seleccionar-</option>
+            <option value="1">Python</option>
+            <option value="2">Blueprism</option>
+            <option value="3">Auto</option>
+          </select>
+          <small
+            *ngIf="(request.name == null || request.name == '') && touched.name"
+            class="cli-form-warn"
+          >         Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+
+       <!-- Naturaleza del Beneficio -->
+       <ng-container>
+        <div
+          class="cli-form-icon"
+          [ngClass]="{
+            'c-green': request.name != null,
+            'c-orange':
+              (request.name == null || request.name == '') && touched.name
+          }"
+        >
+          <mat-icon>request_quote</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Naturaleza del Beneficio</label>
+          <input
+            class="cli-input-white"
+            (blur)="touched.name = true"
+            [(ngModel)]="request.name"
+            [ngClass]="{
+              borwarnalert:
+                (request.name == null || request.name == '') && touched.name
+            }"
+            placeholder="CONTENCIÓN DE GASTOS"
+          />
+          <small
+            *ngIf="(request.name == null || request.name == '') && touched.name"
+            class="cli-form-warn"
+          >
+            Este campo es obligatorio
+          </small>
+        </div>
+      </ng-container>
+    </div>
+
+
+      <!-- DESCRIPCIÓN -->
+      <div class="cli-row">
+        <div
+          [ngClass]="{
+            'c-green':
+              request.justification != null && request.justification != '',
+            'c-orange':
+              (request.justification == null || request.justification == '') &&
+              touched.justification
+          }"
+          class="cli-form-icon"
+        >
+          <mat-icon>format_quote</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <label>Descripción del Proyecto</label>
+          <textarea
+            rows="3"
+            (blur)="touched.justification = true"
+            [(ngModel)]="request.justification"
+            [ngClass]="{
+              borwarnalert:
+                (request.justification == null ||
+                  request.justification == '') &&
+                touched.justification
+            }"
+            class="cli-input-white"
+            maxlength="500"
+            placeholder="Justificar la necesidad de este proyecto en esta posición (máximo 500 caracteres)"
+          ></textarea>
+          <small
+            class="cli-form-warn"
+            *ngIf="
+              (request.justification == null || request.justification == '') &&
+              touched.justification
+            "
+            >Este campo es obligatorio
+          </small>
+        </div>
+      </div>
+
+      <!-- POSICIÓN NUEVA -->
+      <div class="cli-row" style="margin: 5px 0">
+        <div class="cli-form-icon c-green">
+          <mat-icon>new_releases</mat-icon>
+        </div>
+        <div class="cli-form-element col-f-fill">
+          <mat-checkbox
+            [(ngModel)]="request.flagnew"
+            (ngModelChange)="clearPickedParent()"
+            >Posición nueva</mat-checkbox
+          >
+        </div>
+      </div>
+      <!-- ADJUNTOS -->
+      <!-- <div class="cli-row">
+          <div class="cli-form-icon">
+              <mat-icon>upload_file</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+              <label>Adjuntos (Opcional)</label>
+              <div class="fileatt-cont">
+                  <input #atachfileInput multiple="multiple" style="display: none;" type="file" (change)="attachFileChange($event)"/>
+                  <div *ngFor="let f of files; let i = index" class="fileatt">
+                      <mat-spinner diameter=16 *ngIf="f.status==0" style="margin-right: 5px;"></mat-spinner>
+                      {{f.name}}
+                      <button (click)="files.splice(i,1)" style="margin-left: 5px;" class="icon-btn btn-trans c-female"> <mat-icon class="icon-18">close</mat-icon> </button>
+                  </div>
+                  <button (click)="atachfileInput.click()" class="fileatt-btn">
+                      <mat-icon class="icon-18">add</mat-icon>
+                  </button>
+              </div>
+          </div>
+      </div> -->
+
+      <!-- BOTTONES -->
+      <div class="cli-form-buttons">
+        <button (click)="clearAll()" class="cli-btn btn-l btn-grey">
+          Limpiar
+        </button>
+        <button (click)="register()" class="cli-btn btn-l btn-blue">
+          Registrar
+        </button>
+      </div>
+    </div>
+    <!-- <section class="content">
       <div class="container-fluid">
-        <!-- Requerimiento -->
+
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">Requerimiento</h3>
           </div>
-          <!-- /.card-header -->
-          <!-- form start -->
+
           <form role="form">
             <div class="card-body">
               <div class="row">
-                <!-- left column -->
+
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Excelencia Operacional</label>
@@ -29,7 +516,7 @@
                 </div>
               </div>
               <div class="row">
-                <!-- left column -->
+
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Tipos</label>
@@ -42,19 +529,13 @@
                   <div class="form-group">
                     <label>Subtipo</label>
                     <select class="custom-select">
-                      <!-- <option
-                        *ngFor="let st of subTipos; let i = index"
-                        [value]="st.value"
-                      >
-                        {{ st.label }}
-                      </option> -->
+
                     </select>
                   </div>
                 </div>
               </div>
 
               <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Descripción</label>
@@ -66,7 +547,57 @@
           </form>
         </div>
       </div>
-    </section>
+    </section> -->
+
+      <!-- TABLA DE REGISTRO -->
+<div class="cli-card">
+  <div  class="cli-card-body">
+      <div class="cli-title-center c-male">Detalle nuevo Proyecto</div>
+      <table class="cli-table stripedtable underlinedtable" >
+          <thead>
+              <tr class="bgc-blue c-white">
+                  <th>Nombre</th>
+                  <th>Código</th>
+                  <th>VP</th>
+                  <th>Gerencia Solicitante</th>
+                  <th>PO del Proyecto</th>
+                  <th>Responsable del pedido</th>
+                  <th>Gerencia beneficiaria</th>
+                  <th>Planner</th>
+                  <th>Controller Gerencia</th>
+                  <th>Controller Aprobación</th>
+                  <th>Tecnología</th>
+                  <th>Naturaleza</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody *ngIf="!loadingInbox">
+              <tr *ngFor="let ib of inbox">
+                  <td>{{ib.informer}}</td>
+                  <td>REQ-{{ib.id}}: {{ib.position}}</td>
+                  <td>{{ib.workstream}}</td>
+                  <td>{{ib.flagnew?"Nueva":"Existente"}}</td>
+                  <td>Aprobación en {{ib.filteraprob}}</td>
+                  <td>
+                      <div class="cli-table-actions">
+                          <button (click)="showDetails(ib.id)"  matTooltip="Ver detalle" class="icon-btn btn-trans btn-trans c-green"> <mat-icon class="icon-18">visibility</mat-icon> </button>
+                      </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <div *ngIf="loadingInbox" class="cli-loader">
+          <mat-spinner style="margin-left: 20px;" diameter="20"></mat-spinner>
+          Preparando...
+      </div>
+      <div *ngIf="!loadingInbox && inbox.length == 0" class="cli-loader" >Su bandeja está vacía</div>
   </div>
 </div>
+
+  </div>
+
+
+
+</div>
+
 

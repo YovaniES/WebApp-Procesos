@@ -10,7 +10,7 @@
       Web de Procesos
     </div>
 
-    <form [formGroup]="myLoginForm"
+    <form [formGroup]="loginForm"
           class="loginform my-5">
 
       <!-- email de usuario -->
@@ -55,7 +55,7 @@
           class="cli-btn btn-l btn-emerald my-4"
           type="submit"
           (click)="login()"
-          [disabled]="myLoginForm.invalid"
+          [disabled]="loginForm.invalid"
         ><mat-icon class="icon-cent">login</mat-icon> Ingresar
         </button>
       </div>

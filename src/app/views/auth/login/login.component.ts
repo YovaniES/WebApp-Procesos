@@ -10,9 +10,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public myLoginForm: FormGroup = this.fb.group({
-    username: [ localStorage.getItem('username') || 'gherson.perez@telefonica.com', [Validators.required, Validators.email]],
-    password: ['hola', [Validators.required, Validators.minLength(4)]],
+
+  public loginForm: FormGroup = this.fb.group({
+    username: [ localStorage.getItem('username') || 'jjsoto', [Validators.required]],
+    password: ['jjsoto', [Validators.required, Validators.minLength(6)]],
   });
 
   constructor(
@@ -24,10 +25,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    const { username, password } = this.myLoginForm.value;
+    const { username, password } = this.loginForm.value;
 
-    this.authService.login(username, password).subscribe((ok) => {
+    this.authService.login(username.value, password).subscribe((ok) => {
       console.log('VALOR :', ok);
+      console.log('CREDENCIALES', ok);
+
       if (ok === true) {
         this.router.navigateByUrl('/home');
       } else {
@@ -38,8 +41,8 @@ export class LoginComponent implements OnInit {
 
   campoNoValido(campo: string): boolean {
     if (
-      this.myLoginForm.get(campo)?.invalid &&
-      this.myLoginForm.get(campo)?.touched
+      this.loginForm.get(campo)?.invalid &&
+      this.loginForm.get(campo)?.touched
     ) {
       return true;
     } else {

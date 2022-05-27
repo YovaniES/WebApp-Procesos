@@ -16,7 +16,7 @@ const routes: Routes = [
         path:'bandeja',
         loadChildren: () => import ('./views/pages/factorizacion/factorizacion.module').then((m)=>m.FactorizacionModule)
       },
-      { path:'', redirectTo:'home', pathMatch:'full'}
+      { path:'', redirectTo:'login', pathMatch:'full'}
     ]
   },
 

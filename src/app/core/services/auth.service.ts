@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
 import { AuthResponse, Users } from '../interfaces/auth.interface';
+import { API_AUTH_SESSION } from '../constants/url.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +23,10 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    const url =
-      'https://aks-hispam-dev.eastus.cloudapp.azure.com/third/v1/api/login';
+      // const url = `${BASE_ENDPOINT}/login`;
     const body = { username, password };
 
-    return this.http.post<AuthResponse>(url, body).pipe(
+    return this.http.post<AuthResponse>(API_AUTH_SESSION, body).pipe(
       tap((resp) => {
         if (resp.logged) {
           localStorage.setItem('token', resp.token!);
