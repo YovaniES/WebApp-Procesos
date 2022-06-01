@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup = this.fb.group({
-    username: [ localStorage.getItem('username') || 'jjsoto', [Validators.required]],
+    idaplicacion:['2'],
+    username: ['jjsoto', [Validators.required]],
     password: ['jjsoto', [Validators.required, Validators.minLength(6)]],
   });
 
@@ -25,16 +26,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    const { username, password } = this.loginForm.value;
+    this.authService.login(this.loginForm.value)
+        .subscribe((resp) => {
+          console.log('CREDENCIALES', resp.user);
 
-    this.authService.login(username.value, password).subscribe((ok) => {
-      console.log('VALOR :', ok);
-      console.log('CREDENCIALES', ok);
-
-      if (ok === true) {
-        this.router.navigateByUrl('/home');
+      if (resp) {
+        this.router.navigateByUrl('home');
       } else {
-        Swal.fire('Error', 'Credenciales Erroneas', 'error');
+        Swal.fire('Error', 'Credenciales incorrectas', 'error');
       }
     });
   }

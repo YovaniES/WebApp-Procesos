@@ -6,6 +6,9 @@ const routes: Routes = [
   { path: 'login',
     loadChildren: () => import('./views/auth/auth.module').then((m) => m.AuthModule),
   },
+  { path:'error',
+  loadChildren: () => import('./views/errors/errors.module').then((m) => m.ErrorsModule),
+  },
   {
     path:'',component:BaseComponent,
     children:[
@@ -16,13 +19,20 @@ const routes: Routes = [
         path:'bandeja',
         loadChildren: () => import ('./views/pages/factorizacion/factorizacion.module').then((m)=>m.FactorizacionModule)
       },
-      { path:'', redirectTo:'login', pathMatch:'full'}
+      { path:'', redirectTo:'home', pathMatch:'full'},
+
+      {
+        path:'vacantes',
+        loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
+      },
+
+      {
+        path:'**', redirectTo:'/error/404'
+      }
+
     ]
   },
 
-   { path:'**',
-    loadChildren: () => import('./views/errors/errors.module').then((m) => m.ErrorsModule),
-  },
 ];
 
 @NgModule({

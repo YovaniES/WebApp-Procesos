@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { FirstCapitalPipe } from './pipes/first-capital.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [FirstCapitalPipe],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,6 +20,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+
+    FirstCapitalPipe
   ],
 })
 export class CoreModule {}

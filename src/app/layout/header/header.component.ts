@@ -19,10 +19,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUser();
+    console.log('name',this.initializeUser());
+
   }
 
   initializeUser() {
     this.fullName = this.authService.getUsername();
+
     if (this.fullName) {
       const fullNameToArray = this.fullName.split(' ').map((item: string) => {
         return item.substring(0, 1).toUpperCase();

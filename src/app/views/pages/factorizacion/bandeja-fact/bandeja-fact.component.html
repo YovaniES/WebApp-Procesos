@@ -11,7 +11,9 @@
           class="cli-form-icon"
           [ngClass]="{
             'c-green': request.name != null,
-            'c-orange':(request.name == null || request.name == '') && touched.name          }"
+            'c-orange':
+              (request.name == null || request.name == '') && touched.name
+          }"
         >
           <mat-icon>title</mat-icon>
         </div>
@@ -135,8 +137,7 @@
         </div>
       </ng-container>
 
-
-    <div class="cli-row">
+      <div class="cli-row">
         <!-- PO DEL PROYECTO -->
         <ng-container>
           <div
@@ -279,131 +280,154 @@
             </small>
           </div>
         </ng-container>
-    </div>
+      </div>
 
-
-    <div class="cli-row">
-      <!-- Controller gerencia beneficiaria-->
-      <ng-container>
-        <div
-          class="cli-form-icon"
-          [ngClass]="{'c-green': request.type * 1 != 0,'c-orange': request.type * 1 == 0 && touched.type    }"
-        >
-          <mat-icon>edit_attributes</mat-icon>
-        </div>
-        <div class="cli-form-element col-f-fill">
-          <label>Controller Gerencia beneficiaria </label>
-          <select
-            [(ngModel)]="request.type"
-            class="cli-input-white"
-            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
-            (blur)="touched.type = true"
-          >
-            <option disabled value="0">-Seleccionar-</option>
-            <option value="1">Externa</option>
-            <option value="2">Internas</option>
-            <option value="3">RPA-PER-CAPL</option>
-          </select>
+      <div class="cli-row">
+        <!-- Controller gerencia beneficiaria-->
+        <ng-container>
           <div
-            *ngIf="request.type * 1 == 0 && touched.type"
-            class="cli-form-warn"
-          >
-            Este campo es obligatorio
-          </div>
-        </div>
-      </ng-container>
-      <!-- Controller de Aprobación del BC-->
-      <ng-container>
-        <div
-          class="cli-form-icon"
-          [ngClass]="{'c-green': request.name != null,'c-orange':(request.name == null || request.name == '') && touched.name       }"
-        >
-          <mat-icon>how_to_reg</mat-icon>
-        </div>
-        <div class="cli-form-element col-f-fill">
-          <label>Controller de Aprobación del BC</label>
-          <select
-            [(ngModel)]="request.type"
-            class="cli-input-white"
-            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
-            (blur)="touched.type = true"
-          >
-            <option disabled value="0">-Seleccionar-</option>
-            <option value="1">SI</option>
-            <option value="2">NO</option>
-            <option value="3">Evaluación</option>
-          </select>
-          <small
-            *ngIf="(request.name == null || request.name == '') && touched.name"
-            class="cli-form-warn"
-          >         Este campo es obligatorio
-          </small>
-        </div>
-      </ng-container>
-
-      <!-- TECNOLOGIA DE SOLUCIÓN  -->
-      <ng-container>
-        <div
-          class="cli-form-icon"
-          [ngClass]="{'c-green': request.name != null,'c-orange':(request.name == null || request.name == '') && touched.name       }"
-        >
-          <mat-icon>dynamic_form</mat-icon>
-        </div>
-        <div class="cli-form-element col-f-fill">
-          <label>Tecnología de solución</label>
-          <select
-            [(ngModel)]="request.type"
-            class="cli-input-white"
-            [ngClass]="{ borwarnalert: request.type * 1 == 0 && touched.type }"
-            (blur)="touched.type = true"
-          >
-            <option disabled value="0">-Seleccionar-</option>
-            <option value="1">Python</option>
-            <option value="2">Blueprism</option>
-            <option value="3">Auto</option>
-          </select>
-          <small
-            *ngIf="(request.name == null || request.name == '') && touched.name"
-            class="cli-form-warn"
-          >         Este campo es obligatorio
-          </small>
-        </div>
-      </ng-container>
-
-       <!-- Naturaleza del Beneficio -->
-       <ng-container>
-        <div
-          class="cli-form-icon"
-          [ngClass]="{
-            'c-green': request.name != null,
-            'c-orange':
-              (request.name == null || request.name == '') && touched.name
-          }"
-        >
-          <mat-icon>request_quote</mat-icon>
-        </div>
-        <div class="cli-form-element col-f-fill">
-          <label>Naturaleza del Beneficio</label>
-          <input
-            class="cli-input-white"
-            (blur)="touched.name = true"
-            [(ngModel)]="request.name"
+            class="cli-form-icon"
             [ngClass]="{
-              borwarnalert:
+              'c-green': request.type * 1 != 0,
+              'c-orange': request.type * 1 == 0 && touched.type
+            }"
+          >
+            <mat-icon>edit_attributes</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Controller Gerencia beneficiaria </label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas</option>
+              <option value="3">RPA-PER-CAPL</option>
+            </select>
+            <div
+              *ngIf="request.type * 1 == 0 && touched.type"
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </div>
+          </div>
+        </ng-container>
+        <!-- Controller de Aprobación del BC-->
+        <ng-container>
+          <div
+            class="cli-form-icon"
+            [ngClass]="{
+              'c-green': request.name != null,
+              'c-orange':
                 (request.name == null || request.name == '') && touched.name
             }"
-            placeholder="CONTENCIÓN DE GASTOS"
-          />
-          <small
-            *ngIf="(request.name == null || request.name == '') && touched.name"
-            class="cli-form-warn"
           >
-            Este campo es obligatorio
-          </small>
-        </div>
-      </ng-container>
-    </div>
+            <mat-icon>how_to_reg</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Controller de Aprobación del BC</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">SI</option>
+              <option value="2">NO</option>
+              <option value="3">Evaluación</option>
+            </select>
+            <small
+              *ngIf="
+                (request.name == null || request.name == '') && touched.name
+              "
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
 
+        <!-- TECNOLOGIA DE SOLUCIÓN  -->
+        <ng-container>
+          <div
+            class="cli-form-icon"
+            [ngClass]="{
+              'c-green': request.name != null,
+              'c-orange':
+                (request.name == null || request.name == '') && touched.name
+            }"
+          >
+            <mat-icon>dynamic_form</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Tecnología de solución</label>
+            <select
+              [(ngModel)]="request.type"
+              class="cli-input-white"
+              [ngClass]="{
+                borwarnalert: request.type * 1 == 0 && touched.type
+              }"
+              (blur)="touched.type = true"
+            >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Python</option>
+              <option value="2">Blueprism</option>
+              <option value="3">Auto</option>
+            </select>
+            <small
+              *ngIf="
+                (request.name == null || request.name == '') && touched.name
+              "
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
+
+        <!-- Naturaleza del Beneficio -->
+        <ng-container>
+          <div
+            class="cli-form-icon"
+            [ngClass]="{
+              'c-green': request.name != null,
+              'c-orange':
+                (request.name == null || request.name == '') && touched.name
+            }"
+          >
+            <mat-icon>request_quote</mat-icon>
+          </div>
+          <div class="cli-form-element col-f-fill">
+            <label>Naturaleza del Beneficio</label>
+            <input
+              class="cli-input-white"
+              (blur)="touched.name = true"
+              [(ngModel)]="request.name"
+              [ngClass]="{
+                borwarnalert:
+                  (request.name == null || request.name == '') && touched.name
+              }"
+              placeholder="CONTENCIÓN DE GASTOS"
+            />
+            <small
+              *ngIf="
+                (request.name == null || request.name == '') && touched.name
+              "
+              class="cli-form-warn"
+            >
+              Este campo es obligatorio
+            </small>
+          </div>
+        </ng-container>
+      </div>
 
       <!-- DESCRIPCIÓN -->
       <div class="cli-row">
@@ -447,7 +471,7 @@
       </div>
 
       <!-- POSICIÓN NUEVA -->
-      <div class="cli-row" style="margin: 5px 0">
+      <!-- <div class="cli-row" style="margin: 5px 0">
         <div class="cli-form-icon c-green">
           <mat-icon>new_releases</mat-icon>
         </div>
@@ -458,7 +482,7 @@
             >Posición nueva</mat-checkbox
           >
         </div>
-      </div>
+      </div> -->
       <!-- ADJUNTOS -->
       <!-- <div class="cli-row">
           <div class="cli-form-icon">
@@ -549,29 +573,146 @@
       </div>
     </section> -->
 
-      <!-- TABLA DE REGISTRO -->
-<div class="cli-card">
-  <div  class="cli-card-body">
-      <div class="cli-title-center c-male">Detalle nuevo Proyecto</div>
-      <table class="cli-table stripedtable underlinedtable" >
+    <!-- BUSCADOR GLOBAL -->
+    <div class="cli-card">
+      <div class="cli-card-body">
+        <div class="cli-title-centerX c-male">
+          Filtros de búsqueda
+        </div>
+        <div>
+          <div class="cli-tablebar">
+            <div class="cli-table-search">
+              <input
+                (keydown.enter)="callItemApi(true)"
+                [(ngModel)]="searcher"
+                type="text"
+                placeholder="Buscar por nombre"
+              />
+              <mat-icon class="icon-20">search</mat-icon>
+            </div>
+
+            <!-- REFRESH -->
+            <button
+              (click)="callItemApi(true)"
+              matTooltip="Refrescar"
+              class="icon-btn btn-trans"
+            >
+              <mat-icon class="icon-20">refresh</mat-icon>
+            </button>
+
+            <!-- FILTRO USER -->
+            <div class="h-divider"></div>
+
+            <!-- STATUS -->
+            <div class="flex-1"></div>
+            <div>PO del Proyecto:</div>
+            <div class="status-btn">
+              <div class="typepicklist-btn" (click)="showPicklistType()">
+                - {{ textvacType }} -
+              </div>
+
+              <div *ngIf="showTypepl" class="typepicklist-card">
+                <div class="typepicklist" style="margin-left: 10px">
+                  <mat-checkbox [(ngModel)]="type.ext.value">Externa</mat-checkbox>
+                  <mat-checkbox [(ngModel)]="type.intlid.value">Int. Líder</mat-checkbox>
+                  <mat-checkbox [(ngModel)]="type.intci.value">Int. CI</mat-checkbox>
+                  <mat-checkbox [(ngModel)]="type.mixta.value">Mixta</mat-checkbox>
+                </div>
+                <button (click)="applyfiltertype()" class="cli-btn btn-blue">
+                  Aplicar
+                </button>
+
+                <button
+                  (click)="cancelfiltertype()"
+                  class="icon-btn btn-trans c-female closefiltertype"
+                >
+                  <mat-icon class="icon-18">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="h-divider"></div>
+            <div>Estado:</div>
+            <div class="status-btn">
+              <select
+                class="cli-input"
+                [(ngModel)]="vacStatus"
+                (change)="callItemApi(true)"
+              >
+                <option value="0">Todos</option>
+                <option value="1">Registrado</option>
+                <option value="2">Aprobado en Organización</option>
+                <option value="3">Aprobado en Comité</option>
+                <option value="4">En Proceso</option>
+                <option value="5">Finalizado</option>
+                <option value="6">Rechazo en Organiazción</option>
+                <option value="7">Rechazo en Comité</option>
+                <option value="8">Validado en Captura de Valor</option>
+                <option value="9">Rechazo en Captura de Valor</option>
+              </select>
+            </div>
+
+            <!-- RESTAURAR -->
+            <!-- <div class="h-divider"></div>
+                <button  matTooltip="Deshacer filtros" class="icon-btn btn-trans"> <mat-icon class="icon-20">restore</mat-icon> </button> -->
+          </div>
+
+           <!-- TABLA DE REGISTRO -->
+
+        <div class="cli-title-center c-male">Detalle nuevo Proyecto</div>
+        <table class="cli-table stripedtable underlinedtable">
           <thead>
-              <tr class="bgc-blue c-white">
-                  <th>Nombre</th>
-                  <th>Código</th>
-                  <th>VP</th>
-                  <th>Gerencia Solicitante</th>
-                  <th>PO del Proyecto</th>
-                  <th>Responsable del pedido</th>
-                  <th>Gerencia beneficiaria</th>
-                  <th>Planner</th>
-                  <th>Controller Gerencia</th>
-                  <th>Controller Aprobación</th>
-                  <th>Tecnología</th>
-                  <th>Naturaleza</th>
-                  <th></th>
-              </tr>
+            <tr class="bgc-blue c-white">
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Código</th>
+              <th>VP</th>
+              <th>Gerencia Solicitante</th>
+              <th>PO del Proyecto</th>
+              <th>Responsable del pedido</th>
+              <th>Gerencia beneficiaria</th>
+              <th>Planner</th>
+              <th>Controller Gerencia</th>
+              <th>Controller Aprobación</th>
+              <th>Tecnología</th>
+              <th>Naturaleza</th>
+              <th>Acción</th>
+            </tr>
           </thead>
-          <tbody *ngIf="!loadingInbox">
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>RPA-PER-CAPL</td>
+              <td>HISPAM-2201-1</td>
+              <td>abc</td>
+              <td>a</td>
+              <td>b</td>
+              <td>c</td>
+              <td>123</td>
+              <td>ADG</td>
+              <td>LP</td>
+              <td>MA</td>
+              <td>SI</td>
+              <td>Contenido</td>
+              <td>
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Editar"
+                    class="icon-btn btn-trans btn-trans c-green"
+                  >
+                    <mat-icon class="icon-18">edit</mat-icon>
+                  </button>
+                  <button
+                    matTooltip="Eliminar"
+                    class="icon-btn btn-trans btn-trans c-orange"
+                  >
+                    <mat-icon class="icon-18">delete_forever</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <!-- <tbody *ngIf="!loadingInbox">
               <tr *ngFor="let ib of inbox">
                   <td>{{ib.informer}}</td>
                   <td>REQ-{{ib.id}}: {{ib.position}}</td>
@@ -584,20 +725,24 @@
                       </div>
                   </td>
               </tr>
-          </tbody>
-      </table>
-      <div *ngIf="loadingInbox" class="cli-loader">
-          <mat-spinner style="margin-left: 20px;" diameter="20"></mat-spinner>
+          </tbody> -->
+        </table>
+        <div *ngIf="loadingInbox" class="cli-loader">
+          <mat-spinner style="margin-left: 20px" diameter="20"></mat-spinner>
           Preparando...
+        </div>
+        <div *ngIf="loadingInbox && inbox.length == 0" class="cli-loader">
+          Su bandeja está vacía
+        </div>
+
+
+
+
+
+        </div>
       </div>
-      <div *ngIf="!loadingInbox && inbox.length == 0" class="cli-loader" >Su bandeja está vacía</div>
+    </div>
+
+
   </div>
 </div>
-
-  </div>
-
-
-
-</div>
-
-

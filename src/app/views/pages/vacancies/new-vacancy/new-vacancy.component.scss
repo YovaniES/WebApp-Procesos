@@ -22,7 +22,7 @@
         padding: 3px 20px;
         border-radius: 2px;
         background-color: $color-grey-0;
-
+        
     }
 }
 // BSUCADOR
@@ -43,7 +43,7 @@
     &-results{
         background-color: #fff;
         position: absolute;
-        top: 100%;
+        top: 100%;        
         width: 100%;
         z-index: 3;
         box-shadow: $shadow-lvl-2;
@@ -62,7 +62,7 @@
         background-color: $color-grey-1;
         cursor: pointer;
     }
-
+    
     &-l{
         background-color: $color-secondary;
         color: #fff;
@@ -78,7 +78,7 @@
     }
     &-r{
         flex: 1 1;
-        padding: 3px 10px;
+        padding: 3px 10px;        
     }
     &-pos{
         font-family: 'Telefonica-Bold';
@@ -142,59 +142,4 @@
     background-color: $color-grey-1;
     display: flex;
     align-items: center;
-}
-
-
-/* VACANCIES */
-@import 'variables.scss';
-
-.vac-type{
-    padding: 2px;
-    border-radius: 2px;
-    background: $color-grey-2;
-    color: $color-secondary;
-    font-family: 'Telefonica-Bold';
-}
-.vac-status{
-    padding: 2px 5px;
-    border-radius: 4px;
-    color: #fff;
-}
-.vac-station{
-    font-family: 'Telefonica-Bold';
-}
-
-.typepicklist{
-    display: flex;
-    flex-direction: column;
-    &-btn{
-        padding: 3px 10px;
-        border: solid 1px $color-grey-3;
-        border-radius: 3px;
-        background-color: $color-grey-1;
-        &:hover{
-            cursor: pointer;
-            box-shadow: $shadow-lvl-1;
-        }
-    }
-    &-card{
-        position: relative;
-        border-radius: 2px;
-        top: 25px;
-        left: 3px;
-        z-index: 100;
-        width: 160px;
-        padding: 10px;
-        padding-top: 15px;
-        display: flex;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        box-shadow: $shadow-lvl-1;
-    }
-}
-.closefiltertype{
-    position: absolute;
-    top: 8px;
-    right: 4px;
 }

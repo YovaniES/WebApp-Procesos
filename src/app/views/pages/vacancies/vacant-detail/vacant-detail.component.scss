@@ -1,0 +1,179 @@
+@import 'variables.scss';
+
+.vac-data{
+    flex:  1;
+    padding: 0 40px;
+    padding-bottom: 40px;
+    overflow: auto;
+}
+.vactype-bag{
+    color: $color-blue;
+}
+.vac-det{
+    &-wrapper{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    &-header{
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px $color-grey-3 solid;
+        &-code{
+            flex: 1 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+    &-body{
+        height: calc(100% - 78px);
+        flex: 1 1;
+        display: flex;
+    }
+    &-meta{
+        width: 280px;
+        padding: 5px;
+        background-color: $color-grey-1;
+    }
+
+}
+.vac-status{
+    padding: 1px 10px;
+    border-radius: 10px;
+    color: #fff;
+}
+.vac-code{
+    font-family: 'Telefonica-Bold';
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.vac-meta{
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    &-title{
+        font-size: 1.1rem;
+        font-family: 'Telefonica-Bold';
+        color: $color-secondary;
+        padding: 5px;
+        padding-left: 40px;
+        margin-top: 10px;
+    }
+    &-line{
+        position: relative;
+        height: 70px;
+        width: 4px;
+        margin: 0 8px;
+    }
+    &-point{
+        bottom: 40%;
+        background-color: #fff;
+        left: -6px;
+        position: absolute;
+        border: solid 4px;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+    }
+    &-data{
+        flex: 1 1;
+        line-height: .95rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 5px;
+    }
+    &-time{
+        width: 60px;
+        text-align: center;
+    }
+}
+.vac-meta-date{
+    font-size: 1rem;
+    font-family: 'Telefonica-Bold';
+}
+.btnsband{
+    border: dashed 1px $color-grey-3;
+    padding: 5px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    width: 100%;
+}
+.vac-det-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vac-type{
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    &-cicle{
+        color: #fff;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.seg-ssff{
+    border: dashed $color-grey-3 1px;
+    width: 100%;
+    text-align: center;
+    background-color: red;
+    padding: 100px 0;
+    margin: 10px 0;
+}
+
+.vdstatus-ok{
+    border-color: $color-green;
+}
+.vdstatus-no{
+    border-color: $color-orange;
+}
+.vdstatus-pen{
+    border-color: $color-grey-3;
+}
+.bgc-grey3{
+    background-color: $color-grey-3;
+}
+.attadet{
+    &-cont{
+        border: dashed 1px $color-grey-3;
+        padding: 5px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    font-size: .9rem;
+    border: none;
+    background-color: $color-grey-1;
+    margin: 2px; 
+    display: flex;
+    align-items: center;
+    padding: 2px 10px;
+    transition: ease .3s;
+    &:hover{
+        color: $color-primary;
+        background-color: $color-grey-0;
+    }
+}
+.va-dwallfiles{
+    font-size: .9rem;
+    padding: 2px 10px;
+    color: $color-primary;
+    text-decoration: underline;
+    transition: ease .3s;
+    &:hover{
+        cursor: pointer;
+        color: $color-secondary;
+    }
+}
+

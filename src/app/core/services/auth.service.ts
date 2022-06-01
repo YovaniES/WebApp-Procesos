@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
@@ -22,23 +21,10 @@ export class AuthService {
     return { ...this._usuario };
   }
 
-  login(username: string, password: string) {
-      // const url = `${BASE_ENDPOINT}/login`;
-    const body = { username, password };
-
-    return this.http.post<AuthResponse>(API_AUTH_SESSION, body).pipe(
-      tap((resp) => {
-        if (resp.logged) {
-          localStorage.setItem('token', resp.token!);
-          this._usuario = {
-            username: resp.username!,
-            password: resp.password!,
-          };
-        }
-      }),
-      map((valid) => valid.logged),
-      catchError((err) => of(err.error.msg))
-    );
+  login(loginData: AuthResponse) {
+    return this.http.post(API_AUTH_SESSION, loginData).pipe(tap((resp: any) => {
+      localStorage.setItem('token', resp.user.token);
+    }));
   }
 
   logout() {
@@ -48,11 +34,13 @@ export class AuthService {
 
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    return decodedToken ? decodedToken.displayname : '';
+    console.log('NAME_USER', decodedToken);
+    return decodedToken ? decodedToken.unique_name : '';
+
   }
 
   decodeToken() {
-    const token = this.getToken();
+    const token = localStorage.getItem('token')
     if (token) {
       return jwt_decode(token);
     } else {
@@ -60,11 +48,8 @@ export class AuthService {
     }
   }
 
-  getToken() {
-    return localStorage.getItem('token');
-  }
 
-/*   isLoggedIn(): boolean {
+  /*   isLoggedIn(): boolean {
     const token = this.getToken();
     let validSession = false;
     let decodedToken: any = null;

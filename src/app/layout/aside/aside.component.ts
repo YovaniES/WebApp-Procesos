@@ -10,7 +10,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
 export class AsideComponent implements OnInit {
 
   @Output() generalfixedAside = new EventEmitter<Boolean>();
-  fixedAside = false;
+  fixedAside = true;
   menuList: Menu[] = [];
 
   constructor(private menuService: MenuService) {}
@@ -22,9 +22,8 @@ export class AsideComponent implements OnInit {
   /**llamammos la lista de menus desde nuestro JSON-SERVER */
   getMenu() {
     this.menuService.getMenu().subscribe((resp) => {
+      console.log('MENÚ', resp);
       this.menuList = resp;
-      console.log('DATA', resp);
-
     });
   }
 

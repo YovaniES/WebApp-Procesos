@@ -1,0 +1,210 @@
+<div class="cli-card fit-card">
+    <div class="cli-card-body">
+        <div class="cli-title-center c-male">Registro de solicitud de vacantes</div>
+
+        <div class="vactabs">
+            <button (click)="showing=1" [ngClass]="{'btn-blue':showing==1,'btn-trans':showing!=1} "  class="cli-btn">Individual</button>
+            <button (click)="showing=2" [ngClass]="{'btn-blue':showing==2,'btn-trans':showing!=2} "  class="cli-btn">Masivo</button>
+        </div>
+
+        <div *ngIf="showing == 1" class="cli-form newvac-wrapper">
+
+            <!-- TYPE -->
+            <div class="cli-row">
+                <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+                    <mat-icon>category</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Alcance de posición</label>
+                    <select [(ngModel)]="request.type" class="cli-input-white"
+                        [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                        (blur)="touched.type = true">
+                        <option disabled value="0">-Seleccionar-</option>
+                        <option value="1">Externa</option>
+                        <option value="2">Internas (Líderes)</option>
+                        <option value="3">Internas (Contribuidores)</option>
+                        <option value="4">Mixta</option>
+                    </select>
+                    <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+            <!-- NEW -->
+            <div class="cli-row" style="margin: 5px 0;">
+                <div  class="cli-form-icon c-green">
+                    <mat-icon>new_releases</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <mat-checkbox [(ngModel)]="request.flagnew" (ngModelChange)="clearPickedParent()">Posición nueva</mat-checkbox>
+                </div>
+            </div>
+
+            <!-- PARENT PO -->
+            <div class="cli-row">
+                <div [ngClass]="{'c-green':selectedPo!=null && poWarnmessage=='','c-orange':poWarnmessage!=''}" class="cli-form-icon">
+                    <mat-icon>{{request.flagnew?"account_tree":"fingerprint"}}</mat-icon>
+                </div>
+                <!-- SEARCHER -->
+                <div class="orgs-wrapper">
+                    <label for="">{{request.flagnew?"Posición de lider directo":"Posición a cubrir"}}</label>
+                    <ng-container *ngIf="selectedPo==null">
+                        <!-- INPUT BUSCADOR -->
+                        <div class="d-flex">
+                            <input [disabled]="searching"
+                                [ngClass]="{'borwarnalert':poWarnmessage!=''}"
+                                class="cli-input-white flex-1"
+                                [(ngModel)]="textsearch"
+                                (keydown.enter)="doSearchVacants()"
+                                placeholder="Buscar por nombre o código de posición, o por persona">
+                            <button (click)="doSearchVacants()" class="cli-btn btn-blue"> <mat-icon class="icon-18">search</mat-icon> </button>
+                        </div>
+                        <!-- RESULTADO DE LA BÚSQUEDA -->
+                        <div #result *ngIf=" searching || showSearchResult " class="orgs-results">
+                            <div *ngIf="searching" class="srch-text"> <mat-spinner diameter="20"></mat-spinner> <div style="margin-left: 10px;">Buscando</div></div>
+                            <ng-container *ngIf="!searching">
+                                <div *ngFor="let vac of searchresult" class="itemresult" (click)="selectResult(vac)">
+                                    <div class="itemresult-r">
+                                        <div >{{vac.name}} ({{vac.possff}}) - {{vac.selected?vac.tname:"VACANTE"}} </div>
+                                    </div>
+                                </div>
+                                <div class="srch-text"> {{searchresult.length>0?'*Solo se muestran las primeras 6 coincidencias':"No hay resultados"}}  </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <div class="orgs-pickedpo" *ngIf="selectedPo!=null">
+                        <div class="orgs-pickedpo-name d-flex">
+                            <div class="flex-1">
+                                {{selectedPo.name}} ({{selectedPo.possff}})
+                            </div>
+                            <button class="icon-btn btn-trans c-orange" (click)="clearPickedParent()"> <mat-icon class="icon-18">close</mat-icon> </button>
+                        </div>
+                    </div>
+                    <div *ngIf="poWarnmessage!=''" class="cli-form-warn">{{poWarnmessage}}</div>
+                </div>
+            </div>
+
+            <!-- NAME -->
+            <div class="cli-row">
+                <div [ngClass]="{'c-green':request.name!=null,'c-orange':(request.name==null || request.name=='') && touched.name}" class="cli-form-icon">
+                    <mat-icon>title</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Título de la posición</label>
+                    <input
+                        (blur)="touched.name = true"
+                        [(ngModel)]="request.name"
+                        [ngClass]="{'borwarnalert':(request.name==null || request.name=='') && touched.name}"
+                        class="cli-input-white" placeholder="título de posición">
+                    <div *ngIf="(request.name==null || request.name=='') && touched.name" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+
+            <!-- JUSTIFICATION -->
+            <div class="cli-row">
+                <div [ngClass]="{'c-green':request.justification!=null && request.justification!='','c-orange':(request.justification==null || request.justification=='') && touched.justification}" class="cli-form-icon">
+                    <mat-icon>format_quote</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Justificación</label>
+                    <textarea rows="3"
+                        (blur)="touched.justification = true"
+                        [(ngModel)]="request.justification"
+                        [ngClass]="{'borwarnalert':(request.justification==null || request.justification=='') && touched.justification}"
+                        class="cli-input-white"
+                        maxlength="500"
+                        placeholder="Justificar la necesidad de cobertura de esta posición (máximo 500 caracteres)"></textarea>
+                    <div *ngIf="(request.justification==null || request.justification=='') && touched.justification" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+
+            <!-- ADJUNTOS -->
+            <div class="cli-row">
+                <div class="cli-form-icon">
+                    <mat-icon>upload_file</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Adjuntos (Opcional)</label>
+                    <div class="fileatt-cont">
+                        <input #atachfileInput multiple="multiple" style="display: none;" type="file" (change)="attachFileChange($event)"/>
+                        <div *ngFor="let f of files; let i = index" class="fileatt">
+                            <mat-spinner diameter=16 *ngIf="f.status==0" style="margin-right: 5px;"></mat-spinner>
+                            {{f.name}}
+                            <button (click)="files.splice(i,1)" style="margin-left: 5px;" class="icon-btn btn-trans c-female"> <mat-icon class="icon-18">close</mat-icon> </button>
+                        </div>
+                        <button (click)="atachfileInput.click()" class="fileatt-btn">
+                            <mat-icon class="icon-18">add</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTONES -->
+            <div class="cli-form-buttons">
+                <button (click)="clearAll()" class="cli-btn btn-l btn-grey">Limpiar</button>
+                <button (click)="register()" class="cli-btn btn-l btn-blue">Registrar</button>
+            </div>
+        </div>
+
+        <div *ngIf="showing == 2" class="cli-form newvac-wrapper">
+            <div class="nwv-masivemessage">
+                Puedes descargar el formato haciendo <a href="#">click aquí</a>
+            </div>
+            <!-- BUSINESS CASE -->
+            <div class="cli-row">
+                <div class="cli-form-icon">
+                    <mat-icon>work</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Business case</label>
+                    <input
+                        [(ngModel)]="masbbcc"
+                        (blur)="touched2.bc=true"
+                        class="cli-input-white"
+                        placeholder="Nombre del evento">
+                    <div  *ngIf="masbbcc == '' && touched2.bc" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+            <!-- EXCEL -->
+            <div class="cli-row">
+                <div class="cli-form-icon">
+                    <mat-icon>upload_file</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Formato</label>
+                    <div class="cli-input-file">
+                        <div *ngIf="excelname!=''" class="cli-input-file-name">
+                            <mat-icon class="icon-18" style="margin-right: 5px;">description</mat-icon>
+                            <div class="flex-1">{{excelname}}</div>
+                            <button (click)="clearexcel()" class="icon-btn btn-trans c-female"> <mat-icon class="icon-18">close</mat-icon> </button>
+                        </div>
+                        <div class="flex-1" *ngIf="excelname==''"></div>
+                        <button (click)="excelfile.click()" class="cli-btn btn-s btn-green">Cargar archivo</button>
+                        <input  #excelfile  type="file" accept=".xlsx" style="display: none;">
+                    </div>
+                    <div  *ngIf="excelname == '' && touched2.format" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+            <!-- JUSTIFICATION -->
+            <div class="cli-row">
+                <div class="cli-form-icon">
+                    <mat-icon>format_quote</mat-icon>
+                </div>
+                <div class="cli-form-element col-f-fill">
+                    <label>Justificación</label>
+                    <textarea rows="3"
+                        maxlength="500"
+                        [(ngModel)]="masjustification"
+                        (blur)="touched2.justify=true"
+                        class="cli-input-white"
+                        placeholder="Justificar la necesidad de cobertura de estas posiciones"></textarea>
+                    <div  *ngIf="masjustification == '' && touched2.justify" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+                </div>
+            </div>
+            <!-- BOTTONES -->
+            <div class="cli-form-buttons">
+                <button (click)="clearForm2()" class="cli-btn btn-l btn-grey">Limpiar</button>
+                <button (click)="savebusinesscase()" class="cli-btn btn-l btn-blue">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

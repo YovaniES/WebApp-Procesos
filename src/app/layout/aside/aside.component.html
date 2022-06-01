@@ -3,7 +3,7 @@
   class="cli-aside"
   [ngClass]="{ 'cli-aside-fixed': fixedAside, 'cli-aside-hover': !fixedAside }"
 >
-  <!-- Boton desplegar MENU -->
+  <!-- Boton BURBUJA MENU -->
   <div
     [ngClass]="{ 'btn-toggle-rotated': !fixedAside }"
     class="aside-btn-float"
@@ -45,8 +45,6 @@
     </svg>
   </div>
 
-  <!-- PERFIL -->
-
   <!-- MENÚ -->
   <div
     [ngClass]="{ 'cli-aside-overflow': fixedAside }"
@@ -54,23 +52,6 @@
   >
     <div style="height: 60px"></div>
     <ul class="cli-aside-menu">
-      <!-- <li class="user-profile">
-        <a
-          class="has-arrow waves-effect waves-dark"
-          href="#"
-          aria-expanded="false"
-        >
-          <img [src]="usuario.imagenUrl" alt="user" />
-          <span class="hide-menu">Yovani ES</span>
-        </a>
-        <ul aria-expanded="true" class="collapse">
-          <li>
-            <a routerLinkActive="active" routerLink="./perfil">Mi Perfil </a>
-          </li>
-          <li><a routerLink="/login">Logout</a></li>
-        </ul>
-      </li> -->
-
       <li>
         <a
           (click)="clickLinkMenu()"
@@ -84,8 +65,6 @@
           <span *ngIf="fixedAside">{{ "Portal Web de procesos" }}</span>
         </a>
       </li>
-
-      <li class="nav-devider"></li>
 
       <ng-container
         *ngFor="let menu of menuList"
@@ -113,8 +92,8 @@
         *ngIf="fixedAside"
         [ngClass]="{ 'menu-arrow-open': item.displayed }"
         class="menu-arrow"
-        ><mat-icon aria-hidden="false">keyboard_arrow_right</mat-icon></i
-      >
+        ><mat-icon aria-hidden="false">keyboard_arrow_right</mat-icon>
+      </i>
     </div>
 
     <!-- SUB MENUS -->

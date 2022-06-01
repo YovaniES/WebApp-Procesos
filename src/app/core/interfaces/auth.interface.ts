@@ -4,10 +4,10 @@ export interface Users {
 }
 
 export interface AuthResponse {
-  logged: boolean;
-  username?: string;
-  password?: string;
-  token?: string;
+  // logged: boolean;
+  username: string;
+  password: string;
+  token: string;
   message?: string;
 }
 

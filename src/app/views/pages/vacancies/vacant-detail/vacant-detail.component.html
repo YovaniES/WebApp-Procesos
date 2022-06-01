@@ -1,0 +1,178 @@
+<div class="vac-det-wrapper">
+    <!-- HEADER BAR -->
+    <div class="vac-det-header">
+        <div class="vac-type">
+            <div [matTooltip]="data.flagnew?'NUEVO':'EXISTENTE'" class="vac-type-cicle" [ngClass]=" {'bgc-green':data.flagnew,'bgc-blue':!data.flagnew} " >
+                <mat-icon>{{data.flagnew?'new_releases':'sync'}}</mat-icon>
+            </div>
+        </div>
+        <div class="vac-det-header-code">
+            <div class="vac-code"> <span class="vactype-bag">REQ-{{data.id}}:</span> {{data.position}} </div>
+            <div [class]=" data.status.color + ' vac-status'"> {{data.status.code}} </div>
+        </div>
+        <!-- ACCIONES -->
+        <div class="d-flex">
+            <button *ngFor="let act of data.actions" 
+                (click)="updateStatus(act.idNextState,act.nombre)" class="cli-btn btn-blue">  {{act.nombre}} </button>
+            <!-- <button *ngIf="data.status.id < 5" class="cli-btn btn-grey"> Pausar </button> -->
+            <div style="width: 30px;"></div>
+            <button matTooltip="Cerrar" (click)="dialogRef.close(data)" class="icon-btn btn-orange"> <mat-icon class="icon-18">close</mat-icon> </button>
+        </div>
+    </div>
+    
+    <!-- BODY -->
+    <div class="vac-det-body">
+        <!-- CONTENT -->
+        <div class="vac-data">
+        <!-- DATOS GENERALES -->
+            <div class="cli-form">
+                <div class="cli-row">
+                    
+                    <div class="cli-form-element col-f-2">
+                        <div class="cli-dat">Tipo: <span class="bold">{{data.type.nombre}}</span>    </div>
+                    </div>
+
+                    <div *ngIf="data.bussinessCase" class="cli-form-element col-f-2">
+                        <div class="cli-dat">Busines Case: <span class="bold">{{data.bussinessCase}}</span>   </div>
+                    </div>
+
+                    <div class="cli-form-element col-f-1">
+                        <label>Justificación</label>
+                        <div class="cli-input"> {{data.justification}}  </div>
+                    </div> 
+
+                    <div class="cli-form-element col-f-1">
+                        <label>Adjuntos</label>
+                        <div class="attadet-cont"> 
+                            <button (click)="downloadFile(f.filename)" *ngFor="let f of data.files" class="attadet">
+                                <mat-icon class="icon-18" style="margin-right: 4px;">attach_file</mat-icon>
+                                {{f.azure}}
+                            </button>
+
+                            <!-- ARCHIVOS CARGANTES -->
+                            <div *ngFor="let f of files; let i = index" class="attadet">
+                                <mat-spinner diameter=16 style="margin-right: 5px;"></mat-spinner>{{f.name}}
+                            </div>
+                            <!-- BOTON AGREGAR -->
+                            <button (click)="newfile.click()" class="attadet c-male" ><mat-icon class="icon-18">add</mat-icon>Agregar</button>
+                            <!-- INPUT OCULTO -->
+                            <input  #newfile (change)="onFileChange($event)" type="file" style="display: none;" multiple="multiple">
+                        </div>
+                        <div *ngIf="data.files.length > 0"  (click)="downloadAllFile(data.id)" class="va-dwallfiles">Descargar todos</div>
+                    </div>    
+
+                </div>
+            </div>
+        <!-- DATOS ORGANIZATIVOS -->
+            <div class="cli-form">
+                <div class="cli-form-subtitle c-male">Datos organizativos</div>
+                <div class="cli-row">
+                    <div class="cli-form-element col-f-2">
+                        <label>Reporte (posición lider)</label>
+                        <div class="cli-input">{{data.parent.codessff}} : {{data.parent.namessff}}   </div>
+                    </div>  
+                    <div class="cli-form-element col-f-2">
+                        <label>Departamento</label>
+                        <div class="cli-input"> {{data.parent.name}}</div>
+                    </div>  
+                    <div class="cli-form-element col-f-2">
+                        <label>Código SSFF (PO)</label>
+                        <input  [(ngModel)]="data.po" class="cli-input-white" placeholder="POXXXXXXX">
+                    </div>
+                    <div class="cli-form-element col-f-2">
+                        <label>Workstream</label>
+                        <select (ngModelChange)="modified=true" [(ngModel)]="updatedData.workstream" class="cli-input-white" >
+                            <option value="AUD">Auditoría</option>
+                            <option value="B2B">B2B</option>
+                            <option value="B2C">B2C</option>
+                            <option value="CEO">CEO</option>
+                            <option value="CMP">Compliance</option>
+                            <option value="COM">Comunicación</option>
+                            <option value="CFS">Finanzas</option>
+                            <option value="M&A">M&A</option>
+                            <option value="MAP">Mayorista y AAPP</option>
+                            <option value="OPT">OPT</option>
+                            <option value="PER">Personas</option>
+                            <option value="SEC">Secretaría</option>
+                            <option value="SEG">Seguridad</option>
+                            <option value="TIC">TEC</option>
+                        </select>
+                    </div>
+                    <div class="cli-form-element col-f-2">
+                        <label>Nivel de mando</label>
+                        <select (ngModelChange)="modified=true" [(ngModel)]="updatedData.command" class="cli-input-white" >
+                            <option value="null" disabled>-Seleccionar-</option>
+                            <option value="DIR">DIR</option>
+                            <option value="PRE">PRED</option>
+                            <option value="MM">MM</option>
+                            <option value="CI">CI</option>
+                        </select>
+                    </div>
+                    <div class="cli-form-element col-f-2">
+                        <label>Dedicación</label>
+                        <select (ngModelChange)="modified=true" [(ngModel)]="updatedData.ambit" class="cli-input-white" >
+                            <option value="Multi OB">Regional (Multi OB)</option>
+                            <option value="Uni OB">Local (Uni OB)</option>
+                            <option value="Doble">Doble</option>
+                        </select>
+                    </div>
+                    <div class="cli-form-element col-f-2">
+                        <label>Business Unit</label>
+                        <select (ngModelChange)="modified=true" [(ngModel)]="updatedData.bu" class="cli-input-white" >
+                            <option value="T. Hispam">T. Hispam</option>
+                            <option value="T. Argentina">T. Argentina</option>
+                            <option value="T. Chile">T. Chile</option>
+                            <option value="T. Colombia">T. Colombia</option>
+                            <option value="T. Ecuador">T. Ecuador</option>
+                            <option value="T. México">T. México</option>
+                            <option value="T. Perú">T. Peru</option>
+                            <option value="T. Venezuela">T. Venezuela</option>
+                            <option value="T. Uruguay">T. Uruguay</option>
+                        </select>
+                    </div>
+                    <div *ngIf="modified" class="btnsband">
+                        <button (click)="clearUpdate()" class="cli-btn btn-xs btn-yellow"> <mat-icon class="icon-18">cancel</mat-icon>Cancelar</button>
+                        <button (click)="updateVacant()" class="cli-btn btn-xs btn-blue"> <mat-icon class="icon-18">save</mat-icon>Guardar</button>
+                    </div>
+                    
+                </div>
+            </div>
+        <!-- DATOS SEGUIMIENTO: SSFF -->
+            <div *ngIf="false" class="cli-form-subtitle c-male">Seguimiento reclutamiento</div>
+            <div *ngIf="false" class="cli-form">
+                <div class="row">
+                    <div class="cli-form-element col-f-2">
+                        <label>ID Requisition</label>
+                        <input class="cli-input-white" placeholder="POXXXXXXX">
+                    </div>
+                    <div class="cli-form-element col-f-2">
+                        <label>Código SSFF (PO)</label>
+                        <input  [(ngModel)]="data.po" class="cli-input-white" placeholder="POXXXXXXX">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="false" class="seg-ssff">
+                Espacio para el seguimiento SSFF
+            </div>
+        </div>
+        <!-- TIMELINE -->
+        <div class="vac-det-meta">
+            <div class="vac-meta-title"> Eventos</div>
+            
+            <!-- AGENT -->
+            <div *ngFor="let ag of completeFlow" class="vac-meta">
+                <div class="vac-meta-time">
+                    <div class="vac-meta-date">{{ag.date | date: 'dd MMM'}}</div>
+                </div>
+                <div [ngClass]="{'bgc-orange':ag.state == 2,'bgc-green':ag.state == 1,'bgc-grey3':ag.state == 0}" class="vac-meta-line">
+                    <div [ngClass]="{'vdstatus-pen':ag.state == 0,'vdstatus-ok':ag.state == 1,'vdstatus-no':ag.state ==2}" class="vac-meta-point"></div>
+                </div>
+                <div class="vac-meta-data">
+                    <div><b> {{ag.name}}</b> {{ag.action}}</div>
+                    <div style="margin-top: 5px;" *ngIf="ag.comment">  <button matTooltip="Click para ver comentario" (click)="showComment(ag.comment,ag.name)" class="icon-btn btn-trans c-male"><mat-icon class="icon-18">comment</mat-icon></button> </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
