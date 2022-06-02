@@ -1,6 +1,6 @@
 .cli-aside {
   position: fixed;
-  top: 56px;
+  top: 66px;
   bottom: 0;
   left: 0;
   z-index: 50;
@@ -35,6 +35,7 @@
 }
 .cli-aside-fixed {
   width: 235px;
+  // width: 265px;
 }
 .cli-aside-hover {
   width: 70px;
@@ -46,16 +47,19 @@
 .cli-aside-overflow {
   overflow: auto;
 }
+
 .cli-aside-menu {
   margin: 0;
   list-style: none;
   padding: 15px 0;
 }
-
-.active-sublink {
-  background-color: #ff40963d;
-  border-right: 4px #ff4081 solid;
-  color: #fff !important;
+.cli-menu-item {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  float: none;
+  padding: 0;
+  position: relative;
 }
 
 .menu-link {
@@ -71,33 +75,31 @@
   transition: 0.3s ease;
   background-color: #f2f4ff;
   color: #019df4;
-  border-bottom: 1px solid #80cefa;
-  border-top: 1px solid #80cefa;
-}
-.btn-toggle-rotated {
-  transform: rotate(180deg);
+  // border-bottom: 0.5px solid #80cefa;
+  // border-top: 0.5px solid #80cefa;
 }
 .menu-link:hover {
   text-decoration: none;
   background-color: #ff40812e;
   color: #fff;
 }
-
-.menu-link-open {
-  background-color: #ff4081;
-  color: #fff;
-}
-
 .active-link {
   color: #019df4 !important;
   background-color: #f2f4ff;
   border-right: 4px #ff4081 solid;
 }
-
+.active-sublink {
+  background-color: #ff40963d;
+  border-right: 4px #ff4081 solid;
+  color: #fff !important;
+}
+.menu-link-open {
+  background-color: #ff4081;
+  color: #fff;
+}
 .menu-icon {
   flex: 0 0 35px;
 }
-
 .menu-arrow {
   flex: 0 0 20px;
   display: flex;
@@ -109,6 +111,7 @@
 .menu-arrow-open {
   transform: rotate(90deg);
 }
+
 .menu-link span,
 .submenu-link span {
   font-weight: 300;
@@ -158,6 +161,16 @@
   background-color: #dcdee1;
 }
 
+.submenu-icon {
+  text-align: left;
+  flex: 0 0 35px;
+}
+.aside-divider {
+  width: 80%;
+  margin: auto;
+  border-bottom: 1px solid #d2d2d2;
+  box-shadow: 0 1px 3px 0 #0000004d;
+}
 .aside-hover-menu {
   display: none;
   position: absolute;
@@ -168,33 +181,12 @@
   z-index: 96;
 }
 
-.cli-menu-item {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  float: none;
-  padding: 0;
-  position: relative;
-}
 .cli-menu-item:hover .aside-hover-menu {
   display: block;
 }
 
-.submenu-icon {
-  text-align: left;
-  flex: 0 0 35px;
-}
-/* @include mobile{
-  .cli-aside{
-      display: none;
+@include mobile {
+  .cli-aside {
+    display: none;
   }
-} */
-
-// @media (max-width: 850px) {
-//   .submenu-link {
-//     color: #5ac1d6;
-//     cursor: pointer;
-//     min-height: 30px;
-//   }
-// }
-
+}

@@ -10,7 +10,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
 export class AsideComponent implements OnInit {
 
   @Output() generalfixedAside = new EventEmitter<Boolean>();
-  fixedAside = true;
+  fixedAside = false;
   menuList: Menu[] = [];
 
   constructor(private menuService: MenuService) {}

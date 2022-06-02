@@ -20,7 +20,7 @@
     top: 0;
     bottom: 0;
     padding: 2.3rem;
-    width: $user-panel-width;   
+    width: $user-panel-width;
     flex-shrink: 0!important;
 }
 .panel-hidden{
@@ -89,7 +89,7 @@
     flex: 1 1;
     padding: 0 0.8rem;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
 }
 .up-user-name{
     font-size: 1.1rem;
@@ -111,12 +111,6 @@
     color: $color-yellow;
 }
 
-.up-logout-btn{
-    background-color: $color-orange;
-    color: $white;
-    width: max-content;
-    margin-top: 10px !important;
-}
 .up-miconf-btn{
     background-color: $color-grey-1;
     padding: 10px;

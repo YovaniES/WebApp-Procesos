@@ -1,7 +1,7 @@
 .cli-header{
-    //background: linear-gradient(90deg, $color-hispam-dark 0%, $color-hispam-light 100%);
+    background: linear-gradient(90deg, $color-hispam-dark 0%, $color-hispam-light 100%);
     //background-color: $Webapp-white;
-    background-color: $color-primary;
+    // background-color: $color-primary;
     color: $color-primary;
     line-height: $header-height - 20;
     height: $header-height;
@@ -15,7 +15,7 @@
     flex-direction: row;
 }
 .personname{
-//color: $color-hispam-dark;
+// color: $color-hispam-dark;
     color: $white;
     line-height: $header-height;
     margin: 0 5px;
@@ -91,8 +91,12 @@
     justify-content: center;
 }
 .hlogo{
-    //height: 40px;
-    height: 100px;
+    height: 40px;
+    // height: 100px;
+}
+.hlogo-mobile{
+  height: 75px;
+  margin-top: 5px;
 }
 .personas{
     font-size: 1.3rem;

@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./user-section.component.scss'],
 })
 export class UserSectionComponent implements OnInit {
-  @Input('nameini') nameini: string = '';
+  @Input('nameini')  nameini: string='';
   @Input('photouri') photouri:string = 'NONE';
 
   hasphoto = false;

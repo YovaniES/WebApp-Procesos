@@ -1,0 +1,55 @@
+<div [ngClass]="{ 'panel-open': active, 'panel-hidden': !active }" class="panel">
+  <div (click)="close()" class="close-icon">
+    <mat-icon>close</mat-icon>
+  </div>
+  <div class="up-title">{{ "Perfil de usuario" }}</div>
+
+  <div class="up-name-card">
+    <div class="up-photo-cont">
+      <div *ngIf="phtouri == 'NONE'">{{ nameini }}</div>
+      <img *ngIf="phtouri != 'NONE'" [src]="phtouri" />
+    </div>
+    <div class="up-card-info">
+      <div class="up-user-name">{{ fullname }}</div>
+      <div class="up-user-subtitle">
+        <mat-icon>verified_user</mat-icon> {{ subtitle }}
+      </div>
+
+      <button (click)="logOut()" class="cli-btn btn-magenta mt-3">
+        <mat-icon class="icon-cent">logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </div>
+  </div>
+  <hr />
+  <!-- <div class="up-title">Mi Configuración</div>
+  <div (click)="close()" [routerLink]="'/usuario/perfil'" class="up-miconf-btn">
+    Mi cuenta de usuario
+  </div>
+  <div
+    (click)="close()"
+    [routerLink]="'/usuario/empleado'"
+    class="up-miconf-btn"
+  > Mis datos de empleado
+  </div>
+  <div
+    (click)="close()"
+    [routerLink]="'/usuario/password'"
+    class="up-miconf-btn"
+  >Cambiar contraseña
+  </div>
+  <div class="up-languaje">
+    <h4 style="margin: 0 5px">Lenguaje</h4>
+    <div>
+      <select #selectLang (change)="changeLanguaje(selectLang.value)">
+
+        <option value="es">Español</option>
+        <option value="en">Inglés</option>
+      </select>
+    </div>
+  </div>
+  <hr />
+
+  <div class="up-title">{{ "Noticias" }}</div> -->
+</div>
+<div #ovelay (click)="close()" *ngIf="active" class="overlay"></div>

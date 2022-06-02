@@ -9,8 +9,11 @@ import { MenuService } from 'src/app/core/services/menu.service';
 })
 export class HeaderComponent implements OnInit {
   fullName: string = '';
+  nameini!: string;
   userAbbreviation = '';
   fixedAside: boolean = true;
+  phtouri = "NONE";
+
 
   constructor(
     private authService: AuthService,
@@ -19,26 +22,31 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUser();
-    console.log('name',this.initializeUser());
-
   }
 
   initializeUser() {
     this.fullName = this.authService.getUsername();
 
-    if (this.fullName) {
-      const fullNameToArray = this.fullName.split(' ').map((item: string) => {
-        return item.substring(0, 1).toUpperCase();
-      });
-      this.userAbbreviation = fullNameToArray.join('');
+    const names:string[] = this.fullName.split(" ");
+    if (names.length > 1){
+      this.nameini = names[0].charAt(0) + names[1].charAt(0);
+    }else{
+      this.nameini = names[0].substr(0,2).toUpperCase();
     }
+
+    // if (this.fullName) {
+    //   const fullNameToArray = this.fullName.split(' ').map((item: string) => {
+    //     return item.substring(0, 1).toUpperCase();
+    //   });
+    //   this.userAbbreviation = fullNameToArray.join('');
+    // }
   }
 
   openMobileMenu() {
     this.menuService.activeMenuMobile.emit(true);
   }
 
-  logout() {
+  logOut() {
     this.authService.logout();
   }
 }

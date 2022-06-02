@@ -22,9 +22,11 @@ export class AuthService {
   }
 
   login(loginData: AuthResponse) {
-    return this.http.post(API_AUTH_SESSION, loginData).pipe(tap((resp: any) => {
-      localStorage.setItem('token', resp.user.token);
-    }));
+    return this.http.post(API_AUTH_SESSION, loginData).pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.user.token);
+      })
+    );
   }
 
   logout() {
@@ -34,20 +36,18 @@ export class AuthService {
 
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    console.log('NAME_USER', decodedToken);
+    // console.log('NAME_USER', decodedToken);
     return decodedToken ? decodedToken.unique_name : '';
-
   }
 
   decodeToken() {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     if (token) {
       return jwt_decode(token);
     } else {
       return null;
     }
   }
-
 
   /*   isLoggedIn(): boolean {
     const token = this.getToken();

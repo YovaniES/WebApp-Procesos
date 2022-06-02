@@ -6,6 +6,9 @@ import { AsideComponent } from './aside/aside.component';
 import { BaseComponent } from './base/base.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { MenuMobileComponent } from './header/menu-mobile/menu-mobile.component';
+import { UserPanelComponent } from './user-panel/user-panel.component';
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
   declarations: [
@@ -14,18 +17,25 @@ import { HeaderComponent } from './header/header.component';
     FooterComponent,
     UserSectionComponent,
     BaseComponent,
+    MenuMobileComponent,
+    UserPanelComponent,
   ],
+
   exports:[
     HeaderComponent,
     AsideComponent,
     FooterComponent,
     UserSectionComponent,
-    BaseComponent
+    BaseComponent,
+    MenuMobileComponent,
+    UserPanelComponent,
   ],
 
   imports: [
     MaterialModule,
-    CoreModule
+    CoreModule,
+
+    BlockUIModule.forRoot(),
   ]
 })
 export class LayoutModule { }

@@ -1,166 +1,180 @@
 /* ICON BUTTONS */
-.icon-btn{
-    padding: 2px;
-    border: none;
+.icon-btn {
+  padding: 2px;
+  border: none;
+  display: flex;
+  align-items: center;
+  margin: 0 2px;
+  border-radius: 2px;
+  &:disabled {
+    background-color: $color-grey-1;
+    color: #fff;
+  }
+}
+.status-btn {
+  position: relative;
+  width: fit-content;
+  margin: 0 5px;
+  & button {
     display: flex;
     align-items: center;
-    margin: 0 2px;
+    padding: 2px 10px;
     border-radius: 2px;
-    &:disabled{
-        background-color: $color-grey-1;
-        color: #fff;
-    }
-}
-.status-btn{
-    position: relative;
-    width: fit-content;
-    margin: 0 5px;
-    & button{
-        display: flex;
-        align-items: center;
-        padding: 2px 10px;
-        border-radius: 2px;
-    }
+  }
 }
 
-.cli-btn{
-    border: none;
-    border-radius: 2px;
+.cli-btn {
+  border: none;
+  border-radius: 3px;
+  margin: 0 5px;
+  height: 30px;
+  padding: 0 10px;
+  font-family: "Webapp-Bold" !important;
+  display: flex;
+  align-items: center;
+  & mat-icon {
     margin: 0 5px;
-    height: 30px;
-    padding: 0 10px;
-    font-family: 'Webapp-Bold' !important;
-    display: flex;
-    align-items: center;
-    & mat-icon{
-        margin: 0 5px;
-    }
-    &:disabled{
-        background-color: $color-grey-1;
-        color: #fff;
-    }
+  }
+  &:disabled {
+    background-color: $color-grey-1;
+    color: #fff;
+  }
 }
 
-.btn-xl{
-    height: 45px;
-    padding: 0 50px;
+.btn-xl {
+  height: 45px;
+  padding: 0 50px;
 }
-.btn-l{
-    height: 38px;
-    padding: 0 30px;
+.btn-l {
+  height: 38px;
+  padding: 0 30px;
 }
-.btn-s{
-    height: 25px;
-    padding: 0 10px;
-    margin: 0 2px;
+.btn-s {
+  height: 25px;
+  padding: 0 10px;
+  margin: 0 2px;
 }
 
 // COLORES
-.btn-grey{
+.btn-grey {
+  background-color: $color-grey-2;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-grey-1;
+  }
+  &:hover:enabled:active {
+    background-color: $color-grey-3;
+  }
+}
+.btn-white {
+  background-color: #fff;
+  border: solid 1px $color-grey-3;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-grey-1;
+  }
+  &:hover:enabled:active {
     background-color: $color-grey-2;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-grey-1;
-    }
-    &:hover:enabled:active{
-        background-color: $color-grey-3;
-    }
+  }
 }
-.btn-white{
-    background-color: #fff;
-    border: solid 1px $color-grey-3;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-grey-1;
-    }
-    &:hover:enabled:active{
-        background-color: $color-grey-2;
-    }
+.btn-green {
+  background-color: $color-green;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-green-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-green-d;
+  }
 }
-.btn-green{
-    background-color: $color-green;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-green-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-green-d;
-    }
+.btn-magenta {
+  background-color: $color-magenta;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-magenta-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-magenta-d;
+  }
 }
-.btn-magenta{
-    background-color: $color-magenta;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-magenta-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-magenta-d;
-    }
+
+.btn-fucsia {
+  background-color: $color-magenta;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-magenta-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-magenta-d;
+  }
 }
-.btn-blue{
-    background-color: $color-blue;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-blue-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-blue-d;
-    }
+
+.btn-blue {
+  background-color: $color-blue;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-blue-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-blue-d;
+  }
 }
-.btn-turq{
-    background-color: $color-turq;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-turq-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-turq-d;
-    }
+.btn-turq {
+  background-color: $color-turq;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-turq-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-turq-d;
+  }
 }
-.btn-purple{
-    background-color: $color-purple;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-purple-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-purple-d;
-    }
+
+.btn-purple {
+  background-color: $color-purple;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-purple-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-purple-d;
+  }
 }
-.btn-yellow{
-    background-color: $color-yellow;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-yellow-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-yellow-d;
-    }
+.btn-yellow {
+  background-color: $color-yellow;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-yellow-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-yellow-d;
+  }
 }
-.btn-orange{
-    background-color: $color-orange;
-    color: #fff;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: $color-orange-l;
-    }
-    &:hover:enabled:active{
-        background-color: $color-orange-d;
-    }
+.btn-orange {
+  background-color: $color-orange;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-orange-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-orange-d;
+  }
 }
-.btn-trans{
-    background-color: transparent;
-    transition: ease .3s;
-    &:hover:enabled{
-        background-color: #00000014;
-    }
-    &:hover:enabled:active{
-        background-color: #00000044;
-    }
+.btn-trans {
+  background-color: transparent;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #00000014;
+  }
+  &:hover:enabled:active {
+    background-color: #00000044;
+  }
 }
