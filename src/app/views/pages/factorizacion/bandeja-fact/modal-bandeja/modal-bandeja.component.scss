@@ -1,0 +1,221 @@
+@import "variables.scss";
+.vactabs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.newvac-wrapper {
+  min-height: 400px;
+  border-radius: 3px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  //border: solid 1px $color-grey-2;
+}
+.orgs-pickedpo {
+  flex: 1 1;
+  display: flex;
+  align-items: center;
+  &-name {
+    border: solid 1px $color-grey-4;
+    flex: 1 1;
+    padding: 3px 20px;
+    border-radius: 2px;
+    background-color: $color-grey-0;
+  }
+}
+// BSUCADOR
+.orgs {
+  &-wrapper {
+    flex: 1 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+    margin: 5px 0;
+    & label {
+      padding: 0;
+      margin: 0 5px;
+      font-size: 0.9rem;
+    }
+  }
+  &-results {
+    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: 3;
+    box-shadow: $shadow-lvl-2;
+  }
+  & input {
+    width: 100%;
+  }
+}
+.itemresult {
+  background-color: #fff;
+  border-bottom: 1px solid $color-grey-2;
+  display: flex;
+  align-items: center;
+  transition: ease 0.2s;
+  &:hover {
+    background-color: $color-grey-1;
+    cursor: pointer;
+  }
+
+  &-l {
+    background-color: $color-secondary;
+    color: #fff;
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 5px;
+    padding: 6px 4px;
+    border-radius: 1px;
+    transition: ease 0.3s;
+  }
+  &:hover &-l {
+    background-color: $color-primary;
+  }
+  &-r {
+    flex: 1 1;
+    padding: 3px 10px;
+  }
+  &-pos {
+    font-family: "Telefonica-Bold";
+    font-size: 1.1rem;
+    margin-right: 10px;
+  }
+}
+.srch-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  font-size: 0.9rem;
+  color: $color-grey-5;
+}
+.searchrow {
+  margin: 10px auto;
+  max-width: 650px;
+}
+.search-minitext {
+  font-size: 0.9rem;
+  color: $color-grey-5;
+}
+.borwarnalert {
+  border-color: $color-orange;
+}
+.nwv-masivemessage {
+  color: $color-secondary;
+  background-color: $color-grey-3;
+  padding: 5px;
+  margin: 0 9px;
+  border-radius: 3px;
+  text-align: center;
+  & a {
+    color: $color-primary;
+    text-decoration: underline;
+    font-family: "Telefonica-Bold";
+  }
+}
+
+.fileatt {
+  &-cont {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: dashed 1px $color-grey-3;
+  }
+  &-btn {
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    color: $color-green;
+    background-color: $color-grey-1;
+    border: none;
+    border-radius: 2px;
+  }
+  margin: 2px 3px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background-color: $color-grey-1;
+  display: flex;
+  align-items: center;
+}
+
+// cerrar modal
+.moda-close-btn {
+  position: absolute;
+  // top: -10px;
+  // right: -10px;
+  z-index: 20;
+}
+
+.modal-title {
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: #00bec0;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.modalheader {
+  background-color: #00a9e0;
+  border-radius: 3px;
+  padding: 5px;
+  padding-left: 15px;
+  color: #fff;
+  line-height: 30px;
+  margin: 0;
+}
+
+.btn-modal-close {
+  // color: #d61a1a;
+  // line-height: 30px;
+
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 20;
+}
+
+.icon-btn-label {
+  color: #737574;
+  margin-top: 30px;
+}
+
+.col-lab-2 {
+  flex: 0 0 auto;
+  width: 4.666667%;
+
+  &:hover:enabled {
+    border-color: $color-blue;
+  }
+  &:active icon{
+    color:red
+  }
+
+}
+
+@media (max-width: 856px) {
+  .col-f-2 {
+    // width: 100%;
+    padding: 5px 2px;
+  }
+
+  .cli-form {
+    // width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    &-element {
+      margin-bottom: 6px;
+      align-items: center;
+      & label {
+        // padding: 0;
+        // margin: 0 2px;
+        font-size: 12px;
+      }
+    }
+  }
+}

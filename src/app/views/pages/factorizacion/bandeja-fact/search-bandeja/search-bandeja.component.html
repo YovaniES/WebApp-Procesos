@@ -1,0 +1,80 @@
+<div class="cli-tablebar">
+  <div class="cli-table-search">
+    <input
+      (keydown.enter)="callItemApi(true)"
+      [(ngModel)]="searcher"
+      type="text"
+      placeholder="Buscar por nombre"
+    />
+    <mat-icon class="icon-20">search</mat-icon>
+  </div>
+
+  <!-- REFRESH -->
+  <button
+    (click)="callItemApi(true)"
+    matTooltip="Refrescar"
+    class="icon-btn btn-trans"
+  >
+    <mat-icon class="icon-20">refresh</mat-icon>
+  </button>
+
+  <!-- FILTRO USER -->
+  <div class="h-divider"></div>
+
+  <!-- STATUS -->
+  <div class="flex-1"></div>
+  <div>PO del Proyecto:</div>
+  <div class="status-btn">
+    <div class="typepicklist-btn" (click)="showPicklistType()">
+      - {{ textvacType }} -
+    </div>
+
+    <div *ngIf="showTypepl" class="typepicklist-card">
+      <div class="typepicklist" style="margin-left: 10px">
+        <mat-checkbox [(ngModel)]="type.ext.value">Externa</mat-checkbox>
+        <mat-checkbox [(ngModel)]="type.intlid.value"
+          >Int. Líder</mat-checkbox
+        >
+        <mat-checkbox [(ngModel)]="type.intci.value"
+          >Int. CI</mat-checkbox
+        >
+        <mat-checkbox [(ngModel)]="type.mixta.value">Mixta</mat-checkbox>
+      </div>
+      <button (click)="applyfiltertype()" class="cli-btn btn-blue">
+        Aplicar
+      </button>
+
+      <button
+        (click)="cancelfiltertype()"
+        class="icon-btn btn-trans c-female closefiltertype"
+      >
+        <mat-icon class="icon-18">close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="h-divider"></div>
+  <div>Estado:</div>
+  <div class="status-btn">
+    <select
+      class="cli-input"
+      [(ngModel)]="vacStatus"
+      (change)="callItemApi(true)"
+    >
+      <option value="0">Todos</option>
+      <option value="1">Registrado</option>
+      <option value="2">Aprobado en Organización</option>
+      <option value="3">Aprobado en Comité</option>
+      <option value="4">En Proceso</option>
+      <option value="5">Finalizado</option>
+      <option value="6">Rechazo en Organiazción</option>
+      <option value="7">Rechazo en Comité</option>
+      <option value="8">Validado en Captura de Valor</option>
+      <option value="9">Rechazo en Captura de Valor</option>
+    </select>
+  </div>
+
+  <!-- RESTAURAR -->
+  <!-- <div class="h-divider"></div>
+          <button  matTooltip="Deshacer filtros" class="icon-btn btn-trans"> <mat-icon class="icon-20">restore</mat-icon> </button> -->
+</div>

@@ -144,57 +144,14 @@
     align-items: center;
 }
 
+// UBICAR AL FINAL BOTON
 
-/* VACANCIES */
-@import 'variables.scss';
-
-.vac-type{
-    padding: 2px;
-    border-radius: 2px;
-    background: $color-grey-2;
-    color: $color-secondary;
-    font-family: 'Telefonica-Bold';
-}
-.vac-status{
-    padding: 2px 5px;
-    border-radius: 4px;
-    color: #fff;
-}
-.vac-station{
-    font-family: 'Telefonica-Bold';
-}
-
-.typepicklist{
-    display: flex;
-    flex-direction: column;
-    &-btn{
-        padding: 3px 10px;
-        border: solid 1px $color-grey-3;
-        border-radius: 3px;
-        background-color: $color-grey-1;
-        &:hover{
-            cursor: pointer;
-            box-shadow: $shadow-lvl-1;
-        }
-    }
-    &-card{
-        position: relative;
-        border-radius: 2px;
-        top: 25px;
-        left: 3px;
-        z-index: 100;
-        width: 160px;
-        padding: 10px;
-        padding-top: 15px;
-        display: flex;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        box-shadow: $shadow-lvl-1;
-    }
-}
-.closefiltertype{
-    position: absolute;
-    top: 8px;
-    right: 4px;
+.cli-end-search {
+  display: flex;
+  // flex-wrap: wrap;
+  // align-items: center;
+  // padding: 3px;
+  // border: solid 1px #D3D4D3;
+  // border-radius: 2px;
+  // margin: 5px 0;
 }

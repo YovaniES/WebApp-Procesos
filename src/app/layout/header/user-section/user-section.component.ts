@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-user-section',
   templateUrl: './user-section.component.html',
-  styleUrls: ['./user-section.component.scss'],
 })
 export class UserSectionComponent implements OnInit {
   @Input('nameini')  nameini: string='';

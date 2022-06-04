@@ -1,0 +1,532 @@
+<button (click)="close()" class="icon-btn btn-trans c-orange">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div class="modal-title c-male">
+  {{ editData ? "Actualizar" : "Crear" }} Registro
+</div>
+
+<form class="row g-3">
+
+  <ng-container>
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">title</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Nombre</label>
+          <input type="email" class="form-control cli-input-white" placeholder="RPA-PER-CAPL" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">delete</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Código</label>
+          <input type="email" class="form-control cli-input-white" placeholder="HISPAM-2201-1"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">clear</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>VP</label>
+          <input type="email" class="form-control cli-input-white" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">start</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Gerencia Solicitante</label>
+            <select class="cli-input-white"
+              >
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-container>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>PO del Solicitante</label>
+            <select [(ngModel)]="request.type" class="cli-input-white"
+              [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+              (blur)="touched.type = true">
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Responsable</label>
+          <select class="cli-input-white"
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Gerencia del pedido</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Gerencia beneficiaria</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>PLANNER</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Controller Gerencia beneficiaria</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Controller Aprob. BC</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Tecnología solución</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Licencias BP</label>
+          <input type="email" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Naturaleza del Beneficio</label>
+          <select class="cli-input-white "
+          (blur)="touched.type = true">
+          <option disabled value="0">-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <div class="cli-form-buttons">
+    <button class="cli-btn btn-m btn-grey">
+      <mat-icon class="icon-18">delete</mat-icon> Limpiar
+    </button>
+    <button class="cli-btn btn-m btn-blue">Registrar</button>
+  </div>
+</form>
+
+<!-- <button (click)="close()" class="icon-btn btn-trans c-orange btn-modal-closeX">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div class="modal-title c-male">
+  {{ editData ? "Actualizar" : "Crear" }} Registro
+</div>
+
+<div class="cli-card fit-cardx">
+  <div class="cli-card-body">
+
+    <form class="cli-form">
+
+      <div class="cli-row">
+
+          <ng-container class="col-f-4">
+            <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+              <mat-icon>clear</mat-icon>
+            </div>
+            <div class="cli-form-element">
+              <label>Alcance </label>
+              <select [(ngModel)]="request.type" class="cli-input-white"
+                  [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                  (blur)="touched.type = true">
+                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="1">Externa</option>
+                  <option value="2">Internas (Líderes)</option>
+                  <option value="3">Internas (Contribuidores)</option>
+                  <option value="4">Mixta</option>
+              </select>
+              <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+            </div>
+          </ng-container>
+
+          <ng-container class="col-f-4">
+            <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <div class="cli-form-element">
+              <label>Alcance de posición</label>
+              <select [(ngModel)]="request.type" class="cli-input-white"
+                  [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                  (blur)="touched.type = true">
+                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="1">Externa</option>
+                  <option value="2">Internas (Líderes)</option>
+                  <option value="3">Internas (Contribuidores)</option>
+                  <option value="4">Mixta</option>
+              </select>
+              <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+            </div>
+          </ng-container>
+
+          <ng-container class="col-f-4">
+            <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+              <mat-icon>delete</mat-icon>
+            </div>
+            <div class="cli-form-element">
+              <label>datos</label>
+              <select [(ngModel)]="request.type" class="cli-input-white"
+                  [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                  (blur)="touched.type = true">
+                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="1">Externa</option>
+                  <option value="2">Internas (Líderes)</option>
+                  <option value="3">Internas (Contribuidores)</option>
+                  <option value="4">Mixta</option>
+              </select>
+              <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+           </div>
+          </ng-container>
+
+          <ng-container class="col-f-4">
+            <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+              <mat-icon>delete</mat-icon>
+            </div>
+            <div class="cli-form-element">
+              <label>datos AB</label>
+              <select [(ngModel)]="request.type" class="cli-input-white"
+                  [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                  (blur)="touched.type = true">
+                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="1">Externa</option>
+                  <option value="2">Internas (Líderes)</option>
+                  <option value="3">Internas (Contribuidores)</option>
+                  <option value="4">Mixta</option>
+              </select>
+              <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+           </div>
+          </ng-container>
+
+
+      </div>
+
+      <div class="cli-row">
+
+        <ng-container class="col-f-4">
+          <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+            <mat-icon>clear</mat-icon>
+          </div>
+          <div class="cli-form-element">
+            <label>Alcance </label>
+            <select [(ngModel)]="request.type" class="cli-input-white"
+                [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                (blur)="touched.type = true">
+                <option disabled value="0">-Seleccionar-</option>
+                <option value="1">Externa</option>
+                <option value="2">Internas (Líderes)</option>
+                <option value="3">Internas (Contribuidores)</option>
+                <option value="4">Mixta</option>
+            </select>
+            <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+          </div>
+        </ng-container>
+
+        <ng-container class="col-f-4">
+          <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="cli-form-element">
+            <label>Alcance de posición</label>
+            <select [(ngModel)]="request.type" class="cli-input-white"
+                [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                (blur)="touched.type = true">
+                <option disabled value="0">-Seleccionar-</option>
+                <option value="1">Externa</option>
+                <option value="2">Internas (Líderes)</option>
+                <option value="3">Internas (Contribuidores)</option>
+                <option value="4">Mixta</option>
+            </select>
+            <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+          </div>
+        </ng-container>
+
+        <ng-container class="col-f-4">
+          <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+            <mat-icon>delete</mat-icon>
+          </div>
+          <div class="cli-form-element">
+            <label>datos</label>
+            <select [(ngModel)]="request.type" class="cli-input-white"
+                [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                (blur)="touched.type = true">
+                <option disabled value="0">-Seleccionar-</option>
+                <option value="1">Externa</option>
+                <option value="2">Internas (Líderes)</option>
+                <option value="3">Internas (Contribuidores)</option>
+                <option value="4">Mixta</option>
+            </select>
+            <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+         </div>
+        </ng-container>
+
+        <ng-container class="col-f-4">
+          <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+            <mat-icon>delete</mat-icon>
+          </div>
+          <div class="cli-form-element">
+            <label>datos AB</label>
+            <select [(ngModel)]="request.type" class="cli-input-white"
+                [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+                (blur)="touched.type = true">
+                <option disabled value="0">-Seleccionar-</option>
+                <option value="1">Externa</option>
+                <option value="2">Internas (Líderes)</option>
+                <option value="3">Internas (Contribuidores)</option>
+                <option value="4">Mixta</option>
+            </select>
+            <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+         </div>
+        </ng-container>
+
+
+    </div>
+
+    <div class="cli-row">
+
+      <ng-container class="col-f-4">
+        <div [ngClass]="{'c-green':request.vacantId*1!=0,'c-orange':request.vacantId*1 ==0}" class="cli-form-icon">
+          <mat-icon>clear</mat-icon>
+        </div>
+        <div class="cli-form-element">
+          <label>Alcance </label>
+          <select [(ngModel)]="request.vacantId" class="cli-input-white"
+              [ngClass]=" {'borwarnalert':request.vacantId*1==0} "
+              (blur)="null">
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+          <div  *ngIf="request.vacantId*1 ==0 " class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+        </div>
+      </ng-container>
+
+      <ng-container class="col-f-4">
+        <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="cli-form-element">
+          <label>modelo</label>
+          <select [(ngModel)]="request.type" class="cli-input-white"
+              [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+              (blur)="touched.type = true">
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+          <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+        </div>
+      </ng-container>
+
+      <ng-container class="col-f-4">
+        <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+          <mat-icon>delete</mat-icon>
+        </div>
+        <div class="cli-form-element">
+          <label>datos</label>
+          <select [(ngModel)]="request.type" class="cli-input-white"
+              [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+              (blur)="touched.type = true">
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+          <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+       </div>
+      </ng-container>
+
+      <ng-container class="col-f-4">
+        <div [ngClass]="{'c-green':request.type*1!=0,'c-orange':request.type*1 ==0 && touched.type}" class="cli-form-icon">
+          <mat-icon>delete</mat-icon>
+        </div>
+        <div class="cli-form-element">
+          <label>datos AB</label>
+          <select [(ngModel)]="request.type" class="cli-input-white"
+              [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
+              (blur)="touched.type = true">
+              <option disabled value="0">-Seleccionar-</option>
+              <option value="1">Externa</option>
+              <option value="2">Internas (Líderes)</option>
+              <option value="3">Internas (Contribuidores)</option>
+              <option value="4">Mixta</option>
+          </select>
+          <div  *ngIf="request.type*1 ==0 && touched.type" class="cli-form-warn" class="cli-form-warn">Este campo es obligatorio</div>
+       </div>
+      </ng-container>
+
+
+    </div>
+
+
+          <div class="cli-form-buttons">
+              <button  class="cli-btn btn-s btn-grey">Limpiar</button>
+              <button  class="cli-btn btn-s btn-blue">Registrar</button>
+          </div>
+   </form>
+  </div>
+</div> -->

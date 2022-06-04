@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { VacanciesService } from 'src/app/core/services/vacancies.service';
 import { HomeComponent } from '../../home/home.component';
+import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
 export interface vacantRequest {
   name: string;
   type: number;
@@ -45,6 +46,14 @@ export class BandejaFactComponent implements OnInit {
   showing=1;
   loadingInbox = false;
   inbox: reqVacantDTO[] = [];
+  loadingItem:boolean=false
+
+  data:any[]=[]
+  table_settings = {
+    page:1,
+    size:20,
+    pages:0
+  }
 
   request: vacantRequest = {
     type: 0,
@@ -109,56 +118,37 @@ export class BandejaFactComponent implements OnInit {
     });
   }
 
-  callItemApi(reset:boolean=false){ }
+  crearPermisos(){
+    const dialogRef = this.dialog.open(ModalBandejaComponent, {width:'525'})
 
-  searcher = "";
-  showTypepl = false;
-  showPicklistType(){
-    this.showTypepl = true;
+    dialogRef.afterClosed().subscribe(resp=>{
+      if (resp) {
+        this.cargarBandeja()
+      }
+    })
   }
 
-  idtypes:number[] = [1,2,3,4];
+  cargarBandeja(){
 
-  type = {
-    mixta:{id: 4, value:true
-    },
-    intlid:{id: 2, value:true
-    },
-    intci: {id: 3, value:true
-    },
-    ext: {id: 1, value:true
-    }
+  }
+
+  editarBandeja(row:any){
+    this.dialog.open(ModalBandejaComponent,{width:'525', data:row})
+               .afterClosed()
+               .subscribe(resp1=>{
+                 if (resp1 == 'update') {
+                   this.cargarBandeja()
+                 }
+               })
+
   }
 
 
-  vacStatus=0;
-  vacType="1,2,3,4";
-  textvacType = "Todos";
-  applyfiltertype(){
-    let newarray:number[] = [];
-    if (this.type.mixta.value) newarray.push(this.type.mixta.id);
-    if (this.type.intlid.value) newarray.push(this.type.intlid.id);
-    if (this.type.intci.value) newarray.push(this.type.intci.id);
-    if (this.type.ext.value) newarray.push(this.type.ext.id);
-    this.idtypes = newarray;
-    this.showTypepl = false;
 
-    let text = "";
-    for (const i of this.idtypes) {
-      text = "," + i.toString() + text;
-    }
-    this.vacType = text;
-    this.textvacType = this.idtypes.length==4?'Todos': this.idtypes.length + ' seleccionados';
+  doPageChange(i:number){
+    this.table_settings.page = this.table_settings.page + i;
     this.callItemApi();
   }
 
-  cancelfiltertype(){
-    this.showTypepl = false;
-    this.type.mixta.value = this.idtypes.includes(this.type.mixta.id);
-    this.type.intlid.value = this.idtypes.includes(this.type.intlid.id);
-    this.type.intci.value = this.idtypes.includes(this.type.intci.id);
-    this.type.ext.value = this.idtypes.includes(this.type.ext.id);
-    this.showTypepl = false;
-  }
-
+  callItemApi(){}
 }
