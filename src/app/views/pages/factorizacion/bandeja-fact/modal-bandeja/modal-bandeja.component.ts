@@ -1,12 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Registro } from 'src/app/core/interfaces/registro.interface';
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import Swal from 'sweetalert2';
-
-
 
 @Component({
   selector: 'app-modal-bandeja',
@@ -14,7 +11,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./modal-bandeja.component.scss'],
 })
 export class ModalBandejaComponent implements OnInit {
-  showing = 1;
   actionBtn:string = 'Registrar';
 
   registroForm = this.fb.group({
@@ -39,25 +35,6 @@ export class ModalBandejaComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: Registro
   ) {}
 
-  /*   touched = {
-    type: false,
-    name: false,
-    justification: false,
-    po:false
-  };
-  request: vacantRequest = {
-    type: 0,
-    parentCode: '',
-    name: '',
-    justification: '',
-    po: '',
-    vacantId: 0,
-    statusId: 0,
-    flagnew: false,
-    comment: '',
-    businesscase: '',
-    files: [],
-  }; */
   ngOnInit(): void {
     this.editarData();
   }
@@ -81,6 +58,7 @@ export class ModalBandejaComponent implements OnInit {
       this.registroForm.controls['naturaleza'].setValue(this.editData.naturaleza);
     }
   }
+
 
   crearRegistro() {
     console.log('REGIS', this.registroForm.value);
@@ -135,40 +113,4 @@ export class ModalBandejaComponent implements OnInit {
     this.dialogRef.close(exit);
   }
 
-  /*   @BlockUI() blockUI!: NgBlockUI;
-  showing=1;
-  loadingInbox = false;
-  inbox: reqVacantDTO[] = [];
-
-  request: vacantRequest = {
-    type: 0,
-    parentCode: '',
-    name: '',
-    justification: '',
-    vacantId: 0,
-    statusId: 0,
-    po: '',
-    flagnew: false,
-    businesscase: '',
-    comment: '',
-    files: [],
-  };
-
-  touched = {
-    type: false,
-    name: false,
-    justification: false,
-  };
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-
-  clearAll() {}
-
-  register() {} */
-
-  clearPickedParent() {}
 }

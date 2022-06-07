@@ -252,6 +252,22 @@
       "licencias": "200",
       "naturaleza": "3",
       "id": "fG7YlTi"
+    },
+    {
+      "nombre": "RPA-PER-CAPL",
+      "codigo": "HISPAM-2201-1",
+      "vp": "1",
+      "gerenc_sol": "2",
+      "po": "1",
+      "responsable": "3",
+      "gerenc_ben": "2",
+      "planner": "1",
+      "control_gerenc": "2",
+      "control_aprob": "2",
+      "tecnologia": "2",
+      "licencias": "22",
+      "naturaleza": "1",
+      "id": "pgC1YVy"
     }
   ]
 }

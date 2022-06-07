@@ -90,15 +90,14 @@
       </div>
 
       <!-- PAGINACIÓN -->
-      <div class="cli-pagination-container"
-           *ngIf="!loadingItem && registros.length != 0"
-      >
+      <div *ngIf="!loadingItem && registros.length != 0"
+           class="cli-pagination-container">
         <div class="cli-pagination-page">Página:</div>
         <button
               [disabled]="table_settings.page == 1"
               (click)="doPageChange(-1)"
               class="icon-btn btn-blue"
-        ><mat-icon class="icon-20">chevron_left</mat-icon>
+             ><mat-icon class="icon-20">chevron_left</mat-icon>
         </button>
         <div class="cli-pagination-page">
           {{ table_settings.page }}
