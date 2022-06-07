@@ -3,10 +3,10 @@
 </button>
 
 <div class="modal-title c-male">
-  {{ editData ? "Actualizar" : "Crear" }} Registro
+  {{ editData ? "Actualizar" : "Crear" }} registro
 </div>
 
-<form class="row g-3">
+<form [formGroup]="registroForm" class="row g-3">
 
   <ng-container>
     <div class="col-sm-3 cli-form-element">
@@ -16,7 +16,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Nombre</label>
-          <input type="email" class="form-control cli-input-white" placeholder="RPA-PER-CAPL" />
+          <input type="text"
+                class="form-control cli-input-white"
+                placeholder="RPA-PER-CAPL"
+                formControlName="nombre"/>
         </div>
       </div>
     </div>
@@ -28,7 +31,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Código</label>
-          <input type="email" class="form-control cli-input-white" placeholder="HISPAM-2201-1"/>
+          <input type="text"
+                class="form-control cli-input-white"
+                placeholder="HISPAM-2201-1"
+                formControlName="codigo"/>
         </div>
       </div>
     </div>
@@ -40,7 +46,14 @@
         </div>
         <div class="form-group col-sm-10">
           <label>VP</label>
-          <input type="email" class="form-control cli-input-white" />
+          <select class="cli-input-white"
+                    formControlName="vp">
+              <option value="0" disabled>-Seleccionar-</option>
+              <option value="1">José Vilcarromero</option>
+              <option value="2">Dagoberto Riva</option>
+              <option value="3">Raquel Melendez</option>
+              <option value="4">Wilmer Cordova</option>
+          </select>
         </div>
       </div>
     </div>
@@ -53,12 +66,12 @@
         <div class="form-group col-sm-10">
           <label>Gerencia Solicitante</label>
             <select class="cli-input-white"
-              >
-              <option disabled value="0">-Seleccionar-</option>
-              <option value="1">Externa</option>
-              <option value="2">Internas (Líderes)</option>
-              <option value="3">Internas (Contribuidores)</option>
-              <option value="4">Mixta</option>
+                    formControlName="gerenc_sol">
+              <option value="0" disabled>-Seleccionar-</option>
+              <option value="1">José Vilcarromero</option>
+              <option value="2">Dagoberto Riva</option>
+              <option value="3">Raquel Melendez</option>
+              <option value="4">Wilmer Cordova</option>
           </select>
         </div>
       </div>
@@ -67,22 +80,19 @@
 
 
   <ng-container>
-
     <div class="col-sm-3 cli-form-element">
       <div class="row form-group">
         <div class="col-lab-2">
           <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
         </div>
         <div class="form-group col-sm-10">
-          <label>PO del Solicitante</label>
-            <select [(ngModel)]="request.type" class="cli-input-white"
-              [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
-              (blur)="touched.type = true">
-              <option disabled value="0">-Seleccionar-</option>
-              <option value="1">Externa</option>
-              <option value="2">Internas (Líderes)</option>
-              <option value="3">Internas (Contribuidores)</option>
-              <option value="4">Mixta</option>
+          <label>PO del proyecto</label>
+            <select class="cli-input-white" formControlName="po">
+              <option value="0" disabled>-Seleccionar-</option>
+              <option value="1">José Vilcarromero</option>
+              <option value="2">Dagoberto Riva</option>
+              <option value="3">Raquel Melendez</option>
+              <option value="4">Wilmer Cordova</option>
           </select>
         </div>
       </div>
@@ -95,28 +105,25 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Responsable</label>
-          <select class="cli-input-white"
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
+          <select class="cli-input-white" formControlName="responsable">
+          <option value="0" disabled>-Seleccionar-</option>
+          <option value="1">José Vilcarromero</option>
+          <option value="2">Dagoberto Riva</option>
+          <option value="3">Raquel Melendez</option>
+          <option value="4">Wilmer Cordova</option>
           </select>
         </div>
       </div>
     </div>
-
     <div class="col-sm-3 cli-form-element">
       <div class="row form-group">
         <div class="col-lab-2">
           <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
         </div>
         <div class="form-group col-sm-10">
-          <label>Gerencia del pedido</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
+          <label>Gerencia beneficiaria</label>
+          <select class="cli-input-white" formControlName="gerenc_ben">
+          <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
           <option value="3">Internas (Contribuidores)</option>
@@ -134,28 +141,9 @@
           <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
         </div>
         <div class="form-group col-sm-10">
-          <label>Gerencia beneficiaria</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3 cli-form-element">
-      <div class="row form-group">
-        <div class="col-lab-2">
-          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
-        </div>
-        <div class="form-group col-sm-10">
           <label>PLANNER</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
+          <select class="cli-input-white" formControlName="planner">
+          <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
           <option value="3">Internas (Contribuidores)</option>
@@ -172,8 +160,7 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Controller Gerencia beneficiaria</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
+          <select class="cli-input-white" formControlName="control_gerenc">
           <option disabled value="0">-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
@@ -191,9 +178,25 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Controller Aprob. BC</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
+          <select class="cli-input-white" formControlName="control_aprob">
+          <option value="0" disabled>-Seleccionar-</option>
+          <option value="1">Externa</option>
+          <option value="2">Internas (Líderes)</option>
+          <option value="3">Internas (Contribuidores)</option>
+          <option value="4">Mixta</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 cli-form-element">
+      <div class="row form-group">
+        <div class="col-lab-2">
+          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
+        </div>
+        <div class="form-group col-sm-10">
+          <label>Tecnología solución</label>
+          <select class="cli-input-white" formControlName="tecnologia">
+          <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
           <option value="3">Internas (Contribuidores)</option>
@@ -211,27 +214,8 @@
           <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
         </div>
         <div class="form-group col-sm-10">
-          <label>Tecnología solución</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-3 cli-form-element">
-      <div class="row form-group">
-        <div class="col-lab-2">
-          <mat-icon class="icon-18 icon-btn-label">flag</mat-icon>
-        </div>
-        <div class="form-group col-sm-10">
           <label>Licencias BP</label>
-          <input type="email" class="form-control" />
+          <input type="email" class="form-control" formControlName="licencias"/>
         </div>
       </div>
     </div>
@@ -243,9 +227,8 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Naturaleza del Beneficio</label>
-          <select class="cli-input-white "
-          (blur)="touched.type = true">
-          <option disabled value="0">-Seleccionar-</option>
+          <select class="cli-input-white" formControlName="naturaleza">
+          <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
           <option value="3">Internas (Contribuidores)</option>
@@ -259,10 +242,16 @@
 
 
   <div class="cli-form-buttons">
-    <button class="cli-btn btn-m btn-grey">
-      <mat-icon class="icon-18">delete</mat-icon> Limpiar
+    <button class="cli-btn btn-m btn-grey"
+            (click)="close()">
+            <mat-icon class="icon-18">cancel</mat-icon> Limpiar
     </button>
-    <button class="cli-btn btn-m btn-blue">Registrar</button>
+    <button class="cli-btn btn-m btn-blue"
+            (click)="crearRegistro()"
+            [disabled]="registroForm.invalid"
+            >
+            <mat-icon>save</mat-icon> {{ actionBtn }}
+    </button>
   </div>
 </form>
 
@@ -290,7 +279,7 @@
               <select [(ngModel)]="request.type" class="cli-input-white"
                   [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                   (blur)="touched.type = true">
-                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="0" disabled>-Seleccionar-</option>
                   <option value="1">Externa</option>
                   <option value="2">Internas (Líderes)</option>
                   <option value="3">Internas (Contribuidores)</option>
@@ -309,7 +298,7 @@
               <select [(ngModel)]="request.type" class="cli-input-white"
                   [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                   (blur)="touched.type = true">
-                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="0" disabled>-Seleccionar-</option>
                   <option value="1">Externa</option>
                   <option value="2">Internas (Líderes)</option>
                   <option value="3">Internas (Contribuidores)</option>
@@ -328,7 +317,7 @@
               <select [(ngModel)]="request.type" class="cli-input-white"
                   [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                   (blur)="touched.type = true">
-                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="0" disabled>-Seleccionar-</option>
                   <option value="1">Externa</option>
                   <option value="2">Internas (Líderes)</option>
                   <option value="3">Internas (Contribuidores)</option>
@@ -347,7 +336,7 @@
               <select [(ngModel)]="request.type" class="cli-input-white"
                   [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                   (blur)="touched.type = true">
-                  <option disabled value="0">-Seleccionar-</option>
+                  <option value="0" disabled>-Seleccionar-</option>
                   <option value="1">Externa</option>
                   <option value="2">Internas (Líderes)</option>
                   <option value="3">Internas (Contribuidores)</option>
@@ -371,7 +360,7 @@
             <select [(ngModel)]="request.type" class="cli-input-white"
                 [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                 (blur)="touched.type = true">
-                <option disabled value="0">-Seleccionar-</option>
+                <option value="0" disabled>-Seleccionar-</option>
                 <option value="1">Externa</option>
                 <option value="2">Internas (Líderes)</option>
                 <option value="3">Internas (Contribuidores)</option>
@@ -390,7 +379,7 @@
             <select [(ngModel)]="request.type" class="cli-input-white"
                 [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                 (blur)="touched.type = true">
-                <option disabled value="0">-Seleccionar-</option>
+                <option value="0" disabled>-Seleccionar-</option>
                 <option value="1">Externa</option>
                 <option value="2">Internas (Líderes)</option>
                 <option value="3">Internas (Contribuidores)</option>
@@ -409,7 +398,7 @@
             <select [(ngModel)]="request.type" class="cli-input-white"
                 [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                 (blur)="touched.type = true">
-                <option disabled value="0">-Seleccionar-</option>
+                <option value="0" disabled>-Seleccionar-</option>
                 <option value="1">Externa</option>
                 <option value="2">Internas (Líderes)</option>
                 <option value="3">Internas (Contribuidores)</option>
@@ -428,7 +417,7 @@
             <select [(ngModel)]="request.type" class="cli-input-white"
                 [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
                 (blur)="touched.type = true">
-                <option disabled value="0">-Seleccionar-</option>
+                <option value="0" disabled>-Seleccionar-</option>
                 <option value="1">Externa</option>
                 <option value="2">Internas (Líderes)</option>
                 <option value="3">Internas (Contribuidores)</option>
@@ -452,7 +441,7 @@
           <select [(ngModel)]="request.vacantId" class="cli-input-white"
               [ngClass]=" {'borwarnalert':request.vacantId*1==0} "
               (blur)="null">
-              <option disabled value="0">-Seleccionar-</option>
+              <option value="0" disabled>-Seleccionar-</option>
               <option value="1">Externa</option>
               <option value="2">Internas (Líderes)</option>
               <option value="3">Internas (Contribuidores)</option>
@@ -471,7 +460,7 @@
           <select [(ngModel)]="request.type" class="cli-input-white"
               [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
               (blur)="touched.type = true">
-              <option disabled value="0">-Seleccionar-</option>
+              <option value="0" disabled>-Seleccionar-</option>
               <option value="1">Externa</option>
               <option value="2">Internas (Líderes)</option>
               <option value="3">Internas (Contribuidores)</option>
@@ -490,7 +479,7 @@
           <select [(ngModel)]="request.type" class="cli-input-white"
               [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
               (blur)="touched.type = true">
-              <option disabled value="0">-Seleccionar-</option>
+              <option value="0" disabled>-Seleccionar-</option>
               <option value="1">Externa</option>
               <option value="2">Internas (Líderes)</option>
               <option value="3">Internas (Contribuidores)</option>
@@ -509,7 +498,7 @@
           <select [(ngModel)]="request.type" class="cli-input-white"
               [ngClass]=" {'borwarnalert':request.type*1==0 && touched.type} "
               (blur)="touched.type = true">
-              <option disabled value="0">-Seleccionar-</option>
+              <option value="0" disabled>-Seleccionar-</option>
               <option value="1">Externa</option>
               <option value="2">Internas (Líderes)</option>
               <option value="3">Internas (Contribuidores)</option>

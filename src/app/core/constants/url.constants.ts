@@ -25,6 +25,8 @@ switch (ENVIROMENT) {
 export const API_MENU = MAIN_PATH_JS + '/menu';
 export const API_AUTH_SESSION = MAIN_PATH + '/login'
 
+// REGISTRO
+export const API_REG = MAIN_PATH_JS + '/registro'
 
 
 // VACANTES

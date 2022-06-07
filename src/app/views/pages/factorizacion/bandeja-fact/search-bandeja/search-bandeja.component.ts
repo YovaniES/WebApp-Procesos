@@ -1,44 +1,70 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Registro } from 'src/app/core/interfaces/registro.interface';
+import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 
 @Component({
   selector: 'app-search-bandeja',
   templateUrl: './search-bandeja.component.html',
-  styleUrls: ['./search-bandeja.component.scss']
+  styleUrls: ['./search-bandeja.component.scss'],
 })
 export class SearchBandejaComponent implements OnInit {
+  loadingItem = false;
+  registros: Registro[] = [];
 
-  constructor() { }
+  searcher = '';
+  regStatus = 0;
+  showTypepl = false;
 
-  ngOnInit(): void {
+  table_settings = {
+    page: 1,
+    size: 5,
+    pages: 0,
+  };
+  constructor(private modalRegistroService: ModalRegistroService) {}
+
+  ngOnInit(): void { }
+
+  callItemApi(reset: boolean = false) {
+    if (reset) {
+      this.table_settings.page = 1;
+    }
+    this.loadingItem = true;
+    const subs: Subscription = this.modalRegistroService
+      .getAllRequest(
+        this.table_settings.page - 1,
+        this.table_settings.size,
+        this.searcher,
+        this.regStatus
+      )
+      .subscribe((resp: any) => {
+        this.registros = resp.content;
+        this.table_settings.pages = Math.ceil(resp.total/resp.size);
+        this.loadingItem = false;
+        // subs:unsubscribe();
+      });
   }
 
-  callItemApi(reset:boolean=false){ }
 
-  searcher = "";
-  showTypepl = false;
-  showPicklistType(){
+  showPicklistType() {
     this.showTypepl = true;
   }
 
-  idtypes:number[] = [1,2,3,4];
+  idtypes: number[] = [1, 2, 3, 4];
 
   type = {
-    mixta:{id: 4, value:true
-    },
-    intlid:{id: 2, value:true
-    },
-    intci: {id: 3, value:true
-    },
-    ext: {id: 1, value:true
-    }
-  }
+    mixta: { id: 4, value: true },
+    intlid: { id: 2, value: true },
+    intci: { id: 3, value: true },
+    ext: { id: 1, value: true },
+  };
 
+  vacStatus = 0;
+  vacType = '1,2,3,4';
+  textvacType = 'Todos';
 
-  vacStatus=0;
-  vacType="1,2,3,4";
-  textvacType = "Todos";
-  applyfiltertype(){
-    let newarray:number[] = [];
+  applyfiltertype() {
+    let newarray: number[] = [];
     if (this.type.mixta.value) newarray.push(this.type.mixta.id);
     if (this.type.intlid.value) newarray.push(this.type.intlid.id);
     if (this.type.intci.value) newarray.push(this.type.intci.id);
@@ -46,16 +72,19 @@ export class SearchBandejaComponent implements OnInit {
     this.idtypes = newarray;
     this.showTypepl = false;
 
-    let text = "";
+    let text = '';
     for (const i of this.idtypes) {
-      text = "," + i.toString() + text;
+      text = ',' + i.toString() + text;
     }
     this.vacType = text;
-    this.textvacType = this.idtypes.length==4?'Todos': this.idtypes.length + ' seleccionados';
+    this.textvacType =
+      this.idtypes.length == 4
+        ? 'Todos'
+        : this.idtypes.length + ' seleccionados';
     this.callItemApi();
   }
 
-  cancelfiltertype(){
+  cancelfiltertype() {
     this.showTypepl = false;
     this.type.mixta.value = this.idtypes.includes(this.type.mixta.id);
     this.type.intlid.value = this.idtypes.includes(this.type.intlid.id);

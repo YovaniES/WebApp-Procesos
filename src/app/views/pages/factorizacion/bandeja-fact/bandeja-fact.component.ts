@@ -1,40 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { VacanciesService } from 'src/app/core/services/vacancies.service';
-import { HomeComponent } from '../../home/home.component';
+import { Registro } from 'src/app/core/interfaces/registro.interface';
+import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
+import Swal from 'sweetalert2';
 import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
-export interface vacantRequest {
-  name: string;
-  type: number;
-  justification: string;
-  parentCode: string;
-  po: string;
-  vacantId: number;
-  statusId: number;
-  flagnew: boolean;
-  comment: string;
-  businesscase: string;
-  files: number[];
-}
-
-export interface reqVacantDTO {
-  id: number;
-  // parent: vacantParent;
-  // titular: vacantTitular;
-  position: string;
-  level: number;
-  command: string;
-  ambit: string;
-  bu: string;
-  workstream: string;
-  // status: vacantStatus;
-  // type: vacantType;
-  flagnew: boolean;
-  informer: string;
-  createdat: Date;
-  filteraprob: string;
-}
 
 @Component({
   selector: 'app-bandeja-fact',
@@ -43,112 +13,92 @@ export interface reqVacantDTO {
 })
 export class BandejaFactComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-  showing=1;
+
+  totalRegistros: number = 0;
+  loadingItem: boolean = false;
   loadingInbox = false;
-  inbox: reqVacantDTO[] = [];
-  loadingItem:boolean=false
 
-  data:any[]=[]
+  cargando: boolean = true;
+  registros: Registro[] = [];
+  data: any[] = [];
+
   table_settings = {
-    page:1,
-    size:20,
-    pages:0
-  }
-
-  request: vacantRequest = {
-    type: 0,
-    parentCode: '',
-    name: '',
-    justification: '',
-    vacantId: 0,
-    statusId: 0,
-    po: '',
-    flagnew: false,
-    businesscase: '',
-    comment: '',
-    files: [],
-  };
-
-  touched = {
-    type: false,
-    name: false,
-    justification: false,
+    page: 1,
+    size: 5,
+    pages: 0,
   };
 
   constructor(
-    private vacanciesService:VacanciesService,
-    private dialog:MatDialog
+    private modalRegistroService: ModalRegistroService,
+    private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {}
-
-  clearPickedParent() {
-    // this.selectedPo = null;
-    // this.poWarnmessage="";
+  ngOnInit(): void {
+    this.cargarRegistro();
+    console.log('DATA_REG', this.cargarRegistro);
   }
 
-  clearAll() {}
-
-  register() {}
-
-  showDetails(id: number) {
-    this.blockUI.start('Preparando información...');
-    this.vacanciesService.getVacantDetail$(id).subscribe((resp: any) => {
-      this.blockUI.stop();
-      this.dialog
-        .open(HomeComponent, {
-          data: { vacant: resp },
-          panelClass: 'custom-modalbox',
-          height: '85%',
-        })
-        .afterClosed()
-        .subscribe((dr: any) => {
-          console.log(dr);
-          if (dr) {
-            const idx = this.inbox.findIndex((p) => p.id == id);
-            this.inbox[idx] = {
-              ...this.inbox[idx],
-              // status: dr.status,
-              workstream: dr.workstream,
-              ambit: dr.ambit,
-              bu: dr.bu,
-            };
-          }
-        });
+  cargarRegistro() {
+    this.cargando = true;
+    this.modalRegistroService.cargarRegistro().subscribe((resp) => {
+      this.registros = resp;
+      this.totalRegistros = resp.length;
     });
   }
 
-  crearPermisos(){
-    const dialogRef = this.dialog.open(ModalBandejaComponent, {width:'525'})
+  borrarRegistro(regist: Registro) {
+    Swal.fire({
+      title: '¿Borrar registro?',
+      text: `¿Estas seguro que deseas eliminar a ${regist.nombre} del registro?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+    }).then((resp) => {
+      if (resp.value) {
+        this.modalRegistroService
+          .eliminarRegistro(regist.id)
+          .subscribe((resp1) => {
+            this.cargarRegistro();
 
-    dialogRef.afterClosed().subscribe(resp=>{
-      if (resp) {
-        this.cargarBandeja()
+            Swal.fire({
+              title: 'Registro eliminado',
+              text: 'El registro fue eliminado con éxito',
+              icon: 'success',
+            });
+          });
       }
-    })
+    });
   }
 
-  cargarBandeja(){
+  crearRegistro() {
+    const dialogRef = this.dialog.open(ModalBandejaComponent, {
+      width: '1125px',
+    });
 
+    dialogRef.afterClosed().subscribe((resp) => {
+      if (resp) {
+        this.cargarRegistro();
+      }
+    });
   }
 
-  editarBandeja(row:any){
-    this.dialog.open(ModalBandejaComponent,{width:'525', data:row})
-               .afterClosed()
-               .subscribe(resp1=>{
-                 if (resp1 == 'update') {
-                   this.cargarBandeja()
-                 }
-               })
-
+  editarRegistro(registro: Registro) {
+    this.dialog
+      .open(ModalBandejaComponent, { width: '1125px', data: registro })
+      .afterClosed()
+      .subscribe((resp1) => {
+        if (resp1 == 'update') {
+          this.cargarRegistro();
+        }
+      });
   }
 
-
-
-  doPageChange(i:number){
+  doPageChange(i: number) {
     this.table_settings.page = this.table_settings.page + i;
     this.callItemApi();
   }
 
-  callItemApi(){}
+  callItemApi() {}
 }

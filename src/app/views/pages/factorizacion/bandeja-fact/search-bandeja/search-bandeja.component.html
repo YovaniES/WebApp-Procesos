@@ -30,17 +30,13 @@
     </div>
 
     <div *ngIf="showTypepl" class="typepicklist-card">
-      <div class="typepicklist" style="margin-left: 10px">
-        <mat-checkbox [(ngModel)]="type.ext.value">Externa</mat-checkbox>
-        <mat-checkbox [(ngModel)]="type.intlid.value"
-          >Int. Líder</mat-checkbox
-        >
-        <mat-checkbox [(ngModel)]="type.intci.value"
-          >Int. CI</mat-checkbox
-        >
-        <mat-checkbox [(ngModel)]="type.mixta.value">Mixta</mat-checkbox>
+      <div class="typepicklist my-3" style="margin-left: 10px">
+        <mat-checkbox [(ngModel)]="type.ext.value">Wilmer Córdova</mat-checkbox>
+        <mat-checkbox [(ngModel)]="type.intlid.value">Dagoberto Riva</mat-checkbox>
+        <mat-checkbox [(ngModel)]="type.intci.value">Raquél Melend.</mat-checkbox>
+        <mat-checkbox [(ngModel)]="type.mixta.value">Jhon Soto</mat-checkbox>
       </div>
-      <button (click)="applyfiltertype()" class="cli-btn btn-blue">
+      <button (click)="applyfiltertype()" class="cli-btn btn-s btn-blue">
         Aplicar
       </button>
 
