@@ -11,22 +11,24 @@ import Swal from 'sweetalert2';
   styleUrls: ['./modal-bandeja.component.scss'],
 })
 export class ModalBandejaComponent implements OnInit {
-  actionBtn:string = 'Registrar';
+  actionBtn: string = 'Registrar';
+  tecnologias: any[] = [];
+  descTecnology: any;
 
   registroForm = this.fb.group({
-    nombre:         ['RPA-PER-CAPL', Validators.required],
-    codigo:         ['HISPAM-2201-1', Validators.required],
-    vp:             ['', Validators.required],
-    gerenc_sol:     ['', Validators.required],
-    po:             ['', Validators.required],
-    responsable:    ['', Validators.required],
-    gerenc_ben:     ['', Validators.required],
-    planner:        ['', Validators.required],
+    nombre: ['RPA-PER-CAPL', Validators.required],
+    codigo: ['HISPAM-2201-1', Validators.required],
+    vp: ['', Validators.required],
+    gerenc_sol: ['', Validators.required],
+    po: ['', Validators.required],
+    responsable: ['', Validators.required],
+    gerenc_ben: ['', Validators.required],
+    planner: ['', Validators.required],
     control_gerenc: ['', Validators.required],
-    control_aprob:  ['', Validators.required],
-    tecnologia:     ['', Validators.required],
-    licencias:      ['', Validators.required],
-    naturaleza:     ['', Validators.required],
+    control_aprob: ['', Validators.required],
+    tecnologia: ['', Validators.required],
+    licencias: ['', Validators.required],
+    naturaleza: ['', Validators.required],
   });
   constructor(
     private modalRegistroService: ModalRegistroService,
@@ -37,9 +39,10 @@ export class ModalBandejaComponent implements OnInit {
 
   ngOnInit(): void {
     this.editarData();
+    this.getListTecnologia(3);
   }
 
-  editarData(){
+  editarData() {
     if (this.editData) {
       this.actionBtn = 'Actualizar';
 
@@ -59,6 +62,26 @@ export class ModalBandejaComponent implements OnInit {
     }
   }
 
+  getListTecnologia(id: any) {
+    let arrayParametro: any[] = [
+      {
+        queryId: 88,
+        mapValue: {
+          param_id_proyecto: id,
+        },
+      },
+    ];
+    this.modalRegistroService.getListTecnology(arrayParametro[0])
+      .subscribe((resp) => {
+        console.log('ABC', resp);
+
+        const arrayData: any[] = Array.of(resp);
+
+        for (let index = 0; index < arrayData.length; index++) {
+          this.descTecnology = arrayData[0].list[index].descripcion;
+        }
+      });
+  }
 
   crearRegistro() {
     console.log('REGIS', this.registroForm.value);
@@ -88,29 +111,21 @@ export class ModalBandejaComponent implements OnInit {
   }
 
   actualizarRegistro() {
-    this.modalRegistroService.actualizarRegistro(this.registroForm.value, this.editData.id)
-          .subscribe({
-            next: (resp)=>{
-              Swal.fire(
-                'Actualizar registro',
-                'Regsitro actualizado',
-                'success'
-              );
-              this.registroForm.reset();
-              this.dialogRef.close();
-            }, error: ()=> {
-              Swal.fire(
-                'ERROR',
-                'No se pudo actualizar el registro',
-                'warning'
-              )
-            }
-          })
+    this.modalRegistroService
+      .actualizarRegistro(this.registroForm.value, this.editData.id)
+      .subscribe({
+        next: (resp) => {
+          Swal.fire('Actualizar registro', 'Regsitro actualizado', 'success');
+          this.registroForm.reset();
+          this.dialogRef.close();
+        },
+        error: () => {
+          Swal.fire('ERROR', 'No se pudo actualizar el registro', 'warning');
+        },
+      });
   }
-
 
   close(exit?: boolean) {
     this.dialogRef.close(exit);
   }
-
 }

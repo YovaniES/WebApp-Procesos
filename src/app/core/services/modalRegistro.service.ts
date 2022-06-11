@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_REG } from '../constants/url.constants';
-import { Registro } from '../interfaces/registro.interface';
+import { API_REG, API_REG1 } from '../constants/url.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -29,15 +28,26 @@ export class ModalRegistroService {
     return this.http.delete(url);
   }
 
-  // deleteRegistro(id: number){
-  //   const url = `${API_REG}/${id}`;
-  //   return this.http.delete(url);
-  // }
+  // OBTENEMOS LA DATA DESDE .NET
+  listaTecnologia(obj:any){
+    return this.http.post(API_REG1, obj)
+  }
 
-  getAllRequest(page:number, size:number, filter:string, status:number): Observable<Object>{
+  lista(obj:any){
+    return this.http.post(API_REG1, obj)
+  }
+
+
+  getListTecnology(obj: any){
+    return this.http.post(API_REG1,obj);
+
+  }
+
+  getAllRequest(page:number, size:number, filter?:string, status?:number): Observable<Object>{
     let params = '?page=' + page + '&size='+size;
-    params = '&rfilter=' + filter;
-    params = 'rstatus=' + status
+    params     = params + (filter ? '&rfilter=' + filter : '');
+    params     = params + (filter ? '&status=' + status: '' );
     return this.http.get(API_REG + params)
   }
 }
+

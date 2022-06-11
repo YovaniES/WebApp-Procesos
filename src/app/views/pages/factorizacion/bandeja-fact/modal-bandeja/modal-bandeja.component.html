@@ -195,12 +195,13 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Tecnología solución</label>
-          <select class="cli-input-white" formControlName="tecnologia">
-          <option value="0" disabled>-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
+          <select class="cli-input-white" formControlName="tecnologia" #selectTecnol (change)="getListTecnologia(selectTecnol.value)">
+          <option [value]="0" disabled>-Seleccione-</option>
+          <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.id">{{tecnologia.name}}</option>
+          <!-- <option value="1">Externa</option>
+          <option value="2">Python</option>
           <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
+          <option value="4">Mixta</option> -->
           </select>
         </div>
       </div>

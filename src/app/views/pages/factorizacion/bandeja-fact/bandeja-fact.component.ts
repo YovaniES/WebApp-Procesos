@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { Subject } from 'rxjs';
 import { Registro } from 'src/app/core/interfaces/registro.interface';
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import Swal from 'sweetalert2';
@@ -14,6 +15,9 @@ import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
 export class BandejaFactComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
+  dtOptions: any = {};
+  dtTrigger = new Subject();
+
   totalRegistros: number = 0;
   loadingItem: boolean = false;
   loadingInbox = false;
@@ -21,6 +25,7 @@ export class BandejaFactComponent implements OnInit {
   cargando: boolean = true;
   registros: Registro[] = [];
   data: any[] = [];
+  listTabla!: Object;
 
   table_settings = {
     page: 1,
@@ -35,7 +40,9 @@ export class BandejaFactComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarRegistro();
-    console.log('DATA_REG', this.cargarRegistro);
+
+    this.listaEstados();
+    this.listaTecnologia();
   }
 
   cargarRegistro() {
@@ -43,6 +50,38 @@ export class BandejaFactComponent implements OnInit {
     this.modalRegistroService.cargarRegistro().subscribe((resp) => {
       this.registros = resp;
       this.totalRegistros = resp.length;
+    });
+  }
+
+  listaEstados() {
+    let arrayParametro: any[] = [
+      {
+        queryId: 91,
+        MapValue: {
+          offset: 0,
+        },
+      },
+    ];
+    this.modalRegistroService.lista(arrayParametro[0])
+        .subscribe((resp: any) => {
+          this.data = resp;
+          console.log('DAT_EST', resp.list);
+    });
+  }
+
+  listaTecnologia(){
+    let arrayParametro: any[] = [
+      {
+        queryId: 89,
+        MapValue: {
+          offset: 0,
+        },
+      },
+    ];
+    this.modalRegistroService.listaTecnologia(arrayParametro[0])
+        .subscribe((resp: any) => {
+          // this.data = resp.list;
+          console.log('TECNOLOGIA', resp.list);
     });
   }
 
