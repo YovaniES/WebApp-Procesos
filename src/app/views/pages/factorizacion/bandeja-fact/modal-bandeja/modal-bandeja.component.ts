@@ -1,3 +1,4 @@
+import { identifierName } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,23 +13,23 @@ import Swal from 'sweetalert2';
 })
 export class ModalBandejaComponent implements OnInit {
   actionBtn: string = 'Registrar';
-  tecnologias: any[] = [];
   descTecnology: any;
 
   registroForm = this.fb.group({
-    nombre: ['RPA-PER-CAPL', Validators.required],
-    codigo: ['HISPAM-2201-1', Validators.required],
-    vp: ['', Validators.required],
-    gerenc_sol: ['', Validators.required],
-    po: ['', Validators.required],
-    responsable: ['', Validators.required],
-    gerenc_ben: ['', Validators.required],
-    planner: ['', Validators.required],
-    control_gerenc: ['', Validators.required],
-    control_aprob: ['', Validators.required],
-    tecnologia: ['', Validators.required],
-    licencias: ['', Validators.required],
-    naturaleza: ['', Validators.required],
+    idIniciativa         : ['', Validators.required],
+    Nombre               : ['RPA-PER-CAPL', Validators.required],
+    Codigo               : ['HISPAM-2201-1', Validators.required],
+    VP                   : ['', Validators.required],
+    Gerencia_Solicitante : ['', Validators.required],
+    PO_Proyecto          : ['', Validators.required],
+    Responsable          : ['', Validators.required],
+    Gerencia_Beneficiaria: ['', Validators.required],
+    Planner              : ['', Validators.required],
+    Controller_Ger_Ben   : ['', Validators.required],
+    Controller_Aprob_BC  : ['', Validators.required],
+    Tecnologia           : ['', Validators.required],
+    Licencias            : ['', Validators.required],
+    Naturaleza           : ['', Validators.required],
   });
   constructor(
     private modalRegistroService: ModalRegistroService,
@@ -39,48 +40,119 @@ export class ModalBandejaComponent implements OnInit {
 
   ngOnInit(): void {
     this.editarData();
-    this.getListTecnologia(3);
+    this.getListaTecnologia(0);
+    this.getListNaturaleza(0);
+    this.getListaVP(0);
+    this.getListGerencia(0);
   }
 
   editarData() {
     if (this.editData) {
       this.actionBtn = 'Actualizar';
 
-      this.registroForm.controls['nombre'].setValue(this.editData.nombre);
-      this.registroForm.controls['codigo'].setValue(this.editData.codigo);
-      this.registroForm.controls['vp'].setValue(this.editData.vp);
-      this.registroForm.controls['gerenc_sol'].setValue(this.editData.gerenc_sol);
-      this.registroForm.controls['po'].setValue(this.editData.po);
-      this.registroForm.controls['responsable'].setValue(this.editData.responsable);
-      this.registroForm.controls['gerenc_ben'].setValue(this.editData.gerenc_ben);
-      this.registroForm.controls['planner'].setValue(this.editData.planner);
-      this.registroForm.controls['control_gerenc'].setValue(this.editData.control_gerenc);
-      this.registroForm.controls['control_aprob'].setValue(this.editData.control_aprob);
-      this.registroForm.controls['tecnologia'].setValue(this.editData.tecnologia);
-      this.registroForm.controls['licencias'].setValue(this.editData.licencias);
-      this.registroForm.controls['naturaleza'].setValue(this.editData.naturaleza);
+      this.registroForm.controls['idIniciativa'].setValue(this.editData.idIniciativa);
+      this.registroForm.controls['Nombre'].setValue(this.editData.Nombre);
+      this.registroForm.controls['Codigo'].setValue(this.editData.Codigo);
+      this.registroForm.controls['VP'].setValue(this.editData.VP);
+      this.registroForm.controls['Gerencia_Solicitante'].setValue(this.editData.Gerencia_Solicitante);
+      this.registroForm.controls['PO_Proyecto'].setValue(this.editData.PO_Proyecto);
+      this.registroForm.controls['Responsable'].setValue(this.editData.Responsable);
+      this.registroForm.controls['Gerencia_Beneficiaria'].setValue(this.editData.Gerencia_Beneficiaria);
+      this.registroForm.controls['Planner'].setValue(this.editData.Planner);
+      this.registroForm.controls['Controller_Ger_Ben'].setValue(this.editData.Controller_Ger_Ben);
+      this.registroForm.controls['Controller_Aprob_BC'].setValue(this.editData.Controller_Aprob_BC);
+      this.registroForm.controls['Tecnologia'].setValue(this.editData.Tecnologia);
+      this.registroForm.controls['Licencias'].setValue(this.editData.Licencias);
+      this.registroForm.controls['Naturaleza'].setValue(this.editData.Naturaleza);
     }
   }
 
-  getListTecnologia(id: any) {
-    let arrayParametro: any[] = [
-      {
-        queryId: 88,
-        mapValue: {
-          param_id_proyecto: id,
-        },
-      },
+  // Lista de NATURALEZA
+  naturaleza: Array<any> = [];
+  getListNaturaleza(id: number) {
+    let parametro: any[] = [
+      { queryId: 90 },
     ];
-    this.modalRegistroService.getListTecnology(arrayParametro[0])
-      .subscribe((resp) => {
-        console.log('ABC', resp);
+    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
-        const arrayData: any[] = Array.of(resp);
+      const dataNaturaleza: any[] = Array.of(resp);
+      console.log('Naturaleza', dataNaturaleza);
 
-        for (let index = 0; index < arrayData.length; index++) {
-          this.descTecnology = arrayData[0].list[index].descripcion;
-        }
-      });
+          this.naturaleza = [];
+          for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
+            this.naturaleza.push({
+              id    : dataNaturaleza[0].list[i].id,
+              nombre: dataNaturaleza[0].list[i].nombre
+            })
+          }
+        });
+  }
+
+  // OBTENCION DE LISTA TECNOLOGIA_X
+  tecnologias:Array<any> = []
+  getListaTecnologia(id: number){
+    // this.registroForm.value.idIniciativa = id.toString();
+    let parametro: any[]=[
+      { queryId:93 }
+    ];
+    this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
+
+      const dataTecnol:any[] = Array.of(resp)
+      console.log('TECNOLOGIA_X', dataTecnol);
+
+      this.tecnologias = [];
+      for (let i = 0; i < dataTecnol[0].list.length; i++) {
+        this.tecnologias.push({
+          id    : dataTecnol[0].list[i].id,
+          nombre: dataTecnol[0].list[i].nombre
+        })
+      }
+    })
+  }
+
+  // LISTA DE VP PARA EL MODAL
+  listVP: Array<any> = [];
+  getListaVP(id: any) {
+
+    let parametro: any[] = [
+      { queryId: 94 },
+    ];
+
+    this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
+      const vpData: any[] = Array.of(resp);
+      console.log('VP', vpData);
+
+      this.listVP = [];
+      for (let i = 0; i < vpData[0].list.length; i++) {
+
+        this.listVP.push({
+          id:     vpData[0].list[i].id,
+          nombre: vpData[0].list[i].nombre
+        })
+      }
+    })
+  }
+
+  // LISTA DE GERENCIA
+  listGerencia: Array<any> = [];
+  getListGerencia(id: any){
+    let parametro: any[] = [
+      { queryId: 95 }
+    ];
+
+    this.modalRegistroService.getListGerencia(parametro[0]).subscribe(resp => {
+      const gerencData: any[] = Array.of(resp);
+
+      console.log('GERENCIA', gerencData);
+
+      this.listGerencia = [];
+      for (let i = 0; i < gerencData[0].list.length; i++) {
+        this.listGerencia.push({
+          id:     gerencData[0].list[i].id,
+          nombre: gerencData[0].list[i].nombre,
+        });
+      }
+    })
   }
 
   crearRegistro() {
@@ -112,7 +184,7 @@ export class ModalBandejaComponent implements OnInit {
 
   actualizarRegistro() {
     this.modalRegistroService
-      .actualizarRegistro(this.registroForm.value, this.editData.id)
+      .actualizarRegistro(this.registroForm.value, this.editData.idIniciativa)
       .subscribe({
         next: (resp) => {
           Swal.fire('Actualizar registro', 'Regsitro actualizado', 'success');
@@ -129,3 +201,6 @@ export class ModalBandejaComponent implements OnInit {
     this.dialogRef.close(exit);
   }
 }
+
+
+

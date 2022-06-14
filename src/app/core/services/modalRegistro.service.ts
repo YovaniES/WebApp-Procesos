@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 import { API_REG, API_REG1 } from '../constants/url.constants';
 
 @Injectable({
@@ -24,8 +24,8 @@ export class ModalRegistroService {
 
   eliminarRegistro(id: number) {
     // const url = `${API_REG}/${registro.id}`;
-    const url = `${API_REG}/${id}`;
-    return this.http.delete(url);
+    const url = `${API_REG1}/${id}`;
+    return this.http.post(url, id);
   }
 
   // OBTENEMOS LA DATA DESDE .NET
@@ -38,10 +38,31 @@ export class ModalRegistroService {
   }
 
 
-  getListTecnology(obj: any){
+  // Lista de Naturaleza
+  getListNaturaleza(obj: any){
     return this.http.post(API_REG1,obj);
-
   }
+
+   // Lista de VP
+   getListVP(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  // lista Gerencia
+  getListGerencia(obj:any){
+    return this.http.post(API_REG1, obj)
+  }
+
+
+  // LISTA PARA LA TABLA
+  getListaBandeja(id: any){
+    return this.http.post(API_REG1, id)
+  }
+
+  getAll(params:any): Observable<any>{
+    return this.http.get<any>(API_REG, {params})
+  }
+
 
   getAllRequest(page:number, size:number, filter?:string, status?:number): Observable<Object>{
     let params = '?page=' + page + '&size='+size;

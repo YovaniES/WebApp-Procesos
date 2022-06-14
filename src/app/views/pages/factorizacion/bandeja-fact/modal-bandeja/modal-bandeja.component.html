@@ -19,7 +19,7 @@
           <input type="text"
                 class="form-control cli-input-white"
                 placeholder="RPA-PER-CAPL"
-                formControlName="nombre"/>
+                formControlName="Nombre"/>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
           <input type="text"
                 class="form-control cli-input-white"
                 placeholder="HISPAM-2201-1"
-                formControlName="codigo"/>
+                formControlName="Codigo"/>
         </div>
       </div>
     </div>
@@ -46,13 +46,9 @@
         </div>
         <div class="form-group col-sm-10">
           <label>VP</label>
-          <select class="cli-input-white"
-                    formControlName="vp">
-              <option value="0" disabled>-Seleccionar-</option>
-              <option value="1">José Vilcarromero</option>
-              <option value="2">Dagoberto Riva</option>
-              <option value="3">Raquel Melendez</option>
-              <option value="4">Wilmer Cordova</option>
+          <select class="cli-input-white" formControlName="VP" #selectVp (change)="getListaVP(selectVp.value)">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="vp.id" *ngFor="let vp of listVP">{{vp.nombre}}</option>
           </select>
         </div>
       </div>
@@ -65,13 +61,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Gerencia Solicitante</label>
-            <select class="cli-input-white"
-                    formControlName="gerenc_sol">
-              <option value="0" disabled>-Seleccionar-</option>
-              <option value="1">José Vilcarromero</option>
-              <option value="2">Dagoberto Riva</option>
-              <option value="3">Raquel Melendez</option>
-              <option value="4">Wilmer Cordova</option>
+            <!-- <select class="cli-input-white" formControlName="Gerencia_Solicitante" #selectGerenc (change)="getListGerencia(selectGerenc.value)"> -->
+            <select class="cli-input-white" formControlName="Gerencia_Solicitante">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{gerenc.nombre}}</option>
           </select>
         </div>
       </div>
@@ -87,13 +80,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>PO del proyecto</label>
-            <select class="cli-input-white" formControlName="po">
-              <option value="0" disabled>-Seleccionar-</option>
-              <option value="1">José Vilcarromero</option>
-              <option value="2">Dagoberto Riva</option>
-              <option value="3">Raquel Melendez</option>
-              <option value="4">Wilmer Cordova</option>
-          </select>
+          <input type="text"
+          class="form-control cli-input-white"
+          placeholder="RPA-PER-CAPL"
+          formControlName="PO_Proyecto"/>
         </div>
       </div>
     </div>
@@ -105,13 +95,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Responsable</label>
-          <select class="cli-input-white" formControlName="responsable">
-          <option value="0" disabled>-Seleccionar-</option>
-          <option value="1">José Vilcarromero</option>
-          <option value="2">Dagoberto Riva</option>
-          <option value="3">Raquel Melendez</option>
-          <option value="4">Wilmer Cordova</option>
-          </select>
+          <input type="text"
+            class="form-control cli-input-white"
+            placeholder="RPA-PER-CAPL"
+            formControlName="Responsable"/>
         </div>
       </div>
     </div>
@@ -122,13 +109,11 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Gerencia beneficiaria</label>
-          <select class="cli-input-white" formControlName="gerenc_ben">
-          <option value="0" disabled>-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
-          </select>
+            <!-- <select class="cli-input-white" formControlName="Gerencia_Solicitante" #selectGerenc (change)="getListGerencia(selectGerenc.value)"> -->
+            <select class="cli-input-white" formControlName="Gerencia_Beneficiaria">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{gerenc.nombre}}</option>
+            </select>
         </div>
       </div>
     </div>
@@ -142,13 +127,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>PLANNER</label>
-          <select class="cli-input-white" formControlName="planner">
-          <option value="0" disabled>-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
-          </select>
+            <input type="text"
+            class="form-control cli-input-white"
+            placeholder="RPA-PER-CAPL"
+            formControlName="Planner"/>
         </div>
       </div>
     </div>
@@ -160,13 +142,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Controller Gerencia beneficiaria</label>
-          <select class="cli-input-white" formControlName="control_gerenc">
-          <option disabled value="0">-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
-          </select>
+          <input type="text"
+            class="form-control cli-input-white"
+            placeholder="RPA-PER-CAPL"
+            formControlName="Controller_Ger_Ben"/>
         </div>
       </div>
     </div>
@@ -178,7 +157,7 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Controller Aprob. BC</label>
-          <select class="cli-input-white" formControlName="control_aprob">
+          <select class="cli-input-white" formControlName="Controller_Aprob_BC">
           <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
@@ -195,13 +174,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Tecnología solución</label>
-          <select class="cli-input-white" formControlName="tecnologia" #selectTecnol (change)="getListTecnologia(selectTecnol.value)">
+          <!-- <select class="cli-input-white" formControlName="Tecnologia" #selectTecnol (change)="getListaTecnologia(selectTecnol.value)"> -->
+          <select class="cli-input-white" formControlName="Tecnologia">
           <option [value]="0" disabled>-Seleccione-</option>
-          <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.id">{{tecnologia.name}}</option>
-          <!-- <option value="1">Externa</option>
-          <option value="2">Python</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option> -->
+          <option [value]="tecn.id" *ngFor="let tecn of tecnologias" >{{tecn.nombre}}</option>
           </select>
         </div>
       </div>
@@ -216,7 +192,7 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Licencias BP</label>
-          <input type="email" class="form-control" formControlName="licencias"/>
+          <input type="email" class="form-control" formControlName="Licencias"/>
         </div>
       </div>
     </div>
@@ -228,12 +204,10 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Naturaleza del Beneficio</label>
-          <select class="cli-input-white" formControlName="naturaleza">
-          <option value="0" disabled>-Seleccionar-</option>
-          <option value="1">Externa</option>
-          <option value="2">Internas (Líderes)</option>
-          <option value="3">Internas (Contribuidores)</option>
-          <option value="4">Mixta</option>
+          <select class="cli-input-white" formControlName="Naturaleza" >
+          <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="nat.id" *ngFor="let nat of naturaleza">{{nat.nombre}}</option>
+
           </select>
         </div>
       </div>

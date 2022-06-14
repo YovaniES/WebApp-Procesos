@@ -15,23 +15,17 @@ import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
 export class BandejaFactComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
-  dtOptions: any = {};
-  dtTrigger = new Subject();
+  page = 1;
+  totalBandeja:number = 0;
+  pageSize = 7;
+  pageSizes = [3, 6, 9];
 
   totalRegistros: number = 0;
   loadingItem: boolean = false;
   loadingInbox = false;
 
   cargando: boolean = true;
-  registros: Registro[] = [];
   data: any[] = [];
-  listTabla!: Object;
-
-  table_settings = {
-    page: 1,
-    size: 5,
-    pages: 0,
-  };
 
   constructor(
     private modalRegistroService: ModalRegistroService,
@@ -39,18 +33,122 @@ export class BandejaFactComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cargarRegistro();
 
+    this.cargarRegistro();
     this.listaEstados();
-    this.listaTecnologia();
   }
 
-  cargarRegistro() {
+  totalBusqueda = 0;
+  registros: Array<any> = [];
+
+  cambiarPagina(event: number) {
+    let offset = event*10;
+
+    if (this.totalBusqueda != this.totalBandeja) {
+      this.modalRegistroService.getListaBandeja(offset.toString())
+          .subscribe( resp => {
+
+       const arrayData:any[] = Array.of(resp);
+
+            for (let i = 0; i < arrayData[0].length; i++) {
+
+              this.registros.push({
+                idIniciativa          : arrayData[0].list[i].idIniciativa,
+                Nombre                : arrayData[0].list[i].Nombre,
+                Codigo                : arrayData[0].list[i].Codigo,
+                VP                    : arrayData[0].list[i].VP,
+                Gerencia_Solicitante  : arrayData[0].list[i].Gerencia_Solicitante,
+                PO_Proyecto           : arrayData[0].list[i].PO_Proyecto,
+                Responsable           : arrayData[0].list[i].Responsable,
+                Gerencia_Beneficiaria : arrayData[0].list[i].Gerencia_Beneficiaria,
+                Planner               : arrayData[0].list[i].Planner,
+                Controller_Ger_Ben    : arrayData[0].list[i].Controller_Ger_Ben,
+                Controller_Aprob_BC   : arrayData[0].list[i].Controller_Aprob_BC,
+                Tecnologia            : arrayData[0].list[i].Tecnologia,
+                Licencias             : arrayData[0].list[i].Licencias,
+                Naturaleza            : arrayData[0].list[i].Naturaleza,
+              });
+            }
+          })
+    }
+    this.page = event;
+  }
+
+/*   getRequestParams(searchTitle: string, page: number, pageSize: number): any {
+    let params: any = {};
+
+    if (searchTitle) {
+      params[`title`] = searchTitle;
+    }
+    if (page) {
+      params[`page`] = page - 1;
+    }
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+    return params;
+  }
+
+  retrieveTutorials(): void {
+    const params = this.getRequestParams(this.title, this.page, this.pageSize);
+
+    this.modalRegistroService.getAll(params).subscribe(
+      (resp) => {
+        const { registros, totalItems } = resp;
+        this.registros = registros;
+        this.totalBandeja = totalItems;
+
+        console.log(resp);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  } */
+
+/*   cargarRegistro() {
     this.cargando = true;
     this.modalRegistroService.cargarRegistro().subscribe((resp) => {
       this.registros = resp;
       this.totalRegistros = resp.length;
     });
+  } */
+
+  cargarRegistro(){
+    let arrayParametro: any[] = [
+      {
+        queryId:92,
+      }
+    ];
+    this.modalRegistroService.getListaBandeja(arrayParametro[0])
+        .subscribe(resp => {
+
+          const data: any[] = Array.of(resp);
+          this.totalRegistros = data[0].list.length;
+          this.registros = [];
+
+          console.log('REGISTROS TABLA', data);
+
+          for (let i = 0; i < data[0].list.length; i++) {
+
+            this.registros.push({
+              idIniciativa          : data[0].list[i].idIniciativa,
+              Nombre                : data[0].list[i].Nombre,
+              Codigo                : data[0].list[i].Codigo,
+              VP                    : data[0].list[i].VP,
+              Gerencia_Solicitante  : data[0].list[i].Gerencia_Solicitante,
+              PO_Proyecto           : data[0].list[i].PO_Proyecto,
+              Responsable           : data[0].list[i].Responsable,
+              Gerencia_Beneficiaria : data[0].list[i].Gerencia_Beneficiaria,
+              Planner               : data[0].list[i].Planner,
+              Controller_Ger_Ben    : data[0].list[i].Controller_Ger_Ben,
+              Controller_Aprob_BC   : data[0].list[i].Controller_Aprob_BC,
+              Tecnologia            : data[0].list[i].Tecnologia,
+              Licencias             : data[0].list[i].Licencias,
+              Naturaleza            : data[0].list[i].Naturaleza,
+            })
+          }
+        })
   }
 
   listaEstados() {
@@ -63,13 +161,13 @@ export class BandejaFactComponent implements OnInit {
       },
     ];
     this.modalRegistroService.lista(arrayParametro[0])
-        .subscribe((resp: any) => {
-          this.data = resp;
-          console.log('DAT_EST', resp.list);
-    });
+      .subscribe((resp: any) => {
+        this.data = resp;
+        console.log('USERS', resp.list);
+      });
   }
 
-  listaTecnologia(){
+/*   listaTecnologia() {
     let arrayParametro: any[] = [
       {
         queryId: 89,
@@ -78,17 +176,26 @@ export class BandejaFactComponent implements OnInit {
         },
       },
     ];
-    this.modalRegistroService.listaTecnologia(arrayParametro[0])
-        .subscribe((resp: any) => {
-          // this.data = resp.list;
-          console.log('TECNOLOGIA', resp.list);
-    });
-  }
+    this.modalRegistroService
+      .listaTecnologia(arrayParametro[0])
+      .subscribe((resp: any) => {
+        // this.data = resp.list;
+        console.log('TECNOLOGIA', resp.list);
+      });
+  } */
 
   borrarRegistro(regist: Registro) {
+
+    let arrayParametro:any[] = [{
+      "queryId": 9,
+      "mapValue": {
+        "param_id_persona": regist
+      }
+    }];
+
     Swal.fire({
       title: '¿Borrar registro?',
-      text: `¿Estas seguro que deseas eliminar a ${regist.nombre} del registro?`,
+      text: `¿Estas seguro que deseas eliminar a ${regist.Nombre} del registro?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -97,7 +204,7 @@ export class BandejaFactComponent implements OnInit {
     }).then((resp) => {
       if (resp.value) {
         this.modalRegistroService
-          .eliminarRegistro(regist.id)
+          .eliminarRegistro(regist.idIniciativa)
           .subscribe((resp1) => {
             this.cargarRegistro();
 
@@ -117,6 +224,7 @@ export class BandejaFactComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((resp) => {
+
       if (resp) {
         this.cargarRegistro();
       }
@@ -134,10 +242,10 @@ export class BandejaFactComponent implements OnInit {
       });
   }
 
-  doPageChange(i: number) {
+/*   doPageChange(i: number) {
     this.table_settings.page = this.table_settings.page + i;
     this.callItemApi();
   }
 
-  callItemApi() {}
+  callItemApi() {} */
 }

@@ -158,7 +158,7 @@
   ],
   "registro": [
     {
-      "nombre": "RPA-PER-CAPL",
+      "nombre": "1-RPA-PER-CAPL",
       "codigo": "HISPAM-2201-1A",
       "vp": "EXCELENCIA OPERACIONAL",
       "gerencia_sol": "OPERACIONES COMERCIALES",
@@ -174,7 +174,7 @@
       "id": "1"
     },
     {
-      "nombre": "RPA-PER-CAPL",
+      "nombre": "2-RPA-PER-CAPL",
       "codigo": "HINDRA-2201-2",
       "vp": "4",
       "gerenc_sol": "1",
@@ -190,7 +190,40 @@
       "id": "2"
     },
     {
-      "nombre": "RPA-PER-CAPL",
+      "idIniciativa": 3,
+      "Nombre": "RPA-PER-3",
+      "Codigo": "HISPAM-220-3",
+      "VP": "Excelencia Financ. x",
+      "Gerencia_Solicitante": "Operaciones comerciales",
+      "PO_Proyecto": "dsilva",
+      "Responsable": "jvilcarromero",
+      "Gerencia_Beneficiaria": "Operac. y",
+      "Planner": "mkt 3",
+      "Controller_Ger_Ben": "planer mkt 2",
+      "Controller_Aprob_BC": "controll z",
+      "Tecnologia": "Blue Prism",
+      "Licencias": "102",
+      "Naturaleza": "Contención de Gastos x",
+      "id": "3"
+    },
+    {
+      "nombre": "4-RPA-ass-CAPL",
+      "codigo": "HINDRA-2201-2",
+      "vp": "4",
+      "gerenc_sol": "1",
+      "po": "3",
+      "responsable": "2",
+      "gerenc_ben": "2",
+      "planner": "1",
+      "control_gerenc": "2",
+      "control_aprob": "2",
+      "tecnologia": "2",
+      "licencias": "901",
+      "naturaleza": "4",
+      "id": "4"
+    },
+    {
+      "nombre": "5-ADF-PER-CAPL",
       "codigo": "HISPAM-2201-1",
       "vp": "2",
       "gerenc_sol": "1",
@@ -203,10 +236,10 @@
       "tecnologia": "2",
       "licencias": "12",
       "naturaleza": "2",
-      "id": "u7DOG4z"
+      "id": "5"
     },
     {
-      "nombre": "RPA-PER-CAPL",
+      "nombre": "6-RPA-PER-CAPL",
       "codigo": "HISPAM-2201-1",
       "vp": "1",
       "gerenc_sol": "1",
@@ -219,10 +252,10 @@
       "tecnologia": "1",
       "licencias": "21",
       "naturaleza": "3",
-      "id": "KU3fAr8"
+      "id": "6"
     },
     {
-      "nombre": "RPA-PER-CAPL",
+      "nombre": "7-RPA-PER-CAPL",
       "codigo": "HISPAM-2201-1",
       "vp": "1",
       "gerenc_sol": "2",
@@ -235,39 +268,40 @@
       "tecnologia": "1",
       "licencias": "23",
       "naturaleza": "2",
-      "id": "eovLRJ2"
+      "id": "7"
     },
     {
-      "nombre": "COL-CAPL",
-      "codigo": "HINDRA-2022-1",
-      "vp": "1",
-      "gerenc_sol": "2",
-      "po": "1",
-      "responsable": "4",
-      "gerenc_ben": "3",
-      "planner": "3",
-      "control_gerenc": "2",
-      "control_aprob": "2",
-      "tecnologia": "2",
-      "licencias": "200",
-      "naturaleza": "3",
-      "id": "fG7YlTi"
+      "idIniciativa": 9,
+      "Nombre": "RPA-PER-9",
+      "Codigo": "HINDRA-220-9",
+      "VP": "Secretaría General",
+      "Gerencia_Solicitante": "COM",
+      "PO_Proyecto": "jjsoto",
+      "Responsable": "jjsoto",
+      "Gerencia_Beneficiaria": "Experiencia Operativa",
+      "Planner": "mkt 5",
+      "Controller_Ger_Ben": "planer mkt 3",
+      "Controller_Aprob_BC": "controll x",
+      "Tecnologia": "32",
+      "Licencias": 5,
+      "Naturaleza": "Ventas y Canal Presencial",
+      "id": "9"
     },
     {
-      "nombre": "RPA-PER-CAPL",
+      "nombre": "ABC-CAPL",
       "codigo": "HISPAM-2201-1",
-      "vp": "1",
+      "vp": "2",
       "gerenc_sol": "2",
-      "po": "1",
-      "responsable": "3",
-      "gerenc_ben": "2",
-      "planner": "1",
-      "control_gerenc": "2",
-      "control_aprob": "2",
-      "tecnologia": "2",
-      "licencias": "22",
-      "naturaleza": "1",
-      "id": "pgC1YVy"
+      "po": "2",
+      "responsable": "2",
+      "gerenc_ben": "1",
+      "planner": "2",
+      "control_gerenc": "1",
+      "control_aprob": "1",
+      "tecnologia": "4",
+      "licencias": "123",
+      "naturaleza": "3",
+      "id": "2-FS73d"
     }
   ]
 }

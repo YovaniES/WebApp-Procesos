@@ -6,7 +6,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ModalBandejaComponent } from './bandeja-fact/modal-bandeja/modal-bandeja.component';
 import { SearchBandejaComponent } from './bandeja-fact/search-bandeja/search-bandeja.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -22,8 +22,7 @@ import { SearchBandejaComponent } from './bandeja-fact/search-bandeja/search-ban
     FactorizacionRoutingModule,
     CoreModule,
     MaterialModule,
-
+    NgxPaginationModule
   ],
-  // entryComponents:[ModalBandejaComponent]
 })
 export class FactorizacionModule { }
