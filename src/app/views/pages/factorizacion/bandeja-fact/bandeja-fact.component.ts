@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { Subject } from 'rxjs';
 import { Registro } from 'src/app/core/interfaces/registro.interface';
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import Swal from 'sweetalert2';
 import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-bandeja-fact',
@@ -14,6 +15,9 @@ import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
 })
 export class BandejaFactComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
+
+  showing=1;
+
 
   page = 1;
   totalBandeja:number = 0;
@@ -27,26 +31,235 @@ export class BandejaFactComponent implements OnInit {
   cargando: boolean = true;
   data: any[] = [];
 
+    /*busqueda*/
+    busqueda = {
+      nombre      : '',
+      codigo      : '',
+      gerencSolic : '',
+      naturaleza  : '',
+    };
+
+    datosRegistro = {
+      idIniciativa: '',
+      nombre      : '',
+      codigo      : '',
+      vp          : '',
+      gerencia_solicitante: '',
+      po_proyecto          : '',
+      responsable          : '',
+      gerencia_beneficiaria: '',
+      planner              : '',
+      controller_ger_ben   : '',
+      controller_aprob_bc  : '',
+      tecnologia           : '',
+      licencias            : '',
+      naturaleza           : '',
+    }
+
+
+
   constructor(
     private modalRegistroService: ModalRegistroService,
+    private spinner: NgxSpinnerService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-
     this.cargarRegistro();
-    this.listaEstados();
+
+    this.getListGerencia(3);
+    this.getListaVP(2);
+    this.getListNaturaleza(1);
+    this.getListaTecnologia(2);
+
+    // this.cambiarPagina(3);
   }
 
-  totalBusqueda = 0;
-  registros: Array<any> = [];
+   // LISTA DE VP PARA EL MODAL
+   listVP: Array<any> = [];
+   getListaVP(id: any) {
 
+     let parametro: any[] = [
+       { queryId: 94, mapValue: { param_id_persona: this.idPersonal} },
+     ];
+
+     this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
+       const vpData: any[] = Array.of(resp);
+       console.log('VP', vpData);
+
+       this.listVP = [];
+       for (let i = 0; i < vpData[0].list.length; i++) {
+
+         this.listVP.push({
+           id:     vpData[0].list[i].id,
+           nombre: vpData[0].list[i].nombre
+         })
+       }
+     })
+   }
+
+
+  // OBTENCION DE LISTA TECNOLOGIA_X
+  tecnologias:Array<any> = []
+  getListaTecnologia(id: any){
+    // this.registroForm.value.idIniciativa = id.toString();
+    let parametro: any[]=[
+      { queryId:93 }
+    ];
+    this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
+
+      const dataTecnol:any[] = Array.of(resp)
+      console.log('TECNOLOGIA_X', dataTecnol);
+
+      this.tecnologias = [];
+      for (let i = 0; i < dataTecnol[0].list.length; i++) {
+        this.tecnologias.push({
+          id    : dataTecnol[0].list[i].id,
+          nombre: dataTecnol[0].list[i].nombre
+        })
+      }
+    })
+  }
+    // LISTA DE GERENCIA
+    listGerencia: Array<any> = [];
+    getListGerencia(id: any){
+      let parametro: any[] = [
+        { queryId: 95 }
+      ];
+
+      this.modalRegistroService.getListGerencia(parametro[0]).subscribe(resp => {
+        const gerencData: any[] = Array.of(resp);
+
+        console.log('GERENCIA', gerencData);
+
+        this.listGerencia = [];
+        for (let i = 0; i < gerencData[0].list.length; i++) {
+          this.listGerencia.push({
+            id:     gerencData[0].list[i].id,
+            nombre: gerencData[0].list[i].nombre,
+          });
+        }
+      })
+    };
+
+      // Lista de NATURALEZA
+  idPersonal: any = 0;
+
+  naturaleza: Array<any> = [];
+  getListNaturaleza(id: number) {
+    let parametro: any[] = [
+      { queryId: 90,
+        mapValue: { param_id_persona: this.idPersonal}
+      },
+    ];
+    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
+
+      const dataNaturaleza: any[] = Array.of(resp);
+      console.log('Naturaleza', dataNaturaleza);
+
+          this.naturaleza = [];
+          for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
+            this.naturaleza.push({
+              id    : dataNaturaleza[0].list[i].id,
+              nombre: dataNaturaleza[0].list[i].nombre
+            })
+          }
+        });
+  }
+
+
+    // BUSCAR EN LA TABLA
+    buscarRegistro(){
+      this.spinner.show();
+      let codProyecto:any;
+      if (this.busqueda.codigo == '0') {
+        codProyecto = '';
+      }else{
+        codProyecto = this.busqueda.codigo;
+      }
+      let parametro:any[] = [{
+        "queryId": 96,
+        "mapValue": {
+          "nombre": this.busqueda.nombre,
+          "codigo_proyecto": codProyecto,
+          "gerencSolicitante": this.busqueda.gerencSolic,
+          "naturaleza": this.busqueda.naturaleza
+          // "inicio": this.datepipe.transform(this.busqueda.fechaIngresoInicio,'yyyy/MM/dd'),
+          // "fin": this.datepipe.transform(this.busqueda.fechaIngresoFin,'yyyy/MM/dd')
+        }
+      }];
+      this.modalRegistroService.buscarRegistro(parametro[0]).subscribe(resp => {
+        const searchData:any[] = Array.of(resp);
+
+        this.registros = [];
+        for (let i = 0; i < searchData[0].list.length; i++) {
+
+          this.registros.push({
+            idIniciativa          :searchData[0].list[i].idIniciativa,
+            nombre                :searchData[0].list[i].nombre,
+            codigo                :searchData[0].list[i].codigo,
+            vp                    :searchData[0].list[i].vp,
+            gerencia_solicitante  :searchData[0].list[i].gerencia_solicitante,
+            po_proyecto           :searchData[0].list[i].po_proyecto,
+            responsable           :searchData[0].list[i].responsable,
+            gerencia_beneficiaria :searchData[0].list[i].gerencia_beneficiaria,
+            planner               :searchData[0].list[i].planner,
+            controller_ger_ben    :searchData[0].list[i].controller_ger_ben,
+            controller_aprob_bc   :searchData[0].list[i].controller_aprob_bc,
+            tecnologia            :searchData[0].list[i].tecnologia,
+            licencias             :searchData[0].list[i].licencias,
+            naturaleza            :searchData[0].list[i].naturaleza
+          });
+        }
+        this.spinner.hide();
+      });
+    }
+
+
+   registros: Array<any> = [];
+   cargarRegistro(){
+     let arrayParametro: any[] = [
+       {
+         queryId:92,
+       }
+     ];
+     this.modalRegistroService.getListaBandeja(arrayParametro[0])
+         .subscribe(resp => {
+             const data: any[] = Array.of(resp);
+           this.totalRegistros = data[0].list.length;
+           this.registros = [];
+             console.log('REGISTROS_TABLA', data);
+             for (let i = 0; i < data[0].list.length; i++) {
+               this.registros.push({
+               idIniciativa          : data[0].list[i].idIniciativa,
+               nombre                : data[0].list[i].nombre,
+               codigo                : data[0].list[i].codigo,
+               vp                    : data[0].list[i].vp,
+               gerencia_solicitante  : data[0].list[i].gerencia_solicitante,
+               po_proyecto           : data[0].list[i].po_proyecto,
+               responsable           : data[0].list[i].responsable,
+               gerencia_beneficiaria : data[0].list[i].gerencia_beneficiaria,
+               planner               : data[0].list[i].planner,
+               controller_ger_ben    : data[0].list[i].controller_ger_ben,
+               controller_aprob_bc   : data[0].list[i].controller_aprob_bc,
+               tecnologia            : data[0].list[i].tecnologia,
+               licencias             : data[0].list[i].licencias,
+               naturaleza            : data[0].list[i].naturaleza,
+             })
+           }
+         })
+   }
+
+
+  totalBusqueda = 0;
   cambiarPagina(event: number) {
     let offset = event*10;
+    this.spinner.show();
 
     if (this.totalBusqueda != this.totalBandeja) {
       this.modalRegistroService.getListaBandeja(offset.toString())
           .subscribe( resp => {
+            console.log('TABLA', resp);
 
        const arrayData:any[] = Array.of(resp);
 
@@ -54,138 +267,31 @@ export class BandejaFactComponent implements OnInit {
 
               this.registros.push({
                 idIniciativa          : arrayData[0].list[i].idIniciativa,
-                Nombre                : arrayData[0].list[i].Nombre,
-                Codigo                : arrayData[0].list[i].Codigo,
-                VP                    : arrayData[0].list[i].VP,
-                Gerencia_Solicitante  : arrayData[0].list[i].Gerencia_Solicitante,
-                PO_Proyecto           : arrayData[0].list[i].PO_Proyecto,
-                Responsable           : arrayData[0].list[i].Responsable,
-                Gerencia_Beneficiaria : arrayData[0].list[i].Gerencia_Beneficiaria,
-                Planner               : arrayData[0].list[i].Planner,
-                Controller_Ger_Ben    : arrayData[0].list[i].Controller_Ger_Ben,
-                Controller_Aprob_BC   : arrayData[0].list[i].Controller_Aprob_BC,
-                Tecnologia            : arrayData[0].list[i].Tecnologia,
-                Licencias             : arrayData[0].list[i].Licencias,
-                Naturaleza            : arrayData[0].list[i].Naturaleza,
+                nombre                : arrayData[0].list[i].nombre,
+                codigo                : arrayData[0].list[i].codigo,
+                vp                    : arrayData[0].list[i].vp,
+                gerencia_solicitante  : arrayData[0].list[i].gerencia_solicitante,
+                po_proyecto           : arrayData[0].list[i].po_proyecto,
+                responsable           : arrayData[0].list[i].responsable,
+                gerencia_beneficiaria : arrayData[0].list[i].gerencia_beneficiaria,
+                planner               : arrayData[0].list[i].planner,
+                controller_ger_ben    : arrayData[0].list[i].controller_ger_ben,
+                controller_aprob_bc   : arrayData[0].list[i].controller_aprob_bc,
+                tecnologia            : arrayData[0].list[i].tecnologia,
+                licencias             : arrayData[0].list[i].licencias,
+                naturaleza            : arrayData[0].list[i].naturaleza,
               });
             }
-          })
+            this.spinner.hide();
+          });
+
+    }else{
+      this.spinner.hide();
     }
     this.page = event;
   }
 
-/*   getRequestParams(searchTitle: string, page: number, pageSize: number): any {
-    let params: any = {};
-
-    if (searchTitle) {
-      params[`title`] = searchTitle;
-    }
-    if (page) {
-      params[`page`] = page - 1;
-    }
-    if (pageSize) {
-      params[`size`] = pageSize;
-    }
-    return params;
-  }
-
-  retrieveTutorials(): void {
-    const params = this.getRequestParams(this.title, this.page, this.pageSize);
-
-    this.modalRegistroService.getAll(params).subscribe(
-      (resp) => {
-        const { registros, totalItems } = resp;
-        this.registros = registros;
-        this.totalBandeja = totalItems;
-
-        console.log(resp);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  } */
-
-/*   cargarRegistro() {
-    this.cargando = true;
-    this.modalRegistroService.cargarRegistro().subscribe((resp) => {
-      this.registros = resp;
-      this.totalRegistros = resp.length;
-    });
-  } */
-
-  cargarRegistro(){
-    let arrayParametro: any[] = [
-      {
-        queryId:92,
-      }
-    ];
-    this.modalRegistroService.getListaBandeja(arrayParametro[0])
-        .subscribe(resp => {
-
-          const data: any[] = Array.of(resp);
-          this.totalRegistros = data[0].list.length;
-          this.registros = [];
-
-          console.log('REGISTROS TABLA', data);
-
-          for (let i = 0; i < data[0].list.length; i++) {
-
-            this.registros.push({
-              idIniciativa          : data[0].list[i].idIniciativa,
-              Nombre                : data[0].list[i].Nombre,
-              Codigo                : data[0].list[i].Codigo,
-              VP                    : data[0].list[i].VP,
-              Gerencia_Solicitante  : data[0].list[i].Gerencia_Solicitante,
-              PO_Proyecto           : data[0].list[i].PO_Proyecto,
-              Responsable           : data[0].list[i].Responsable,
-              Gerencia_Beneficiaria : data[0].list[i].Gerencia_Beneficiaria,
-              Planner               : data[0].list[i].Planner,
-              Controller_Ger_Ben    : data[0].list[i].Controller_Ger_Ben,
-              Controller_Aprob_BC   : data[0].list[i].Controller_Aprob_BC,
-              Tecnologia            : data[0].list[i].Tecnologia,
-              Licencias             : data[0].list[i].Licencias,
-              Naturaleza            : data[0].list[i].Naturaleza,
-            })
-          }
-        })
-  }
-
-  listaEstados() {
-    let arrayParametro: any[] = [
-      {
-        queryId: 91,
-        MapValue: {
-          offset: 0,
-        },
-      },
-    ];
-    this.modalRegistroService.lista(arrayParametro[0])
-      .subscribe((resp: any) => {
-        this.data = resp;
-        console.log('USERS', resp.list);
-      });
-  }
-
-/*   listaTecnologia() {
-    let arrayParametro: any[] = [
-      {
-        queryId: 89,
-        MapValue: {
-          offset: 0,
-        },
-      },
-    ];
-    this.modalRegistroService
-      .listaTecnologia(arrayParametro[0])
-      .subscribe((resp: any) => {
-        // this.data = resp.list;
-        console.log('TECNOLOGIA', resp.list);
-      });
-  } */
-
   borrarRegistro(regist: Registro) {
-
     let arrayParametro:any[] = [{
       "queryId": 9,
       "mapValue": {
@@ -219,16 +325,84 @@ export class BandejaFactComponent implements OnInit {
   }
 
   crearRegistro() {
-    const dialogRef = this.dialog.open(ModalBandejaComponent, {
-      width: '1125px',
-    });
+    // const dialogRef = this.dialog.open(ModalBandejaComponent, {
+    //   width: '1125px',
+    // });
 
-    dialogRef.afterClosed().subscribe((resp) => {
+    // dialogRef.afterClosed().subscribe((resp) => {
 
-      if (resp) {
+    //   if (resp) {
+    //     this.cargarRegistro();
+    //   }
+    // });
+  }
+
+
+  @ViewChild('cerrarModal') cerrarModal!: ElementRef;
+
+  agregarRegistro(){
+    this.spinner.show();
+
+    let nombre                = this.datosRegistro.nombre;
+    let codigo                = this.datosRegistro.codigo;
+    let vp                    = this.datosRegistro.vp;
+    let gerencia_solicitante  = this.datosRegistro.gerencia_solicitante;
+    let po_proyecto           = this.datosRegistro.po_proyecto;
+    let responsable           = this.datosRegistro.responsable;
+    let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
+    let planner               = this.datosRegistro.planner;
+    let controller_ger_ben    = this.datosRegistro.controller_ger_ben;
+    let controller_aprob_bc   = this.datosRegistro.controller_aprob_bc;
+    let tecnologia            = this.datosRegistro.tecnologia;
+    let licencias             = this.datosRegistro.licencias;
+    let naturaleza            = this.datosRegistro.naturaleza;
+
+    let parametro: any[] = [
+      {queryId: 97,
+       mapValue: {
+        "p_cdescripcion"   : nombre  ,
+        "p_cod_proyecto"   : codigo  ,
+        "p_id_vp"          : vp  ,
+        "p_id_gerencia_sol": gerencia_solicitante  ,
+        "p_po_proyecto"    : po_proyecto  ,
+        "p_responsable"    : responsable  ,
+        "p_id_gerencia_ben": gerencia_beneficiaria  ,
+        "p_planner"        : planner  ,
+        "p_cont_ger_ben"   : controller_ger_ben  ,
+        "p_cont_apr_bc"    : controller_aprob_bc  ,
+        "p_id_tecnologia"  : tecnologia  ,
+        "p_q_licencias"    : licencias  ,
+        "p_id_naturaleza"  : naturaleza  ,
+        "p_prob_actual"    : ''  ,
+        "p_func_robotiz"   : ''  ,
+        "p_def_alcance"    : ''  ,
+        "p_riesgo_no_rpa"  : ''  ,
+        "p_pi": ''  ,
+        "p_qtrx_mes": ''  ,
+        "p_tmo_trx": ''  ,
+        "p_flu_contx": ''  ,
+        "p_user_crea": ''  ,
+        "p_fecha_crea": ''  ,
+        "p_user_act": ''  ,
+        "p_fecha_act": '' ,
+        "CONFIG_REG_ID": '' ,
+        "CONFIG_OUT_MSJ_ERROR": '' ,
+        "CONFIG_OUT_MSJ_EXITO": ''
+       }
+      }];
+
+      this.modalRegistroService.agregarRegistro(parametro[0]).subscribe(resp => {
+        const regData: any[] = Array.of(resp);
+        console.log('AGREGAR_REG', regData);
+
+        let msj  = regData[0].exitoMessage;
+        let msj2 = regData[0].errorMessage;
+
+        // this.cerrarModal.nativeElement.click();
         this.cargarRegistro();
-      }
-    });
+
+      });
+      this.spinner.hide();
   }
 
   editarRegistro(registro: Registro) {
@@ -242,10 +416,7 @@ export class BandejaFactComponent implements OnInit {
       });
   }
 
-/*   doPageChange(i: number) {
-    this.table_settings.page = this.table_settings.page + i;
-    this.callItemApi();
-  }
+  close(){  }
 
-  callItemApi() {} */
 }
+

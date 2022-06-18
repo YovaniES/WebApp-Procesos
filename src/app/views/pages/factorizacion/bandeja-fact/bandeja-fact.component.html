@@ -1,35 +1,112 @@
-<!-- BUSCADOR GLOBAL -->
 <div class="cli-card fit-card">
   <div class="cli-card-body">
-    <div class="cli-title-center c-male">Filtros de búsqueda</div>
+    <div class="cli-title c-male">Mantenimiento iniciativa</div>
     <div>
-      <app-search-bandeja></app-search-bandeja>
+      <!-- <app-search-bandeja></app-search-bandeja> -->
       <br />
+      <!-- BUSCADOR POR FILTRO -->
+      <div class="card" style="border-radius: 2px; font-weight: 600">
+        <div class="card-body">
+          <form class="row g-3">
+            <div class="col-md-3 cli-form-element">
+              <label for="inputEmail4" class="form-label"
+                >Nombre del proyecto</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese el nombre del proyecto"
+                [(ngModel)]="busqueda.nombre"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+            <div class="col-md-3 cli-form-element">
+              <label for="inputPassword4" class="form-label"
+                >Código del proyecto</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese el código del proyecto"
+                [(ngModel)]="busqueda.codigo"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
 
-      <!-- BOTON CREAR REGISTRO -->
-      <div style="display: flex">
-        <h3 class="card-subtitlte">
-          Total de registros ({{ totalRegistros }})
+            <div class="col-md-3 cli-form-element">
+              <label for="inputState" class="form-label"
+                >Gerencia solicitante</label
+              >
+              <select
+                id="inputState"
+                class="form-select"
+                [(ngModel)]="busqueda.gerencSolic"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option [value]="0">-Seleccione-</option>
+                <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">
+                  {{ gerenc.nombre }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3 cli-form-element">
+              <label for="inputState" class="form-label"
+                >Naturaleza del Benef.</label
+              >
+              <select
+                id="inputState"
+                class="form-select"
+                [(ngModel)]="busqueda.naturaleza"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option [value]="0" disabled>--Seleccione--</option>
+                <option [value]="nat.id" *ngFor="let nat of naturaleza">
+                  {{ nat.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <button
+                type="submit"
+                class="cli-btn btn-magenta mb-2"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="buscarRegistro()"
+              >
+                <mat-icon class="icon-18">search</mat-icon>
+
+                Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- BOTON MODAL PARA CREAR REGISTRO -->
+      <div style="display: flex" class="mt-5">
+        <h3 class="card-subtitlte" style="color: #3b4ef6">
+          Total de registros: <span style="color: #adb0b2; font-size: 20px; font-weight: 500;"> {{ totalRegistros }}</span>
         </h3>
-
         <div class="flex-1"></div>
-
         <div>
           <button
+            data-toggle="modal"
+            data-target="#modalAgregarRegistro"
             class="cli-btn btn-magenta mb-2"
             type="button"
             (click)="crearRegistro()"
-            >
-            <mat-icon class="icon-18">add</mat-icon>Crear permisos
+          >
+            <mat-icon class="icon-18">add</mat-icon>Agregar registro
           </button>
         </div>
       </div>
 
       <!-- TABLA DE REGISTROS -->
-      <div style="overflow: auto; min-height: 300px;">
+      <div style="overflow: auto; min-height: 300px">
         <table class="cli-table stripedtable underlinedtable">
           <thead>
             <tr class="bgc-blue c-white">
+              <th>Acción</th>
               <th>ID</th>
               <th>Nombre</th>
               <th>Código</th>
@@ -44,31 +121,21 @@
               <th>Tecnología</th>
               <th>Licencias</th>
               <th>Naturaleza</th>
-              <th>Acción</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr *ngFor="let registro of registros | paginate:{itemsPerPage: pageSize, currentPage: page, totalItems: totalBandeja } let i = index">
-              <td>{{ registro.idIniciativa }}</td>
-              <td>{{ registro.Nombre }}</td>
-              <td>{{ registro.Codigo }}</td>
-              <td>{{ registro.VP }}</td>
-              <td>{{ registro.Gerencia_Solicitante }}</td>
-              <td>{{ registro.PO_Proyecto }}</td>
-              <td>{{ registro.Responsable }}</td>
-              <td>{{ registro.Gerencia_Beneficiaria }}</td>
-              <td>{{ registro.Planner }}</td>
-              <td>{{ registro.Controller_Ger_Ben }}</td>
-              <td>{{ registro.Controller_Aprob_BC }}</td>
-              <td>{{ registro.Tecnologia }}</td>
-              <td>{{ registro.Licencias }}</td>
-              <td>{{ registro.Naturaleza }}</td>
+            <tr
+              *ngFor="
+                let registro of registros | paginate : {itemsPerPage: pageSize, currentPage: page, totalItems: totalBandeja} ">
               <td>
                 <div class="cli-table-actions">
                   <button
+                    data-toggle="modal"
+                    data-target="#modalAgregarRegistro"
                     matTooltip="Editar"
                     class="icon-btn btn-trans c-green"
-                    (click)="editarRegistro(registro)"
+                    (click)="crearRegistro()"
                   >
                     <mat-icon class="icon-18">edit</mat-icon>
                   </button>
@@ -81,50 +148,414 @@
                   </button>
                 </div>
               </td>
+              <td>{{ registro.idIniciativa }}</td>
+              <td style="width:135px">{{ registro.nombre }}</td>
+              <td style="width:135px">{{ registro.codigo }}</td>
+              <td>{{ registro.vp }}</td>
+              <td>{{ registro.gerencia_solicitante }}</td>
+              <td>{{ registro.po_proyecto }}</td>
+              <td>{{ registro.responsable }}</td>
+              <td>{{ registro.gerencia_beneficiaria }}</td>
+              <td>{{ registro.planner }}</td>
+              <td>{{ registro.controller_ger_ben }}</td>
+              <td>{{ registro.controller_aprob_bc }}</td>
+              <td>{{ registro.tecnologia }}</td>
+              <td>{{ registro.licencias }}</td>
+              <td>{{ registro.naturaleza }}</td>
             </tr>
           </tbody>
         </table>
 
-        <div *ngIf="loadingInbox" class="cli-loader"><mat-spinner style="margin-left: 20px" diameter="20"></mat-spinner>Cargando...</div>
+        <div *ngIf="loadingInbox" class="cli-loader">
+          <mat-spinner style="margin-left: 20px" diameter="20"></mat-spinner
+          >Cargando...
+        </div>
         <!-- <div *ngIf="!loadingInbox && registros.length == 0" class="cli-loader">Su bandeja está vacía</div> -->
       </div>
-
-      <!-- PAGINACIÓN -->
-<!--       <div *ngIf="!loadingItem && registros.length != 0"
-           class="cli-pagination-container">
-        <div class="cli-pagination-page">Página:</div>
-        <button
-              [disabled]="table_settings.page == 1"
-              (click)="doPageChange(-1)"
-              class="icon-btn btn-blue"
-             ><mat-icon class="icon-20">chevron_left</mat-icon>
-        </button>
-        <div class="cli-pagination-page">
-          {{ table_settings.page }}
-        </div>
-        <button
-              [disabled]="table_settings.page == table_settings.pages"
-              (click)="doPageChange(1)"
-              class="icon-btn btn-blue"
-              style="margin-right: 10px"
-        ><mat-icon class="icon-20">chevron_right</mat-icon>
-        </button>
-        de
-        <div style="margin-left: 10px">{{ table_settings.pages }}</div>
-      </div> -->
     </div>
 
     <div class="card-footer pb-0 pt-3">
       <pagination-controls
-            previousLabel="Anterior"
-            nextLabel="Siguiente"
-            [responsive]="false"
-            (pageChange)=" cambiarPagina($event)">
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)"
+      >
       </pagination-controls>
-
-  </div>
-
+    </div>
   </div>
 </div>
 
+<!-- MODAL REGISTRO #modalAgregarRegistro -->
 
+<div
+  class="modal fade"
+  id="modalAgregarRegistro"
+  tabindex="-1"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div
+        class="modal-header modal-title"
+        style="border-bottom: none"
+        id="myLargeModalLabel"
+      >
+        <div class="modal-title"></div>
+        <button
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+          class="close icon-btn btn-trans c-orange"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <h5 class="modal-title-inic c-male">Crear registro</h5>
+
+      <div class="vactabs">
+        <button  (click)="showing = 1"  [ngClass]="{ 'btn-blue': showing == 1, 'btn-trans': showing != 1 }"  class="cli-btn">  Individual</button>
+        <button  (click)="showing = 2"  [ngClass]="{ 'btn-blue': showing == 2, 'btn-trans': showing != 2 }"  class="cli-btn">  Contexto</button>
+        <button  (click)="showing = 3"  [ngClass]="{ 'btn-blue': showing == 3, 'btn-trans': showing != 3 }"  class="cli-btn">  Diagnostico</button>
+      </div>
+
+      <div
+        *ngIf="showing == 1" class="cli-form newvac-wrapper" style="width: 1000px"  >
+        <form class="row g-3">
+          <ng-container>
+            <div class="col-sm-3 cli-form-element">
+              <div class="form-group col-sm-9x">
+                <label>Nombre del proyecto</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  placeholder="RPA-PER-CAPL"
+                  [(ngModel)]="busqueda.nombre"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Código del proyecto</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="HISPAM-2201-1"
+                [(ngModel)]="datosRegistro.codigo"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>VP</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.vp"
+                [ngModelOptions]="{ standalone: true }"
+                #selectVp
+                (change)="getListaVP(selectVp.value)"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="vp.id" *ngFor="let vp of listVP">
+                  {{ vp.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Gerencia Solicitante</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.gerencia_solicitante"
+                [ngModelOptions]="{ standalone: true }"
+                #selectGerenc
+                (change)="getListGerencia(selectGerenc.value)"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">
+                  {{ gerenc.nombre }}
+                </option>
+              </select>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <div class="col-sm-3 cli-form-element">
+              <label>PO del proyecto</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="RPA-PER-CAPL"
+                [(ngModel)]="datosRegistro.po_proyecto"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Responsable</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="RPA-PER-CAPL"
+                [(ngModel)]="datosRegistro.responsable"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+            <div class="col-sm-3 cli-form-element">
+              <label>Gerencia beneficiaria</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.gerencia_beneficiaria"
+                [ngModelOptions]="{ standalone: true }"
+                #selectGerenc
+                (change)="getListGerencia(selectGerenc.value)"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">
+                  {{ gerenc.nombre }}
+                </option>
+              </select>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <div class="col-sm-3 cli-form-element">
+              <label>PLANNER</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="RPA-PER-CAPL"
+                [(ngModel)]="datosRegistro.planner"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Controller Gerencia beneficiaria</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="JJSOTO"
+                [(ngModel)]="datosRegistro.controller_ger_ben"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Controller Aprob. BC</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.controller_aprob_bc"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option value="0" disabled>-Seleccionar-</option>
+                <option value="1">Controll x</option>
+                <option value="2">Controll y</option>
+                <option value="3">Controll z</option>
+              </select>
+            </div>
+            <div class="col-sm-3 cli-form-element">
+              <label>Tecnología solución</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.tecnologia"
+                [ngModelOptions]="{ standalone: true }"
+                #selectTecnol
+                (change)="getListaTecnologia(selectTecnol.value)"
+              >
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="tecn.id" *ngFor="let tecn of tecnologias">
+                  {{ tecn.nombre }}
+                </option>
+              </select>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <div class="col-sm-3 cli-form-element">
+              <label>Licencias BP</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="datosRegistro.licencias"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Naturaleza del Beneficio</label>
+              <select
+                class="cli-input-white"
+                [(ngModel)]="datosRegistro.naturaleza"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="nat.id" *ngFor="let nat of naturaleza">
+                  {{ nat.nombre }}
+                </option>
+              </select>
+            </div>
+          </ng-container>
+
+          <div class="cli-form-buttons">
+            <button
+              class="cli-btn btn-m btn-grey"
+              type="button"
+              data-dismiss="modal"
+            >
+              <mat-icon class="icon-18">cancel</mat-icon> Salir
+            </button>
+            <button
+              class="cli-btn btn-m btn-magenta"
+              (click)="agregarRegistro()"
+            >
+              <mat-icon>save</mat-icon> Registrar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="showing == 2" class="cli-form newvac-wrapper" style="width: 600px" >
+        <form class="row g-3">
+          <div class="col-sm-6 cli-form-element">
+            <label>Pedido por PI</label>
+            <select
+              class="cli-input-white"
+              [(ngModel)]="datosRegistro.vp"
+              [ngModelOptions]="{ standalone: true }"
+              #selectVp
+              (change)="getListaVP(selectVp.value)"
+            >
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <!-- <option [value]="vp.id" *ngFor="let vp of listVP">
+                    {{ vp.nombre }}
+                  </option> -->
+              <option value="1">SI</option>
+              <option value="2">NO</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6 cli-form-element">
+            <div class="form-group col-sm-9x">
+              <label>QTRX mensual</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="25"
+                [(ngModel)]="busqueda.nombre"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-6 cli-form-element">
+            <label>TMO POR TRX</label>
+            <input
+              type="number"
+              class="form-control cli-input-white"
+              placeholder="4"
+              [(ngModel)]="datosRegistro.codigo"
+              [ngModelOptions]="{ standalone: true }"
+            />
+          </div>
+
+          <div class="col-sm-6 cli-form-element">
+            <label>Cuenta con flujo contextual</label>
+            <select
+              class="cli-input-white"
+              [(ngModel)]="datosRegistro.vp"
+              [ngModelOptions]="{ standalone: true }"
+              #selectVp
+              (change)="getListaVP(selectVp.value)"
+            >
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <!-- <option [value]="vp.id" *ngFor="let vp of listVP">
+                    {{ vp.nombre }}
+                  </option> -->
+              <option value="1">SI</option>
+              <option value="2">NO</option>
+            </select>
+          </div>
+
+          <div class="cli-form-buttons">
+            <button
+              class="cli-btn btn-m btn-grey"
+              type="button"
+              data-dismiss="modal"
+            >
+              <mat-icon class="icon-18">cancel</mat-icon> Salir
+            </button>
+            <button class="cli-btn btn-m btn-magenta" (click)="crearRegistro()">
+              <mat-icon>save</mat-icon> Registrar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="showing == 3" class="cli-form newvac-wrapper" style="width: 950px">
+        <form class="row was-validated g-3">
+          <div class="row">
+            <div class="mb-3 col-sm-6 cli-form-element">
+              <label for="validationTextarea">Contexto</label>
+              <textarea
+                class="form-control is-invalid"
+                id="validationTextarea"
+                placeholder="Ingrese el contexto .."
+                required
+              ></textarea>
+              <!--  <div class="invalid-feedback">
+              Por favor ingrese el contexto.
+            </div> -->
+            </div>
+
+            <div class="mb-3 col-sm-6 cli-form-element">
+              <label for="validationTextarea">Función de robotización</label>
+              <textarea
+                class="form-control is-invalid"
+                id="validationTextarea"
+                placeholder="Ingrese la función .."
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3 col-sm-6 cli-form-element">
+              <label for="validationTextarea">Objetivo</label>
+              <textarea
+                class="form-control is-invalid"
+                id="validationTextarea"
+                placeholder="Ingrese la función .."
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3 col-sm-6 cli-form-element">
+              <label for="validationTextarea">Riesgos</label>
+              <textarea
+                class="form-control is-invalid"
+                id="validationTextarea"
+                placeholder="Ingrese la función .."
+                required
+              ></textarea>
+            </div>
+
+            <!-- <div class="col-sm-6 cli-form-element">
+            <div class="form-group col-sm-9x">
+              <label>QTRX mensual</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder="25"
+                [(ngModel)]="busqueda.nombre"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </div>
+          </div> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

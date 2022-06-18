@@ -1,0 +1,365 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+              <h1>Mantenimiento Personal</h1>
+          </div>
+          <div class="col-sm-6">
+          </div>
+      </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+      <!-- Buscador -->
+      <div class="card card-primary">
+          <!-- form start -->
+          <form role="form">
+              <div class="card-body">
+                  <div class="row">
+                      <!-- left column -->
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Nombres</label>
+                              <input type="text" class="form-control" [(ngModel)]="busqueda.nombre" [ngModelOptions]="{standalone: true}">
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Apellidos</label>
+                              <input type="text" class="form-control" [(ngModel)]="busqueda.apellidoPaterno" [ngModelOptions]="{standalone: true}">
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>DNI</label>
+                              <input type="text" class="form-control" [(ngModel)]="busqueda.dni" [ngModelOptions]="{standalone: true}">
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Cód.Proyecto</label>
+                              <select class="custom-select" [(ngModel)]="busqueda.codProyecto" [ngModelOptions]="{standalone: true}">
+                                  <option [value]="0">--Seleccione--</option>
+                                  <option *ngFor="let pro of proyectos" [value]="pro.id">
+                                      {{pro.codigo}}
+                                  </option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <!-- left column -->
+                      <!--<div class="col-md-3">
+                          <div class="form-group">
+                              <label>Perfil</label>
+                              <select class="custom-select" [(ngModel)]="busqueda.perfil" [ngModelOptions]="{standalone: true}">
+                                  <option *ngFor="let per of perfiles" [value]="per.id">
+                                      {{per.nombre}}
+                                  </option>
+                              </select>
+                          </div>
+                      </div>-->
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Fecha Ingreso (Inicio)</label>
+                              <input type="date" class="form-control" [(ngModel)]="busqueda.fechaIngresoInicio" [ngModelOptions]="{standalone: true}" />
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Fecha Ingreso (Fin)</label>
+                              <input type="date" class="form-control" [(ngModel)]="busqueda.fechaIngresoFin" [ngModelOptions]="{standalone: true}" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                  <div class="row">
+                      <div class="col-12 text-center">
+                          <button type="submit" class="btn btn-primary" (click)="buscarPersona()">Buscar</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <!-- /.card -->
+
+
+
+
+
+
+      <!-- TABLA Y BOTON AGREGAR -->
+      <div class="card card-default">
+          <div class="card-header">
+              <div class="row">
+                  <div class="col-md-12">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar" (click)="limpiarFormAgregarPersonal();">Agregar</button> &nbsp; &nbsp;
+                      <!--<button type="button" class="btn btn-primary" (click)="exportExcel()">Exportar</button>-->
+                  </div>
+              </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body table-responsive table-sm">
+              <table class="table table-hover" style="width: 2000px;">
+                  <thead>
+                      <tr>
+                          <th style="width: 100px;text-align: center;">Accion</th>
+                          <th style="width: 320px;text-align: center;">Nombres</th>
+                          <th style="width: 150px;text-align: center;">DNI</th>
+                          <th style="width: 250px;text-align: center;">Cód.Proyecto</th>
+                          <th style="width: 250px;text-align: center;">Cód.Corporativo</th>
+                          <th style="width: 150px;text-align: center;">Estado</th>
+                          <th style="width: 250px;text-align: center;">Perfil</th>
+                          <th style="width: 300px;text-align: center;">Correo</th>
+                          <th style="width: 300px;text-align: center;">Descripcion de Proyecto</th>
+                          <th style="width: 300px;text-align: center;">Fecha de Ingreso</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let per of personal | paginate: { itemsPerPage: 10, currentPage: page, totalItems: totalRequerimientos }">
+                          <td style="text-align: center;">
+                              <!--<a type="button" data-toggle="modal" data-target="#modalRecursoPerfil">
+                                  <i id="icono" class="far fa-eye" (click)="verHardwarePerfil(per.id,per.codigo_corporativo)" data-toggle="tooltip" data-placement="top" title="Ver Informacion"></i>
+                              </a>-->
+                              &nbsp;
+                              <!--<a type="button" data-toggle="modal" data-target="#modalAgregarRecurso">
+                                  <i id="icono" class="far fa-plus-square" (click)="listarRecursos(per.id,per.codigo_corporativo)" data-toggle="tooltip" data-placement="top" title="Agregar Recurso"></i>
+                              </a>-->
+                              <a routerLink="/asignarRecurso/{{per.id}}">
+                                  <i id="icono" class="far fa-edit" data-toggle="tooltip" data-placement="top" title="Editar Personal"></i>
+                              </a>
+                              &nbsp;
+                              <!--<a routerLink="/puntosFuncion/{{per.id}}">
+                                  <i id="icono" class="fas fa-exchange-alt"></i>
+                              </a>
+                              &nbsp;-->
+                              <a type="button" data-toggle="modal" data-target="#modalEliminacionLogica">
+                                  <i id="icono" class="far fa-trash-alt" (click)="abrirEliminar(per.id,per.codigo_corporativo,'')" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
+                              </a>
+                              &nbsp;
+                              <a type="button" data-toggle="modal" data-target="#modalEliminar">
+                                  <i id="icono" class="fas fa-user" (click)="abrirEliminar(per.id,per.codigo_corporativo,per.estado)" data-toggle="tooltip" data-placement="top" title="{{tooltipDeBaja}}"></i>
+                              </a>
+                          </td>
+                          <td style="text-align: center;">{{per.apellidos}}, {{per.nombres}}</td>
+                          <td style="text-align: center;">{{per.dni}}</td>
+                          <td style="text-align: center;">{{per.codigo_proyecto}}</td>
+                          <td style="text-align: center;">{{per.codigo_corporativo}}</td>
+                          <td style="text-align: center;">{{per.estado}}</td>
+                          <td style="text-align: center;">{{per.perfil}}</td>
+                          <td style="text-align: center;">{{per.correo}}</td>
+                          <td style="text-align: center;">{{per.proyecto_descripcion}}</td>
+                          <td style="text-align: center;">{{per.fecha_ingreso}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer pb-0 pt-3">
+              <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+          </div>
+      </div>
+      <!-- /.card -->
+
+  </div>
+</section>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+
+
+
+
+
+
+<!-- MODAL AGREGAR -->
+<!--modal Agregar Personal-->
+<div class="modal fade bd-example-modal-lg" aria-labelledby="myLargeModalLabel" tabindex="-1" aria-hidden="true" id="modalAgregar" role="dialog">
+  <!--class="modal fade"-->
+  <div class="modal-dialog modal-lg">
+      <!--style="margin-left: 300px;"-->
+      <!-- Modal content-->
+      <div class="modal-content">
+          <!--style="width: 900px;height: 800px;"-->
+          <div class="modal-header">
+              <div>
+                  <h5 class="modal-title">Agregar Personal Nuevo</h5>
+              </div>
+              <div>
+                  <button type="button" class="close" data-dismiss="modal" (click)="limpiarFormAgregarPersonal();" #cerrarModalX>&times;</button>
+              </div>
+          </div>
+          <div class="modal-body" style="padding-bottom: 0px;">
+              <form role="form">
+                  <div class="card-body" style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                      <div class="card card-primary">
+                          <div class="card-header">
+                              <h3 class="card-title"> Datos De Personal </h3>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Nombre</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.nombre" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Apellido Paterno</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.apellidoPaterno" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Apellido Materno</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.apellidoMaterno" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>DNI</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.dni" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Correo</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.correo" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card card-primary">
+                          <div class="card-header">
+                              <h3 class="card-title"> Datos De Empresa </h3>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Cod.Corporativo</label>
+                                  <input type="text" class="form-control" [(ngModel)]="datosPersonal.codCorporativo" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Fecha Nacimiento</label>
+                                  <!--<input type="date" id="fechanac" name="fechanac" class="form-control" [(ngModel)]="fechanac">-->
+                                  <input type="date" class="form-control" [(ngModel)]="fechanac" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Fecha Ingreso</label>
+                                  <!--<input type="date" id="fechain" name="fechain" class="form-control" [value]="fechain|date:'yyyy-MM-dd'">-->
+                                  <input type="date" class="form-control" [(ngModel)]="fechain" [ngModelOptions]="{standalone: true}">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <label>Cod.Perfil</label>
+                                  <select #selectList2 class="custom-select" (change)="getInfoPerfil(selectList2.value)">
+                                      <option [value]="0">--Seleccione--</option>
+                                      <option *ngFor="let perfil of perfiles" [value]="perfil.id">
+                                          {{perfil.nombre}}
+                                      </option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <h6><label>Descripcion Perfil</label></h6>
+                                  <label style="font-weight: normal;">{{descPerfil}}</label>s
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <label>Cod.Proyecto</label>
+                                  <select #selectList class="custom-select" (change)="getInfoProyecto(selectList.value)">
+                                      <option [value]="0">--Seleccione--</option>
+                                      <option *ngFor="let pro of proyectos" [value]="pro.id">
+                                          {{pro.codigo}}
+                                      </option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <h6><label>Descripcion Proyecto</label></h6>
+                                  <label style="font-weight: normal;">{{descProyecto}}</label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-outline-success" (click)="addPersonal();" #btnGuardarPersonal>Guardar</button>
+              <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--modal Confirmacion Eliminar-->
+<div class="modal fade" id="modalEliminar" role="dialog" #modalEliminar>
+  <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <div>
+                  <h5 class="modal-title">{{tituloDeBaja}}</h5>
+              </div>
+              <div>
+                  <button type="button" class="close" (click)="cancelarEliminar()">&times;</button>
+              </div>
+          </div>
+          <div class="modal-body">
+              <form role="form">
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-8">
+                              <div>
+                                  <label style="font-weight: normal;">{{informacionDeBaja}}</label>
+                              </div>
+                          </div>
+                          <div class="col-md-12">
+                              <div>
+                                  <label style="font-weight: normal;">Personal de codigo corporativo: {{this.codCorporativo}}</label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" (click)="cancelarEliminar()">Cancelar</button>
+              <button type="button" class="btn btn-outline-success" (click)="confirmarEliminar()" #btnEliminarPersonal>Aceptar</button>
+          </div>
+      </div>
+  </div>
+</div>

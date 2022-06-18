@@ -7,12 +7,16 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ModalBandejaComponent } from './bandeja-fact/modal-bandeja/modal-bandeja.component';
 import { SearchBandejaComponent } from './bandeja-fact/search-bandeja/search-bandeja.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BuscarBandejaComponent } from './bandeja-fact/buscar-bandeja/buscar-bandeja.component';
+import { DatePipe } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
     BandejaFactComponent,
     ModalBandejaComponent,
-    SearchBandejaComponent
+    SearchBandejaComponent,
+    BuscarBandejaComponent
   ],
   exports:[
     ModalBandejaComponent,
@@ -22,7 +26,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FactorizacionRoutingModule,
     CoreModule,
     MaterialModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxSpinnerModule,
+
   ],
+  providers: [DatePipe],
+
 })
 export class FactorizacionModule { }

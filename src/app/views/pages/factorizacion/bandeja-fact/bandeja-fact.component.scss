@@ -7,10 +7,10 @@
 .newvac-wrapper{
     min-height: 400px;
     border-radius: 3px;
-    max-width: 500px;
+    // max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    //border: solid 1px $color-grey-2;
+    // border: solid 1px $color-grey-2;
 }
 .orgs-pickedpo{
     flex: 1 1;
@@ -154,4 +154,19 @@
   // border: solid 1px #D3D4D3;
   // border-radius: 2px;
   // margin: 5px 0;
+}
+
+
+
+
+
+
+// OJO MODAL TITLE
+
+.modal-title-inic {
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: #00bec0;
+  margin: 10px 0;
+  text-align: center;
 }

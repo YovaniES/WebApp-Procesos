@@ -3,10 +3,10 @@
 </button>
 
 <div class="modal-title c-male">
-  {{ editData ? "Actualizar" : "Crear" }} registro
+  {{ editData ? "ActualizarX" : "Crear" }} registro
 </div>
 
-<form [formGroup]="registroForm" class="row g-3">
+<form class="row g-3">
 
   <ng-container>
     <div class="col-sm-3 cli-form-element">
@@ -19,7 +19,9 @@
           <input type="text"
                 class="form-control cli-input-white"
                 placeholder="RPA-PER-CAPL"
-                formControlName="Nombre"/>
+                [(ngModel)]="datosRegistro.nombre"
+                [ngModelOptions]="{standalone: true}"
+                />
         </div>
       </div>
     </div>
@@ -34,7 +36,10 @@
           <input type="text"
                 class="form-control cli-input-white"
                 placeholder="HISPAM-2201-1"
-                formControlName="Codigo"/>
+                [(ngModel)]="datosRegistro.codigo"
+                [ngModelOptions]="{standalone: true}"
+
+                />
         </div>
       </div>
     </div>
@@ -46,7 +51,8 @@
         </div>
         <div class="form-group col-sm-10">
           <label>VP</label>
-          <select class="cli-input-white" formControlName="VP" #selectVp (change)="getListaVP(selectVp.value)">
+          <select class="cli-input-white"
+          [(ngModel)]="datosRegistro.vp" [ngModelOptions]="{standalone: true}" #selectVp (change)="getListaVP(selectVp.value)">
               <option [value]="0" disabled>-Seleccionar-</option>
               <option [value]="vp.id" *ngFor="let vp of listVP">{{vp.nombre}}</option>
           </select>
@@ -62,7 +68,7 @@
         <div class="form-group col-sm-10">
           <label>Gerencia Solicitante</label>
             <!-- <select class="cli-input-white" formControlName="Gerencia_Solicitante" #selectGerenc (change)="getListGerencia(selectGerenc.value)"> -->
-            <select class="cli-input-white" formControlName="Gerencia_Solicitante">
+            <select class="cli-input-white" [(ngModel)]="datosRegistro.gerencia_solicitante" [ngModelOptions]="{standalone: true}"  #selectGerenc (change)="getListGerencia(selectGerenc.value)">
               <option [value]="0" disabled>-Seleccionar-</option>
               <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{gerenc.nombre}}</option>
           </select>
@@ -83,7 +89,8 @@
           <input type="text"
           class="form-control cli-input-white"
           placeholder="RPA-PER-CAPL"
-          formControlName="PO_Proyecto"/>
+          [(ngModel)]="datosRegistro.po_proyecto" [ngModelOptions]="{standalone: true}"
+          />
         </div>
       </div>
     </div>
@@ -98,7 +105,7 @@
           <input type="text"
             class="form-control cli-input-white"
             placeholder="RPA-PER-CAPL"
-            formControlName="Responsable"/>
+            [(ngModel)]="datosRegistro.responsable" [ngModelOptions]="{standalone: true}" />
         </div>
       </div>
     </div>
@@ -109,8 +116,8 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Gerencia beneficiaria</label>
-            <!-- <select class="cli-input-white" formControlName="Gerencia_Solicitante" #selectGerenc (change)="getListGerencia(selectGerenc.value)"> -->
-            <select class="cli-input-white" formControlName="Gerencia_Beneficiaria">
+            <select class="cli-input-white"
+            [(ngModel)]="datosRegistro.gerencia_beneficiaria" [ngModelOptions]="{standalone: true}" #selectGerenc (change)="getListGerencia(selectGerenc.value)" >
               <option [value]="0" disabled>-Seleccionar-</option>
               <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{gerenc.nombre}}</option>
             </select>
@@ -130,7 +137,8 @@
             <input type="text"
             class="form-control cli-input-white"
             placeholder="RPA-PER-CAPL"
-            formControlName="Planner"/>
+            [(ngModel)]="datosRegistro.planner" [ngModelOptions]="{standalone: true}"
+            />
         </div>
       </div>
     </div>
@@ -144,8 +152,8 @@
           <label>Controller Gerencia beneficiaria</label>
           <input type="text"
             class="form-control cli-input-white"
-            placeholder="RPA-PER-CAPL"
-            formControlName="Controller_Ger_Ben"/>
+            placeholder="JJSOTO"
+            [(ngModel)]="datosRegistro.controller_ger_ben" [ngModelOptions]="{standalone: true}"/>
         </div>
       </div>
     </div>
@@ -157,7 +165,8 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Controller Aprob. BC</label>
-          <select class="cli-input-white" formControlName="Controller_Aprob_BC">
+          <select class="cli-input-white"
+          [(ngModel)]="datosRegistro.controller_aprob_bc" [ngModelOptions]="{standalone: true}">
           <option value="0" disabled>-Seleccionar-</option>
           <option value="1">Externa</option>
           <option value="2">Internas (Líderes)</option>
@@ -175,7 +184,7 @@
         <div class="form-group col-sm-10">
           <label>Tecnología solución</label>
           <!-- <select class="cli-input-white" formControlName="Tecnologia" #selectTecnol (change)="getListaTecnologia(selectTecnol.value)"> -->
-          <select class="cli-input-white" formControlName="Tecnologia">
+            <select class="cli-input-white" [(ngModel)]="datosRegistro.tecnologia" [ngModelOptions]="{standalone: true}" #selectTecnol (change)="getListaTecnologia(selectTecnol.value)">
           <option [value]="0" disabled>-Seleccione-</option>
           <option [value]="tecn.id" *ngFor="let tecn of tecnologias" >{{tecn.nombre}}</option>
           </select>
@@ -192,7 +201,8 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Licencias BP</label>
-          <input type="email" class="form-control" formControlName="Licencias"/>
+          <input type="email" class="form-control"
+          [(ngModel)]="datosRegistro.licencias" [ngModelOptions]="{standalone: true}"/>
         </div>
       </div>
     </div>
@@ -204,10 +214,9 @@
         </div>
         <div class="form-group col-sm-10">
           <label>Naturaleza del Beneficio</label>
-          <select class="cli-input-white" formControlName="Naturaleza" >
+          <select class="cli-input-white" [(ngModel)]="datosRegistro.naturaleza" [ngModelOptions]="{standalone: true}">
           <option [value]="0" disabled>-Seleccionar-</option>
           <option [value]="nat.id" *ngFor="let nat of naturaleza">{{nat.nombre}}</option>
-
           </select>
         </div>
       </div>
@@ -223,7 +232,6 @@
     </button>
     <button class="cli-btn btn-m btn-blue"
             (click)="crearRegistro()"
-            [disabled]="registroForm.invalid"
             >
             <mat-icon>save</mat-icon> {{ actionBtn }}
     </button>

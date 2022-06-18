@@ -1,52 +1,6 @@
 {
   "menu": [
-    {
-      "id": 1,
-      "code": "ADM",
-      "text": "Gestión Personal",
-      "order": 1,
-      "icon": "admin_panel_settings",
-      "type": "PAREN",
-      "link": "administracion",
-      "enable": true,
-      "module": "administrador4",
-      "displayed": false,
-      "submenus": [
-        {
-          "code": "ADM-001",
-          "text": "Usuarios",
-          "order": 1,
-          "icon": "person",
-          "type": "PAREN",
-          "link": "administracion/usuarios",
-          "enable": true,
-          "module": "ADM",
-          "displayed": true
-        },
-        {
-          "code": "ADM-002",
-          "text": "Permisos",
-          "order": 2,
-          "icon": "https",
-          "type": "ALONE",
-          "link": "administracion/permisos",
-          "enable": false,
-          "module": "ADM",
-          "displayed": false
-        },
-        {
-          "code": "ADM-003",
-          "text": "Módulos de config.",
-          "order": 3,
-          "icon": "menu_open",
-          "type": "ALONE",
-          "link": "administracion/modulos",
-          "enable": true,
-          "module": "ADM",
-          "displayed": false
-        }
-      ]
-    },
+
     {
       "id": 2,
       "code": "MAN",
@@ -94,48 +48,13 @@
         }
       ]
     },
-    {
-      "id": 3,
-      "code": "PAS",
-      "text": "Facturación",
-      "order": 1,
-      "icon": "badge",
-      "type": "PAREN",
-      "link": "terceros",
-      "enable": true,
-      "module": "administrador",
-      "displayed": false,
-      "submenus": [
-        {
-          "code": "PAS-001",
-          "text": "Facturación abc",
-          "order": 3,
-          "icon": "format_list_numbered",
-          "type": "ALONE",
-          "link": "terceros/encuesta",
-          "enable": true,
-          "module": "PAS",
-          "displayed": false
-        },
-        {
-          "code": "PAS-002",
-          "text": "Lista de pases",
-          "order": 2,
-          "icon": "checklist_rtl",
-          "type": "PAREN",
-          "link": "terceros/pases",
-          "enable": true,
-          "module": "PAS",
-          "displayed": false
-        }
-      ]
-    },
+
     {
       "id": 4,
       "code": "HER",
-      "text": "Nuevo proyecto",
+      "text": "Mantenimiento iniciativa",
       "order": 1,
-      "icon": "build",
+      "icon": "admin_panel_settings",
       "type": "PAREN",
       "link": "bandeja",
       "enable": true,
@@ -144,11 +63,22 @@
       "submenus": [
         {
           "code": "PAS-001",
-          "text": "Bandeja",
+          "text": "Registros",
+          "order": 3,
+          "icon": "menu_open",
+          "type": "oso",
+          "link": "bandeja/operaciones",
+          "enable": true,
+          "module": "PAS",
+          "displayed": false
+        },
+        {
+          "code": "PAS-002",
+          "text": "buscar",
           "order": 3,
           "icon": "format_list_numbered",
           "type": "oso",
-          "link": "bandeja/operaciones",
+          "link": "bandeja/buscar",
           "enable": true,
           "module": "PAS",
           "displayed": false
@@ -174,19 +104,20 @@
       "id": "1"
     },
     {
-      "nombre": "2-RPA-PER-CAPL",
-      "codigo": "HINDRA-2201-2",
-      "vp": "4",
-      "gerenc_sol": "1",
-      "po": "3",
-      "responsable": "2",
-      "gerenc_ben": "2",
-      "planner": "1",
-      "control_gerenc": "2",
-      "control_aprob": "2",
-      "tecnologia": "2",
-      "licencias": "901",
-      "naturaleza": "4",
+      "idIniciativa": 2,
+      "Nombre": "RPA-PER-2",
+      "Codigo": "HISPAM-220-2",
+      "VP": "6",
+      "Gerencia_Solicitante": "18",
+      "PO_Proyecto": "dsilva",
+      "Responsable": "jvilcarromero",
+      "Gerencia_Beneficiaria": "18",
+      "Planner": "mkt 2",
+      "Controller_Ger_Ben": "planer mkt 2",
+      "Controller_Aprob_BC": "1",
+      "Tecnologia": "30",
+      "Licencias": 10,
+      "Naturaleza": "Implementación de proyectos y QA",
       "id": "2"
     },
     {

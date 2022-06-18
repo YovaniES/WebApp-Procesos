@@ -23,7 +23,6 @@ export class ModalRegistroService {
   }
 
   eliminarRegistro(id: number) {
-    // const url = `${API_REG}/${registro.id}`;
     const url = `${API_REG1}/${id}`;
     return this.http.post(url, id);
   }
@@ -70,5 +69,52 @@ export class ModalRegistroService {
     params     = params + (filter ? '&status=' + status: '' );
     return this.http.get(API_REG + params)
   }
+
+  //BUSCAR REGISTRO
+  buscarRegistro(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  //INSERTAR REGISTRO A LA TABLA
+  agregarRegistro(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+
+  // ---------------------------------------------------------
+
+  //BUSCAR PERSONA
+  buscarPersona(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+
+  getProyectos(queryId: any){
+    return this.http.post(API_REG1,queryId);
+  }
+
+    /*PERSONAL INICIO*/
+    getListaMantenimiento(queryId: string){
+      return this.http.post(API_REG1,queryId);
+    }
+
+  getInfoPerfiles(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  getPerfiles(queryId: any){
+    return this.http.post(API_REG1,queryId);
+  }
+
+  getInfoProyecto(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  deletePersonal(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+
+
 }
 
