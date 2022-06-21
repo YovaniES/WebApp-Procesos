@@ -1,6 +1,5 @@
 const ENVIROMENT:string = "DEV";
 
-let MAIN_PATH_JS = 'http://localhost:3000';
 let MAIN_PATH_NET = 'https://localhost:3061/api/configurador/'
 
 let MAIN_PATH_AUTH = '';
@@ -26,11 +25,9 @@ switch (ENVIROMENT) {
 }
 
 
-export const API_MENU = MAIN_PATH_JS + '/menu';
 export const API_AUTH_SESSION = MAIN_PATH_AUTH + '/login'
 
 // REGISTRO
-export const API_REG = MAIN_PATH_JS + '/registro'
 export const API_REG1 = MAIN_PATH_NET + 'ExecuteQuery'
 
 

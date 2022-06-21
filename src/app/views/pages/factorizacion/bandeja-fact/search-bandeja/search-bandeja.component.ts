@@ -25,7 +25,7 @@ export class SearchBandejaComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  callItemApi(reset: boolean = false) {
+/*   callItemApi(reset: boolean = false) {
     if (reset) {
       this.table_settings.page = 1;
     }
@@ -43,7 +43,7 @@ export class SearchBandejaComponent implements OnInit {
         this.loadingItem = false;
         // subs:unsubscribe();
       });
-  }
+  } */
 
 
   showPicklistType() {
@@ -81,7 +81,6 @@ export class SearchBandejaComponent implements OnInit {
       this.idtypes.length == 4
         ? 'Todos'
         : this.idtypes.length + ' seleccionados';
-    this.callItemApi();
   }
 
   cancelfiltertype() {

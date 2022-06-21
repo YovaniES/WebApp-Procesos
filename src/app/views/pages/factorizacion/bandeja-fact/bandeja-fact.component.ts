@@ -4,7 +4,6 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Registro } from 'src/app/core/interfaces/registro.interface';
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import Swal from 'sweetalert2';
-import { ModalBandejaComponent } from './modal-bandeja/modal-bandeja.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
@@ -39,11 +38,11 @@ export class BandejaFactComponent implements OnInit {
     riesgos      : ''
   }
 
-    /*busqueda*/
     busqueda = {
       nombre      : '',
       codigo      : '',
-      gerenc_solic: '',
+      gerenc_solic: 0,
+      estado      : 0,
       naturaleza  : '',
     };
 
@@ -53,6 +52,7 @@ export class BandejaFactComponent implements OnInit {
       codigo               : '',
       vp                   : '',
       gerencia_solicitante : '',
+      estado               : '',
       po_proyecto          : '',
       responsable          : '',
       gerencia_beneficiaria: '',
@@ -64,29 +64,48 @@ export class BandejaFactComponent implements OnInit {
       naturaleza           : '',
     }
 
-
-
   constructor(
     private modalRegistroService: ModalRegistroService,
     private spinner: NgxSpinnerService,
-    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.cargarRegistro();
 
+    this.getListEstados();
     this.getListGerencia();
-    this.getListaVP(2);
-    this.getListNaturaleza(1);
-    this.getListaTecnologia(2);
+    this.getListaVP();
+    this.getListNaturaleza();
+    this.getListaTecnologia();
+  }
 
-    // this.cambiarPagina(3);
+  getInfoEstados(id: any){
+
+  }
+
+  getInfoTecnologia(id: any){
+
+  }
+
+
+  idVPX: any
+  getListaVPX(id: number){
+    this.idVPX = id
+  }
+
+  idGerSolc: any
+  getListGerenciaSolic(id: any){
+    this.idGerSolc = id
+  }
+
+  idVP: any
+  getInfoVP(id: any){
+    this.idVP = id
   }
 
    // LISTA DE VP PARA EL MODAL
    listVP: Array<any> = [];
-   getListaVP(id: any) {
-
+   getListaVP() {
      let parametro: any[] = [
        { queryId: 94, mapValue: { param_id_persona: this.idPersonal} },
      ];
@@ -109,7 +128,7 @@ export class BandejaFactComponent implements OnInit {
 
   // OBTENCION DE LISTA TECNOLOGIA_X
   tecnologias:Array<any> = []
-  getListaTecnologia(id: any){
+  getListaTecnologia(){
     // this.registroForm.value.idIniciativa = id.toString();
     let parametro: any[]=[
       { queryId:93 }
@@ -128,6 +147,29 @@ export class BandejaFactComponent implements OnInit {
       }
     })
   }
+
+
+  // LISTA DE ESTADOS
+  listEstados: Array<any> = [];
+  getListEstados(){
+    let parametro: any[] = [
+      { queryId: 89 }
+    ];
+
+    this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+      const estadosData: any[] = Array.of(resp);
+
+      console.log('ESTADOS', estadosData);
+
+      this.listEstados = [];
+      for (let i = 0; i < estadosData[0].list.length; i++) {
+        this.listEstados.push({
+          idEstado:     estadosData[0].list[i].cNombre,
+          cNombre :     estadosData[0].list[i].cNombre,
+        });
+      }
+    })
+  };
     // LISTA DE GERENCIA
     listGerencia: Array<any> = [];
     getListGerencia(){
@@ -153,7 +195,7 @@ export class BandejaFactComponent implements OnInit {
       // Lista de NATURALEZA
   idPersonal: any = 0;
   naturaleza: Array<any> = [];
-  getListNaturaleza(id: number) {
+  getListNaturaleza() {
     let parametro: any[] = [
       { queryId: 90,
         mapValue: { param_id_persona: this.idPersonal}
@@ -179,6 +221,11 @@ export class BandejaFactComponent implements OnInit {
     buscarRegistro(){
       this.spinner.show();
       let codProyecto: any;
+
+      if (this.idGerSolc == undefined || this.idGerSolc == 0) {
+        this.idGerSolc  = '';
+      }
+
       if (this.busqueda.codigo == '0') {
         codProyecto = '';
       }else{
@@ -189,7 +236,8 @@ export class BandejaFactComponent implements OnInit {
         "mapValue": {
           "param_nombre"      : this.busqueda.nombre,
           "param_codigo"      : codProyecto,
-          "param_gerenc_solic": this.busqueda.gerenc_solic,
+          "param_gerenc_solic": this.idGerSolc,
+          "param_estado"      : this.busqueda.estado,
           "param_naturaleza"  : this.busqueda.naturaleza
           // "inicio": this.datepipe.transform(this.busqueda.fechaIngresoInicio,'yyyy/MM/dd'),
           // "fin": this.datepipe.transform(this.busqueda.fechaIngresoFin,'yyyy/MM/dd')
@@ -207,6 +255,7 @@ export class BandejaFactComponent implements OnInit {
             codigo                :searchData[0].list[i].codigo,
             vp                    :searchData[0].list[i].vp,
             gerencia_solicitante  :searchData[0].list[i].gerencia_solicitante,
+            estado                :searchData[0].list[i].estado,
             po_proyecto           :searchData[0].list[i].po_proyecto,
             responsable           :searchData[0].list[i].responsable,
             gerencia_beneficiaria :searchData[0].list[i].gerencia_beneficiaria,
@@ -232,7 +281,7 @@ export class BandejaFactComponent implements OnInit {
      ];
      this.modalRegistroService.getListaBandeja(arrayParametro[0])
          .subscribe(resp => {
-             const data: any[] = Array.of(resp);
+           const data: any[] = Array.of(resp);
            this.totalRegistros = data[0].list.length;
            this.registros = [];
              console.log('REGISTROS_TABLA', data);
@@ -243,6 +292,7 @@ export class BandejaFactComponent implements OnInit {
                codigo                : data[0].list[i].codigo,
                vp                    : data[0].list[i].vp,
                gerencia_solicitante  : data[0].list[i].gerencia_solicitante,
+               estado                : data[0].list[i].estado,
                po_proyecto           : data[0].list[i].po_proyecto,
                responsable           : data[0].list[i].responsable,
                gerencia_beneficiaria : data[0].list[i].gerencia_beneficiaria,
@@ -278,6 +328,7 @@ export class BandejaFactComponent implements OnInit {
                 codigo                : arrayData[0].list[i].codigo,
                 vp                    : arrayData[0].list[i].vp,
                 gerencia_solicitante  : arrayData[0].list[i].gerencia_solicitante,
+                estado                : arrayData[0].list[i].estado,
                 po_proyecto           : arrayData[0].list[i].po_proyecto,
                 responsable           : arrayData[0].list[i].responsable,
                 gerencia_beneficiaria : arrayData[0].list[i].gerencia_beneficiaria,
@@ -331,25 +382,13 @@ export class BandejaFactComponent implements OnInit {
     });
   }
 
-  crearRegistro() {
-    // const dialogRef = this.dialog.open(ModalBandejaComponent, {
-    //   width: '1125px',
-    // });
-
-    // dialogRef.afterClosed().subscribe((resp) => {
-
-    //   if (resp) {
-    //     this.cargarRegistro();
-    //   }
-    // });
-  }
-
 
   limpiarRegistModal(){
     this.datosRegistro.nombre = '';
     this.datosRegistro.codigo = '';
     this.datosRegistro.vp = '';
     this.datosRegistro.gerencia_solicitante = '';
+    this.datosRegistro.estado = '';
     this.datosRegistro.po_proyecto = '';
     this.datosRegistro.responsable = '';
     this.datosRegistro.gerencia_beneficiaria = '';
@@ -368,13 +407,32 @@ export class BandejaFactComponent implements OnInit {
   @ViewChild('cerrarModal') cerrarModal!: ElementRef;
   agregarRegistro(){
     this.spinner.show();
+
+    let registroIdGerSolc
+    if (this.idGerSolc == undefined || this.idGerSolc == 0) {
+      this.idGerSolc  = '';
+    } else {
+      registroIdGerSolc = this.idGerSolc
+    };
+
+    let registroIdInfoVP
+    if (this.idVP == undefined || this.idVP == 0) {
+      this.idVP = ''
+    } else {
+      registroIdInfoVP = this.idVP
+    }
+
+    let idGerSolc = registroIdGerSolc;
+
     this.btnRegistrarRegistro.nativeElement.disabled = true;
 
     let nombre                = this.datosRegistro.nombre;
     let codigo                = this.datosRegistro.codigo;
     let vp                    = this.datosRegistro.vp;
-    let gerencia_solicitante  = this.datosRegistro.gerencia_solicitante;
+
+    // let gerencia_solicitante  = this.datosRegistro.gerencia_solicitante;
     let po_proyecto           = this.datosRegistro.po_proyecto;
+    let estado                = this.datosRegistro.estado;
     let responsable           = this.datosRegistro.responsable;
     let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
     let planner               = this.datosRegistro.planner;
@@ -389,8 +447,9 @@ export class BandejaFactComponent implements OnInit {
        mapValue: {
         "p_cdescripcion"   : nombre  ,
         "p_cod_proyecto"   : codigo  ,
-        "p_id_vp"          : vp  ,
-        "p_id_gerencia_sol": gerencia_solicitante  ,
+        "p_id_vp"          : registroIdInfoVP  ,
+        "p_id_gerencia_sol": idGerSolc  ,
+        "p_id_estado"      : estado  ,
         "p_po_proyecto"    : po_proyecto  ,
         "p_responsable"    : responsable  ,
         "p_id_gerencia_ben": gerencia_beneficiaria  ,
@@ -432,7 +491,7 @@ export class BandejaFactComponent implements OnInit {
       this.spinner.hide();
   }
 
-  editarRegistro(registro: Registro) {
+/*   editarRegistro(registro: Registro) {
     this.dialog
       .open(ModalBandejaComponent, { width: '1125px', data: registro })
       .afterClosed()
@@ -441,9 +500,8 @@ export class BandejaFactComponent implements OnInit {
           this.cargarRegistro();
         }
       });
-  }
-
-  close(){  }
+  } */
 
 }
+
 

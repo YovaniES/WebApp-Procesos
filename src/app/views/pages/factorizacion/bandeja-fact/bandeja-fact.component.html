@@ -40,13 +40,34 @@
                 class="form-select"
                 [(ngModel)]="busqueda.gerenc_solic"
                 [ngModelOptions]="{ standalone: true }"
+                #gerency
+                (change)="getListGerenciaSolic(gerency.value)"
               >
-                <option [value]="0">-Seleccione-</option>
+                <option [value]="0" disabled>-Seleccione-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">
                   {{ gerenc.nombre }}
                 </option>
               </select>
             </div>
+
+
+            <div class="col-md-3 cli-form-element">
+              <label for="inputState" class="form-label"
+                >Estado</label
+              >
+              <select
+                id="inputState"
+                class="form-select"
+                [(ngModel)]="busqueda.estado"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="estado.idEstado" *ngFor="let estado of listEstados">
+                  {{ estado.cNombre }}
+                </option>
+              </select>
+            </div>
+
             <div class="col-md-3 cli-form-element">
               <label for="inputState" class="form-label"
                 >Naturaleza del Benef.</label
@@ -111,6 +132,7 @@
               <th>Código</th>
               <th>VP</th>
               <th>Gerencia Solicitante</th>
+              <th>Estado</th>
               <th>PO del Proyecto</th>
               <th>Responsable del pedido</th>
               <th>Gerencia beneficiaria</th>
@@ -151,6 +173,7 @@
               <td style="width: 135px">{{ registro.codigo }}</td>
               <td>{{ registro.vp }}</td>
               <td>{{ registro.gerencia_solicitante }}</td>
+              <td>{{ registro.estado }}</td>
               <td>{{ registro.po_proyecto }}</td>
               <td>{{ registro.responsable }}</td>
               <td>{{ registro.gerencia_beneficiaria }}</td>
@@ -191,7 +214,7 @@
   type="square-jelly-box"
   [fullScreen]="true"
 >
-  <p style="color: white">Loading...</p>
+  <p style="color: white">Cargando...</p>
 </ngx-spinner>
 
 
@@ -247,7 +270,7 @@
                     type="text"
                     class="form-control cli-input-white"
                     placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="busqueda.nombre"
+                    [(ngModel)]="datosRegistro.nombre"
                     [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
@@ -271,7 +294,7 @@
                   [(ngModel)]="datosRegistro.vp"
                   [ngModelOptions]="{ standalone: true }"
                   #selectVp
-                  (change)="getListaVP(selectVp.value)"
+                  (change)="getInfoVP(selectVp.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="vp.id" *ngFor="let vp of listVP">
@@ -286,28 +309,38 @@
                   class="cli-input-white"
                   [(ngModel)]="datosRegistro.gerencia_solicitante"
                   [ngModelOptions]="{ standalone: true }"
-                  #selectGerenc
+                  #selectGerenc1
+                  (change)="getListGerenciaSolic(selectGerenc1.value)"
                 >
-                  <!-- (change)="getListGerencia(selectGerenc.value)" -->
-
                   <option [value]="0" disabled>-Seleccionar-</option>
-                  <option
-                    [value]="gerenc.id"
-                    *ngFor="let gerenc of listGerencia"
-                  >
-                    {{ gerenc.nombre }}
-                  </option>
+                  <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia"> {{ gerenc.nombre }}</option>
                 </select>
               </div>
             </ng-container>
 
             <ng-container>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Estado</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.estado"
+                  [ngModelOptions]="{ standalone: true }"
+                  #estadox
+                  (change)="getInfoEstados(estadox.value)"
+                > <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="estado.idEstado"
+                    *ngFor="let estado of listEstados">
+                    {{ estado.cNombre }}
+                  </option>
+                </select>
+              </div>
+
               <div class="col-sm-3 cli-form-element">
                 <label>PO del proyecto</label>
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  placeholder="RPA-PER-CAPL"
                   [(ngModel)]="datosRegistro.po_proyecto"
                   [ngModelOptions]="{ standalone: true }"
                 />
@@ -318,7 +351,6 @@
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  placeholder="RPA-PER-CAPL"
                   [(ngModel)]="datosRegistro.responsable"
                   [ngModelOptions]="{ standalone: true }"
                 />
@@ -330,8 +362,8 @@
                   [(ngModel)]="datosRegistro.gerencia_beneficiaria"
                   [ngModelOptions]="{ standalone: true }"
                   #selectGerenc
+                  (change)="getListGerenciaSolic(selectGerenc.value)"
                 >
-                  <!-- (change)="getListGerencia(selectGerenc.value)" -->
                   <option [value]="0" disabled>-Seleccionar-</option>
                   <option
                     [value]="gerenc.id"
@@ -349,7 +381,6 @@
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  placeholder="RPA-PER-CAPL"
                   [(ngModel)]="datosRegistro.planner"
                   [ngModelOptions]="{ standalone: true }"
                 />
@@ -386,7 +417,7 @@
                   [(ngModel)]="datosRegistro.tecnologia"
                   [ngModelOptions]="{ standalone: true }"
                   #selectTecnol
-                  (change)="getListaTecnologia(selectTecnol.value)"
+                  (change)="getInfoTecnologia(selectTecnol.value)"
                 >
                   <option [value]="0" disabled>-Seleccione-</option>
                   <option [value]="tecn.id" *ngFor="let tecn of tecnologias">
@@ -441,6 +472,7 @@
           </form>
         </div>
 
+        <!-- -----------------------------------------------CONTEXTO -->
         <div class="pr-subtitle mt-2">Contexto</div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -514,7 +546,9 @@
                       type="radio"
                       name="gridRadiosX"
                       id="gridRadios4"
-                      value="option4"/>
+                      value="option4"
+                      checked
+                      />
                     <label class="form-check-label" for="gridRadios4">No</label>
                   </div>
               </div>
@@ -522,6 +556,7 @@
           </div>
         </div>
 
+        <!-- -----------------------------------------------DIAGNOSTICO -->
         <div class="pr-subtitle mt-2">Diagnóstico</div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -588,3 +623,4 @@
     </div>
   </div>
 </div>
+

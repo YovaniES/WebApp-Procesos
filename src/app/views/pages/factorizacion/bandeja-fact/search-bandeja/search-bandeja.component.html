@@ -1,7 +1,6 @@
 <div class="cli-tablebar">
   <div class="cli-table-search">
     <input
-      (keydown.enter)="callItemApi(true)"
       [(ngModel)]="searcher"
       type="text"
       placeholder="Buscar por nombre"
@@ -11,7 +10,6 @@
 
   <!-- REFRESH -->
   <button
-    (click)="callItemApi(true)"
     matTooltip="Refrescar"
     class="icon-btn btn-trans"
   >
@@ -55,7 +53,6 @@
     <select
       class="cli-input"
       [(ngModel)]="vacStatus"
-      (change)="callItemApi(true)"
     >
       <option value="0">Todos</option>
       <option value="1">En elaboracion</option>

@@ -2,7 +2,7 @@
   "menu": [
 
     {
-      "id": 2,
+      "id": 1,
       "code": "MAN",
       "text": "Mantenimiento",
       "order": 1,
@@ -50,7 +50,7 @@
     },
 
     {
-      "id": 4,
+      "id": 2,
       "code": "HER",
       "text": "Mantenimiento iniciativa",
       "order": 1,
