@@ -96,7 +96,7 @@
 }
 .searchrow{
     margin: 10px auto;
-    max-width:650px;
+    // max-width:650px;
 }
 .search-minitext{
     font-size: .9rem;
@@ -169,4 +169,29 @@
   color: #00bec0;
   margin: 10px 0;
   text-align: center;
+}
+
+
+
+// ESTILOS MODAL LINEA IZQ
+.pr-section{
+  margin-left: 10px;
+  padding-left: 20px;
+  padding-top: 10px;
+  border-left: 2px solid #d3d3d4;
+}
+
+.pr-subtitle{
+  font-size: 1rem;
+  font-family: 'Webapp-Bold';
+  color: #019df4;
+}
+
+.pr-module{
+  &-container{
+      margin: 5px 0;
+      padding: 20px;
+      border: dashed 1px #D3D4D3;
+      border-radius: 2px;
+  }
 }

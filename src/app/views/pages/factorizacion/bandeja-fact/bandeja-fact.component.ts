@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class BandejaFactComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
+  @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
   showing=1;
 
@@ -31,20 +32,27 @@ export class BandejaFactComponent implements OnInit {
   cargando: boolean = true;
   data: any[] = [];
 
+  contexto = {
+    problematica: '',
+    robotizacion: '',
+    objetivo    : '',
+    riesgos      : ''
+  }
+
     /*busqueda*/
     busqueda = {
       nombre      : '',
       codigo      : '',
-      gerencSolic : '',
+      gerenc_solic: '',
       naturaleza  : '',
     };
 
     datosRegistro = {
-      idIniciativa: '',
-      nombre      : '',
-      codigo      : '',
-      vp          : '',
-      gerencia_solicitante: '',
+      idIniciativa         : '',
+      nombre               : '',
+      codigo               : '',
+      vp                   : '',
+      gerencia_solicitante : '',
       po_proyecto          : '',
       responsable          : '',
       gerencia_beneficiaria: '',
@@ -67,7 +75,7 @@ export class BandejaFactComponent implements OnInit {
   ngOnInit(): void {
     this.cargarRegistro();
 
-    this.getListGerencia(3);
+    this.getListGerencia();
     this.getListaVP(2);
     this.getListNaturaleza(1);
     this.getListaTecnologia(2);
@@ -122,7 +130,7 @@ export class BandejaFactComponent implements OnInit {
   }
     // LISTA DE GERENCIA
     listGerencia: Array<any> = [];
-    getListGerencia(id: any){
+    getListGerencia(){
       let parametro: any[] = [
         { queryId: 95 }
       ];
@@ -144,7 +152,6 @@ export class BandejaFactComponent implements OnInit {
 
       // Lista de NATURALEZA
   idPersonal: any = 0;
-
   naturaleza: Array<any> = [];
   getListNaturaleza(id: number) {
     let parametro: any[] = [
@@ -168,22 +175,22 @@ export class BandejaFactComponent implements OnInit {
   }
 
 
-    // BUSCAR EN LA TABLA
+  // BUSCAR EN LA TABLA
     buscarRegistro(){
       this.spinner.show();
-      let codProyecto:any;
+      let codProyecto: any;
       if (this.busqueda.codigo == '0') {
         codProyecto = '';
       }else{
         codProyecto = this.busqueda.codigo;
       }
-      let parametro:any[] = [{
+      let parametro: any[] = [{
         "queryId": 96,
         "mapValue": {
-          "nombre": this.busqueda.nombre,
-          "codigo_proyecto": codProyecto,
-          "gerencSolicitante": this.busqueda.gerencSolic,
-          "naturaleza": this.busqueda.naturaleza
+          "param_nombre"      : this.busqueda.nombre,
+          "param_codigo"      : codProyecto,
+          "param_gerenc_solic": this.busqueda.gerenc_solic,
+          "param_naturaleza"  : this.busqueda.naturaleza
           // "inicio": this.datepipe.transform(this.busqueda.fechaIngresoInicio,'yyyy/MM/dd'),
           // "fin": this.datepipe.transform(this.busqueda.fechaIngresoFin,'yyyy/MM/dd')
         }
@@ -338,10 +345,30 @@ export class BandejaFactComponent implements OnInit {
   }
 
 
-  @ViewChild('cerrarModal') cerrarModal!: ElementRef;
+  limpiarRegistModal(){
+    this.datosRegistro.nombre = '';
+    this.datosRegistro.codigo = '';
+    this.datosRegistro.vp = '';
+    this.datosRegistro.gerencia_solicitante = '';
+    this.datosRegistro.po_proyecto = '';
+    this.datosRegistro.responsable = '';
+    this.datosRegistro.gerencia_beneficiaria = '';
+    this.datosRegistro.planner = '';
+    this.datosRegistro.controller_ger_ben = '';
+    this.datosRegistro.controller_aprob_bc = '';
+    this.datosRegistro.tecnologia = '';
+    this.datosRegistro.licencias = '';
+    this.datosRegistro.naturaleza = '';
 
+    this.btnRegistrarRegistro.nativeElement.disabled = false;
+    this.cargarRegistro();
+  };
+
+
+  @ViewChild('cerrarModal') cerrarModal!: ElementRef;
   agregarRegistro(){
     this.spinner.show();
+    this.btnRegistrarRegistro.nativeElement.disabled = true;
 
     let nombre                = this.datosRegistro.nombre;
     let codigo                = this.datosRegistro.codigo;
@@ -392,13 +419,13 @@ export class BandejaFactComponent implements OnInit {
       }];
 
       this.modalRegistroService.agregarRegistro(parametro[0]).subscribe(resp => {
+        console.log('AGREGAR_REG', resp);
         const regData: any[] = Array.of(resp);
-        console.log('AGREGAR_REG', regData);
 
         let msj  = regData[0].exitoMessage;
         let msj2 = regData[0].errorMessage;
 
-        // this.cerrarModal.nativeElement.click();
+        this.cerrarModal.nativeElement.click();
         this.cargarRegistro();
 
       });
