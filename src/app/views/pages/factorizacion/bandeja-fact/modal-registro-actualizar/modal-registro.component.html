@@ -1,0 +1,404 @@
+<!-- MODAL ACTUALIZAR REGISTRO #modalActualizarRegistro -->
+<div
+  id="modalActualizarRegistro"
+  tabindex="-1"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div
+        class="modal-header modal-title"
+        style="border-bottom: none"
+        id="myLargeModalLabel"
+      >
+        <div class="modal-title"></div>
+        <button
+          #cerrarModal
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+          class="close icon-btn btn-trans c-orange"
+          (click)="limpiarRegistModal()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <h5 class="modal-title-inic c-male">Actualizar registro</h5>
+
+      <div
+        class="cli-form newvac-wrapper"
+        style="width: 90%"
+      >
+        <div class="pr-subtitle mt-2">Registros</div>
+        <div class="pr-section">
+          <form class="row g-3">
+            <ng-container>
+              <div class="col-sm-3 cli-form-element">
+                <div class="form-group col-sm-9x">
+                  <label>Nombre del proyecto</label>
+                  <input
+                    type="text"
+                    class="form-control cli-input-white"
+                    placeholder="RPA-PER-CAPL"
+                    [(ngModel)]="datosRegistro.nombre"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Código del proyecto</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  placeholder="HISPAM-2201-1"
+                  [(ngModel)]="datosRegistro.codigo"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>VP</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.vp"
+                  [ngModelOptions]="{ standalone: true }"
+                  #selectVp
+                  (change)="getInfoVP(selectVp.value)"
+                >
+                  <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="vp.id" *ngFor="let vp of listVP">
+                    {{ vp.nombre }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Gerencia Solicitante</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.gerencia_solicitante"
+                  [ngModelOptions]="{ standalone: true }"
+                  #selectGerenc3
+                  (change)="getInfoGerSol(selectGerenc3.value)"
+                >
+                  <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia"> {{ gerenc.nombre }}</option>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-container>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Estado</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.estado"
+                  [ngModelOptions]="{ standalone: true }"
+                  #estadox
+                  (change)="getInfoEstados(estadox.value)"
+                > <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="estado.idEstado"
+                    *ngFor="let estado of listEstados">
+                    {{ estado.cNombre }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>PO del proyecto</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  [(ngModel)]="datosRegistro.po_proyecto"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Responsable</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  [(ngModel)]="datosRegistro.responsable"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+              <div class="col-sm-3 cli-form-element">
+                <label>Gerencia beneficiaria</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.gerencia_beneficiaria"
+                  [ngModelOptions]="{ standalone: true }"
+                  #selectGerenc
+                  (change)="getInfoGerSol(selectGerenc.value)"
+                >
+                  <option [value]="0" disabled>-Seleccionar-</option>
+                  <option
+                    [value]="gerenc.id"
+                    *ngFor="let gerenc of listGerencia"
+                  >
+                    {{ gerenc.nombre }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-container>
+              <div class="col-sm-3 cli-form-element">
+                <label>PLANNER</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  [(ngModel)]="datosRegistro.planner"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Controller Gerencia beneficiaria</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  placeholder="JJSOTO"
+                  [(ngModel)]="datosRegistro.controller_ger_ben"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Controller Aprob. BC</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.controller_aprob_bc"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option value="0" disabled>-Seleccionar-</option>
+                  <option value="Controll x">Controll x</option>
+                  <option value="Controll y">Controll y</option>
+                  <option value="Controll z">Controll z</option>
+                </select>
+              </div>
+              <div class="col-sm-3 cli-form-element">
+                <label>Tecnología solución</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.tecnologia"
+                  [ngModelOptions]="{ standalone: true }"
+                  #selectTecnol
+                  (change)="getInfoTecnologia(selectTecnol.value)"
+                >
+                  <option [value]="0" disabled>-Seleccione-</option>
+                  <option [value]="tecn.id" *ngFor="let tecn of tecnologias">
+                    {{ tecn.nombre }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-container>
+              <div class="col-sm-3 cli-form-element">
+                <label>Licencias BP</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="datosRegistro.licencias"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Naturaleza del Beneficio</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="datosRegistro.naturaleza"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="nat.id" *ngFor="let nat of naturaleza">
+                    {{ nat.nombre }}
+                  </option>
+                </select>
+              </div>
+            </ng-container>
+          </form>
+        </div>
+
+        <!-- -----------------------------------------------DIAGNOSTICO -->
+        <div class="pr-subtitle mt-2">Contexto</div>
+        <div class="pr-section">
+          <div class="pr-module-container">
+            <form class="row g-3">
+              <div class="col-sm-3 cli-form-element">
+                  <label>QTRX mensual</label>
+                  <input
+                    type="text"
+                    class="form-control cli-input-white"
+                    placeholder="25"
+                    [(ngModel)]="diagnostico.qtrx"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>TMO POR TRX</label>
+                <input
+                  type="number"
+                  class="form-control cli-input-white"
+                  placeholder="4"
+                  [(ngModel)]="diagnostico.tmo"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+
+              <div class="form-group col-md-3">
+                <legend class="col-form-label col-sm-12 pt-0">
+                  Pedido por PI
+                </legend>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gridRadios"
+                      id="gridRadios1"
+                      value="option1"
+                      checked/>
+                    <label class="form-check-label" for="gridRadios1">Si</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gridRadios"
+                      id="gridRadios2"
+                      value="option2"
+                      [(ngModel)]="diagnostico.pedido"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    <label class="form-check-label" for="gridRadios2">No</label>
+                  </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <legend class="col-form-label col-sm-12 pt-0">
+                  Cuenta con flujo contextual
+                </legend>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gridRadiosX"
+                      id="gridRadios3"
+                      value="option3"
+                      [(ngModel)]="diagnostico.flujo"
+                      [ngModelOptions]="{ standalone: true }"
+
+                    />
+                    <label class="form-check-label" for="gridRadios3">Si</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gridRadiosX"
+                      id="gridRadios4"
+                      value="option4"
+                      checked
+                      />
+                    <label class="form-check-label" for="gridRadios4">No</label>
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- -----------------------------------------------CONTEXTO -->
+        <div class="pr-subtitle mt-2">Diagnóstico</div>
+        <div class="pr-section">
+          <div class="pr-module-container">
+            <form class="row was-validated g-3 mt-2">
+              <div class="row">
+                <div class="col-sm-6 cli-form-element mb-4">
+                  <label>Contexto</label>
+                  <textarea
+                    class="form-control is-invalid"
+                    style="resize: none"
+                    rows="3"
+                    placeholder="Detalle el contexto y la problemática actual..."
+                    [(ngModel)]="contexto.problematica"
+                    [ngModelOptions]="{ standalone: true }"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="col-sm-6 cli-form-element mb-4">
+                  <label>Función robotización</label>
+                  <textarea
+                    class="form-control is-invalid"
+                    style="resize: none"
+                    rows="3"
+                    placeholder="Defina la problemática de la función .."
+                    [(ngModel)]="contexto.robotizacion"
+                    [ngModelOptions]="{ standalone: true }"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="col-md-6 cli-form-element mb-4">
+                  <label>Objetivo</label>
+                  <textarea
+                    class="form-control is-invalid"
+                    rows="3"
+                    style="resize: none"
+                    placeholder="Defina los objetivos y alcances del RPA"
+                    [(ngModel)]="contexto.objetivo"
+                    [ngModelOptions]="{ standalone: true }"
+                    required
+                  >
+                  </textarea>
+                </div>
+
+                <div class="col-md-6 cli-form-element mb-4">
+                  <label>Riesgos</label>
+                  <textarea
+                    class="form-control is-invalid"
+                    rows="3"
+                    style="resize: none"
+                    placeholder="Describa los riesgos de no realizar el RPA"
+                    [(ngModel)]="contexto.riesgos"
+                    [ngModelOptions]="{ standalone: true }"
+                    required
+                  >
+                  </textarea>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+
+            <div class="cli-form-buttons">
+              <button
+                class="cli-btn btn-m btn-grey"
+                type="button"
+                data-dismiss="modal"
+              >
+                <mat-icon class="icon-18">cancel</mat-icon> Salir
+              </button>
+              <button
+                #btnRegistrarRegistro
+                class="cli-btn btn-m btn-magenta"
+                (click)="agregarRegistro()"
+              >
+                <mat-icon>save</mat-icon> Actualizar
+              </button>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>

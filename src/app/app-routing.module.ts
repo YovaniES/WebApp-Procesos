@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule)
       },
       {
-        path:'bandeja',
+        path:'registro',
         loadChildren: () => import ('./views/pages/factorizacion/factorizacion.module').then((m)=>m.FactorizacionModule)
       },
       { path:'', redirectTo:'home', pathMatch:'full'},
