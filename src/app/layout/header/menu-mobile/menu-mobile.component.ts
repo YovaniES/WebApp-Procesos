@@ -77,17 +77,6 @@ export class MenuMobileComponent implements OnInit {
           displayed: false,
         },
         {
-          code: 'PAS-002',
-          text: 'buscar',
-          order: 3,
-          icon: 'format_list_numbered',
-          type: 'oso',
-          link: 'registo/buscar',
-          enable: true,
-          module: 'PAS',
-          displayed: false,
-        },
-        {
           code: 'PAS-003',
           text: 'editar',
           order: 3,

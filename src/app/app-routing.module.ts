@@ -17,7 +17,7 @@ const routes: Routes = [
       },
       {
         path:'registro',
-        loadChildren: () => import ('./views/pages/factorizacion/factorizacion.module').then((m)=>m.FactorizacionModule)
+        loadChildren: () => import ('./views/pages/iniciativa/iniciativa.module').then((m)=>m.IniciativaModule)
       },
       { path:'', redirectTo:'home', pathMatch:'full'},
 

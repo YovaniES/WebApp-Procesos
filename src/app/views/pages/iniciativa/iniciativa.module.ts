@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 
-import { FactorizacionRoutingModule } from './factorizacion-routing.module';
-import { BandejaFactComponent } from './bandeja-fact/bandeja-fact.component';
+import { FactorizacionRoutingModule } from './iniciativa-routing.module';
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
-import { ModalBandejaComponent } from './bandeja-fact/modal-bandeja/modal-bandeja.component';
+import { ModalBandejaComponent } from './registros/modal-bandeja/modal-bandeja.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { BuscarBandejaComponent } from './bandeja-fact/buscar-bandeja/buscar-bandeja.component';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ModalRegistroComponent } from './bandeja-fact/modal-registro-actualizar/modal-registro.component';
+import { ModalRegistroComponent } from './registros/modal-registro-actualizar/modal-registro.component';
+import { RegistroComponent } from './registros/bandeja-fact.component';
 
 @NgModule({
   declarations: [
-    BandejaFactComponent,
+    RegistroComponent,
     ModalBandejaComponent,
     ModalRegistroComponent,
-    BuscarBandejaComponent
   ],
   exports:[
     ModalBandejaComponent,
@@ -33,4 +31,4 @@ import { ModalRegistroComponent } from './bandeja-fact/modal-registro-actualizar
   providers: [DatePipe],
 
 })
-export class FactorizacionModule { }
+export class IniciativaModule { }

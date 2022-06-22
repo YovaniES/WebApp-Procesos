@@ -1,6 +1,5 @@
-import { identifierName } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Registro } from 'src/app/core/interfaces/registro.interface';

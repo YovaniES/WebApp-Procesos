@@ -9,10 +9,11 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-bandeja-fact',
-  templateUrl: './bandeja-fact.component.html',
-  styleUrls: ['./bandeja-fact.component.scss'],
+  templateUrl: './registro.component.html',
+  styleUrls: ['./registro.component.scss'],
+
 })
-export class BandejaFactComponent implements OnInit {
+export class RegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
