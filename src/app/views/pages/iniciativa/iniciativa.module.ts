@@ -8,7 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalRegistroComponent } from './registros/modal-registro-actualizar/modal-registro.component';
-import { RegistroComponent } from './registros/bandeja-fact.component';
+import { RegistroComponent } from './registros/registro.component';
 
 @NgModule({
   declarations: [

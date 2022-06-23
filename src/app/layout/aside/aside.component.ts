@@ -80,9 +80,21 @@ export class AsideComponent implements OnInit {
           module: 'PAS',
           displayed: false,
         },
+        {
+          code: 'PAS-003',
+          text: 'actualizar',
+          order: 3,
+          icon: 'format_list_numbered',
+          type: 'oso',
+          link: 'registro/actualizar/:idIniciativa',
+          enable: true,
+          module: 'PAS',
+          displayed: false,
+        },
       ],
     },
   ];
+
 
   constructor(private menuService: MenuService) {}
 

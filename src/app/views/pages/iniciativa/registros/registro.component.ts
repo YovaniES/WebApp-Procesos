@@ -37,33 +37,32 @@ export class RegistroComponent implements OnInit {
     problematica: '',
     robotizacion: '',
     objetivo    : '',
-    riesgos      : ''
+    riesgos     : ''
   }
 
-    busqueda = {
-      nombre      : '',
-      codigo      : '',
-      gerencia_solicitante: '',
-      estado      : '',
-      naturaleza  : '',
-      fechaRegistro: '',
+  diagnostico = {
+    qtrx  : '',
+    tmo   : '',
+    pedido: '',
+    flujo : ''
+  }
+
+    filtro = {
+      nombre        : '',
+      codigo        : '',
+      estado        : '',
+      gerencia_benef: '',
+      naturaleza    : '',
+      fechaRegistro : '',
     };
 
     datosRegistro = {
       idIniciativa         : '',
       nombre               : '',
       codigo               : '',
-      vp                   : '',
-      gerencia_solicitante : '',
       estado               : '',
       po_proyecto          : '',
-      responsable          : '',
       gerencia_beneficiaria: '',
-      planner              : '',
-      controller_ger_ben   : '',
-      controller_aprob_bc  : '',
-      tecnologia           : '',
-      licencias            : '',
       naturaleza           : '',
       fecha_creacion         : ''
     }
@@ -240,11 +239,12 @@ export class RegistroComponent implements OnInit {
         });
   }
 
-    // codigo: any;
-    // nombre: any;
+
   // BUSCAR EN LA TABLA
     buscarRegistro(){
-      this.spinner.show();
+    this.blockUI.start("Buscando información...");
+
+      // this.spinner.show();
       let codProyecto: any;
 
       if (this.idGerSolcBuscar == undefined || this.idGerSolcBuscar == '0') {
@@ -255,29 +255,28 @@ export class RegistroComponent implements OnInit {
         this.idEstadoBuscar = '';
       }
 
-      if (this.busqueda.codigo == '0') {
+      if (this.filtro.codigo == '0') {
         codProyecto = '';
       }else{
-        codProyecto = this.busqueda.codigo;
+        codProyecto = this.filtro.codigo;
       }
-
-      // let nombre = this.datosRegistro.nombre
-      // let codigo = this.datosRegistro.codigo
-
 
       let parametro: any[] = [{
         "queryId": 96,
         "mapValue": {
-          "param_nombre"         : this.busqueda.nombre,
-          "param_codigo"         : this.busqueda.codigo,
-          "param_id_ger_sol"     : this.idGerSolcBuscar,
-          "param_id_estado"      : this.idEstadoBuscar,
+          "param_nombre"         : this.filtro.nombre,
+          "param_codigo"         : this.filtro.codigo,
+          "param_id_ger_sol"     : this.filtro.gerencia_benef,
+          // "param_id_estado"      : this.idEstadoBuscar,
+          "param_id_estado"      : this.filtro.estado,
 
           "param_id_naturaleza"  : this.idNaturalezaBuscar,
-          "fecha_registro": this.datepipe.transform(this.busqueda.fechaRegistro,'yyyy/MM/dd'),
+          "fecha_registro": this.datepipe.transform(this.filtro.fechaRegistro,'dd/MM/yyyy'),
         }
       }];
       this.modalRegistroService.buscarRegistro(parametro[0]).subscribe(resp => {
+      this.blockUI.stop();
+
         const searchData:any[] = Array.of(resp);
 
         console.log('RESUL_BUSQ', searchData);
@@ -289,34 +288,43 @@ export class RegistroComponent implements OnInit {
             idIniciativa          :searchData[0].list[i].idIniciativa,
             nombre                :searchData[0].list[i].nombre,
             codigo                :searchData[0].list[i].codigo,
-            vp                    :searchData[0].list[i].vp,
-            gerencia_solicitante  :searchData[0].list[i].gerencia_solicitante,
+            // vp                    :searchData[0].list[i].vp,
+            // gerencia_solicitante  :searchData[0].list[i].gerencia_solicitante,
             estado                :searchData[0].list[i].estado,
             po_proyecto           :searchData[0].list[i].po_proyecto,
-            responsable           :searchData[0].list[i].responsable,
+            // responsable           :searchData[0].list[i].responsable,
             gerencia_beneficiaria :searchData[0].list[i].gerencia_beneficiaria,
-            planner               :searchData[0].list[i].planner,
-            controller_ger_ben    :searchData[0].list[i].controller_ger_ben,
-            controller_aprob_bc   :searchData[0].list[i].controller_aprob_bc,
-            tecnologia            :searchData[0].list[i].tecnologia,
-            licencias             :searchData[0].list[i].licencias,
+            // planner               :searchData[0].list[i].planner,
+            // controller_ger_ben    :searchData[0].list[i].controller_ger_ben,
+            // controller_aprob_bc   :searchData[0].list[i].controller_aprob_bc,
+            // tecnologia            :searchData[0].list[i].tecnologia,
+            // licencias             :searchData[0].list[i].licencias,
             naturaleza            :searchData[0].list[i].naturaleza
           });
         }
+      // this.blockUI.stop();
+
         this.spinner.hide();
       });
     }
 
 
+
+
    registros: Array<any> = [];
    cargarRegistro(){
+    this.blockUI.start("Cargando registros...");
+
      let arrayParametro: any[] = [
        {
          queryId:92,
        }
      ];
+
      this.modalRegistroService.getListaBandeja(arrayParametro[0])
          .subscribe(resp => {
+           this.blockUI.stop();
+
            const data: any[] = Array.of(resp);
            this.totalRegistros = data[0].list.length;
            this.registros = [];
@@ -326,17 +334,17 @@ export class RegistroComponent implements OnInit {
                idIniciativa          : data[0].list[i].idIniciativa,
                nombre                : data[0].list[i].nombre,
                codigo                : data[0].list[i].codigo,
-               vp                    : data[0].list[i].vp,
-               gerencia_solicitante  : data[0].list[i].gerencia_solicitante,
+              //  vp                    : data[0].list[i].vp,
+              //  gerencia_solicitante  : data[0].list[i].gerencia_solicitante,
                estado                : data[0].list[i].estado,
                po_proyecto           : data[0].list[i].po_proyecto,
-               responsable           : data[0].list[i].responsable,
+              //  responsable           : data[0].list[i].responsable,
                gerencia_beneficiaria : data[0].list[i].gerencia_beneficiaria,
-               planner               : data[0].list[i].planner,
-               controller_ger_ben    : data[0].list[i].controller_ger_ben,
-               controller_aprob_bc   : data[0].list[i].controller_aprob_bc,
-               tecnologia            : data[0].list[i].tecnologia,
-               licencias             : data[0].list[i].licencias,
+              //  planner               : data[0].list[i].planner,
+              //  controller_ger_ben    : data[0].list[i].controller_ger_ben,
+              //  controller_aprob_bc   : data[0].list[i].controller_aprob_bc,
+              //  tecnologia            : data[0].list[i].tecnologia,
+              //  licencias             : data[0].list[i].licencias,
                naturaleza            : data[0].list[i].naturaleza,
                fecha_creacion            : data[0].list[i].fecha_creacion,
              })
@@ -345,12 +353,12 @@ export class RegistroComponent implements OnInit {
    }
 
 
-  totalBusqueda = 0;
+  totalfiltro = 0;
   cambiarPagina(event: number) {
     let offset = event*10;
     this.spinner.show();
 
-    if (this.totalBusqueda != this.totalBandeja) {
+    if (this.totalfiltro != this.totalBandeja) {
       this.modalRegistroService.getListaBandeja(offset.toString())
           .subscribe( resp => {
             console.log('TABLA', resp);
@@ -363,17 +371,17 @@ export class RegistroComponent implements OnInit {
                 idIniciativa          : arrayData[0].list[i].idIniciativa,
                 nombre                : arrayData[0].list[i].nombre,
                 codigo                : arrayData[0].list[i].codigo,
-                vp                    : arrayData[0].list[i].vp,
-                gerencia_solicitante  : arrayData[0].list[i].gerencia_solicitante,
+                // vp                    : arrayData[0].list[i].vp,
+                // gerencia_solicitante  : arrayData[0].list[i].gerencia_solicitante,
                 estado                : arrayData[0].list[i].estado,
                 po_proyecto           : arrayData[0].list[i].po_proyecto,
-                responsable           : arrayData[0].list[i].responsable,
+                // responsable           : arrayData[0].list[i].responsable,
                 gerencia_beneficiaria : arrayData[0].list[i].gerencia_beneficiaria,
-                planner               : arrayData[0].list[i].planner,
-                controller_ger_ben    : arrayData[0].list[i].controller_ger_ben,
-                controller_aprob_bc   : arrayData[0].list[i].controller_aprob_bc,
-                tecnologia            : arrayData[0].list[i].tecnologia,
-                licencias             : arrayData[0].list[i].licencias,
+                // planner               : arrayData[0].list[i].planner,
+                // controller_ger_ben    : arrayData[0].list[i].controller_ger_ben,
+                // controller_aprob_bc   : arrayData[0].list[i].controller_aprob_bc,
+                // tecnologia            : arrayData[0].list[i].tecnologia,
+                // licencias             : arrayData[0].list[i].licencias,
                 naturaleza            : arrayData[0].list[i].naturaleza,
 
               });
@@ -461,23 +469,26 @@ export class RegistroComponent implements OnInit {
   limpiarRegistModal(){
     this.datosRegistro.nombre = '';
     this.datosRegistro.codigo = '';
-    this.datosRegistro.vp = '';
-    this.datosRegistro.gerencia_solicitante = '';
     this.datosRegistro.estado = '';
     this.datosRegistro.po_proyecto = '';
-    this.datosRegistro.responsable = '';
     this.datosRegistro.gerencia_beneficiaria = '';
-    this.datosRegistro.planner = '';
-    this.datosRegistro.controller_ger_ben = '';
-    this.datosRegistro.controller_aprob_bc = '';
-    this.datosRegistro.tecnologia = '';
-    this.datosRegistro.licencias = '';
     this.datosRegistro.naturaleza = '';
 
     this.fechaing                 = ''
     this.btnRegistrarRegistro.nativeElement.disabled = false;
     this.cargarRegistro();
   };
+
+  limpiarFiltro(){
+    this.filtro.nombre         = '',
+    this.filtro.codigo         = '',
+    this.filtro.estado         = '',
+    this.filtro.gerencia_benef = '',
+    this.filtro.naturaleza     = '',
+    this.filtro.fechaRegistro  = ''
+
+    this.cargarRegistro();
+  }
 
 
   @ViewChild('cerrarModal') cerrarModal!: ElementRef;
@@ -504,18 +515,9 @@ export class RegistroComponent implements OnInit {
 
     let nombre                = this.datosRegistro.nombre;
     let codigo                = this.datosRegistro.codigo;
-    let vp                    = this.datosRegistro.vp;
-
-    let gerencia_solicitante  = this.datosRegistro.gerencia_solicitante;
     let po_proyecto           = this.datosRegistro.po_proyecto;
     let estado                = this.datosRegistro.estado;
-    let responsable           = this.datosRegistro.responsable;
     let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
-    let planner               = this.datosRegistro.planner;
-    let controller_ger_ben    = this.datosRegistro.controller_ger_ben;
-    let controller_aprob_bc   = this.datosRegistro.controller_aprob_bc;
-    let tecnologia            = this.datosRegistro.tecnologia;
-    let licencias             = this.datosRegistro.licencias;
     let naturaleza            = this.datosRegistro.naturaleza;
 
     let fecha_creacion          = this.datosRegistro.fecha_creacion;
@@ -526,16 +528,8 @@ export class RegistroComponent implements OnInit {
         "p_cdescripcion"   : nombre  ,
         "p_cod_proyecto"   : codigo  ,
         "p_id_vp"          : registroIdInfoVP  ,
-        "p_id_gerencia_sol": gerencia_solicitante  , // revisar y corregir ?
         "p_id_estado"      : estado  ,
         "p_po_proyecto"    : po_proyecto  ,
-        "p_responsable"    : responsable  ,
-        "p_id_gerencia_ben": gerencia_beneficiaria  ,
-        "p_planner"        : planner  ,
-        "p_cont_ger_ben"   : controller_ger_ben  ,
-        "p_cont_apr_bc"    : controller_aprob_bc  ,
-        "p_id_tecnologia"  : tecnologia  ,
-        "p_q_licencias"    : licencias  ,
         "p_id_naturaleza"  : naturaleza  ,
         "p_prob_actual"    : ''  ,
         "p_func_robotiz"   : ''  ,
@@ -585,8 +579,8 @@ export class RegistroComponent implements OnInit {
       });
   } */
 
+  // regresarBandeja(){
+  //   this.router.navigate(['mantenimientoRecurso']);
+  // }
+
 }
-
-
-
-

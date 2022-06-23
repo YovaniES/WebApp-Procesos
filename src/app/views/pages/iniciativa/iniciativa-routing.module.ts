@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegistroComponent } from './registros/bandeja-fact.component';
+import { RegistroComponent } from './registros/registro.component';
 import { ModalRegistroComponent } from './registros/modal-registro-actualizar/modal-registro.component';
 
 const routes: Routes = [
@@ -9,7 +9,10 @@ const routes: Routes = [
   },
   {
     path: 'editar', component: ModalRegistroComponent
-  }
+  },
+  // {
+  //   path: 'actualizar/:idIniciativa', component: ModalRegistroComponent
+  // }
 ];
 
 @NgModule({

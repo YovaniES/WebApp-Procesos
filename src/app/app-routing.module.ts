@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './layout/base/base.component';
+import { ModalRegistroComponent } from './views/pages/iniciativa/registros/modal-registro-actualizar/modal-registro.component';
 
 const routes: Routes = [
   { path: 'login',
@@ -20,11 +21,13 @@ const routes: Routes = [
         loadChildren: () => import ('./views/pages/iniciativa/iniciativa.module').then((m)=>m.IniciativaModule)
       },
       { path:'', redirectTo:'home', pathMatch:'full'},
-
       {
         path:'vacantes',
         loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
       },
+
+      {path: 'actualizar/:idIniciativa', component: ModalRegistroComponent},
+
 
       {
         path:'**', redirectTo:'/error/404'
