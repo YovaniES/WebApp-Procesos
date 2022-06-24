@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-aside',
@@ -7,7 +6,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
 })
 export class AsideComponent implements OnInit {
   @Output() generalfixedAside = new EventEmitter<Boolean>();
-  fixedAside = false;
+  fixedAside = false; //OBS: Verificar
   menuList = [
     {
       id: 1,
@@ -96,7 +95,7 @@ export class AsideComponent implements OnInit {
   ];
 
 
-  constructor(private menuService: MenuService) {}
+  constructor() {}
 
   ngOnInit(): void {
   }

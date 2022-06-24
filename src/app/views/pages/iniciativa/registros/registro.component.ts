@@ -18,7 +18,8 @@ export class RegistroComponent implements OnInit {
   @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
   showing=1;
-
+  // total: number = 0;
+  actionBtn: number = 0
 
   page = 1;
   totalBandeja:number = 0;
@@ -48,12 +49,13 @@ export class RegistroComponent implements OnInit {
   }
 
     filtro = {
-      nombre        : '',
-      codigo        : '',
-      estado        : '',
-      gerencia_benef: '',
-      naturaleza    : '',
-      fechaRegistro : '',
+      nombre              : '',
+      codigo              : '',
+      estado              : '',
+      gerencia_benef      : '',
+      naturaleza          : '',
+      fechaCreacion : '',
+      fechaFinalizacion    : '',
     };
 
     datosRegistro = {
@@ -76,6 +78,7 @@ export class RegistroComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.cargarRegistro();
 
     this.getListEstados();
@@ -241,6 +244,7 @@ export class RegistroComponent implements OnInit {
 
 
   // BUSCAR EN LA TABLA
+    totalFiltroEncontrado: number = 0;
     buscarRegistro(){
     this.blockUI.start("Buscando información...");
 
@@ -266,20 +270,26 @@ export class RegistroComponent implements OnInit {
         "mapValue": {
           "param_nombre"         : this.filtro.nombre,
           "param_codigo"         : this.filtro.codigo,
-          "param_id_ger_sol"     : this.filtro.gerencia_benef,
+          "param_id_ger_ben"     : this.filtro.gerencia_benef,
           // "param_id_estado"      : this.idEstadoBuscar,
           "param_id_estado"      : this.filtro.estado,
 
           "param_id_naturaleza"  : this.idNaturalezaBuscar,
-          "fecha_registro": this.datepipe.transform(this.filtro.fechaRegistro,'dd/MM/yyyy'),
+          "inicio": this.datepipe.transform(this.filtro.fechaCreacion,'yyyy/MM/dd'),
+          "fin"   : this.datepipe.transform(this.filtro.fechaFinalizacion,'yyyy/MM/dd'),
         }
       }];
+
       this.modalRegistroService.buscarRegistro(parametro[0]).subscribe(resp => {
       this.blockUI.stop();
 
         const searchData:any[] = Array.of(resp);
+        this.totalFiltroEncontrado = searchData[0].list.length;
+
 
         console.log('RESUL_BUSQ', searchData);
+        console.log('Total-busq', this.totalFiltroEncontrado);
+
 
         this.registros = [];
         for (let i = 0; i < searchData[0].list.length; i++) {
@@ -288,18 +298,11 @@ export class RegistroComponent implements OnInit {
             idIniciativa          :searchData[0].list[i].idIniciativa,
             nombre                :searchData[0].list[i].nombre,
             codigo                :searchData[0].list[i].codigo,
-            // vp                    :searchData[0].list[i].vp,
-            // gerencia_solicitante  :searchData[0].list[i].gerencia_solicitante,
             estado                :searchData[0].list[i].estado,
             po_proyecto           :searchData[0].list[i].po_proyecto,
-            // responsable           :searchData[0].list[i].responsable,
             gerencia_beneficiaria :searchData[0].list[i].gerencia_beneficiaria,
-            // planner               :searchData[0].list[i].planner,
-            // controller_ger_ben    :searchData[0].list[i].controller_ger_ben,
-            // controller_aprob_bc   :searchData[0].list[i].controller_aprob_bc,
-            // tecnologia            :searchData[0].list[i].tecnologia,
-            // licencias             :searchData[0].list[i].licencias,
-            naturaleza            :searchData[0].list[i].naturaleza
+            naturaleza            :searchData[0].list[i].naturaleza,
+            fecha_creacion        :searchData[0].list[i].fecha_creacion
           });
         }
       // this.blockUI.stop();
@@ -307,7 +310,6 @@ export class RegistroComponent implements OnInit {
         this.spinner.hide();
       });
     }
-
 
 
 
@@ -334,19 +336,11 @@ export class RegistroComponent implements OnInit {
                idIniciativa          : data[0].list[i].idIniciativa,
                nombre                : data[0].list[i].nombre,
                codigo                : data[0].list[i].codigo,
-              //  vp                    : data[0].list[i].vp,
-              //  gerencia_solicitante  : data[0].list[i].gerencia_solicitante,
                estado                : data[0].list[i].estado,
                po_proyecto           : data[0].list[i].po_proyecto,
-              //  responsable           : data[0].list[i].responsable,
                gerencia_beneficiaria : data[0].list[i].gerencia_beneficiaria,
-              //  planner               : data[0].list[i].planner,
-              //  controller_ger_ben    : data[0].list[i].controller_ger_ben,
-              //  controller_aprob_bc   : data[0].list[i].controller_aprob_bc,
-              //  tecnologia            : data[0].list[i].tecnologia,
-              //  licencias             : data[0].list[i].licencias,
                naturaleza            : data[0].list[i].naturaleza,
-               fecha_creacion            : data[0].list[i].fecha_creacion,
+               fecha_creacion        : data[0].list[i].fecha_creacion,
              })
            }
          })
@@ -371,19 +365,11 @@ export class RegistroComponent implements OnInit {
                 idIniciativa          : arrayData[0].list[i].idIniciativa,
                 nombre                : arrayData[0].list[i].nombre,
                 codigo                : arrayData[0].list[i].codigo,
-                // vp                    : arrayData[0].list[i].vp,
-                // gerencia_solicitante  : arrayData[0].list[i].gerencia_solicitante,
                 estado                : arrayData[0].list[i].estado,
                 po_proyecto           : arrayData[0].list[i].po_proyecto,
-                // responsable           : arrayData[0].list[i].responsable,
                 gerencia_beneficiaria : arrayData[0].list[i].gerencia_beneficiaria,
-                // planner               : arrayData[0].list[i].planner,
-                // controller_ger_ben    : arrayData[0].list[i].controller_ger_ben,
-                // controller_aprob_bc   : arrayData[0].list[i].controller_aprob_bc,
-                // tecnologia            : arrayData[0].list[i].tecnologia,
-                // licencias             : arrayData[0].list[i].licencias,
                 naturaleza            : arrayData[0].list[i].naturaleza,
-
+                fecha_creacion        : arrayData[0].list[i].fecha_creacion,
               });
             }
             this.spinner.hide();
@@ -480,12 +466,13 @@ export class RegistroComponent implements OnInit {
   };
 
   limpiarFiltro(){
-    this.filtro.nombre         = '',
-    this.filtro.codigo         = '',
-    this.filtro.estado         = '',
-    this.filtro.gerencia_benef = '',
-    this.filtro.naturaleza     = '',
-    this.filtro.fechaRegistro  = ''
+    this.filtro.nombre             = '',
+    this.filtro.codigo             = '',
+    this.filtro.estado             = '',
+    this.filtro.gerencia_benef     = '',
+    this.filtro.naturaleza         = '',
+    this.filtro.fechaCreacion      = ''
+    this.filtro.fechaFinalizacion  = ''
 
     this.cargarRegistro();
   }

@@ -36,7 +36,7 @@ export class AuthService {
 
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    // console.log('NAME_USER', decodedToken);
+    console.log('NAME_USER', decodedToken);
     return decodedToken ? decodedToken.unique_name : '';
   }
 

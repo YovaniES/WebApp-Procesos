@@ -6,7 +6,7 @@
       <div class="card mt-5" style="border-radius: 2px; font-weight: 600">
         <div class="card-body">
           <form class="row g-3">
-            <div class="col-md-3 cli-form-element">
+            <div class="col-sm-2 cli-form-element">
               <label for="inputEmail4" class="form-label">Nombre de Iniciativa</label>
               <input
                 type="text"
@@ -16,7 +16,7 @@
                 [ngModelOptions]="{ standalone: true }"
               />
             </div>
-            <div class="col-md-3 cli-form-element">
+            <div class="col-sm-2 cli-form-element">
               <label for="inputPassword4" class="form-label">Código de Iniciativa</label>
               <input
                 type="text"
@@ -27,7 +27,7 @@
               />
             </div>
 
-            <div class="col-md-3 cli-form-element">
+            <div class="col-sm-3 cli-form-element">
               <label for="" class="form-label">Gerencia Beneficiaria</label>
               <select
                 class="form-select"
@@ -44,7 +44,7 @@
             </div>
 
 
-            <div class="col-md-3 cli-form-element">
+            <div class="col-sm-3 cli-form-element">
               <label for="" class="form-label">Estado</label>
               <select
                 class="form-select"
@@ -60,7 +60,7 @@
               </select>
             </div>
 
-            <div class="col-md-3 cli-form-element">
+            <div class="col-sm-2 cli-form-element">
               <label for="" class="form-label"
                 >Naturaleza del Benef.</label
               >
@@ -78,12 +78,21 @@
               </select>
             </div>
 
-            <div class="col-md-3 cli-form-elesksment">
+            <div class="col-sm-2 cli-form-elesksment">
               <div class="form-group">
-                  <label>Fecha creación</label>
+                  <label>Fecha creación <span class="date-rango">(desde)</span></label>
                   <input type="date"
                   class="form-control"
-                  [(ngModel)]="fechaing"
+                  [(ngModel)]="filtro.fechaCreacion"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="col-sm-2 cli-form-elesksment">
+              <div class="form-group">
+                  <label>Fecha creación <span class="date-rango">(hasta)</span></label>
+                  <input type="date"
+                  class="form-control"
+                  [(ngModel)]="filtro.fechaFinalizacion"
                   [ngModelOptions]="{standalone: true}">
               </div>
             </div>
@@ -92,11 +101,10 @@
 
             <!-- <div class="cli-table-actions"> -->
 
-            <div style="display: flex">
-              <div class="flex-1"></div>
+            <div class="cli-form-buttons">
               <button
                 type="submit"
-                class="cli-btn btn-green mb-2"
+                class="cli-btn btn-grey mb-2"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
                 (click)="limpiarFiltro()">
                 <mat-icon class="icon-18">rotate_left</mat-icon>
@@ -133,9 +141,9 @@
         </button>
         <div class="flex-1"></div>
         <h3 class="card-subtitlte" style="color: #3b4ef6">
-          Total de registros:
+          Total :
           <span style="color: #adb0b2; font-size: 20px; font-weight: 500">
-            {{ totalRegistros }}</span
+            {{ totalRegistros}} registros</span
           >
         </h3>
       </div>

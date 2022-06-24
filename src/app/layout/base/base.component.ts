@@ -8,12 +8,11 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class BaseComponent implements OnInit {
   fixedAside: Boolean = false;
+  loading: boolean = true;
   menuError: boolean = false;
   message: string = 'Preparando contenido...';
-  loading: boolean = true;
   fullName: string = '';
   userAbbreviation = '';
-  sideNavState = false;
 
   constructor(private authService: AuthService) {}
 
