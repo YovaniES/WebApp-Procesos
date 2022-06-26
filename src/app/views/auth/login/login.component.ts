@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup = this.fb.group({
-    idaplicacion:['2'],
+    idaplicacion:['1'],
     username: ['jjsoto', [Validators.required]],
     password: ['jjsoto', [Validators.required, Validators.minLength(6)]],
   });
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         .subscribe((resp) => {
           console.log('CREDENCIALES', resp.user);
 
-      if (resp) {
+      if (resp.user.aplicacion == 1 && resp.user.acceso == 1) {
         this.router.navigateByUrl('home');
       } else {
         Swal.fire('Error', 'Credenciales incorrectas', 'error');

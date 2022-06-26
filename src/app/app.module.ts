@@ -8,6 +8,7 @@ import { AuthModule } from './views/auth/auth.module';
 import { ErrorsModule } from './views/errors/errors.module';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutModule } from './layout/layout.module';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,7 @@ import { LayoutModule } from './layout/layout.module';
     LayoutModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

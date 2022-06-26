@@ -43,7 +43,6 @@
               </select>
             </div>
 
-
             <div class="col-sm-3 cli-form-element">
               <label for="" class="form-label">Estado</label>
               <select
@@ -87,6 +86,7 @@
                   [ngModelOptions]="{standalone: true}">
               </div>
             </div>
+
             <div class="col-sm-2 cli-form-elesksment">
               <div class="form-group">
                   <label>Fecha creación <span class="date-rango">(hasta)</span></label>
@@ -171,16 +171,22 @@
                 let registro of registros | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: totalBandeja }">
               <td>
                 <div class="cli-table-actions">
-                  <!-- routerLink="/actualizar/{{registro.idIniciativa}}" -->
-                  <button
+
+                  <!-- <button
                     data-toggle="modal"
                     data-target="#modalActualizarRegistro"
                     matTooltip="Editar"
                     class="icon-btn btn-trans c-green"
-                  >
-                    <mat-icon class="icon-18">edit</mat-icon>
+                   ><mat-icon class="icon-18">edit</mat-icon>
+                 </button> -->
+
+                  <button
+                    routerLink="/actualizar/{{registro.idIniciativa}}"
+                    matTooltip="Editar"
+                    class="icon-btn btn-trans c-green"
+                  ><mat-icon class="icon-18">edit</mat-icon>
                   </button>
-                  <!-- <a routerLink="/actualizar/{{registro.idIniciativa}}"></a> -->
+
                   <button
                     matTooltip="Eliminar"
                     class="icon-btn btn-trans c-orange"
@@ -207,15 +213,15 @@
           cargando...
         </div>
 
-        <ngx-spinner
+        <!-- <ngx-spinner
           bdColor="rgba(0, 0, 0, 0.8)"
           size="medium"
           color="#fff"
           type="square-jelly-box"
           [fullScreen]="true"
         >
-          <p style="color: white">Loading...</p>
-        </ngx-spinner>
+          <p style="color: rgb(18, 201, 76)">Loading...</p>
+        </ngx-spinner> -->
 
         <div *ngIf="!loadingItem && totalRegistros == 0" class="cli-loader mt-5" style="color: red">
           No hay registros para mostrar
@@ -236,7 +242,7 @@
   </div>
 </div>
 
-<ngx-spinner
+<!-- <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
   size="medium"
   color="#fff"
@@ -244,7 +250,7 @@
   [fullScreen]="true"
 >
   <p style="color: white">Cargando...</p>
-</ngx-spinner>
+</ngx-spinner> -->
 
 
 

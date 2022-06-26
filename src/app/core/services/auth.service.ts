@@ -25,6 +25,7 @@ export class AuthService {
     return this.http.post(API_AUTH_SESSION, loginData).pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.user.token);
+        localStorage.setItem('currentUser', JSON.stringify(resp))
       })
     );
   }

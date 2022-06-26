@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class AsideComponent implements OnInit {
   @Output() generalfixedAside = new EventEmitter<Boolean>();
-  fixedAside = false; //OBS: Verificar
+  fixedAside = true; //OBS: Verificar
   menuList = [
     {
       id: 1,
@@ -78,18 +78,7 @@ export class AsideComponent implements OnInit {
           enable: true,
           module: 'PAS',
           displayed: false,
-        },
-        {
-          code: 'PAS-003',
-          text: 'actualizar',
-          order: 3,
-          icon: 'format_list_numbered',
-          type: 'oso',
-          link: 'registro/actualizar/:idIniciativa',
-          enable: true,
-          module: 'PAS',
-          displayed: false,
-        },
+        }
       ],
     },
   ];

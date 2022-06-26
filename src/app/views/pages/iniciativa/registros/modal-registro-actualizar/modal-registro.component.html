@@ -16,26 +16,26 @@
         id="myLargeModalLabel"
       >
         <div class="modal-title"></div>
-        <button
+       <!--  <button
           #cerrarModal
           type="button"
           data-dismiss="modal"
           aria-label="Close"
           class="close icon-btn btn-trans c-orange"
           (click)="limpiarRegistModal()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
+        ><mat-icon>close</mat-icon>
+        </button> -->
       </div>
 
       <h5 class="modal-title-inic c-male">Actualizar registro</h5>
-
       <div
         class="cli-form newvac-wrapper"
         style="width: 90%"
       >
         <div class="pr-subtitle mt-2">Registros</div>
+
         <div class="pr-section">
+          <div class="pr-module-container">
           <form class="row g-3">
             <ng-container>
               <div class="col-sm-3 cli-form-element">
@@ -45,7 +45,7 @@
                     type="text"
                     class="form-control cli-input-white"
                     placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="datosRegistro.nombre"
+                    [(ngModel)]="dataRegistroEditar.nombre"
                     [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
@@ -57,19 +57,16 @@
                   type="text"
                   class="form-control cli-input-white"
                   placeholder="HISPAM-2201-1"
-                  [(ngModel)]="datosRegistro.codigo"
+                  [(ngModel)]="dataRegistroEditar.codigo"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
-            </ng-container>
-
-            <ng-container>
 
               <div class="col-sm-3 cli-form-element">
                 <label>Estado</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.estado"
+                  [(ngModel)]="dataRegistroEditar.estado"
                   [ngModelOptions]="{ standalone: true }"
                   #estadox
                   (change)="getInfoEstados(estadox.value)"
@@ -86,16 +83,34 @@
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  [(ngModel)]="datosRegistro.po_proyecto"
+                  [(ngModel)]="dataRegistroEditar.poProyecto"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
+            </ng-container>
 
+            <ng-container>
               <div class="col-sm-3 cli-form-element">
-                <label>Gerencia beneficiaria</label>
+                <label>VP</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.gerencia_beneficiaria"
+                  [(ngModel)]="dataRegistroEditar.estado"
+                  [ngModelOptions]="{ standalone: true }"
+                  #vp
+                  (change)="getInfoVP(vp.value)"
+                > <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="vp.id"
+                    *ngFor="let vp of listVP">
+                    {{ vp.nombre }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Gerencia Solicitante</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="dataRegistroEditar.gerenciaSolic"
                   [ngModelOptions]="{ standalone: true }"
                   #selectGerenc
                   (change)="getInfoGerSol(selectGerenc.value)"
@@ -109,14 +124,56 @@
                   </option>
                 </select>
               </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Gerencia beneficiaria</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="dataRegistroEditar.gerenciaBenef"
+                  [ngModelOptions]="{ standalone: true }"
+                  #gerenBenef
+                  (change)="getInfoGerSol(gerenBenef.value)"
+                ><option [value]="0" disabled>-Seleccionar-</option>
+                  <option
+                    [value]="gerenc.id"
+                    *ngFor="let gerenc of listGerencia"
+                  >{{ gerenc.nombre }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Controller Aprob. BC</label>
+                <input
+                    type="text"
+                    class="form-control cli-input-white"
+                    [(ngModel)]="dataRegistroEditar.controllerAprobBc"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+              </div>
             </ng-container>
 
             <ng-container>
               <div class="col-sm-3 cli-form-element">
+                <label>Tecnología de Solución</label>
+                <select
+                  class="cli-input-white"
+                  [(ngModel)]="dataRegistroEditar.tecnologia"
+                  [ngModelOptions]="{ standalone: true }"
+                  #tecnSol
+                  (change)="getInfoTecnologia(tecnSol.value)"
+                >
+                  <option [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="tec.id" *ngFor="let tec of tecnologias">
+                    {{ tec.nombre }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-sm-3 cli-form-element">
                 <label>Naturaleza del Beneficio</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.naturaleza"
+                  [(ngModel)]="dataRegistroEditar.naturaleza"
                   [ngModelOptions]="{ standalone: true }"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
@@ -125,9 +182,39 @@
                   </option>
                 </select>
               </div>
+
+              <div class="col-sm-3 cli-form-element">
+                <div class="form-group">
+                    <label>Fecha creación</label>
+                    <input type="date"
+                    class="form-control"
+                    [value]="dataRegistroEditar.fechaCreacion | date:'yyyy-MM-dd'"
+                    #fechaCrea
+                    (blur)="actualizarFechaCreacion(fechaCrea.value)"
+                    >
+                </div>
+              </div>
+
             </ng-container>
+              <div class="cli-form-buttons">
+                <button
+                  class="cli-btn btn-m btn-grey"
+                  type="submit"
+                  data-dismiss="modal"
+                  (click)="regresarRegistro()">
+                  <mat-icon class="icon-18">cancel</mat-icon> Regresar
+                </button>
+                <button
+                  #btnRegistrarRegistro
+                  class="cli-btn btn-m btn-magenta"
+                  (click)="actualizarRegistro()"
+                  #btnActualizarRegistro
+                ><mat-icon>save</mat-icon> Actualizar
+                </button>
+              </div>
           </form>
         </div>
+      </div>
 
         <!-- -----------------------------------------------DIAGNOSTICO --------------------------->
         <div class="pr-subtitle mt-2">Contexto</div>
@@ -283,25 +370,26 @@
         </div>
 
 
-            <div class="cli-form-buttons">
+           <!--  <div class="cli-form-buttons">
               <button
                 class="cli-btn btn-m btn-grey"
-                type="button"
+                type="submit"
                 data-dismiss="modal"
-              >
+                (click)="regresarRegistro()">
                 <mat-icon class="icon-18">cancel</mat-icon> Regresar
               </button>
               <button
                 #btnRegistrarRegistro
                 class="cli-btn btn-m btn-magenta"
-                (click)="agregarRegistro()"
-              >
-                <mat-icon>save</mat-icon> Actualizar
+                (click)="actualizarRegistro()"
+                #btnActualizarRegistro
+              ><mat-icon>save</mat-icon> Actualizar
               </button>
-            </div>
+            </div> -->
       </div>
     </div>
   </div>
 </div>
+
 
 

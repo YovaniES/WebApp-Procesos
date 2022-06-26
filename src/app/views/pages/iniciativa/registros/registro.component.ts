@@ -78,6 +78,7 @@ export class RegistroComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.spinner.hide();
 
     this.cargarRegistro();
 
@@ -164,7 +165,7 @@ export class RegistroComponent implements OnInit {
     this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
 
       const dataTecnol:any[] = Array.of(resp)
-      console.log('TECNOLOGIA_X', dataTecnol);
+      // console.log('TECNOLOGIA_X', dataTecnol);
 
       this.tecnologias = [];
       for (let i = 0; i < dataTecnol[0].list.length; i++) {
@@ -187,7 +188,7 @@ export class RegistroComponent implements OnInit {
     this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
 
-      console.log('ESTADOS', estadosData);
+      // console.log('ESTADOS', estadosData);
 
       this.listEstados = [];
       for (let i = 0; i < estadosData[0].list.length; i++) {
@@ -208,7 +209,7 @@ export class RegistroComponent implements OnInit {
       this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
         const gerencData: any[] = Array.of(resp);
 
-        console.log('GERENCIA', gerencData);
+        // console.log('GERENCIA', gerencData);
 
         this.listGerencia = [];
         for (let i = 0; i < gerencData[0].list.length; i++) {
@@ -230,7 +231,7 @@ export class RegistroComponent implements OnInit {
     this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
       const dataNaturaleza: any[] = Array.of(resp);
-      console.log('Naturaleza', dataNaturaleza);
+      // console.log('Naturaleza', dataNaturaleza);
 
           this.naturaleza = [];
           for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
@@ -327,20 +328,21 @@ export class RegistroComponent implements OnInit {
          .subscribe(resp => {
            this.blockUI.stop();
 
-           const data: any[] = Array.of(resp);
-           this.totalRegistros = data[0].list.length;
+           const dataReg: any[] = Array.of(resp);
+           this.totalRegistros = dataReg[0].list.length;
            this.registros = [];
-             console.log('REGISTROS_TABLA', data);
-             for (let i = 0; i < data[0].list.length; i++) {
+             console.log('REGISTROS_TABLA', dataReg);
+
+             for (let i = 0; i < dataReg[0].list.length; i++) {
                this.registros.push({
-               idIniciativa          : data[0].list[i].idIniciativa,
-               nombre                : data[0].list[i].nombre,
-               codigo                : data[0].list[i].codigo,
-               estado                : data[0].list[i].estado,
-               po_proyecto           : data[0].list[i].po_proyecto,
-               gerencia_beneficiaria : data[0].list[i].gerencia_beneficiaria,
-               naturaleza            : data[0].list[i].naturaleza,
-               fecha_creacion        : data[0].list[i].fecha_creacion,
+               idIniciativa          : dataReg[0].list[i].idIniciativa,
+               nombre                : dataReg[0].list[i].nombre,
+               codigo                : dataReg[0].list[i].codigo,
+               estado                : dataReg[0].list[i].estado,
+               po_proyecto           : dataReg[0].list[i].po_proyecto,
+               gerencia_beneficiaria : dataReg[0].list[i].gerencia_beneficiaria,
+               naturaleza            : dataReg[0].list[i].naturaleza,
+               fecha_creacion        : dataReg[0].list[i].fecha_creacion,
              })
            }
          })
@@ -360,7 +362,6 @@ export class RegistroComponent implements OnInit {
        const arrayData:any[] = Array.of(resp);
 
             for (let i = 0; i < arrayData[0].length; i++) {
-
               this.registros.push({
                 idIniciativa          : arrayData[0].list[i].idIniciativa,
                 nombre                : arrayData[0].list[i].nombre,
@@ -374,22 +375,21 @@ export class RegistroComponent implements OnInit {
             }
             this.spinner.hide();
           });
-
-    }else{
+    } else {
       this.spinner.hide();
     }
-    this.page = event;
+      this.page = event;
   }
 
 
-  @ViewChild('modalEliminar') modalEliminar!:ElementRef;
+  @ViewChild('modalEliminar') modalEliminar!: ElementRef;
   eliminarRegistro(idRegistro: any){
     this.spinner.show();
 
     let parametro:any[] = [{
       queryId: 98,
       mapValue: {
-        'param_id_registro': idRegistro,
+        'param_id_registro'   : idRegistro,
         // 'CONFIG_REGIS_ID'  : this.usuario.user.userId,
         'CONFIG_OUT_MSG_ERROR': '',
         'CONFIG_OUT_MSG_EXITO': ''

@@ -56,6 +56,13 @@ export class ModalRegistroService {
     return this.http.post(API_REG1,obj);
   }
 
+  cargarRegistroId(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  actualizarRegistro(obj: any){
+    return this.http.post(API_REG1, obj)
+  }
 
   // ---------------------------------------------------------
 

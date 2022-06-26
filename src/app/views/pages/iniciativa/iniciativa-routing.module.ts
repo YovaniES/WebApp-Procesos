@@ -10,9 +10,6 @@ const routes: Routes = [
   {
     path: 'editar', component: ModalRegistroComponent
   },
-  // {
-  //   path: 'actualizar/:idIniciativa', component: ModalRegistroComponent
-  // }
 ];
 
 @NgModule({

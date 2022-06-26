@@ -1,6 +1,27 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+
+export interface EditarRegistro {
+  id                    : number,
+  nombre                : string,
+  codigo                : string,
+  vp                    : string,
+  gerenciaSolic         : string,
+  estado                : string,
+  poProyecto            : string,
+  responsable           : string,
+  gerenciaBenef         : string,
+  planner               : string,
+  controllerGerBen      : string,
+  controllerAprobBc     : string,
+  tecnologia            : string,
+  licencias             : string,
+  naturaleza            : string,
+  fechaCreacion         : any,
+}
 
 @Component({
   selector: 'app-modal-registro',
@@ -8,12 +29,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./modal-registro.component.scss'],
 })
 export class ModalRegistroComponent implements OnInit {
-  @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
+  @ViewChild('btnCrearRegistro') btnCrearRegistro!: ElementRef;
 
   fechaing:any;
   totalRegistros: number = 0;
-
-
+  usuario: any;
+  idRegistro: any = 0;
 
   contexto = {
     problematica: '',
@@ -30,63 +51,70 @@ export class ModalRegistroComponent implements OnInit {
   }
 
 
-  datosRegistro = {
-    idIniciativa         : '',
+  dataRegistroEditar: EditarRegistro= {
+    id                   : 0,
     nombre               : '',
     codigo               : '',
     vp                   : '',
-    gerencia_solicitante : '',
+    gerenciaSolic        : '',
     estado               : '',
-    po_proyecto          : '',
+    poProyecto           : '',
     responsable          : '',
-    gerencia_beneficiaria: '',
+    gerenciaBenef        : '',
     planner              : '',
-    controller_ger_ben   : '',
-    controller_aprob_bc  : '',
+    controllerGerBen     : '',
+    controllerAprobBc    : '',
     tecnologia           : '',
     licencias            : '',
     naturaleza           : '',
-    fecha_creacion         : ''
+    fechaCreacion        : new Date
   }
 
 
   constructor(
     private modalRegistroService: ModalRegistroService,
     private spinner: NgxSpinnerService,
-  ) {}
+    public datePipe: DatePipe,
+    private router: Router,
+    private activateRoute: ActivatedRoute
+  ) {
+    // this.usuario = JSON.parse(localStorage.getItem('currentUser'))
+  }
 
-  ngOnInit(): void {
-    this.cargarRegistro();
+  ngOnInit() {
+    this.activateRoute.paramMap.subscribe( params => {
+      console.log('PARAM', params);
 
-    this.getListEstados();
-    this.getListGerencia();
-    this.getListaVP();
-    this.getListNaturaleza();
-    this.getListaTecnologia();
+      this.idRegistro = params.get('id');
+      this.cargarRegistro();
+      this.cargarRegistroId();
+
+      this.getListEstados();
+      this.getListGerencia();
+      this.getListaVP();
+      this.getListNaturaleza();
+      this.getListaTecnologia();
+    });
    }
 
 
-   getInfoEstados(id: any){
-  }
-
-  getInfoTecnologia(id: any){
-  }
-
-  getInfoNaturaleza(id:any){
-  }
+  getInfoEstados(id: any){ }
+  getInfoTecnologia(id: any){ }
+  getInfoNaturaleza(id:any){ }
 
   idVP: any
   getInfoVP(id: any){
     this.idVP = id
   }
 
-  // ID MODAL
-
   idGerSol: any;
   getInfoGerSol(id: any){
     this.idGerSol = id
   }
 
+  actualizarFechaCreacion(fecha: string){
+    this.dataRegistroEditar.fechaCreacion = this.datePipe.transform(fecha, 'yyyy-MM-dd');
+  }
 
      // LISTA DE VP PARA EL MODAL
      listVP: Array<any> = [];
@@ -121,7 +149,7 @@ export class ModalRegistroComponent implements OnInit {
       this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
 
         const dataTecnol:any[] = Array.of(resp)
-        console.log('TECNOLOGIA_X', dataTecnol);
+        // console.log('TECNOLOGIA_X', dataTecnol);
 
         this.tecnologias = [];
         for (let i = 0; i < dataTecnol[0].list.length; i++) {
@@ -132,7 +160,6 @@ export class ModalRegistroComponent implements OnInit {
         }
       })
     }
-
 
     // LISTA DE ESTADOS
     listEstados: Array<any> = [];
@@ -165,7 +192,7 @@ export class ModalRegistroComponent implements OnInit {
         this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
           const gerencData: any[] = Array.of(resp);
 
-          console.log('GERENCIA', gerencData);
+          // console.log('GERENCIA', gerencData);
 
           this.listGerencia = [];
           for (let i = 0; i < gerencData[0].list.length; i++) {
@@ -187,7 +214,7 @@ export class ModalRegistroComponent implements OnInit {
       this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
         const dataNaturaleza: any[] = Array.of(resp);
-        console.log('Naturaleza', dataNaturaleza);
+        // console.log('Naturaleza', dataNaturaleza);
 
             this.naturaleza = [];
             for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
@@ -200,26 +227,26 @@ export class ModalRegistroComponent implements OnInit {
     }
 
 
-  limpiarRegistModal(){
-    this.datosRegistro.nombre = '';
-    this.datosRegistro.codigo = '';
-    this.datosRegistro.vp = '';
-    this.datosRegistro.gerencia_solicitante = '';
-    this.datosRegistro.estado = '';
-    this.datosRegistro.po_proyecto = '';
-    this.datosRegistro.responsable = '';
-    this.datosRegistro.gerencia_beneficiaria = '';
-    this.datosRegistro.planner = '';
-    this.datosRegistro.controller_ger_ben = '';
-    this.datosRegistro.controller_aprob_bc = '';
-    this.datosRegistro.tecnologia = '';
-    this.datosRegistro.licencias = '';
-    this.datosRegistro.naturaleza = '';
+  // limpiarRegistModal(){
+  //   this.dataRegistroEditar.nombre = '';
+  //   this.dataRegistroEditar.codigo = '';
+  //   this.dataRegistroEditar.vp = '';
+  //   this.dataRegistroEditar.gerenciaBenef = '';
+  //   this.dataRegistroEditar.estado = '';
+  //   this.dataRegistroEditar.poProyecto = '';
+  //   this.dataRegistroEditar.responsable = '';
+  //   this.dataRegistroEditar.gerenciaBenef = '';
+  //   this.dataRegistroEditar.planner = '';
+  //   this.dataRegistroEditar.controllerGerBen = '';
+  //   this.dataRegistroEditar.controllerAprobBc = '';
+  //   this.dataRegistroEditar.tecnologia = '';
+  //   this.dataRegistroEditar.licencias = '';
+  //   this.dataRegistroEditar.naturaleza = '';
 
-    this.fechaing                 = ''
-    this.btnRegistrarRegistro.nativeElement.disabled = false;
-    this.cargarRegistro();
-  };
+  //   this.fechaing                 = ''
+  //   this.btnCrearRegistro.nativeElement.disabled = false;
+  //   this.cargarRegistro();
+  // };
 
   registros: Array<any> = [];
   cargarRegistro(){
@@ -251,100 +278,227 @@ export class ModalRegistroComponent implements OnInit {
               tecnologia            : data[0].list[i].tecnologia,
               licencias             : data[0].list[i].licencias,
               naturaleza            : data[0].list[i].naturaleza,
-              fecha_creacion            : data[0].list[i].fecha_creacion,
+              fecha_creacion        : data[0].list[i].fecha_creacion,
             })
           }
         })
   }
 
-  @ViewChild('cerrarModal') cerrarModal!: ElementRef;
-  agregarRegistro(){
+  // @ViewChild('cerrarModal') cerrarModal!: ElementRef;
+  // agregarRegistro(){
+  //   this.spinner.show();
+  //   // let registroIdGerSolc
+  //   // if (this.idGerSolc == undefined || this.idGerSolc == 0) {
+  //   //   this.idGerSolc  = '';
+  //   // } else {
+  //   //   registroIdGerSolc = this.idGerSolc
+  //   // };
+
+  //   let registroIdInfoVP
+  //   if (this.idVP == undefined || this.idVP == 0) {
+  //     this.idVP = ''
+  //   } else {
+  //     registroIdInfoVP = this.idVP
+  //   }
+
+  //   // let idGerSolc = registroIdGerSolc;
+  //   this.btnCrearRegistro.nativeElement.disabled = true;
+
+  //   let nombre                = this.dataRegistroEditar.nombre;
+  //   let codigo                = this.dataRegistroEditar.codigo;
+  //   let vp                    = this.dataRegistroEditar.vp;
+  //   let gerencia_solicitante  = this.dataRegistroEditar.gerencia_solicitante;
+  //   let po_proyecto           = this.dataRegistroEditar.po_proyecto;
+  //   let estado                = this.dataRegistroEditar.estado;
+  //   let responsable           = this.dataRegistroEditar.responsable;
+  //   let gerencia_beneficiaria = this.dataRegistroEditar.gerencia_beneficiaria;
+  //   let planner               = this.dataRegistroEditar.planner;
+  //   let controller_ger_ben    = this.dataRegistroEditar.controller_ger_ben;
+  //   let controller_aprob_bc   = this.dataRegistroEditar.controller_aprob_bc;
+  //   let tecnologia            = this.dataRegistroEditar.tecnologia;
+  //   let licencias             = this.dataRegistroEditar.licencias;
+  //   let naturaleza            = this.dataRegistroEditar.naturaleza;
+
+  //   let fecha_creacion          = this.dataRegistroEditar.fecha_creacion;
+
+  //   let parametro: any[] = [
+  //     {queryId: 97,
+  //      mapValue: {
+  //       "p_cdescripcion"   : nombre  ,
+  //       "p_cod_proyecto"   : codigo  ,
+  //       "p_id_vp"          : registroIdInfoVP  ,
+  //       "p_id_gerencia_sol": gerencia_solicitante  , // revisar y corregir ?
+  //       "p_id_estado"      : estado  ,
+  //       "p_po_proyecto"    : po_proyecto  ,
+  //       "p_responsable"    : responsable  ,
+  //       "p_id_gerencia_ben": gerencia_beneficiaria  ,
+  //       "p_planner"        : planner  ,
+  //       "p_cont_ger_ben"   : controller_ger_ben  ,
+  //       "p_cont_apr_bc"    : controller_aprob_bc  ,
+  //       "p_id_tecnologia"  : tecnologia  ,
+  //       "p_q_licencias"    : licencias  ,
+  //       "p_id_naturaleza"  : naturaleza  ,
+  //       "p_prob_actual"    : ''  ,
+  //       "p_func_robotiz"   : ''  ,
+  //       "p_def_alcance"    : ''  ,
+  //       "p_riesgo_no_rpa"  : ''  ,
+  //       "p_pi"             : ''  ,
+  //       "p_qtrx_mes"       : ''  ,
+  //       "p_tmo_trx"        : ''  ,
+  //       "p_flu_contx"      : ''  ,
+  //       "p_user_crea"      : ''  ,
+  //       "p_fecha_crea"     : fecha_creacion  ,
+  //       "p_user_act"       : ''  ,
+  //       "p_fecha_act"      : '' ,
+  //       "CONFIG_REG_ID"    : '' ,
+  //       "CONFIG_OUT_MSJ_ERROR": '' ,
+  //       "CONFIG_OUT_MSJ_EXITO": ''
+  //      }
+  //     }];
+
+  //     this.modalRegistroService.agregarRegistro(parametro[0]).subscribe(resp => {
+  //       console.log('AGREGAR_REG', resp);
+  //       const regData: any[] = Array.of(resp);
+
+  //       let msj  = regData[0].exitoMessage;
+  //       let msj2 = regData[0].errorMessage;
+
+  //       this.cerrarModal.nativeElement.click();
+  //       this.cargarRegistro();
+
+  //     });
+  //     this.spinner.hide();
+  // }
+
+
+  cargarRegistroId(){
     this.spinner.show();
 
-    // let registroIdGerSolc
-    // if (this.idGerSolc == undefined || this.idGerSolc == 0) {
-    //   this.idGerSolc  = '';
-    // } else {
-    //   registroIdGerSolc = this.idGerSolc
-    // };
+    let parametro: any[] = [{
+      queryId: 100,
+      mapValue: {
+        'param_idIniciativa': this.idRegistro
+      }
+    }];
 
-    let registroIdInfoVP
-    if (this.idVP == undefined || this.idVP == 0) {
-      this.idVP = ''
-    } else {
-      registroIdInfoVP = this.idVP
-    }
+    this.modalRegistroService.cargarRegistroId(parametro[0]).subscribe( resp => {
+      const editData:any[] = Array.of(resp);
 
-    // let idGerSolc = registroIdGerSolc;
+      console.log('EDIT',editData );
+      for (let i = 0; i < editData[0].list.length; i++) {
 
-    this.btnRegistrarRegistro.nativeElement.disabled = true;
+        this.dataRegistroEditar.id                    = editData[0].list[i].idIniciativa ;
+        this.dataRegistroEditar.nombre                = editData[0].list[i].nombre ;
+        this.dataRegistroEditar.codigo                = editData[0].list[i].codigo ;
+        this.dataRegistroEditar.vp                    = editData[0].list[i].vp ;
+        this.dataRegistroEditar.gerenciaSolic         = editData[0].list[i].gerencia_solicitante ;
+        this.dataRegistroEditar.estado                = editData[0].list[i].estado ;
+        this.dataRegistroEditar.poProyecto            = editData[0].list[i].po_proyecto ;
+        this.dataRegistroEditar.responsable           = editData[0].list[i].responsable ;
+        this.dataRegistroEditar.gerenciaBenef         = editData[0].list[i].gerencia_beneficiaria ;
+        this.dataRegistroEditar.planner               = editData[0].list[i].planner ;
+        this.dataRegistroEditar.controllerGerBen      = editData[0].list[i].controller_ger_ben ;
+        this.dataRegistroEditar.controllerAprobBc     = editData[0].list[i].controller_aprob_bc ;
+        this.dataRegistroEditar.tecnologia            = editData[0].list[i].tecnologia ;
+        this.dataRegistroEditar.licencias             = editData[0].list[i].licencias ;
+        this.dataRegistroEditar.naturaleza            = editData[0].list[i].naturaleza ;
 
-    let nombre                = this.datosRegistro.nombre;
-    let codigo                = this.datosRegistro.codigo;
-    let vp                    = this.datosRegistro.vp;
+        if (editData[0].list[i].fecha_creacion !='null' && editData[0].list[i].fecha_creacion != '') {
+          let fechaCrea = editData[0].list[i].fecha_creacion
+          const str   = fechaCrea.split('/');
+          const year  = Number(str[2]);
+          const month = Number(str[1]);
+          const date  = Number(str[0]);
 
-    let gerencia_solicitante  = this.datosRegistro.gerencia_solicitante;
-    let po_proyecto           = this.datosRegistro.po_proyecto;
-    let estado                = this.datosRegistro.estado;
-    let responsable           = this.datosRegistro.responsable;
-    let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
-    let planner               = this.datosRegistro.planner;
-    let controller_ger_ben    = this.datosRegistro.controller_ger_ben;
-    let controller_aprob_bc   = this.datosRegistro.controller_aprob_bc;
-    let tecnologia            = this.datosRegistro.tecnologia;
-    let licencias             = this.datosRegistro.licencias;
-    let naturaleza            = this.datosRegistro.naturaleza;
+          this.dataRegistroEditar.fechaCreacion = this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd')
+          console.log('FECHA_CREA', this.dataRegistroEditar.fechaCreacion);
 
-    let fecha_creacion          = this.datosRegistro.fecha_creacion;
-
-    let parametro: any[] = [
-      {queryId: 97,
-       mapValue: {
-        "p_cdescripcion"   : nombre  ,
-        "p_cod_proyecto"   : codigo  ,
-        "p_id_vp"          : registroIdInfoVP  ,
-        "p_id_gerencia_sol": gerencia_solicitante  , // revisar y corregir ?
-        "p_id_estado"      : estado  ,
-        "p_po_proyecto"    : po_proyecto  ,
-        "p_responsable"    : responsable  ,
-        "p_id_gerencia_ben": gerencia_beneficiaria  ,
-        "p_planner"        : planner  ,
-        "p_cont_ger_ben"   : controller_ger_ben  ,
-        "p_cont_apr_bc"    : controller_aprob_bc  ,
-        "p_id_tecnologia"  : tecnologia  ,
-        "p_q_licencias"    : licencias  ,
-        "p_id_naturaleza"  : naturaleza  ,
-        "p_prob_actual"    : ''  ,
-        "p_func_robotiz"   : ''  ,
-        "p_def_alcance"    : ''  ,
-        "p_riesgo_no_rpa"  : ''  ,
-        "p_pi": ''  ,
-        "p_qtrx_mes": ''  ,
-        "p_tmo_trx": ''  ,
-        "p_flu_contx": ''  ,
-        "p_user_crea": ''  ,
-        "p_fecha_crea": fecha_creacion  ,
-        "p_user_act": ''  ,
-        "p_fecha_act": '' ,
-        "CONFIG_REG_ID": '' ,
-        "CONFIG_OUT_MSJ_ERROR": '' ,
-        "CONFIG_OUT_MSJ_EXITO": ''
-       }
-      }];
-
-      this.modalRegistroService.agregarRegistro(parametro[0]).subscribe(resp => {
-        console.log('AGREGAR_REG', resp);
-        const regData: any[] = Array.of(resp);
-
-        let msj  = regData[0].exitoMessage;
-        let msj2 = regData[0].errorMessage;
-
-        this.cerrarModal.nativeElement.click();
-        this.cargarRegistro();
-
-      });
+        }
+      }
       this.spinner.hide();
+    })
   }
 
 
+  @ViewChild('btnActualizarRegistro') btnActualizarRegistro!: ElementRef;
+  actualizarRegistro(){
+    this.spinner.show();
+    this.btnActualizarRegistro.nativeElement.disabled = true;
+
+
+    // let id                    = this.dataRegistroEditar.id;
+    let nombre                = this.dataRegistroEditar.nombre;
+    let codigo                = this.dataRegistroEditar.codigo;
+    let vp                    = this.dataRegistroEditar.vp;
+    let gerenciaSolic         = this.dataRegistroEditar.gerenciaSolic;
+    let estado                = this.dataRegistroEditar.estado;
+    let poProyecto            = this.dataRegistroEditar.poProyecto;
+    let responsable           = this.dataRegistroEditar.responsable;
+    let gerenciaBenef         = this.dataRegistroEditar.gerenciaBenef;
+    let planner               = this.dataRegistroEditar.planner;
+    let controllerGerBen      = this.dataRegistroEditar.controllerGerBen;
+    let controllerAprobBc     = this.dataRegistroEditar.controllerAprobBc;
+    let tecnologia            = this.dataRegistroEditar.tecnologia;
+    let licencias             = this.dataRegistroEditar.licencias;
+    let naturaleza            = this.dataRegistroEditar.naturaleza;
+
+    let fecha_creacion        = this.dataRegistroEditar.fechaCreacion;
+
+    let parametro: any[] = [{
+      queryId: 99 ,
+      mapValue: {
+        "param_idIniciativa"   : this.idRegistro  ,
+        "param_cdescripcion"   : nombre  ,
+        "param_cod_proyecto"   : codigo  ,
+        "param_id_vp"          : vp  ,
+        "param_id_gerencia_sol": gerenciaSolic  , // revisar y corregir ?
+        "param_id_estado"      : estado  ,
+        "param_po_proyecto"    : poProyecto  ,
+        "param_responsable"    : responsable  ,
+        "param_id_gerencia_ben": gerenciaBenef  ,
+        "param_planner"        : planner  ,
+        "param_cont_ger_ben"   : controllerGerBen  ,
+        "param_cont_apr_bc"    : controllerAprobBc  ,
+        "param_id_tecnologia"  : tecnologia  ,
+        "param_q_licencias"    : licencias  ,
+        "param_id_naturaleza"  : naturaleza  ,
+        "param_prob_actual"    : ''  ,
+        "param_func_robotiz"   : ''  ,
+        "param_def_alcance"    : ''  ,
+        "param_riesgo_no_rpa"  : ''  ,
+        "param_pi"             : ''  ,
+        "param_qtrx_mes"       : ''  ,
+        "param_tmo_trx"        : ''  ,
+        "param_flu_contx"      : ''  ,
+        "param_user_crea"      : ''  ,
+        "param_fecha_crea"     : fecha_creacion  ,
+        "param_user_act"       : ''  ,
+        "param_fecha_act"      : '' ,
+        // "CONFIG_REG_ID"        : this.usuario.user.userId,
+        "CONFIG_REG_ID"        : '',
+        "CONFIG_OUT_MSJ_ERROR" : '' ,
+        "CONFIG_OUT_MSJ_EXITO" : ''
+      }
+    }];
+
+    this.modalRegistroService.actualizarRegistro(parametro[0]).subscribe( resp => {
+      this.spinner.hide();
+
+      const data: any[] = Array.of(resp);
+      console.log('DATA_ACTUALIZADO', data);
+
+      let msj  = data[0].exitoMessage;
+      let msj2 = data[0].errorMessage
+
+
+    });
+    this.btnActualizarRegistro.nativeElement.disabled = false
+  }
+
+
+  regresarRegistro(){
+    this.router.navigateByUrl('registro/iniciativa')
+  }
+
 }
+
