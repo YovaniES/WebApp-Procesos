@@ -9,7 +9,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal-content" style="border:none ;">
       <div
         class="modal-header modal-title"
         style="border-bottom: none"
@@ -32,6 +32,7 @@
         class="cli-form newvac-wrapper"
         style="width: 90%"
       >
+        <!-- -----------------------------------------------REGISTROS --------------------------->
         <div class="pr-subtitle mt-2">Registros</div>
 
         <div class="pr-section">
@@ -132,7 +133,7 @@
                   [(ngModel)]="dataRegistroEditar.gerenciaBenef"
                   [ngModelOptions]="{ standalone: true }"
                   #gerenBenef
-                  (change)="getInfoGerSol(gerenBenef.value)"
+                  (change)="getInfoGerBen(gerenBenef.value)"
                 ><option [value]="0" disabled>-Seleccionar-</option>
                   <option
                     [value]="gerenc.id"
@@ -196,7 +197,7 @@
               </div>
 
             </ng-container>
-              <div class="cli-form-buttons">
+              <!-- <div class="cli-form-buttons">
                 <button
                   class="cli-btn btn-m btn-grey"
                   type="submit"
@@ -211,7 +212,7 @@
                   #btnActualizarRegistro
                 ><mat-icon>save</mat-icon> Actualizar
                 </button>
-              </div>
+              </div> -->
           </form>
         </div>
       </div>
@@ -225,6 +226,7 @@
                   <label>QTRX mensual</label>
                   <input
                     type="text"
+                    min="0"
                     class="form-control cli-input-white"
                     placeholder="25"
                     [(ngModel)]="diagnostico.qtrx"
@@ -236,6 +238,7 @@
                 <label>TMO POR TRX</label>
                 <input
                   type="number"
+                  min="0"
                   class="form-control cli-input-white"
                   placeholder="4"
                   [(ngModel)]="diagnostico.tmo"
@@ -369,24 +372,56 @@
           </div>
         </div>
 
+        <!-- -----------------------------------------------HISTORICO CAMBIOS -------------------------------------->
+        <div class="pr-subtitle mt-2">Historico de Cambios</div>
+          <div class="pr-section">
 
-           <!--  <div class="cli-form-buttons">
-              <button
-                class="cli-btn btn-m btn-grey"
-                type="submit"
-                data-dismiss="modal"
-                (click)="regresarRegistro()">
-                <mat-icon class="icon-18">cancel</mat-icon> Regresar
-              </button>
-              <button
-                #btnRegistrarRegistro
-                class="cli-btn btn-m btn-magenta"
-                (click)="actualizarRegistro()"
-                #btnActualizarRegistro
-              ><mat-icon>save</mat-icon> Actualizar
-              </button>
-            </div> -->
-      </div>
+          <div class="pr-module-container">
+            <div style="overflow: auto; min-height: 300px">
+              <table class="cli-table stripedtable underlinedtable">
+                <thead>
+                  <tr class="bgc-blue c-white">
+                    <th>#</th>
+                    <th>Estado</th>
+                    <th>Motivo</th>
+                    <th>Fecha y Hora de Cambio</th>
+                    <th>Usuario</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    *ngFor=" let registro of registros; let i = index ">
+                    <td>{{i+1}}</td>
+                    <td style="width: 135px; height: 68px;">{{ registro.nombre }}</td>
+                    <td>{{ registro.po_proyecto }}</td>
+                    <td>{{ registro.fecha_creacion }}</td>
+                    <td style="width: 135px; height: 68px;">{{ registro.codigo }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="cli-form-buttons">
+          <button
+            class="cli-btn btn-m btn-grey"
+            type="submit"
+            data-dismiss="modal"
+            (click)="regresarRegistro()">
+            <mat-icon class="icon-18">cancel</mat-icon> Regresar
+          </button>
+          <button
+            #btnRegistrarRegistro
+            class="cli-btn btn-m btn-magenta"
+            (click)="actualizarRegistro()"
+            #btnActualizarRegistro
+          ><mat-icon>save</mat-icon> Actualizar
+          </button>
+        </div>
+
+
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export interface EditarRegistro {
-  id                    : number,
+  idIniciativa          : number,
   nombre                : string,
   codigo                : string,
   vp                    : string,
@@ -15,7 +15,8 @@ export interface EditarRegistro {
   responsable           : string,
   gerenciaBenef         : string,
   planner               : string,
-  controllerGerBen      : string,
+  gerencia_beneficiaria
+  : string,
   controllerAprobBc     : string,
   tecnologia            : string,
   licencias             : string,
@@ -52,7 +53,7 @@ export class ModalRegistroComponent implements OnInit {
 
 
   dataRegistroEditar: EditarRegistro= {
-    id                   : 0,
+    idIniciativa         : 0,
     nombre               : '',
     codigo               : '',
     vp                   : '',
@@ -62,7 +63,7 @@ export class ModalRegistroComponent implements OnInit {
     responsable          : '',
     gerenciaBenef        : '',
     planner              : '',
-    controllerGerBen     : '',
+    gerencia_beneficiaria: '',
     controllerAprobBc    : '',
     tecnologia           : '',
     licencias            : '',
@@ -108,9 +109,8 @@ export class ModalRegistroComponent implements OnInit {
   }
 
   idGerSol: any;
-  getInfoGerSol(id: any){
-    this.idGerSol = id
-  }
+  getInfoGerSol(id: any){ this.idGerSol = id }
+  getInfoGerBen(id: any){ }
 
   actualizarFechaCreacion(fecha: string){
     this.dataRegistroEditar.fechaCreacion = this.datePipe.transform(fecha, 'yyyy-MM-dd');
@@ -237,7 +237,7 @@ export class ModalRegistroComponent implements OnInit {
   //   this.dataRegistroEditar.responsable = '';
   //   this.dataRegistroEditar.gerenciaBenef = '';
   //   this.dataRegistroEditar.planner = '';
-  //   this.dataRegistroEditar.controllerGerBen = '';
+  //   this.dataRegistroEditar.        gerencia_beneficiaria = '';
   //   this.dataRegistroEditar.controllerAprobBc = '';
   //   this.dataRegistroEditar.tecnologia = '';
   //   this.dataRegistroEditar.licencias = '';
@@ -386,8 +386,7 @@ export class ModalRegistroComponent implements OnInit {
 
       console.log('EDIT',editData );
       for (let i = 0; i < editData[0].list.length; i++) {
-
-        this.dataRegistroEditar.id                    = editData[0].list[i].idIniciativa ;
+        this.dataRegistroEditar.idIniciativa          = editData[0].list[i].idIniciativa ;
         this.dataRegistroEditar.nombre                = editData[0].list[i].nombre ;
         this.dataRegistroEditar.codigo                = editData[0].list[i].codigo ;
         this.dataRegistroEditar.vp                    = editData[0].list[i].vp ;
@@ -395,9 +394,10 @@ export class ModalRegistroComponent implements OnInit {
         this.dataRegistroEditar.estado                = editData[0].list[i].estado ;
         this.dataRegistroEditar.poProyecto            = editData[0].list[i].po_proyecto ;
         this.dataRegistroEditar.responsable           = editData[0].list[i].responsable ;
-        this.dataRegistroEditar.gerenciaBenef         = editData[0].list[i].gerencia_beneficiaria ;
+        this.dataRegistroEditar.gerencia_beneficiaria = editData[0].list[i].gerencia_beneficiaria ;
         this.dataRegistroEditar.planner               = editData[0].list[i].planner ;
-        this.dataRegistroEditar.controllerGerBen      = editData[0].list[i].controller_ger_ben ;
+        this.dataRegistroEditar.        gerencia_beneficiaria
+      = editData[0].list[i].controller_ger_ben ;
         this.dataRegistroEditar.controllerAprobBc     = editData[0].list[i].controller_aprob_bc ;
         this.dataRegistroEditar.tecnologia            = editData[0].list[i].tecnologia ;
         this.dataRegistroEditar.licencias             = editData[0].list[i].licencias ;
@@ -425,7 +425,6 @@ export class ModalRegistroComponent implements OnInit {
     this.spinner.show();
     this.btnActualizarRegistro.nativeElement.disabled = true;
 
-
     // let id                    = this.dataRegistroEditar.id;
     let nombre                = this.dataRegistroEditar.nombre;
     let codigo                = this.dataRegistroEditar.codigo;
@@ -436,7 +435,9 @@ export class ModalRegistroComponent implements OnInit {
     let responsable           = this.dataRegistroEditar.responsable;
     let gerenciaBenef         = this.dataRegistroEditar.gerenciaBenef;
     let planner               = this.dataRegistroEditar.planner;
-    let controllerGerBen      = this.dataRegistroEditar.controllerGerBen;
+    let         gerencia_beneficiaria
+      = this.dataRegistroEditar.        gerencia_beneficiaria
+;
     let controllerAprobBc     = this.dataRegistroEditar.controllerAprobBc;
     let tecnologia            = this.dataRegistroEditar.tecnologia;
     let licencias             = this.dataRegistroEditar.licencias;
@@ -450,14 +451,15 @@ export class ModalRegistroComponent implements OnInit {
         "param_idIniciativa"   : this.idRegistro  ,
         "param_cdescripcion"   : nombre  ,
         "param_cod_proyecto"   : codigo  ,
-        "param_id_vp"          : vp  ,
+        // "param_id_vp"          : vp  ,
         "param_id_gerencia_sol": gerenciaSolic  , // revisar y corregir ?
-        "param_id_estado"      : estado  ,
+        // "param_id_estado"      : estado  ,
         "param_po_proyecto"    : poProyecto  ,
         "param_responsable"    : responsable  ,
         "param_id_gerencia_ben": gerenciaBenef  ,
         "param_planner"        : planner  ,
-        "param_cont_ger_ben"   : controllerGerBen  ,
+        "param_cont_ger_ben"   :         gerencia_beneficiaria
+  ,
         "param_cont_apr_bc"    : controllerAprobBc  ,
         "param_id_tecnologia"  : tecnologia  ,
         "param_q_licencias"    : licencias  ,
