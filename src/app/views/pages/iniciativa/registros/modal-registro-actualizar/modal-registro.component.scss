@@ -1,16 +1,22 @@
-@import 'variables.scss';
+// @import 'variables.scss';
 
 
 // OJO MODAL TITLE
 
-.modal-title-inic {
+// .modal-title-inic {
+//   font-size: 1.7rem;
+//   font-weight: 400;
+//   color: #00bec0;
+//   margin: 10px 0;
+//   text-align: center;
+// }
+.modal-title {
   font-size: 1.7rem;
   font-weight: 400;
   color: #00bec0;
   margin: 10px 0;
   text-align: center;
 }
-
 
 
 // ESTILOS MODAL LINEA IZQ
@@ -43,4 +49,11 @@
   margin: 20px auto;
   padding: 20px;
   // border: solid 1px $color-grey-2;
+}
+
+.moda-close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 20;
 }

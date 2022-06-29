@@ -27,7 +27,7 @@ const routes: Routes = [
         loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
       },
 
-      {path: 'actualizar/:id', component: ModalRegistroComponent},
+      {path: 'actualizar/:idRegistro', component: ModalRegistroComponent},
       // {path: 'actualizar/:idIniciativa', component: ModalBandejaComponent},S
 
       {

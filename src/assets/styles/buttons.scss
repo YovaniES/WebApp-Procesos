@@ -93,6 +93,17 @@
     background-color: $color-green-d;
   }
 }
+.btn-blue-light {
+  background-color: #019df4bd;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #009aff5e;
+  }
+  &:hover:enabled:active {
+    background-color: #257cfdd9;
+  }
+}
 .btn-magenta {
   background-color: $color-magenta;
   color: #fff;

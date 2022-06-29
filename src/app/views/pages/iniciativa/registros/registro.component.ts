@@ -5,6 +5,8 @@ import { ModalRegistroService } from 'src/app/core/services/modalRegistro.servic
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalRegistroComponent } from './modal-registro-actualizar/modal-registro.component';
 
 
 @Component({
@@ -18,7 +20,6 @@ export class RegistroComponent implements OnInit {
   @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
   showing=1;
-  // total: number = 0;
   actionBtn: number = 0
 
   page = 1;
@@ -54,8 +55,8 @@ export class RegistroComponent implements OnInit {
       estado              : '',
       gerencia_benef      : '',
       naturaleza          : '',
-      fechaCreacion : '',
-      fechaFinalizacion    : '',
+      fechaCreacion       : '',
+      fechaFinalizacion   : '',
     };
 
     datosRegistro = {
@@ -66,7 +67,7 @@ export class RegistroComponent implements OnInit {
       po_proyecto          : '',
       gerencia_beneficiaria: '',
       naturaleza           : '',
-      fecha_creacion         : ''
+      fecha_creacion       : ''
     }
 
   constructor(
@@ -74,34 +75,25 @@ export class RegistroComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
     // private toastr: ToastrService
+    private dialog: MatDialog
 
+    // private dialogRef: MatDialogRef<ModalUsersComponent>,
   ) {}
 
   ngOnInit(): void {
     this.spinner.hide();
 
     this.cargarRegistro();
-
     this.getListEstados();
     this.getListGerencia();
-    this.getListaVP();
+    // this.getListaVP();
     this.getListNaturaleza();
-    this.getListaTecnologia();
+    // this.getListaTecnologia();
   }
 
-  getInfoEstados(id: any){
+  getInfoEstados(id: any){ }
 
-  }
-
-  getInfoTecnologia(id: any){
-
-  }
-
-  getInfoNaturaleza(id:any){
-
-  }
-
-  // ID MODAL
+  getInfoNaturaleza(id:any){ }
 
   idGerSol: any;
   getInfoGerSol(id: any){
@@ -114,8 +106,6 @@ export class RegistroComponent implements OnInit {
   getInfoEstadoBuscar(id:any){
     this.idEstadoBuscar = id;
   }
-
-
 
   idGerSolcBuscar: any
   getInfoGerSolBuscar(id: any){
@@ -155,29 +145,6 @@ export class RegistroComponent implements OnInit {
    }
 
 
-  // OBTENCION DE LISTA TECNOLOGIA_X
-  tecnologias:Array<any> = []
-  getListaTecnologia(){
-    // this.registroForm.value.idIniciativa = id.toString();
-    let parametro: any[]=[
-      { queryId:93 }
-    ];
-    this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
-
-      const dataTecnol:any[] = Array.of(resp)
-      // console.log('TECNOLOGIA_X', dataTecnol);
-
-      this.tecnologias = [];
-      for (let i = 0; i < dataTecnol[0].list.length; i++) {
-        this.tecnologias.push({
-          id    : dataTecnol[0].list[i].id,
-          nombre: dataTecnol[0].list[i].nombre
-        })
-      }
-    })
-  }
-
-
   // LISTA DE ESTADOS
   listEstados: Array<any> = [];
   getListEstados(){
@@ -193,15 +160,16 @@ export class RegistroComponent implements OnInit {
       this.listEstados = [];
       for (let i = 0; i < estadosData[0].list.length; i++) {
         this.listEstados.push({
-          idEstado:     estadosData[0].list[i].cNombre,
+          idEstado:     estadosData[0].list[i].idEstado,
           cNombre :     estadosData[0].list[i].cNombre,
         });
       }
     })
   };
+
     // LISTA DE GERENCIA
-    listGerencia: Array<any> = [];
-    getListGerencia(){
+  listGerencia: Array<any> = [];
+  getListGerencia(){
       let parametro: any[] = [
         { queryId: 95 }
       ];
@@ -221,7 +189,7 @@ export class RegistroComponent implements OnInit {
       })
     };
 
-      // Lista de NATURALEZA
+  // Lista de NATURALEZA
   naturaleza: Array<any> = [];
   getListNaturaleza() {
     let parametro: any[] = [
@@ -247,6 +215,9 @@ export class RegistroComponent implements OnInit {
   // BUSCAR EN LA TABLA
     totalFiltroEncontrado: number = 0;
     buscarRegistro(){
+      this.registros = [];
+      this.totalRegistros = 0;
+
     this.blockUI.start("Buscando información...");
 
       // this.spinner.show();
@@ -307,7 +278,6 @@ export class RegistroComponent implements OnInit {
           });
         }
       // this.blockUI.stop();
-
         this.spinner.hide();
       });
     }
@@ -316,6 +286,8 @@ export class RegistroComponent implements OnInit {
 
    registros: Array<any> = [];
    cargarRegistro(){
+    this.registros = [];
+    this.totalRegistros = 0;
     this.blockUI.start("Cargando registros...");
 
      let arrayParametro: any[] = [
@@ -331,7 +303,7 @@ export class RegistroComponent implements OnInit {
            const dataReg: any[] = Array.of(resp);
            this.totalRegistros = dataReg[0].list.length;
            this.registros = [];
-             console.log('REGISTROS_TABLA', dataReg);
+             console.log('REGISTROS_TABLA', dataReg, this.totalRegistros);
 
              for (let i = 0; i < dataReg[0].list.length; i++) {
                this.registros.push({
@@ -415,9 +387,6 @@ export class RegistroComponent implements OnInit {
     this.spinner.hide();
   }
 
-
-
-
   borrarRegistroX(regist: Registro) {
     let arrayParametro:any[] = [{
       "queryId": 98,
@@ -451,16 +420,15 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-
   limpiarRegistModal(){
-    this.datosRegistro.nombre = '';
-    this.datosRegistro.codigo = '';
-    this.datosRegistro.estado = '';
-    this.datosRegistro.po_proyecto = '';
+    this.datosRegistro.nombre                = '';
+    this.datosRegistro.codigo                = '';
+    this.datosRegistro.estado                = '';
+    this.datosRegistro.po_proyecto           = '';
     this.datosRegistro.gerencia_beneficiaria = '';
-    this.datosRegistro.naturaleza = '';
+    this.datosRegistro.naturaleza            = '';
 
-    this.fechaing                 = ''
+    this.fechaing                            = ''
     this.btnRegistrarRegistro.nativeElement.disabled = false;
     this.cargarRegistro();
   };
@@ -482,21 +450,12 @@ export class RegistroComponent implements OnInit {
   agregarRegistro(){
     this.spinner.show();
 
-    // let registroIdGerSolc
-    // if (this.idGerSolc == undefined || this.idGerSolc == 0) {
-    //   this.idGerSolc  = '';
-    // } else {
-    //   registroIdGerSolc = this.idGerSolc
-    // };
-
     let registroIdInfoVP
     if (this.idVP == undefined || this.idVP == 0) {
       this.idVP = ''
     } else {
       registroIdInfoVP = this.idVP
     }
-
-    // let idGerSolc = registroIdGerSolc;
 
     this.btnRegistrarRegistro.nativeElement.disabled = true;
 
@@ -507,7 +466,7 @@ export class RegistroComponent implements OnInit {
     let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
     let naturaleza            = this.datosRegistro.naturaleza;
 
-    let fecha_creacion          = this.datosRegistro.fecha_creacion;
+    let fecha_creacion        = this.datosRegistro.fecha_creacion;
 
     let parametro: any[] = [
       {queryId: 97,
@@ -517,20 +476,21 @@ export class RegistroComponent implements OnInit {
         "p_id_vp"          : registroIdInfoVP  ,
         "p_id_estado"      : estado  ,
         "p_po_proyecto"    : po_proyecto  ,
+        "p_id_gerencia_ben": gerencia_beneficiaria,
         "p_id_naturaleza"  : naturaleza  ,
         "p_prob_actual"    : ''  ,
         "p_func_robotiz"   : ''  ,
         "p_def_alcance"    : ''  ,
         "p_riesgo_no_rpa"  : ''  ,
-        "p_pi": ''  ,
-        "p_qtrx_mes": ''  ,
-        "p_tmo_trx": ''  ,
-        "p_flu_contx": ''  ,
-        "p_user_crea": ''  ,
-        "p_fecha_crea": fecha_creacion  ,
-        "p_user_act": ''  ,
-        "p_fecha_act": '' ,
-        "CONFIG_REG_ID": '' ,
+        "p_pi"             : ''  ,
+        "p_qtrx_mes"       : ''  ,
+        "p_tmo_trx"        : ''  ,
+        "p_flu_contx"      : ''  ,
+        "p_user_crea"      : 'jjsoto'  ,
+        "p_fecha_crea"     : fecha_creacion  ,
+        "p_user_act"       : ''  ,
+        "p_fecha_act"      : '' ,
+        "CONFIG_REG_ID"    : '' ,
         "CONFIG_OUT_MSJ_ERROR": '' ,
         "CONFIG_OUT_MSJ_EXITO": ''
        }
@@ -542,6 +502,13 @@ export class RegistroComponent implements OnInit {
 
         let msj  = regData[0].exitoMessage;
         let msj2 = regData[0].errorMessage;
+        // exitoMessage
+
+        Swal.fire(
+          'Registro Iniciativa!',
+          'Registro creado con éxito',
+          'success'
+        );
 
         this.cerrarModal.nativeElement.click();
         this.cargarRegistro();
@@ -550,21 +517,20 @@ export class RegistroComponent implements OnInit {
       this.spinner.hide();
   }
 
-  actualizarRegistro(){
-
-  }
 
 
-/*   editarRegistro(registro: Registro) {
+
+  editarIniciativa(idIniciativa: any) {
     this.dialog
-      .open(ModalBandejaComponent, { width: '1125px', data: registro })
+      .open(ModalRegistroComponent, { width: '1125px', data: idIniciativa, disableClose: true })
       .afterClosed()
-      .subscribe((resp1) => {
-        if (resp1 == 'update') {
+      .subscribe((resp) => {
+        console.log('as', resp);
+        if (resp) {
           this.cargarRegistro();
         }
       });
-  } */
+  }
 
   // regresarBandeja(){
   //   this.router.navigate(['mantenimientoRecurso']);

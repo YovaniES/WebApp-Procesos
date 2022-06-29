@@ -1,3 +1,4 @@
+
 <div class="cli-card fit-card">
   <div class="cli-card-body">
     <div class="cli-title c-male">Mantenimiento iniciativa</div>
@@ -11,7 +12,6 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Ingrese el nombre del proyecto"
                 [(ngModel)]="filtro.nombre"
                 [ngModelOptions]="{ standalone: true }"
               />
@@ -21,10 +21,24 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Ingrese el código del proyecto"
                 [(ngModel)]="filtro.codigo"
                 [ngModelOptions]="{ standalone: true }"
               />
+            </div>
+            <div class="col-sm-3 cli-form-element">
+              <label for="" class="form-label">Estado</label>
+              <select
+                class="form-select"
+                [(ngModel)]="filtro.estado"
+                [ngModelOptions]="{ standalone: true }"
+                #state
+                (change)="getInfoEstadoBuscar(state.value)"
+              >
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="estado.idEstado" *ngFor="let estado of listEstados">
+                  {{ estado.cNombre }}
+                </option>
+              </select>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -43,21 +57,7 @@
               </select>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label for="" class="form-label">Estado</label>
-              <select
-                class="form-select"
-                [(ngModel)]="filtro.estado"
-                [ngModelOptions]="{ standalone: true }"
-                #state
-                (change)="getInfoEstadoBuscar(state.value)"
-              >
-                <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="estado.idEstado" *ngFor="let estado of listEstados">
-                  {{ estado.cNombre }}
-                </option>
-              </select>
-            </div>
+
 
             <div class="col-sm-2 cli-form-element">
               <label for="" class="form-label"
@@ -113,7 +113,7 @@
 
               <button
                 type="submit"
-                class="cli-btn btn-magenta mb-2"
+                class="cli-btn btn-blue-light mb-2"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
                 (click)="buscarRegistro()"
               >
@@ -137,13 +137,13 @@
           class="cli-btn btn-magenta mb-2"
           type="button"
         >
-          <mat-icon class="icon-18">add</mat-icon>Agregar registro
+          <mat-icon class="icon-18">add</mat-icon>Crear iniciativa
         </button>
         <div class="flex-1"></div>
         <h3 class="card-subtitlte" style="color: #3b4ef6">
           Total :
           <span style="color: #adb0b2; font-size: 20px; font-weight: 500">
-            {{ totalRegistros}} registros</span
+            {{ registros.length}} registros</span
           >
         </h3>
       </div>
@@ -171,28 +171,17 @@
                 let registro of registros | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: totalBandeja }">
               <td>
                 <div class="cli-table-actions">
-
-                  <!-- <button
-                    data-toggle="modal"
-                    data-target="#modalActualizarRegistro"
-                    matTooltip="Editar"
-                    class="icon-btn btn-trans c-green"
-                   ><mat-icon class="icon-18">edit</mat-icon>
-                 </button> -->
-
                   <button
-                    routerLink="/actualizar/{{registro.idIniciativa}}"
                     matTooltip="Editar"
-                    class="icon-btn btn-trans c-green"
-                  ><mat-icon class="icon-18">edit</mat-icon>
-                  </button>
-
+                    class="icon-btn btn-trans c-blue"
+                    (click)="editarIniciativa(registro.idIniciativa)"
+                   ><mat-icon class="icon-18">edit</mat-icon>
+                 </button>
                   <button
                     matTooltip="Eliminar"
-                    class="icon-btn btn-trans c-orange"
+                    class="icon-btn btn-trans c-fucsia"
                     (click)="eliminarRegistro(registro.idIniciativa)"
-                  >
-                    <mat-icon class="icon-18">delete_forever</mat-icon>
+                  ><mat-icon class="icon-18">delete_forever</mat-icon>
                   </button>
                 </div>
               </td>
@@ -223,9 +212,13 @@
           <p style="color: rgb(18, 201, 76)">Loading...</p>
         </ngx-spinner> -->
 
-        <div *ngIf="!loadingItem && totalRegistros == 0" class="cli-loader mt-5" style="color: red">
+        <div *ngIf="!loadingItem && registros.length == 0" class="cli-loader mt-5" style="color: red">
           No hay registros para mostrar
         </div>
+
+        <!-- <div *ngIf="registros.length == 0" class="cli-loader mt-5" style="color: #0022ff">
+          No hay registros encontrados
+        </div> -->
 
       </div>
     </div>
@@ -293,7 +286,7 @@
       >
           <form class="row g-3">
             <ng-container>
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <div class="form-group col-sm-9x">
                   <label>Nombre de Iniciativa</label>
                   <input
@@ -306,7 +299,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <label>Código de Iniciativa</label>
                 <input
                   type="text"
@@ -318,7 +311,7 @@
               </div>
 
 
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <label>Estado</label>
                 <select
                   class="cli-input-white"
@@ -334,7 +327,7 @@
                 </select>
               </div>
 
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <label>PO del proyecto</label>
                 <input
                   type="text"
@@ -344,7 +337,7 @@
                 />
               </div>
 
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <label>Gerencia Beneficiaria</label>
                 <select
                   class="cli-input-white"
@@ -364,7 +357,7 @@
               </div>
 
 
-              <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-4 cli-form-element">
                 <label>Naturaleza del Beneficio</label>
                 <select
                   class="cli-input-white"
@@ -381,7 +374,7 @@
               </div>
             </ng-container>
 
-            <div class="cli-form-buttons">
+            <div class="cli-form-buttons" style="margin-top: 100px;">
               <button
                 class="cli-btn btn-m btn-grey"
                 type="button"
@@ -404,309 +397,5 @@
 </div>
 
 
-
-<!-- ------------------------MODAL ACTUALIZAR REGISTRO #modalActualizarRegistro----------------------------- -->
-<div
-  class="modal fade"
-  id="modalActualizarRegistro"
-  tabindex="-1"
-  aria-labelledby="myLargeModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div
-        class="modal-header modal-title"
-        style="border-bottom: none"
-        id="myLargeModalLabel"
-      >
-        <div class="modal-title"></div>
-        <button
-          #cerrarModal
-          type="button"
-          data-dismiss="modal"
-          aria-label="Close"
-          class="close icon-btn btn-trans c-orange"
-          (click)="limpiarRegistModal()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-
-      <h5 class="modal-title-inic c-male">Actualizar registro</h5>
-
-      <div
-        class="cli-form newvac-wrapper"
-        style="width: 90%"
-      >
-        <div class="pr-subtitle mt-2">Registros</div>
-        <div class="pr-section">
-          <form class="row g-3">
-            <ng-container>
-              <div class="col-sm-3 cli-form-element">
-                <div class="form-group col-sm-9x">
-                  <label>Nombre de Iniciativa</label>
-                  <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="datosRegistro.nombre"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-                </div>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Código de Iniciativa</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  placeholder="HISPAM-2201-1"
-                  [(ngModel)]="datosRegistro.codigo"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </ng-container>
-
-            <ng-container>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Estado</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistro.estado"
-                  [ngModelOptions]="{ standalone: true }"
-                  #estadox
-                  (change)="getInfoEstados(estadox.value)"
-                > <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="estado.idEstado"
-                    *ngFor="let estado of listEstados">
-                    {{ estado.cNombre }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>PO del proyecto</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  [(ngModel)]="datosRegistro.po_proyecto"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Gerencia beneficiaria</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistro.gerencia_beneficiaria"
-                  [ngModelOptions]="{ standalone: true }"
-                  #selectGerenc
-                  (change)="getInfoGerSol(selectGerenc.value)"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option
-                    [value]="gerenc.id"
-                    *ngFor="let gerenc of listGerencia"
-                  >
-                    {{ gerenc.nombre }}
-                  </option>
-                </select>
-              </div>
-            </ng-container>
-
-            <ng-container>
-              <div class="col-sm-3 cli-form-element">
-                <label>Naturaleza del Beneficio</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistro.naturaleza"
-                  [ngModelOptions]="{ standalone: true }"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="nat.id" *ngFor="let nat of naturaleza">
-                    {{ nat.nombre }}
-                  </option>
-                </select>
-              </div>
-            </ng-container>
-          </form>
-        </div>
-
-        <!-- -----------------------------------------------DIAGNOSTICO --------------------------->
-        <div class="pr-subtitle mt-2">Contexto</div>
-        <div class="pr-section">
-          <div class="pr-module-container">
-            <form class="row g-3">
-              <div class="col-sm-3 cli-form-element">
-                  <label>QTRX mensual</label>
-                  <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    placeholder="25"
-                    [(ngModel)]="diagnostico.qtrx"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>TMO POR TRX</label>
-                <input
-                  type="number"
-                  class="form-control cli-input-white"
-                  placeholder="4"
-                  [(ngModel)]="diagnostico.tmo"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-              <div class="form-group col-md-3">
-                <legend class="col-form-label col-sm-12 pt-0">
-                  Pedido por PI
-                </legend>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios1"
-                      value="option1"
-                      checked/>
-                    <label class="form-check-label" for="gridRadios1">Si</label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios2"
-                      value="option2"
-                      [(ngModel)]="diagnostico.pedido"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
-                    <label class="form-check-label" for="gridRadios2">No</label>
-                  </div>
-              </div>
-
-              <div class="form-group col-md-3">
-                <legend class="col-form-label col-sm-12 pt-0">
-                  Cuenta con flujo contextual
-                </legend>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadiosX"
-                      id="gridRadios3"
-                      value="option3"
-                      [(ngModel)]="diagnostico.flujo"
-                      [ngModelOptions]="{ standalone: true }"
-
-                    />
-                    <label class="form-check-label" for="gridRadios3">Si</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadiosX"
-                      id="gridRadios4"
-                      value="option4"
-                      checked
-                      />
-                    <label class="form-check-label" for="gridRadios4">No</label>
-                  </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- -----------------------------------------------CONTEXTO -------------------------------------->
-        <div class="pr-subtitle mt-2">Diagnóstico</div>
-        <div class="pr-section">
-          <div class="pr-module-container">
-            <form class="row was-validated g-3 mt-2">
-              <div class="row">
-                <div class="col-sm-6 cli-form-element mb-4">
-                  <label>Contexto</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    style="resize: none"
-                    rows="3"
-                    placeholder="Detalle el contexto y la problemática actual..."
-                    [(ngModel)]="contexto.problematica"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  ></textarea>
-                </div>
-
-                <div class="col-sm-6 cli-form-element mb-4">
-                  <label>Función Robotización</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    style="resize: none"
-                    rows="3"
-                    placeholder="Defina la problemática de la función .."
-                    [(ngModel)]="contexto.robotizacion"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  ></textarea>
-                </div>
-
-                <div class="col-md-6 cli-form-element mb-4">
-                  <label>Objetivo</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    rows="3"
-                    style="resize: none"
-                    placeholder="Defina los objetivos y alcances del RPA"
-                    [(ngModel)]="contexto.objetivo"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  >
-                  </textarea>
-                </div>
-
-                <div class="col-md-6 cli-form-element mb-4">
-                  <label>Riesgos</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    rows="3"
-                    style="resize: none"
-                    placeholder="Describa los riesgos de no realizar el RPA"
-                    [(ngModel)]="contexto.riesgos"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  >
-                  </textarea>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-
-            <div class="cli-form-buttons">
-              <button
-                class="cli-btn btn-m btn-grey"
-                type="button"
-                data-dismiss="modal"
-              >
-                <mat-icon class="icon-18">cancel</mat-icon> Regresar
-              </button>
-              <button
-                #btnRegistrarRegistro
-                class="cli-btn btn-m btn-magenta"
-                (click)="agregarRegistro()"
-              >
-                <mat-icon>save</mat-icon> Actualizar
-              </button>
-            </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
