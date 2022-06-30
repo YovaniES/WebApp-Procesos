@@ -67,6 +67,15 @@ export class ModalRegistroService {
   cargarIniciatCambios(obj: any){
     return this.http.post(API_REG1, obj)
   }
+
+  agregarIniciativaCambios(obj: any){
+    return this.http.post(API_REG1, obj)
+  }
+
+
+  obtenerCambiosPorIniciativa(obj:any){
+    return this.http.post(API_REG1,obj);
+  }
   // ---------------------------------------------------------
 
   //BUSCAR PERSONA

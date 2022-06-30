@@ -358,6 +358,7 @@
                 <thead>
                   <tr class="bgc-green c-white">
                     <th>#</th>
+                    <th>idIniciativa</th>
                     <th>Estado</th>
                     <th>Motivo</th>
                     <th>Fecha y Hora de Cambio</th>
@@ -367,8 +368,9 @@
 
                 <tbody>
                   <tr
-                    *ngFor=" let cambios of dataIniciativaCambios; let i = index ">
+                    *ngFor=" let cambios of dataICambios; let i = index ">
                     <td>{{i+1}}</td>
+                    <td>{{ cambios.idiniciativa }}</td>
                     <td>{{ cambios.estado }}</td>
                     <td>{{ cambios.motivo }}</td>
                     <td>{{ cambios.fecha_cambio }}</td>
@@ -386,7 +388,8 @@
             class="cli-btn btn-m btn-grey"
             type="submit"
             data-dismiss="modal"
-            (click)="regresarRegistro()">
+            (click)="regresarRegistro()"
+            >
             <mat-icon class="icon-18">cancel</mat-icon> Cancelar
           </button>
           <button

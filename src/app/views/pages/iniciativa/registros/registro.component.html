@@ -272,7 +272,7 @@
           data-dismiss="modal"
           aria-label="Close"
           class="close icon-btn btn-trans c-orange"
-          (click)="limpiarRegistModal()"
+          (click)="limpiarCrearIniciativa()"
         >
           <mat-icon>close</mat-icon>
         </button>
@@ -293,7 +293,7 @@
                     type="text"
                     class="form-control cli-input-white"
                     placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="datosRegistro.nombre"
+                    [(ngModel)]="datosRegistroAgregar.nombre"
                     [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
@@ -305,7 +305,7 @@
                   type="text"
                   class="form-control cli-input-white"
                   placeholder="HISPAM-2201-1"
-                  [(ngModel)]="datosRegistro.codigo"
+                  [(ngModel)]="datosRegistroAgregar.codigo"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -315,7 +315,7 @@
                 <label>Estado</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.estado"
+                  [(ngModel)]="datosRegistroAgregar.estado"
                   [ngModelOptions]="{ standalone: true }"
                   #estadox
                   (change)="getInfoEstados(estadox.value)"
@@ -332,7 +332,7 @@
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  [(ngModel)]="datosRegistro.po_proyecto"
+                  [(ngModel)]="datosRegistroAgregar.po_proyecto"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -341,7 +341,7 @@
                 <label>Gerencia Beneficiaria</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.gerencia_beneficiaria"
+                  [(ngModel)]="datosRegistroAgregar.gerencia_beneficiaria"
                   [ngModelOptions]="{ standalone: true }"
                   #selectGerenc
                   (change)="getInfoGerSol(selectGerenc.value)"
@@ -361,7 +361,7 @@
                 <label>Naturaleza del Beneficio</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="datosRegistro.naturaleza"
+                  [(ngModel)]="datosRegistroAgregar.naturaleza"
                   [ngModelOptions]="{ standalone: true }"
                   #naturalezaX
                   (change)="getInfoNaturaleza(naturalezaX.value)"

@@ -59,7 +59,7 @@ export class RegistroComponent implements OnInit {
       fechaFinalizacion   : '',
     };
 
-    datosRegistro = {
+    datosRegistroAgregar = {
       idIniciativa         : '',
       nombre               : '',
       codigo               : '',
@@ -177,8 +177,6 @@ export class RegistroComponent implements OnInit {
       this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
         const gerencData: any[] = Array.of(resp);
 
-        // console.log('GERENCIA', gerencData);
-
         this.listGerencia = [];
         for (let i = 0; i < gerencData[0].list.length; i++) {
           this.listGerencia.push({
@@ -199,7 +197,6 @@ export class RegistroComponent implements OnInit {
     this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
       const dataNaturaleza: any[] = Array.of(resp);
-      // console.log('Naturaleza', dataNaturaleza);
 
           this.naturaleza = [];
           for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
@@ -243,7 +240,6 @@ export class RegistroComponent implements OnInit {
           "param_nombre"         : this.filtro.nombre,
           "param_codigo"         : this.filtro.codigo,
           "param_id_ger_ben"     : this.filtro.gerencia_benef,
-          // "param_id_estado"      : this.idEstadoBuscar,
           "param_id_estado"      : this.filtro.estado,
 
           "param_id_naturaleza"  : this.idNaturalezaBuscar,
@@ -420,13 +416,13 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  limpiarRegistModal(){
-    this.datosRegistro.nombre                = '';
-    this.datosRegistro.codigo                = '';
-    this.datosRegistro.estado                = '';
-    this.datosRegistro.po_proyecto           = '';
-    this.datosRegistro.gerencia_beneficiaria = '';
-    this.datosRegistro.naturaleza            = '';
+  limpiarCrearIniciativa(){
+    this.datosRegistroAgregar.nombre                = '';
+    this.datosRegistroAgregar.codigo                = '';
+    this.datosRegistroAgregar.estado                = '';
+    this.datosRegistroAgregar.po_proyecto           = '';
+    this.datosRegistroAgregar.gerencia_beneficiaria = '';
+    this.datosRegistroAgregar.naturaleza            = '';
 
     this.fechaing                            = ''
     this.btnRegistrarRegistro.nativeElement.disabled = false;
@@ -459,14 +455,14 @@ export class RegistroComponent implements OnInit {
 
     this.btnRegistrarRegistro.nativeElement.disabled = true;
 
-    let nombre                = this.datosRegistro.nombre;
-    let codigo                = this.datosRegistro.codigo;
-    let po_proyecto           = this.datosRegistro.po_proyecto;
-    let estado                = this.datosRegistro.estado;
-    let gerencia_beneficiaria = this.datosRegistro.gerencia_beneficiaria;
-    let naturaleza            = this.datosRegistro.naturaleza;
+    let nombre                = this.datosRegistroAgregar.nombre;
+    let codigo                = this.datosRegistroAgregar.codigo;
+    let po_proyecto           = this.datosRegistroAgregar.po_proyecto;
+    let estado                = this.datosRegistroAgregar.estado;
+    let gerencia_beneficiaria = this.datosRegistroAgregar.gerencia_beneficiaria;
+    let naturaleza            = this.datosRegistroAgregar.naturaleza;
 
-    let fecha_creacion        = this.datosRegistro.fecha_creacion;
+    let fecha_creacion        = this.datosRegistroAgregar.fecha_creacion;
 
     let parametro: any[] = [
       {queryId: 97,
@@ -502,7 +498,6 @@ export class RegistroComponent implements OnInit {
 
         let msj  = regData[0].exitoMessage;
         let msj2 = regData[0].errorMessage;
-        // exitoMessage
 
         Swal.fire(
           'Registro Iniciativa!',
@@ -517,9 +512,6 @@ export class RegistroComponent implements OnInit {
       this.spinner.hide();
   }
 
-
-
-
   editarIniciativa(idIniciativa: any) {
     this.dialog
       .open(ModalRegistroComponent, { width: '1125px', data: idIniciativa, disableClose: true })
@@ -531,10 +523,6 @@ export class RegistroComponent implements OnInit {
         }
       });
   }
-
-  // regresarBandeja(){
-  //   this.router.navigate(['mantenimientoRecurso']);
-  // }
 
 }
 
