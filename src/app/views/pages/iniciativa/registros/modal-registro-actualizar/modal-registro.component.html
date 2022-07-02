@@ -11,7 +11,6 @@
       >
         <!-- -------------------------------------------REGISTROS ACTUALIZAR--------------------------->
         <div class="pr-subtitle mt-2">Registros</div>
-
         <div class="pr-section">
           <div class="pr-module-container">
           <form class="row g-3">
@@ -160,7 +159,7 @@
                 </select>
               </div>
 
-              <div class="col-sm-3 cli-form-element">
+              <!-- <div class="col-sm-3 cli-form-element">
                 <div class="form-group">
                     <label>Fecha creación</label>
                     <input type="date"
@@ -170,30 +169,13 @@
                     (blur)="actualizarFechaCreacion(fechaCrea.value)"
                     >
                 </div>
-              </div>
-
-            </ng-container>
-              <!-- <div class="cli-form-buttons">
-                <button
-                  class="cli-btn btn-m btn-grey"
-                  type="submit"
-                  data-dismiss="modal"
-                  (click)="regresarRegistro()">
-                  <mat-icon class="icon-18">cancel</mat-icon> Regresar
-                </button>
-                <button
-                  #btnRegistrarRegistro
-                  class="cli-btn btn-m btn-magenta"
-                  (click)="actualizarRegistro()"
-                  #btnActualizarRegistro
-                ><mat-icon>save</mat-icon> Actualizar
-                </button>
               </div> -->
+            </ng-container>
           </form>
         </div>
       </div>
 
-        <!-- --------------------------------------------DIAGNOSTICO --------------------------->
+        <!-- --------------------------------------------CONTEXTO --------------------------->
         <div class="pr-subtitle mt-2">Contexto</div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -205,7 +187,7 @@
                     min="0"
                     class="form-control cli-input-white"
                     placeholder="25"
-                    [(ngModel)]="diagnostico.qtrx"
+                    [(ngModel)]="dataRegistroEditar.qtrxMes"
                     [ngModelOptions]="{ standalone: true }"
                   />
               </div>
@@ -217,7 +199,7 @@
                   min="0"
                   class="form-control cli-input-white"
                   placeholder="4"
-                  [(ngModel)]="diagnostico.tmo"
+                  [(ngModel)]="dataRegistroEditar.tmoTrx"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -230,20 +212,22 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="gridRadios"
                       id="gridRadios1"
-                      value="option1"
-                      checked/>
+                      name="pi"
+                      [value]="1"
+                      [(ngModel)]="dataRegistroEditar.pi"
+                      [ngModelOptions]="{ standalone: true }"
+                      />
                     <label class="form-check-label" for="gridRadios1">Si</label>
                   </div>
                   <div class="form-check">
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="gridRadios"
+                      name="pi"
                       id="gridRadios2"
-                      value="option2"
-                      [(ngModel)]="diagnostico.pedido"
+                      [value]="0"
+                      [(ngModel)]="dataRegistroEditar.pi"
                       [ngModelOptions]="{ standalone: true }"
                     />
                     <label class="form-check-label" for="gridRadios2">No</label>
@@ -258,10 +242,10 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="gridRadiosX"
+                      name="Si"
                       id="gridRadios3"
-                      value="option3"
-                      [(ngModel)]="diagnostico.flujo"
+                      [value]="1"
+                      [(ngModel)]="dataRegistroEditar.fluContx"
                       [ngModelOptions]="{ standalone: true }"
 
                     />
@@ -272,10 +256,11 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="gridRadiosX"
+                      name="No"
                       id="gridRadios4"
-                      value="option4"
-                      checked
+                      [value]="0"
+                      [(ngModel)]="dataRegistroEditar.fluContx"
+                      [ngModelOptions]="{ standalone: true }"
                       />
                     <label class="form-check-label" for="gridRadios4">No</label>
                   </div>
@@ -284,7 +269,7 @@
           </div>
         </div>
 
-        <!-- --------------------------------------------CONTEXTO -------------------------------------->
+        <!-- --------------------------------------------DIAGNOSTICO -------------------------------------->
         <div class="pr-subtitle mt-2">Diagnóstico</div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -297,7 +282,7 @@
                     style="resize: none"
                     rows="3"
                     placeholder="Detalle el contexto y la problemática actual..."
-                    [(ngModel)]="contexto.problematica"
+                    [(ngModel)]="dataRegistroEditar.probActual"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   ></textarea>
@@ -310,7 +295,7 @@
                     style="resize: none"
                     rows="3"
                     placeholder="Defina la problemática de la función .."
-                    [(ngModel)]="contexto.robotizacion"
+                    [(ngModel)]="dataRegistroEditar.funcRobotiz"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   ></textarea>
@@ -323,7 +308,7 @@
                     rows="3"
                     style="resize: none"
                     placeholder="Defina los objetivos y alcances del RPA"
-                    [(ngModel)]="contexto.objetivo"
+                    [(ngModel)]="dataRegistroEditar.defAlcance"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   >
@@ -337,7 +322,7 @@
                     rows="3"
                     style="resize: none"
                     placeholder="Describa los riesgos de no realizar el RPA"
-                    [(ngModel)]="contexto.riesgos"
+                    [(ngModel)]="dataRegistroEditar.riesgoNoRpa"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   >
@@ -393,7 +378,6 @@
             <mat-icon class="icon-18">cancel</mat-icon> Cancelar
           </button>
           <button
-            #btnRegistrarRegistro
             class="cli-btn btn-m btn-magenta"
             (click)="actualizarRegistro()"
             #btnActualizarRegistro

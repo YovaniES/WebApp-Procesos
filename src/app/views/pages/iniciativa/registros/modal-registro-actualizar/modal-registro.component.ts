@@ -51,28 +51,6 @@ export class ModalRegistroComponent implements OnInit {
   usuario: any;
   idRegistro: any = 0;
 
-  contexto = {
-    problematica: '',
-    robotizacion: '',
-    objetivo    : '',
-    riesgos      : ''
-  };
-
-  diagnostico = {
-    qtrx  : '',
-    tmo   : '',
-    pedido: '',
-    flujo : ''
-  }
-
-  iniciativaCambios = {
-    id            :'0',
-    estado        :'0',
-    motivo        :'0',
-    fecha_cambio  :'0',
-    usuario       :'0'
-  }
-
   dataRegistroEditar: EditarRegistro= {
       idIniciativa : 0,
       nombre       : '',
@@ -93,7 +71,7 @@ export class ModalRegistroComponent implements OnInit {
       funcRobotiz  : '',
       defAlcance   : '',
       riesgoNoRpa  : '',
-      pi           : 0,
+      pi           : 1,
       qtrxMes      : '',
       tmoTrx       : '',
       fluContx     : 0,
@@ -104,12 +82,12 @@ export class ModalRegistroComponent implements OnInit {
   }
 
   datosInicCambios = {
-    id           : '',
-    idiniciativa : '',
-    idEstado     : 0,
-    id_motivo    : '',
-    dFecha       : '',
-    usuario      : '',
+      id           : 0,
+      idiniciativa : '',
+      idEstado     : '',
+      id_motivo    : 0,
+      dFecha       : new Date,
+      usuario      : '',
     }
 
 
@@ -117,7 +95,6 @@ export class ModalRegistroComponent implements OnInit {
     private modalRegistroService: ModalRegistroService,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
-    private activateRoute: ActivatedRoute,
     public dialogRef: MatDialogRef<ModalRegistroComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -125,29 +102,15 @@ export class ModalRegistroComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.activateRoute.paramMap.subscribe( params => {
-    //   // console.log('PARAM_ID', params);
-
-    //   // this.idRegistro = params.get('idRegistro');
-    //   // this.cargarRegistro();
-    // });
     this.cargarRegistroId();
-
     this.getListEstados();
     this.getListGerencia();
     this.getListaVP();
     this.getListNaturaleza();
     this.getListaTecnologia();
 
-
-
-
-
-    this.cargarIniciatCambios()
-    this.agregarIniciativaCambios(12,3);
-
-    this.obtenerCambiosPorIniciativa(4);
-
+    this.obtenerCambiosPorIniciativa(this.data);
+    // this.agregarHistoricoCambios(this.data)
    }
 
   getInfoEstados(id: any){ }
@@ -167,116 +130,99 @@ export class ModalRegistroComponent implements OnInit {
     this.dataRegistroEditar.fechaCrea = this.datePipe.transform(fecha, 'yyyy-MM-dd');
   }
 
-     // LISTA DE VP PARA EL MODAL
-     listVP: Array<any> = [];
-     getListaVP() {
-       let parametro: any[] = [
-         { queryId: 94 },
-       ];
-
-       this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
-         const vpData: any[] = Array.of(resp);
-        //  console.log('VP', vpData);
-
-         this.listVP = [];
-         for (let i = 0; i < vpData[0].list.length; i++) {
-
-           this.listVP.push({
-             id:     vpData[0].list[i].id,
-             nombre: vpData[0].list[i].nombre
-           })
-         }
-       })
-     }
-
-
-    // OBTENCION DE LISTA TECNOLOGIA_X
-    tecnologias:Array<any> = []
-    getListaTecnologia(){
-      // this.registroForm.value.idIniciativa = id.toString();
-      let parametro: any[]=[
-        { queryId:93 }
-      ];
-      this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
-
-        const dataTecnol:any[] = Array.of(resp)
-        // console.log('TECNOLOGIA_X', dataTecnol);
-
-        this.tecnologias = [];
-        for (let i = 0; i < dataTecnol[0].list.length; i++) {
-          this.tecnologias.push({
-            id    : dataTecnol[0].list[i].id,
-            nombre: dataTecnol[0].list[i].nombre
-          })
-        }
-      })
-    }
-
-    // LISTA DE ESTADOS
-    listEstados: Array<any> = [];
-    getListEstados(){
-      let parametro: any[] = [
-        { queryId: 89 }
-      ];
-
-      this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
-        const estadosData: any[] = Array.of(resp);
-
-        console.log('ESTADOS', estadosData);
-
-        this.listEstados = [];
-        for (let i = 0; i < estadosData[0].list.length; i++) {
-          this.listEstados.push({
-            idEstado:     estadosData[0].list[i].idEstado,
-            cNombre :     estadosData[0].list[i].cNombre,
-          });
-        }
-      })
-    };
-      // LISTA DE GERENCIA
-      listGerencia: Array<any> = [];
-      getListGerencia(){
-        let parametro: any[] = [
-          { queryId: 95 }
-        ];
-
-        this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
-          const gerencData: any[] = Array.of(resp);
-
-          // console.log('GERENCIA', gerencData);
-
-          this.listGerencia = [];
-          for (let i = 0; i < gerencData[0].list.length; i++) {
-            this.listGerencia.push({
-              id:     gerencData[0].list[i].id,
-              nombre: gerencData[0].list[i].nombre,
-            });
-          }
+  // LISTA DE VP PARA EL MODAL
+  listVP: Array<any> = [];
+  getListaVP() {
+    let parametro: any[] = [
+      { queryId: 94 },
+    ];
+    this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
+      const vpData: any[] = Array.of(resp);
+     //  console.log('VP', vpData);
+    this.listVP = [];
+      for (let i = 0; i < vpData[0].list.length; i++) {
+      this.listVP.push({
+          id:     vpData[0].list[i].id,
+          nombre: vpData[0].list[i].nombre
         })
-      };
+      }
+    })
+  }
+   // OBTENCION DE LISTA TECNOLOGIA_X
+  tecnologias:Array<any> = []
+  getListaTecnologia(){
+    // this.registroForm.value.idIniciativa = id.toString();
+    let parametro: any[]=[
+      { queryId:93 }
+    ];
+    this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
+     const dataTecnol:any[] = Array.of(resp)
+      // console.log('TECNOLOGIA_X', dataTecnol);
+     this.tecnologias = [];
+      for (let i = 0; i < dataTecnol[0].list.length; i++) {
+        this.tecnologias.push({
+          id    : dataTecnol[0].list[i].id,
+          nombre: dataTecnol[0].list[i].nombre
+        })
+      }
+    })
+  }
+ // LISTA DE ESTADOS
+    listEstados: Array<any> = [];
+  getListEstados(){
+    let parametro: any[] = [
+      { queryId: 89 }
+    ];
+   this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+      const estadosData: any[] = Array.of(resp);
+     console.log('ESTADOS', estadosData);
+     this.listEstados = [];
+      for (let i = 0; i < estadosData[0].list.length; i++) {
+        this.listEstados.push({
+          idEstado:     estadosData[0].list[i].idEstado,
+          cNombre :     estadosData[0].list[i].cNombre,
+        });
+      }
+    })
+  };
 
-        // Lista de NATURALEZA
-    naturaleza: Array<any> = [];
-    getListNaturaleza() {
-      let parametro: any[] = [
-        { queryId: 90,
-        },
-      ];
-      this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
+  listGerencia: Array<any> = [];
+  getListGerencia(){
+    let parametro: any[] = [
+      { queryId: 95 }
+    ];
+  this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
+      const gerencData: any[] = Array.of(resp);
+    // console.log('GERENCIA', gerencData);
+    this.listGerencia = [];
+      for (let i = 0; i < gerencData[0].list.length; i++) {
+        this.listGerencia.push({
+          id:     gerencData[0].list[i].id,
+          nombre: gerencData[0].list[i].nombre,
+        });
+      }
+    })
+  };
 
-        // const dataNaturaleza: any[] = Array.of(resp);
-        // console.log('Naturaleza', dataNaturaleza);
-
-            this.naturaleza = [];
-            for (let i = 0; i < resp.list.length; i++) {
-              this.naturaleza.push({
-                id            : resp.list[i].id,
-                id_naturaleza : resp.list[i].id_naturaleza,
-                nombre        : resp.list[i].nombre
-              })
-            }
-          });
-    }
+  naturaleza: Array<any> = [];
+  getListNaturaleza() {
+    let parametro: any[] = [
+      { queryId: 90,
+      },
+    ];
+    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
+     // const dataNaturaleza: any[] = Array.of(resp);
+      // console.log('Naturaleza', dataNaturaleza);
+         this.naturaleza = [];
+          for (let i = 0; i < resp.list.length; i++) {
+            this.naturaleza.push({
+              id            : resp.list[i].id,
+              id_naturaleza : resp.list[i].id_naturaleza,
+              nombre        : resp.list[i].nombre
+            })
+          }
+        });
+  }
 
   cargarRegistroId(){
     this.spinner.show();
@@ -309,6 +255,20 @@ export class ModalRegistroComponent implements OnInit {
         this.dataRegistroEditar.licencias             = editData[0].list[i].licencias ;
         this.dataRegistroEditar.naturaleza            = editData[0].list[i].naturaleza ;
 
+        this.dataRegistroEditar.probActual            = editData[0].list[i].problema ;
+        this.dataRegistroEditar.funcRobotiz           = editData[0].list[i].robotizacion ;
+        this.dataRegistroEditar.defAlcance            = editData[0].list[i].alcance ;
+        this.dataRegistroEditar.riesgoNoRpa           = editData[0].list[i].riesgo ;
+        this.dataRegistroEditar
+
+        this.dataRegistroEditar.pi                    = editData[0].list[i].pi;
+        this.dataRegistroEditar.qtrxMes               = editData[0].list[i].qtrx;
+        this.dataRegistroEditar.tmoTrx                = editData[0].list[i].tmo;
+        this.dataRegistroEditar.fluContx              = editData[0].list[i].flujo
+
+        console.log('PII', this.dataRegistroEditar);
+
+
         if (editData[0].list[i].fecha_creacion !='null' && editData[0].list[i].fecha_creacion != '') {
           let fechaCrea = editData[0].list[i].fecha_creacion
           const str   = fechaCrea.split('/');
@@ -317,9 +277,6 @@ export class ModalRegistroComponent implements OnInit {
           const date  = Number(str[0]);
 
           this.dataRegistroEditar.fechaCrea = this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd')
-          // console.log('FECHA_CREA', this.dataRegistroEditar.fechaCrea);
-          // console.log('GERBEN', this.dataRegistroEditar.gerenciaBen);
-          // console.log('estado', this.dataRegistroEditar.estado);
         }
       }
       this.spinner.hide();
@@ -381,15 +338,15 @@ export class ModalRegistroComponent implements OnInit {
         "param_func_robotiz"   : funcRobotiz  ,
         "param_def_alcance"    : defAlcance  ,
         "param_riesgo_no_rpa"  : riesgoNoRpa  ,
-        // "param_pi"             : pi  ,
+        "param_pi"             : pi  ,
         "param_qtrx_mes"       : qtrxMes  ,
         "param_tmo_trx"        : tmoTrx  ,
-        // "param_flu_contx"      : fluContx  ,
+        "param_flu_contx"      : fluContx  ,
         "param_user_crea"      : userCrea  ,
         "param_fecha_crea"     : fechaCrea  ,
         "param_user_act"       : userAct  ,
         "param_fecha_act"      : fechaAct ,
-        // "CONFIG_REG_ID"        : this.usuario.user.userId,
+                              // "CONFIG_REG_ID"        : this.usuario.user.userId,
         "CONFIG_REG_ID"        : 100,
         "CONFIG_OUT_MSJ_ERROR" : '' ,
         "CONFIG_OUT_MSJ_EXITO" : ''
@@ -404,124 +361,99 @@ export class ModalRegistroComponent implements OnInit {
 
       this.cargarRegistroId();
       this.regresarRegistro(true)
+      this.obtenerCambiosPorIniciativa(id);
 
       let msj  = data[0].exitoMessage;
       let msj2 = data[0].errorMessage
       if(estado){
         // hhhh(this.idRegistro, estado);
-        this.agregarIniciativaCambios(this.dataRegistroEditar.idIniciativa , this.dataRegistroEditar.estado)
+        this.agregarIniciativaCambios()
+        // this.obtenerCambiosPorIniciativa(id);
 
       }else{
         this.regresarRegistro(true)
       }
-
     });
 
   }
 
+  agregarIniciativaCambios(){
 
-//   asdsad(iniciativa: number, estado:string){
-// const peticion = {
-//   idEstado : estado,
-//   idIniciativa: iniciativa
-// }
-// iniciativa.modalRegistroService(peticion).subscribe(res=>{
-//   this.regresarRegistro(true)
+   // let idiniciativa = this.dataRegistroEditar.idIniciativa ;
+   let idEstado     = this.dataRegistroEditar.estado ;
 
-// })
+   let id_motivo    = this.datosInicCambios.id_motivo ;
+   let dFecha       = this.datosInicCambios.dFecha ;
+   let usuario      = this.datosInicCambios.usuario
 
-//   }
+   let parametro: any[] = [{
+     queryId:98,
+     mapValue: {
+	 	"p_idiniciativa"        : this.data ,
+	 	"p_idEstado"            : parseInt(idEstado) ,
+	 	"p_id_motivo"           :	id_motivo ,
+	 	"p_dFecha"              :	dFecha ,
+	 	"p_usuario"             :	usuario,
+     "@CONFIG_USER_ID"       : '' ,
+     "@CONFIG_OUT_MSG_ERROR" : '' ,
+     "@CONFIG_OUT_MSG_EXITO" : ''
+     }
+   }];
 
-dataIniciativaCambios: Array<any> = [];
-cargarIniciatCambios(){
-  this.blockUI.start('Cargando lista de cambios ...');
-
-  let parametro: any[] = [{
-    queryId: 91
-  }];
-
-  this.modalRegistroService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
-    this.blockUI.stop();
-    const dataCambios: any[] = Array.of(resp);
-
-    console.log('CAMBIOS', dataCambios);
-
-    this.dataIniciativaCambios = [];
-
-    for (let i = 0; i < dataCambios[0].list.length; i++) {
-      this.dataIniciativaCambios.push({
-        id           : dataCambios[0].list[i].id ,
-        idiniciativa : dataCambios[0].list[i].idiniciativa ,
-        cdescripcion : dataCambios[0].list[i].cdescripcion ,
-        estado       : dataCambios[0].list[i].estado ,
-        motivo       : dataCambios[0].list[i].motivo ,
-        fecha_cambio : dataCambios[0].list[i].fecha_cambio ,
-        usuario      : dataCambios[0].list[i].usuario ,
-      })
-
-    }
-  })
-}
-
-agregarIniciativaCambios(idInic: number, idEst: number){
-
-  const peticion = {
-    idInic: this.datosInicCambios.idiniciativa ,
-    idEst : this.datosInicCambios.idEstado
-  }
-
-  let id           = this.datosInicCambios.id ;
-  // let idiniciativa = this.datosInicCambios.idiniciativa ;
-  let idiniciativa = this.dataRegistroEditar.idIniciativa ;
-  // let idEstado     = this.datosInicCambios.idEstado ;
-  let idEstado     = this.dataRegistroEditar.estado ;
-  let id_motivo    = this.datosInicCambios.id_motivo ;
-  let dFecha       = this.datosInicCambios.dFecha ;
-  let usuario      = this.datosInicCambios.usuario
-
-  let parametro: any[] = [{
-    queryId:98,
-    mapValue: {
-    "p_id"                  : id ,
-		"p_idiniciativa"        : idiniciativa ,
-		"p_idEstado"            : idEstado ,
-		"p_id_motivo"           :	id_motivo ,
-		"p_dFecha"              :	dFecha ,
-		"p_usuario"             :	usuario,
-    "@CONFIG_USER_ID"       : '' ,
-    "@CONFIG_OUT_MSG_ERROR" : '' ,
-    "@CONFIG_OUT_MSG_EXITO" : ''
-    }
-  }];
-
-  this.modalRegistroService.agregarIniciativaCambios(parametro).subscribe( resp => {
-    const cambiosData: any[] = Array.of(resp);
-    console.log('INIC_CAMBIOS', cambiosData);
+  this.modalRegistroService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
+    const newEstatoData: any[] = Array.of(resp);
+    console.log('NuevoEstIDGuard', newEstatoData);
 
   })
 }
+
+estados:Array<any> = [];
+getCambiosEstados(){
+  this.estados = [];
+  this.modalRegistroService.getCambiosEstados().subscribe(resp => {
+    let estadosData: any = [];
+    estadosData = resp;
+
+    console.log('ESTADOS->', estadosData);
+
+    estadosData.forEach((element: { padre: string | null; }) => {
+
+      if(element.padre != null){
+        let padresElemento = element.padre.split(",");
+            console.log('EST-PADRE',padresElemento);
+
+        padresElemento.forEach((padre: string) => {
+          if(padre.localeCompare(this.dataRegistroEditar.estado) == 0){
+            console.log('Elemento-Padre',element.padre);
+            this.estados.push(element);
+          }
+        });
+      }
+    });
+
+  });
+}
+
+
 
 dataICambios: Array<any> = [];
 obtenerCambiosPorIniciativa(id: number){
   this.spinner.show();
 
-  this.dataRegistroEditar.idIniciativa = id.toString();
     let parametro: any[] = [{
       queryId: 101,
       mapValue: {
-        'param_id_iniciativa': id
+        'param_id_iniciativa': this.data
       }
     }];
 
     this.modalRegistroService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
       const data:any[] = Array.of(resp);
 
-      this.dataICambios = [];   console.log('idCAMBIO',data );
+      this.dataICambios = [];   console.log('ListHistCambID',data );
 
       for (let i = 0; i < data[0].list.length; i++) {
-        // this.dataRegistroEditar.idIniciativa          = Data[0].list[i].idIniciativa ;
       this.dataICambios.push({
-
         id           : data[0].list[i].id ,
         idiniciativa : data[0].list[i].idiniciativa ,
         cdescripcion : data[0].list[i].cdescripcion ,
@@ -538,6 +470,5 @@ obtenerCambiosPorIniciativa(id: number){
  regresarRegistro(success?: boolean){
    this.dialogRef.close(success);
   }
-
 }
 

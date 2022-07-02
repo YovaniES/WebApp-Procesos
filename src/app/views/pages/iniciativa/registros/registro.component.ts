@@ -24,7 +24,7 @@ export class RegistroComponent implements OnInit {
 
   page = 1;
   totalBandeja:number = 0;
-  pageSize = 7;
+  pageSize = 8;
   pageSizes = [3, 6, 9];
 
   totalRegistros: number = 0;
@@ -35,19 +35,6 @@ export class RegistroComponent implements OnInit {
   data: any[] = [];
 
   fechaing:any;
-  contexto = {
-    problematica: '',
-    robotizacion: '',
-    objetivo    : '',
-    riesgos     : ''
-  }
-
-  diagnostico = {
-    qtrx  : '',
-    tmo   : '',
-    pedido: '',
-    flujo : ''
-  }
 
     filtro = {
       nombre              : '',
@@ -74,10 +61,7 @@ export class RegistroComponent implements OnInit {
     private modalRegistroService: ModalRegistroService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
-    // private toastr: ToastrService
     private dialog: MatDialog
-
-    // private dialogRef: MatDialogRef<ModalUsersComponent>,
   ) {}
 
   ngOnInit(): void {
@@ -86,9 +70,7 @@ export class RegistroComponent implements OnInit {
     this.cargarRegistro();
     this.getListEstados();
     this.getListGerencia();
-    // this.getListaVP();
     this.getListNaturaleza();
-    // this.getListaTecnologia();
   }
 
   getInfoEstados(id: any){ }
@@ -122,29 +104,6 @@ export class RegistroComponent implements OnInit {
     this.idVP = id
   }
 
-   // LISTA DE VP PARA EL MODAL
-   listVP: Array<any> = [];
-   getListaVP() {
-     let parametro: any[] = [
-       { queryId: 94 },
-     ];
-
-     this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
-       const vpData: any[] = Array.of(resp);
-       console.log('VP', vpData);
-
-       this.listVP = [];
-       for (let i = 0; i < vpData[0].list.length; i++) {
-
-         this.listVP.push({
-           id:     vpData[0].list[i].id,
-           nombre: vpData[0].list[i].nombre
-         })
-       }
-     })
-   }
-
-
   // LISTA DE ESTADOS
   listEstados: Array<any> = [];
   getListEstados(){
@@ -154,8 +113,6 @@ export class RegistroComponent implements OnInit {
 
     this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
-
-      // console.log('ESTADOS', estadosData);
 
       this.listEstados = [];
       for (let i = 0; i < estadosData[0].list.length; i++) {
@@ -191,8 +148,7 @@ export class RegistroComponent implements OnInit {
   naturaleza: Array<any> = [];
   getListNaturaleza() {
     let parametro: any[] = [
-      { queryId: 90,
-      },
+      { queryId: 90, },
     ];
     this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
@@ -216,24 +172,7 @@ export class RegistroComponent implements OnInit {
       this.totalRegistros = 0;
 
     this.blockUI.start("Buscando información...");
-
       // this.spinner.show();
-      let codProyecto: any;
-
-      if (this.idGerSolcBuscar == undefined || this.idGerSolcBuscar == '0') {
-        this.idGerSolcBuscar  = '';
-      }
-
-      if (this.idEstadoBuscar == undefined || this.idEstadoBuscar == '0') {
-        this.idEstadoBuscar = '';
-      }
-
-      if (this.filtro.codigo == '0') {
-        codProyecto = '';
-      }else{
-        codProyecto = this.filtro.codigo;
-      }
-
       let parametro: any[] = [{
         "queryId": 96,
         "mapValue": {
@@ -278,8 +217,6 @@ export class RegistroComponent implements OnInit {
       });
     }
 
-
-
    registros: Array<any> = [];
    cargarRegistro(){
     this.registros = [];
@@ -287,9 +224,7 @@ export class RegistroComponent implements OnInit {
     this.blockUI.start("Cargando registros...");
 
      let arrayParametro: any[] = [
-       {
-         queryId:92,
-       }
+       { queryId:92 }
      ];
 
      this.modalRegistroService.getListaBandeja(arrayParametro[0])
@@ -424,7 +359,7 @@ export class RegistroComponent implements OnInit {
     this.datosRegistroAgregar.gerencia_beneficiaria = '';
     this.datosRegistroAgregar.naturaleza            = '';
 
-    this.fechaing                            = ''
+    this.fechaing                                   = ''
     this.btnRegistrarRegistro.nativeElement.disabled = false;
     this.cargarRegistro();
   };
@@ -446,13 +381,6 @@ export class RegistroComponent implements OnInit {
   agregarRegistro(){
     this.spinner.show();
 
-    let registroIdInfoVP
-    if (this.idVP == undefined || this.idVP == 0) {
-      this.idVP = ''
-    } else {
-      registroIdInfoVP = this.idVP
-    }
-
     this.btnRegistrarRegistro.nativeElement.disabled = true;
 
     let nombre                = this.datosRegistroAgregar.nombre;
@@ -461,34 +389,33 @@ export class RegistroComponent implements OnInit {
     let estado                = this.datosRegistroAgregar.estado;
     let gerencia_beneficiaria = this.datosRegistroAgregar.gerencia_beneficiaria;
     let naturaleza            = this.datosRegistroAgregar.naturaleza;
-
     let fecha_creacion        = this.datosRegistroAgregar.fecha_creacion;
 
     let parametro: any[] = [
       {queryId: 97,
        mapValue: {
-        "p_cdescripcion"   : nombre  ,
-        "p_cod_proyecto"   : codigo  ,
-        "p_id_vp"          : registroIdInfoVP  ,
-        "p_id_estado"      : estado  ,
-        "p_po_proyecto"    : po_proyecto  ,
-        "p_id_gerencia_ben": gerencia_beneficiaria,
-        "p_id_naturaleza"  : naturaleza  ,
-        "p_prob_actual"    : ''  ,
-        "p_func_robotiz"   : ''  ,
-        "p_def_alcance"    : ''  ,
-        "p_riesgo_no_rpa"  : ''  ,
-        "p_pi"             : ''  ,
-        "p_qtrx_mes"       : ''  ,
-        "p_tmo_trx"        : ''  ,
-        "p_flu_contx"      : ''  ,
-        "p_user_crea"      : 'jjsoto'  ,
-        "p_fecha_crea"     : fecha_creacion  ,
-        "p_user_act"       : ''  ,
-        "p_fecha_act"      : '' ,
-        "CONFIG_REG_ID"    : '' ,
-        "CONFIG_OUT_MSJ_ERROR": '' ,
-        "CONFIG_OUT_MSJ_EXITO": ''
+        "p_cdescripcion"      : nombre  ,
+        "p_cod_proyecto"      : codigo  ,
+        // "p_id_vp"             : registroIdInfoVP  ,
+        "p_id_estado"         : estado  ,
+        "p_po_proyecto"       : po_proyecto  ,
+        "p_id_gerencia_ben"   : gerencia_beneficiaria,
+        "p_id_naturaleza"     : naturaleza  ,
+        "p_prob_actual"       : ''  ,
+        "p_func_robotiz"      : ''  ,
+        "p_def_alcance"       : ''  ,
+        "p_riesgo_no_rpa"     : ''  ,
+        "p_pi"                : ''  ,
+        "p_qtrx_mes"          : ''  ,
+        "p_tmo_trx"           : ''  ,
+        "p_flu_contx"         : ''  ,
+        "p_user_crea"         : 'jjsoto'  ,
+        "p_fecha_crea"        : fecha_creacion  ,
+        "p_user_act"          : ''  ,
+        "p_fecha_act"         : ''  ,
+        "CONFIG_REG_ID"       : ''  ,
+        "CONFIG_OUT_MSG_ERROR": '' ,
+        "CONFIG_OUT_MSG_EXITO": ''
        }
       }];
 
@@ -499,10 +426,13 @@ export class RegistroComponent implements OnInit {
         let msj  = regData[0].exitoMessage;
         let msj2 = regData[0].errorMessage;
 
-        Swal.fire(
-          'Registro Iniciativa!',
-          'Registro creado con éxito',
-          'success'
+        Swal.fire({
+          title: 'Registro Iniciativa!',
+          text : 'Registro creado con éxito',
+          icon : 'success',
+          confirmButtonText: 'Ok'
+          }
+
         );
 
         this.cerrarModal.nativeElement.click();
@@ -517,7 +447,6 @@ export class RegistroComponent implements OnInit {
       .open(ModalRegistroComponent, { width: '1125px', data: idIniciativa, disableClose: true })
       .afterClosed()
       .subscribe((resp) => {
-        console.log('as', resp);
         if (resp) {
           this.cargarRegistro();
         }

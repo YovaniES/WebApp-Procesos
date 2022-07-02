@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_REG1 } from '../constants/url.constants';
+import { API_REG1, API_REG2 } from '../constants/url.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +76,19 @@ export class ModalRegistroService {
   obtenerCambiosPorIniciativa(obj:any){
     return this.http.post(API_REG1,obj);
   }
+
+  agregarHistoricoCambios(obj: any){
+    return this.http.post(API_REG1,obj);
+  }
+
+  getCambiosEstados(){
+    return this.http.get(API_REG2);
+  }
+
+  // getEstados(){
+  //   const urlApiReq = environment.urlApi+'getcustomquery/'+'5-xxx-0000';
+  //   return this.http.get(urlApiReq);
+  // }
   // ---------------------------------------------------------
 
   //BUSCAR PERSONA

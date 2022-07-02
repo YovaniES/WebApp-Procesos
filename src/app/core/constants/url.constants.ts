@@ -29,6 +29,7 @@ export const API_AUTH_SESSION = MAIN_PATH_AUTH + '/login'
 
 // REGISTRO
 export const API_REG1 = MAIN_PATH_NET + 'ExecuteQuery'
+export const API_REG2 = MAIN_PATH_NET + 'getcustomquery/' +'5-xxx-0000';
 
 
 // VACANTES
