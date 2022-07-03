@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FactorizacionRoutingModule } from './iniciativa-routing.module';
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
-import { ModalBandejaComponent } from './registros/modal-bandeja/modal-bandeja.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -15,13 +14,11 @@ import { ModalActualizarRegistroComponent } from './registros/modal-registro-act
 @NgModule({
   declarations: [
     RegistroComponent,
-    ModalBandejaComponent,
     ModalActualizarRegistroComponent,
     BuscarRegistrosComponent,
     ModalCrearRegistroComponent,
   ],
   exports:[
-    ModalBandejaComponent,
     ModalActualizarRegistroComponent,
   ],
   imports: [

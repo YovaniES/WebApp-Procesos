@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       { path:'', redirectTo:'home', pathMatch:'full'},
       {
-        path:'vacantes',
+        path:'dashboard',
         loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
       },
       {
