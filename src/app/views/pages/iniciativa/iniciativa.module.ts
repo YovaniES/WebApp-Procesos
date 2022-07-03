@@ -7,18 +7,22 @@ import { ModalBandejaComponent } from './registros/modal-bandeja/modal-bandeja.c
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ModalRegistroComponent } from './registros/modal-registro-actualizar/modal-registro.component';
 import { RegistroComponent } from './registros/registro.component';
+import { BuscarRegistrosComponent } from './registros/buscar-registros/buscar-registros.component';
+import { ModalCrearRegistroComponent } from './registros/modal-crear-registro/modal-crear-registro.component';
+import { ModalActualizarRegistroComponent } from './registros/modal-registro-actualizar/modal-actualizar-registro.component';
 
 @NgModule({
   declarations: [
     RegistroComponent,
     ModalBandejaComponent,
-    ModalRegistroComponent,
+    ModalActualizarRegistroComponent,
+    BuscarRegistrosComponent,
+    ModalCrearRegistroComponent,
   ],
   exports:[
     ModalBandejaComponent,
-    ModalRegistroComponent
+    ModalActualizarRegistroComponent,
   ],
   imports: [
     FactorizacionRoutingModule,

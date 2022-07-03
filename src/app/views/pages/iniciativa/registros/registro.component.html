@@ -57,8 +57,6 @@
               </select>
             </div>
 
-
-
             <div class="col-sm-2 cli-form-element">
               <label for="" class="form-label"
                 >Naturaleza del Benef.</label
@@ -99,8 +97,6 @@
 
             <div class="flex-1"></div>
 
-            <!-- <div class="cli-table-actions"> -->
-
             <div class="cli-form-buttons">
               <button
                 type="submit"
@@ -125,19 +121,14 @@
         </div>
       </div>
 
-
-
-
+      <!-- <app-buscar-registros></app-buscar-registros> -->
 
       <!-- BOTON MODAL PARA CREAR REGISTRO -->
       <div style="display: flex" class="mt-5">
-        <button
-          data-toggle="modal"
-          data-target="#modalCrearRegistro"
-          class="cli-btn btn-magenta mb-2"
-          type="button"
-        >
-          <mat-icon class="icon-18">add</mat-icon>Crear iniciativa
+        <button class="cli-btn btn-magenta mb-2"
+                type="button"
+                (click)="crearIniciativa()"
+        ><mat-icon class="icon-18">add</mat-icon>Crear Iniciativa
         </button>
         <div class="flex-1"></div>
         <h3 class="card-subtitlte" style="color: #3b4ef6">
@@ -229,168 +220,4 @@
     </div>
   </div>
 </div>
-
-<!-- <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
-  size="medium"
-  color="#fff"
-  type="square-jelly-box"
-  [fullScreen]="true"
->
-  <p style="color: white">Cargando...</p>
-</ngx-spinner> -->
-
-
-
-
-
-
-<!-- MODAL CREAR REGISTRO #modalCrearRegistro -->
-<div
-  class="modal fade"
-  id="modalCrearRegistro"
-  tabindex="-1"
-  aria-labelledby="myLargeModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div
-        class="modal-header modal-title"
-        style="border-bottom: none"
-        id="myLargeModalLabel"
-      >
-        <div class="modal-title"></div>
-        <button
-          #cerrarModal
-          type="button"
-          data-dismiss="modal"
-          aria-label="Close"
-          class="close icon-btn btn-trans c-orange"
-          (click)="limpiarCrearIniciativa()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-
-      <h5 class="modal-title-inic c-male">Crear registro</h5>
-
-      <div
-        class="cli-form newvac-wrapper"
-        style="width: 90%"
-      >
-          <form class="row g-3">
-            <ng-container>
-              <div class="col-sm-4 cli-form-element">
-                <div class="form-group col-sm-9x">
-                  <label>Nombre de Iniciativa</label>
-                  <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="datosRegistroAgregar.nombre"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-                </div>
-              </div>
-
-              <div class="col-sm-4 cli-form-element">
-                <label>Código de Iniciativa</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  placeholder="HISPAM-2201-1"
-                  [(ngModel)]="datosRegistroAgregar.codigo"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-
-              <div class="col-sm-4 cli-form-element">
-                <label>Estado</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistroAgregar.estado"
-                  [ngModelOptions]="{ standalone: true }"
-                  #estadox
-                  (change)="getInfoEstados(estadox.value)"
-                > <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="estado.idEstado"
-                    *ngFor="let estado of listEstados">
-                    {{ estado.cNombre }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="col-sm-4 cli-form-element">
-                <label>PO del proyecto</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  [(ngModel)]="datosRegistroAgregar.po_proyecto"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-              <div class="col-sm-4 cli-form-element">
-                <label>Gerencia Beneficiaria</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistroAgregar.gerencia_beneficiaria"
-                  [ngModelOptions]="{ standalone: true }"
-                  #selectGerenc
-                  (change)="getInfoGerSol(selectGerenc.value)"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option
-                    [value]="gerenc.id"
-                    *ngFor="let gerenc of listGerencia"
-                  >
-                    {{ gerenc.nombre }}
-                  </option>
-                </select>
-              </div>
-
-
-              <div class="col-sm-4 cli-form-element">
-                <label>Naturaleza del Beneficio</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="datosRegistroAgregar.naturaleza"
-                  [ngModelOptions]="{ standalone: true }"
-                  #naturalezaX
-                  (change)="getInfoNaturaleza(naturalezaX.value)"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="nat.id" *ngFor="let nat of naturaleza">
-                    {{ nat.nombre }}
-                  </option>
-                </select>
-              </div>
-            </ng-container>
-
-            <div class="cli-form-buttons" style="margin-top: 100px;">
-              <button
-                class="cli-btn btn-m btn-grey"
-                type="button"
-                data-dismiss="modal"
-              >
-                <mat-icon class="icon-18">cancel</mat-icon> Salir
-              </button>
-              <button
-                #btnRegistrarRegistro
-                class="cli-btn btn-m btn-magenta"
-                (click)="agregarRegistro()"
-              >
-                <mat-icon>save</mat-icon> Registrar
-              </button>
-            </div>
-          </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 

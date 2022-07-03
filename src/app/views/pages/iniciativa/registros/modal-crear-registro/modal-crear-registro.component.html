@@ -1,0 +1,113 @@
+<button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+  <mat-icon>close</mat-icon>
+</button>
+<div class="modal-title">Crear iniciativa </div>
+
+<div class="cli-form newvac-wrapper">
+  <form class="row g-3">
+    <ng-container>
+      <div class="col-sm-4 cli-form-element">
+        <div class="form-group">
+          <label>Nombre de Iniciativa</label>
+          <input
+            type="text"
+            class="form-control cli-input-white"
+            placeholder="RPA-PER-CAPL"
+            [(ngModel)]="datosRegistroAgregar.nombre"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Código de Iniciativa</label>
+        <input
+          type="text"
+          class="form-control cli-input-white"
+          placeholder="HISPAM-2201-1"
+          [(ngModel)]="datosRegistroAgregar.codigo"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </div>
+
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Estado</label>
+        <select
+          class="cli-input-white"
+          [(ngModel)]="datosRegistroAgregar.estado"
+          [ngModelOptions]="{ standalone: true }"
+          #estadox
+          (change)="getInfoEstados(estadox.value)"
+        > <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="estado.idEstado"
+            *ngFor="let estado of listEstados">
+            {{ estado.cNombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>PO del proyecto</label>
+        <input
+          type="text"
+          class="form-control cli-input-white"
+          [(ngModel)]="datosRegistroAgregar.po_proyecto"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Gerencia Beneficiaria</label>
+        <select
+          class="cli-input-white"
+          [(ngModel)]="datosRegistroAgregar.gerencia_beneficiaria"
+          [ngModelOptions]="{ standalone: true }"
+          #selectGerenc
+        >
+          <option [value]="0" disabled>-Seleccionar-</option>
+          <option
+            [value]="gerenc.id"
+            *ngFor="let gerenc of listGerencia"
+          >
+            {{ gerenc.nombre }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Naturaleza del Beneficio</label>
+        <select
+          class="cli-input-white"
+          [(ngModel)]="datosRegistroAgregar.naturaleza"
+          [ngModelOptions]="{ standalone: true }"
+          #naturalezaX
+          (change)="getInfoNaturaleza(naturalezaX.value)"
+        >
+          <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="nat.id" *ngFor="let nat of naturaleza">
+            {{ nat.nombre }}
+          </option>
+        </select>
+      </div>
+    </ng-container>
+
+    <div class="cli-form-buttons" style="margin-top: 100px;">
+      <button
+        class="cli-btn btn-m btn-grey"
+        type="button"
+        (click)="close()"
+      >
+        <mat-icon class="icon-18">cancel</mat-icon> Salir
+      </button>
+      <button
+        #btnRegistrarRegistro
+        class="cli-btn btn-m btn-magenta"
+        (click)="crearIniciativa()"
+      >
+        <mat-icon class="icon-18">save</mat-icon> Registrar
+      </button>
+    </div>
+  </form>
+</div>

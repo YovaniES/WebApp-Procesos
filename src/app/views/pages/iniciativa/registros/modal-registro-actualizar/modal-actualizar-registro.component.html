@@ -1,22 +1,18 @@
 
 
-      <button (click)="regresarRegistro()" class="icon-btn btn-trans c-orange moda-close-btnXX">
+      <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
         <mat-icon>close</mat-icon>
       </button>
 
       <div class="modal-title c-male">Actualizar iniciativa</div>
-      <div
-        class="cli-form newvac-wrapper"
-        style="width: 80%; max-height: 1225px;"
-      >
+      <div class="cli-form newvac-wrapper">
         <!-- -------------------------------------------REGISTROS ACTUALIZAR--------------------------->
         <div class="pr-subtitle mt-2">Registros</div>
         <div class="pr-section">
-          <div class="pr-module-container">
           <form class="row g-3">
             <ng-container>
               <div class="col-sm-3 cli-form-element">
-                <div class="form-group col-sm-9x">
+                <div class="form-group">
                   <label>Nombre de Iniciativa</label>
                   <input
                     type="text"
@@ -172,7 +168,6 @@
               </div> -->
             </ng-container>
           </form>
-        </div>
       </div>
 
         <!-- --------------------------------------------CONTEXTO --------------------------->
@@ -334,7 +329,7 @@
         </div>
 
         <!-- --------------------------------------------HISTORICO CAMBIOS -------------------------------------->
-        <div class="pr-subtitle mt-2">Historico de Cambios</div>
+        <div class="pr-subtitle mt-2">Historico de Cambios de Estado</div>
           <div class="pr-section">
 
           <div class="pr-module-container">
@@ -344,7 +339,7 @@
                   <tr class="bgc-green c-white">
                     <th>#</th>
                     <th>idIniciativa</th>
-                    <th>Estado</th>
+                    <th>Estados</th>
                     <th>Motivo</th>
                     <th>Fecha y Hora de Cambio</th>
                     <th>Usuario</th>
@@ -373,7 +368,7 @@
             class="cli-btn btn-m btn-grey"
             type="submit"
             data-dismiss="modal"
-            (click)="regresarRegistro()"
+            (click)="close()"
             >
             <mat-icon class="icon-18">cancel</mat-icon> Cancelar
           </button>
@@ -381,7 +376,7 @@
             class="cli-btn btn-m btn-magenta"
             (click)="actualizarRegistro()"
             #btnActualizarRegistro
-          ><mat-icon>save</mat-icon> Actualizar
+          ><mat-icon class="icon-18">save</mat-icon> Actualizar
           </button>
         </div>
     </div>

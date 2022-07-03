@@ -2,7 +2,6 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -38,13 +37,14 @@ export interface EditarRegistro {
 
 @Component({
   selector: 'app-modal-registro',
-  templateUrl: './modal-registro.component.html',
-  styleUrls: ['./modal-registro.component.scss'],
+  templateUrl: './modal-actualizar-registro.component.html',
+  styleUrls: ['./modal-actualizar-registro.component.scss'],
+
 })
-export class ModalRegistroComponent implements OnInit {
+export class ModalActualizarRegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
-  @ViewChild('btnCrearRegistro') btnCrearRegistro!: ElementRef;
+  // @ViewChild('btnCrearRegistro') btnCrearRegistro!: ElementRef;
 
   fechaing:any;
   totalRegistros: number = 0;
@@ -95,7 +95,7 @@ export class ModalRegistroComponent implements OnInit {
     private modalRegistroService: ModalRegistroService,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
-    public dialogRef: MatDialogRef<ModalRegistroComponent>,
+    public dialogRef: MatDialogRef<ModalActualizarRegistroComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // this.usuario = JSON.parse(localStorage.getItem('currentUser'))
@@ -130,7 +130,6 @@ export class ModalRegistroComponent implements OnInit {
     this.dataRegistroEditar.fechaCrea = this.datePipe.transform(fecha, 'yyyy-MM-dd');
   }
 
-  // LISTA DE VP PARA EL MODAL
   listVP: Array<any> = [];
   getListaVP() {
     let parametro: any[] = [
@@ -148,10 +147,8 @@ export class ModalRegistroComponent implements OnInit {
       }
     })
   }
-   // OBTENCION DE LISTA TECNOLOGIA_X
   tecnologias:Array<any> = []
   getListaTecnologia(){
-    // this.registroForm.value.idIniciativa = id.toString();
     let parametro: any[]=[
       { queryId:93 }
     ];
@@ -167,7 +164,6 @@ export class ModalRegistroComponent implements OnInit {
       }
     })
   }
- // LISTA DE ESTADOS
     listEstados: Array<any> = [];
   getListEstados(){
     let parametro: any[] = [
@@ -193,7 +189,6 @@ export class ModalRegistroComponent implements OnInit {
     ];
   this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
       const gerencData: any[] = Array.of(resp);
-    // console.log('GERENCIA', gerencData);
     this.listGerencia = [];
       for (let i = 0; i < gerencData[0].list.length; i++) {
         this.listGerencia.push({
@@ -211,8 +206,6 @@ export class ModalRegistroComponent implements OnInit {
       },
     ];
     this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
-     // const dataNaturaleza: any[] = Array.of(resp);
-      // console.log('Naturaleza', dataNaturaleza);
          this.naturaleza = [];
           for (let i = 0; i < resp.list.length; i++) {
             this.naturaleza.push({
@@ -360,21 +353,19 @@ export class ModalRegistroComponent implements OnInit {
       console.log('DATA_ACTUALIZADO', data);
 
       this.cargarRegistroId();
-      this.regresarRegistro(true)
+      this.close(true)
       this.obtenerCambiosPorIniciativa(id);
 
       let msj  = data[0].exitoMessage;
       let msj2 = data[0].errorMessage
       if(estado){
-        // hhhh(this.idRegistro, estado);
         this.agregarIniciativaCambios()
         // this.obtenerCambiosPorIniciativa(id);
 
       }else{
-        this.regresarRegistro(true)
+        this.close(true)
       }
     });
-
   }
 
   agregarIniciativaCambios(){
@@ -414,7 +405,7 @@ getCambiosEstados(){
     let estadosData: any = [];
     estadosData = resp;
 
-    console.log('ESTADOS->', estadosData);
+    console.log('ESTADOS=>', estadosData);
 
     estadosData.forEach((element: { padre: string | null; }) => {
 
@@ -467,7 +458,7 @@ obtenerCambiosPorIniciativa(id: number){
     this.spinner.hide();
   }
 
- regresarRegistro(success?: boolean){
+  close(success?: boolean){
    this.dialogRef.close(success);
   }
 }

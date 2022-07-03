@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './layout/base/base.component';
-import { ModalBandejaComponent } from './views/pages/iniciativa/registros/modal-bandeja/modal-bandeja.component';
-import { ModalRegistroComponent } from './views/pages/iniciativa/registros/modal-registro-actualizar/modal-registro.component';
 
 const routes: Routes = [
   { path: 'login',
@@ -26,14 +24,9 @@ const routes: Routes = [
         path:'vacantes',
         loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
       },
-
-      {path: 'actualizar/:idRegistro', component: ModalRegistroComponent},
-      // {path: 'actualizar/:idIniciativa', component: ModalBandejaComponent},S
-
       {
         path:'**', redirectTo:'/error/404'
       }
-
     ]
   },
 

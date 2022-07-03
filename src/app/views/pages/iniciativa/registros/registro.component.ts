@@ -6,7 +6,8 @@ import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalRegistroComponent } from './modal-registro-actualizar/modal-registro.component';
+import { ModalCrearRegistroComponent } from './modal-crear-registro/modal-crear-registro.component';
+import { ModalActualizarRegistroComponent } from './modal-registro-actualizar/modal-actualizar-registro.component';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { ModalRegistroComponent } from './modal-registro-actualizar/modal-regist
 })
 export class RegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-  @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
+  // @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
   showing=1;
   actionBtn: number = 0
@@ -46,16 +47,6 @@ export class RegistroComponent implements OnInit {
       fechaFinalizacion   : '',
     };
 
-    datosRegistroAgregar = {
-      idIniciativa         : '',
-      nombre               : '',
-      codigo               : '',
-      estado               : '',
-      po_proyecto          : '',
-      gerencia_beneficiaria: '',
-      naturaleza           : '',
-      fecha_creacion       : ''
-    }
 
   constructor(
     private modalRegistroService: ModalRegistroService,
@@ -73,17 +64,6 @@ export class RegistroComponent implements OnInit {
     this.getListNaturaleza();
   }
 
-  getInfoEstados(id: any){ }
-
-  getInfoNaturaleza(id:any){ }
-
-  idGerSol: any;
-  getInfoGerSol(id: any){
-    this.idGerSol = id
-  }
-
-
-  // ID BUSCADORES
   idEstadoBuscar: any;
   getInfoEstadoBuscar(id:any){
     this.idEstadoBuscar = id;
@@ -99,12 +79,7 @@ export class RegistroComponent implements OnInit {
     this.idNaturalezaBuscar = id;
   }
 
-  idVP: any
-  getInfoVP(id: any){
-    this.idVP = id
-  }
 
-  // LISTA DE ESTADOS
   listEstados: Array<any> = [];
   getListEstados(){
     let parametro: any[] = [
@@ -124,7 +99,6 @@ export class RegistroComponent implements OnInit {
     })
   };
 
-    // LISTA DE GERENCIA
   listGerencia: Array<any> = [];
   getListGerencia(){
       let parametro: any[] = [
@@ -144,7 +118,6 @@ export class RegistroComponent implements OnInit {
       })
     };
 
-  // Lista de NATURALEZA
   naturaleza: Array<any> = [];
   getListNaturaleza() {
     let parametro: any[] = [
@@ -165,7 +138,6 @@ export class RegistroComponent implements OnInit {
   }
 
 
-  // BUSCAR EN LA TABLA
     totalFiltroEncontrado: number = 0;
     buscarRegistro(){
       this.registros = [];
@@ -351,19 +323,6 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  limpiarCrearIniciativa(){
-    this.datosRegistroAgregar.nombre                = '';
-    this.datosRegistroAgregar.codigo                = '';
-    this.datosRegistroAgregar.estado                = '';
-    this.datosRegistroAgregar.po_proyecto           = '';
-    this.datosRegistroAgregar.gerencia_beneficiaria = '';
-    this.datosRegistroAgregar.naturaleza            = '';
-
-    this.fechaing                                   = ''
-    this.btnRegistrarRegistro.nativeElement.disabled = false;
-    this.cargarRegistro();
-  };
-
   limpiarFiltro(){
     this.filtro.nombre             = '',
     this.filtro.codigo             = '',
@@ -376,75 +335,19 @@ export class RegistroComponent implements OnInit {
     this.cargarRegistro();
   }
 
+  crearIniciativa(){
+    const dialogRef = this.dialog.open(ModalCrearRegistroComponent, {width:'1000px'});
 
-  @ViewChild('cerrarModal') cerrarModal!: ElementRef;
-  agregarRegistro(){
-    this.spinner.show();
-
-    this.btnRegistrarRegistro.nativeElement.disabled = true;
-
-    let nombre                = this.datosRegistroAgregar.nombre;
-    let codigo                = this.datosRegistroAgregar.codigo;
-    let po_proyecto           = this.datosRegistroAgregar.po_proyecto;
-    let estado                = this.datosRegistroAgregar.estado;
-    let gerencia_beneficiaria = this.datosRegistroAgregar.gerencia_beneficiaria;
-    let naturaleza            = this.datosRegistroAgregar.naturaleza;
-    let fecha_creacion        = this.datosRegistroAgregar.fecha_creacion;
-
-    let parametro: any[] = [
-      {queryId: 97,
-       mapValue: {
-        "p_cdescripcion"      : nombre  ,
-        "p_cod_proyecto"      : codigo  ,
-        // "p_id_vp"             : registroIdInfoVP  ,
-        "p_id_estado"         : estado  ,
-        "p_po_proyecto"       : po_proyecto  ,
-        "p_id_gerencia_ben"   : gerencia_beneficiaria,
-        "p_id_naturaleza"     : naturaleza  ,
-        "p_prob_actual"       : ''  ,
-        "p_func_robotiz"      : ''  ,
-        "p_def_alcance"       : ''  ,
-        "p_riesgo_no_rpa"     : ''  ,
-        "p_pi"                : ''  ,
-        "p_qtrx_mes"          : ''  ,
-        "p_tmo_trx"           : ''  ,
-        "p_flu_contx"         : ''  ,
-        "p_user_crea"         : 'jjsoto'  ,
-        "p_fecha_crea"        : fecha_creacion  ,
-        "p_user_act"          : ''  ,
-        "p_fecha_act"         : ''  ,
-        "CONFIG_REG_ID"       : ''  ,
-        "CONFIG_OUT_MSG_ERROR": '' ,
-        "CONFIG_OUT_MSG_EXITO": ''
-       }
-      }];
-
-      this.modalRegistroService.agregarRegistro(parametro[0]).subscribe(resp => {
-        console.log('AGREGAR_REG', resp);
-        const regData: any[] = Array.of(resp);
-
-        let msj  = regData[0].exitoMessage;
-        let msj2 = regData[0].errorMessage;
-
-        Swal.fire({
-          title: 'Registro Iniciativa!',
-          text : 'Registro creado con éxito',
-          icon : 'success',
-          confirmButtonText: 'Ok'
-          }
-
-        );
-
-        this.cerrarModal.nativeElement.click();
-        this.cargarRegistro();
-
-      });
-      this.spinner.hide();
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.cargarRegistro()
+      }
+    })
   }
 
   editarIniciativa(idIniciativa: any) {
     this.dialog
-      .open(ModalRegistroComponent, { width: '1125px', data: idIniciativa, disableClose: true })
+      .open(ModalActualizarRegistroComponent, { width: '1125px', data: idIniciativa, })
       .afterClosed()
       .subscribe((resp) => {
         if (resp) {

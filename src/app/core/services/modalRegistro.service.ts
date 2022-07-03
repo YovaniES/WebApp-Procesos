@@ -52,7 +52,7 @@ export class ModalRegistroService {
   }
 
   //INSERTAR REGISTRO A LA TABLA
-  agregarRegistro(obj: any){
+  crearIniciativa(obj: any){
     return this.http.post(API_REG1,obj);
   }
 
