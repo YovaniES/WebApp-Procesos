@@ -4,12 +4,11 @@ import { RegistroComponent } from './registros/registro.component';
 import { BuscarRegistrosComponent } from './registros/buscar-registros/buscar-registros.component';
 
 const routes: Routes = [
-  {
-    path:'iniciativa', component:RegistroComponent,
-  },
-  {
-    path: 'editar', component: BuscarRegistrosComponent
-  },
+  {path: '', children: [
+    { path:'iniciativa', component:RegistroComponent, },
+    { path: 'editar', component: BuscarRegistrosComponent },
+    { path: '**', redirectTo: 'iniciativa'}
+  ]}
 ];
 
 @NgModule({

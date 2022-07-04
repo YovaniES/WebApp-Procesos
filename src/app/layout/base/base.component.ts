@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./base.component.scss'],
 })
 export class BaseComponent implements OnInit {
-  fixedAside: Boolean = false;
+  fixedAside: Boolean = true; //OJO Verificar
   loading: boolean = true;
   menuError: boolean = false;
   message: string = 'Preparando contenido...';

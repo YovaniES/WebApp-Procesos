@@ -37,6 +37,7 @@
   margin: 20px auto;
   padding: 20px;
   // border: solid 1px $color-grey-2;
+  width: 85%;
 }
 
 .moda-close-btn {
@@ -44,4 +45,11 @@
   top: -10px;
   right: -10px;
   z-index: 20;
+}
+
+
+@media (max-width: 850px) {
+  .newvac-wrapper{
+    width: 100%;
+  }
 }

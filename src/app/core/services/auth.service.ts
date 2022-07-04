@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   logout() {
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl('auth');
     localStorage.clear();
   }
 
@@ -50,8 +50,12 @@ export class AuthService {
     }
   }
 
-  /*   isLoggedIn(): boolean {
-    const token = this.getToken();
+  // getToken(){
+  //   return localStorage.getItem('token')
+  // }
+
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token')
     let validSession = false;
     let decodedToken: any = null;
 
@@ -71,5 +75,5 @@ export class AuthService {
     } catch (err) {
       return false;
     }
-  } */
+  }
 }
