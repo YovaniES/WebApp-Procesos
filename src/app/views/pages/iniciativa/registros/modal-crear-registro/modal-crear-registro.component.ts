@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
+import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,7 +21,7 @@ export class ModalCrearRegistroComponent implements OnInit {
     naturaleza           : '',
     fecha_creacion       : ''
   }
-  constructor(private modalRegistroService: ModalRegistroService,
+  constructor(private iniciativaService: IniciativaService,
               private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<ModalCrearRegistroComponent>,
               @Inject(MAT_DIALOG_DATA) public editData: any
@@ -47,7 +47,7 @@ export class ModalCrearRegistroComponent implements OnInit {
       { queryId: 89 }
     ];
 
-    this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+    this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
 
       this.listEstados = [];
@@ -66,7 +66,7 @@ export class ModalCrearRegistroComponent implements OnInit {
         { queryId: 95 }
       ];
 
-      this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
+      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
         const gerencData: any[] = Array.of(resp);
 
         this.listGerencia = [];
@@ -84,7 +84,7 @@ export class ModalCrearRegistroComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 90, },
     ];
-    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
       const dataNaturaleza: any[] = Array.of(resp);
 
@@ -131,12 +131,12 @@ export class ModalCrearRegistroComponent implements OnInit {
         "p_user_act"          : ''  ,
         "p_fecha_act"         : ''  ,
         "CONFIG_REG_ID"       : ''  ,
-        "CONFIG_OUT_MSG_ERROR": '' ,
+        "CONFIG_OUT_MSG_ERROR": ''  ,
         "CONFIG_OUT_MSG_EXITO": ''
        }
       }];
 
-      this.modalRegistroService.crearIniciativa(parametro[0]).subscribe(resp => {
+      this.iniciativaService.crearIniciativa(parametro[0]).subscribe(resp => {
         console.log('AGREGAR_INIC', resp);
         const regData: any[] = Array.of(resp);
 

@@ -1,40 +1,13 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { IniciativaInterface } from 'src/app/core/interfaces/registro.interface';
 
-export interface IniciativaInterface {
-  idIniciativa  : any,
-  nombre        : any,
-  codigo        : any,
-  vp            : any,
-  gerenciaSol   : any,
-  estado        : any,
-  poProyecto    : any,
-  responsable   : any,
-  gerenciaBen   : any,
-  planner       : any,
-  contGerBen    : any,
-  contAprBc     : any,
-  tecnologia    : any,
-  licencias     : any,
-  naturaleza    : any,
-  probActual    : any,
-  funcRobotiz   : any,
-  defAlcance    : any,
-  riesgoNoRpa   : any,
-  pi            : any,
-  qtrxMes       : any,
-  tmoTrx        : any,
-  fluContx      : any,
-  userCrea      : any,
-  fechaCrea     : any,
-  userAct       : any,
-  fechaAct      : any,
-}
+
 
 @Component({
   selector: 'app-modal-registro',
@@ -91,7 +64,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
 
   constructor(
-    private modalRegistroService: ModalRegistroService,
+    private iniciativaService: IniciativaService,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<ModalActualizarRegistroComponent>,
@@ -136,7 +109,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 94 },
     ];
-    this.modalRegistroService.getListVP(parametro[0]).subscribe(resp =>{
+    this.iniciativaService.getListVP(parametro[0]).subscribe(resp =>{
       const vpData: any[] = Array.of(resp);
      //  console.log('VP', vpData);
     this.listVP = [];
@@ -153,7 +126,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     let parametro: any[]=[
       { queryId:93 }
     ];
-    this.modalRegistroService.listaTecnologia(parametro[0]).subscribe(resp =>{
+    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp =>{
      const dataTecnol:any[] = Array.of(resp)
       // console.log('TECNOLOGIA_X', dataTecnol);
      this.tecnologias = [];
@@ -170,7 +143,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 89 }
     ];
-   this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+   this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
      console.log('ESTADOS', estadosData);
      this.listEstados = [];
@@ -188,7 +161,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 95 }
     ];
-  this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
+  this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
       const gerencData: any[] = Array.of(resp);
     this.listGerencia = [];
       for (let i = 0; i < gerencData[0].list.length; i++) {
@@ -206,7 +179,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
       { queryId: 90,
       },
     ];
-    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
          this.naturaleza = [];
           for (let i = 0; i < resp.list.length; i++) {
             this.naturaleza.push({
@@ -288,7 +261,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
       }
     }];
 
-    this.modalRegistroService.actualizarRegistro(parametro[0]).subscribe( resp => {
+    this.iniciativaService.actualizarRegistro(parametro[0]).subscribe( resp => {
 
       this.spinner.hide();
 
@@ -322,7 +295,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
       mapValue: {'param_idIniciativa': this.data}
     }];
 
-    this.modalRegistroService.cargarRegistroId(parametro[0]).subscribe( resp => {
+    this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( resp => {
       const editData:any[] = Array.of(resp);
 
       console.log('EDITX',editData );
@@ -395,7 +368,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
      }
    }];
 
-  this.modalRegistroService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
+  this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
     const newEstatoData: any[] = Array.of(resp);
     console.log('NuevoEstIDGuard', newEstatoData);
 
@@ -405,7 +378,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 estados:Array<any> = [];
 getCambiosEstados(){
   this.estados = [];
-  this.modalRegistroService.getCambiosEstados().subscribe(resp => {
+  this.iniciativaService.getCambiosEstados().subscribe(resp => {
     let estadosData: any = [];
     estadosData = resp;
 
@@ -441,7 +414,7 @@ getHistoricoCambios(id: number){
       }
     }];
 
-    this.modalRegistroService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
+    this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
       const data:any[] = Array.of(resp);
 
       this.historicoCambios = [];   console.log('ListHistCambID',data );

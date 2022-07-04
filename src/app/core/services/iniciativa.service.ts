@@ -5,7 +5,7 @@ import { API_REG1, API_REG2 } from '../constants/url.constants';
 @Injectable({
   providedIn: 'root',
 })
-export class ModalRegistroService {
+export class IniciativaService {
   constructor(private http: HttpClient) {}
 
   eliminarRegistro(id: number) {
@@ -93,9 +93,6 @@ export class ModalRegistroService {
   getHistoricoCambios(id: string){
     return this.http.get(API_REG2)
   }
-
-
-
 
 }
 

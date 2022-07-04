@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
+import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 
 @Component({
   selector: 'app-buscar-registros',
@@ -26,7 +26,7 @@ export class BuscarRegistrosComponent implements OnInit {
     fechaFinalizacion   : '',
   };
 
-  constructor(private modalRegistroService: ModalRegistroService,
+  constructor(private iniciativaService: IniciativaService,
               private spinner: NgxSpinnerService,
               public datepipe: DatePipe,
     ) { }
@@ -65,7 +65,7 @@ export class BuscarRegistrosComponent implements OnInit {
       { queryId: 89 }
     ];
 
-    this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+    this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
 
       this.listEstados = [];
@@ -85,7 +85,7 @@ export class BuscarRegistrosComponent implements OnInit {
         { queryId: 95 }
       ];
 
-      this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
+      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
         const gerencData: any[] = Array.of(resp);
 
         this.listGerencia = [];
@@ -104,7 +104,7 @@ export class BuscarRegistrosComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 90, },
     ];
-    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
       const dataNaturaleza: any[] = Array.of(resp);
 
@@ -141,7 +141,7 @@ export class BuscarRegistrosComponent implements OnInit {
         }
       }];
 
-      this.modalRegistroService.buscarRegistro(parametro[0]).subscribe(resp => {
+      this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
       this.blockUI.stop();
 
         const searchData:any[] = Array.of(resp);
@@ -192,7 +192,7 @@ export class BuscarRegistrosComponent implements OnInit {
          { queryId:92 }
        ];
 
-       this.modalRegistroService.getListaBandeja(arrayParametro[0])
+       this.iniciativaService.getListaBandeja(arrayParametro[0])
            .subscribe(resp => {
              this.blockUI.stop();
 

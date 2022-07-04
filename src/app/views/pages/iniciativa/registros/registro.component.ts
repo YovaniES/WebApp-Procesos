@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { Registro } from 'src/app/core/interfaces/registro.interface';
-import { ModalRegistroService } from 'src/app/core/services/modalRegistro.service';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCrearRegistroComponent } from './modal-crear-registro/modal-crear-registro.component';
 import { ModalActualizarRegistroComponent } from './modal-registro-actualizar/modal-actualizar-registro.component';
+import { Registro } from 'src/app/core/interfaces/registro.interface';
+import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 
 
 @Component({
@@ -49,7 +49,7 @@ export class RegistroComponent implements OnInit {
 
 
   constructor(
-    private modalRegistroService: ModalRegistroService,
+    private iniciativaService: IniciativaService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
     private dialog: MatDialog
@@ -86,7 +86,7 @@ export class RegistroComponent implements OnInit {
       { queryId: 89 }
     ];
 
-    this.modalRegistroService.getListEstados(parametro[0]).subscribe(resp => {
+    this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
 
       this.listEstados = [];
@@ -105,7 +105,7 @@ export class RegistroComponent implements OnInit {
         { queryId: 95 }
       ];
 
-      this.modalRegistroService.getListGerencia(parametro[0]).subscribe((resp) => {
+      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
         const gerencData: any[] = Array.of(resp);
 
         this.listGerencia = [];
@@ -123,7 +123,7 @@ export class RegistroComponent implements OnInit {
     let parametro: any[] = [
       { queryId: 90, },
     ];
-    this.modalRegistroService.getListNaturaleza(parametro[0]).subscribe((resp) => {
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp) => {
 
       const dataNaturaleza: any[] = Array.of(resp);
 
@@ -159,7 +159,7 @@ export class RegistroComponent implements OnInit {
         }
       }];
 
-      this.modalRegistroService.buscarRegistro(parametro[0]).subscribe(resp => {
+      this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
       this.blockUI.stop();
 
         const searchData:any[] = Array.of(resp);
@@ -199,7 +199,7 @@ export class RegistroComponent implements OnInit {
        { queryId:92 }
      ];
 
-     this.modalRegistroService.getListaBandeja(arrayParametro[0])
+     this.iniciativaService.getListaBandeja(arrayParametro[0])
          .subscribe(resp => {
            this.blockUI.stop();
 
@@ -230,7 +230,7 @@ export class RegistroComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalBandeja) {
-      this.modalRegistroService.getListaBandeja(offset.toString())
+      this.iniciativaService.getListaBandeja(offset.toString())
           .subscribe( resp => {
             console.log('TABLA', resp);
 
@@ -271,7 +271,7 @@ export class RegistroComponent implements OnInit {
       }
     }];
 
-    this.modalRegistroService.eliminarRegistro(parametro[0]).subscribe(resp => {
+    this.iniciativaService.eliminarRegistro(parametro[0]).subscribe(resp => {
       const data:any[] = Array.of(resp);
 
       let msj = data[0].exitoMessage;
@@ -308,7 +308,7 @@ export class RegistroComponent implements OnInit {
       confirmButtonText: 'Si, Eliminar!',
     }).then((resp) => {
       if (resp.value) {
-        this.modalRegistroService
+        this.iniciativaService
           .eliminarRegistro(regist.idIniciativa)
           .subscribe((resp1) => {
             this.cargarRegistro();
