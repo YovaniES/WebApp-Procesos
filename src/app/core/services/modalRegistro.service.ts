@@ -89,38 +89,13 @@ export class ModalRegistroService {
   //   const urlApiReq = environment.urlApi+'getcustomquery/'+'5-xxx-0000';
   //   return this.http.get(urlApiReq);
   // }
-  // ---------------------------------------------------------
 
-  //BUSCAR PERSONA
-  buscarPersona(obj: any){
-    return this.http.post(API_REG1,obj);
+  getHistoricoCambios(id: string){
+    return this.http.get(API_REG2)
   }
 
 
-  getProyectos(queryId: any){
-    return this.http.post(API_REG1,queryId);
-  }
 
-    /*PERSONAL INICIO*/
-    getListaMantenimiento(queryId: string){
-      return this.http.post(API_REG1,queryId);
-    }
-
-  getInfoPerfiles(obj: any){
-    return this.http.post(API_REG1,obj);
-  }
-
-  getPerfiles(queryId: any){
-    return this.http.post(API_REG1,queryId);
-  }
-
-  getInfoProyecto(obj: any){
-    return this.http.post(API_REG1,obj);
-  }
-
-  deletePersonal(obj: any){
-    return this.http.post(API_REG1,obj);
-  }
 
 }
 

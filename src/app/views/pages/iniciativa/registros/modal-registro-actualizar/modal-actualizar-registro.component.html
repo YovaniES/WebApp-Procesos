@@ -18,7 +18,7 @@
                     type="text"
                     class="form-control cli-input-white"
                     placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="dataRegistroEditar.nombre"
+                    [(ngModel)]="dataIniciativa.nombre"
                     [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
@@ -26,27 +26,26 @@
 
               <div class="col-sm-3 cli-form-element">
                 <label>Código de Iniciativa</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  placeholder="HISPAM-2201-1"
-                  [(ngModel)]="dataRegistroEditar.codigo"
-                  [ngModelOptions]="{ standalone: true }"
-                />
+                  <input
+                    type="text"
+                    class="form-control cli-input-white"
+                    placeholder="HISPAM-2201-1"
+                    [(ngModel)]="dataIniciativa.codigo"
+                    [ngModelOptions]="{ standalone: true }"
+                    disabled
+                  />
               </div>
 
               <div class="col-sm-3 cli-form-element">
                 <label>Estado</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.estado"
-                  [ngModelOptions]="{ standalone: true }"
-                  #estadox
-                > <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="s.idEstado" *ngFor="let s of listEstados">
-                    {{ s.cNombre }}
-                  </option>
-                </select>
+                  <select
+                    class="cli-input-white"
+                    [(ngModel)]="dataIniciativa.estado"
+                    [ngModelOptions]="{ standalone: true }"
+                    #estadox
+                  > <option [value]="0" disabled>-Seleccionar-</option>
+                    <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
+                  </select>
               </div>
 
               <div class="col-sm-3 cli-form-element">
@@ -54,7 +53,7 @@
                 <input
                   type="text"
                   class="form-control cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.poProyecto"
+                  [(ngModel)]="dataIniciativa.poProyecto"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -65,15 +64,12 @@
                 <label>VP</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.vp"
+                  [(ngModel)]="dataIniciativa.vp"
                   [ngModelOptions]="{ standalone: true }"
                   #vp
                   (change)="getInfoVP(vp.value)"
                 > <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="vp.id"
-                    *ngFor="let vp of listVP">
-                    {{ vp.nombre }}
-                  </option>
+                  <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
                 </select>
               </div>
 
@@ -81,18 +77,13 @@
                 <label>Gerencia Solicitante</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.gerenciaSol"
+                  [(ngModel)]="dataIniciativa.gerenciaSol"
                   [ngModelOptions]="{ standalone: true }"
                   #selectGerenc
                   (change)="getInfoGerSol(selectGerenc.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
-                  <option
-                    [value]="gerenc.id"
-                    *ngFor="let gerenc of listGerencia"
-                  >
-                    {{ gerenc.nombre }}
-                  </option>
+                  <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
                 </select>
               </div>
 
@@ -100,15 +91,12 @@
                 <label>Gerencia beneficiaria</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.gerenciaBen"
+                  [(ngModel)]="dataIniciativa.gerenciaBen"
                   [ngModelOptions]="{ standalone: true }"
                   #gerenBenef
                   (change)="getInfoGerBen(gerenBenef.value)"
-                ><option [value]="0" disabled>-Seleccionar-</option>
-                  <option
-                    [value]="gerben.id" *ngFor="let gerben of listGerencia"
-                  >{{ gerben.nombre }}
-                  </option>
+                ><option  [value]="0" disabled>-Seleccionar-</option>
+                  <option [value]="gerben.id" *ngFor="let gerben of listGerencia">{{ gerben.nombre }}</option>
                 </select>
               </div>
 
@@ -117,7 +105,7 @@
                 <input
                     type="text"
                     class="form-control cli-input-white"
-                    [(ngModel)]="dataRegistroEditar.contAprBc"
+                    [(ngModel)]="dataIniciativa.contAprBc"
                     [ngModelOptions]="{ standalone: true }"
                   />
               </div>
@@ -128,44 +116,40 @@
                 <label>Tecnología de Solución</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.tecnologia"
+                  [(ngModel)]="dataIniciativa.tecnologia"
                   [ngModelOptions]="{ standalone: true }"
                   #tecnSol
                   (change)="getInfoTecnologia(tecnSol.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="tec.id" *ngFor="let tec of tecnologias">
-                    {{ tec.nombre }}
-                  </option>
+                  <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
                 </select>
               </div>
               <div class="col-sm-3 cli-form-element">
                 <label>Naturaleza del Beneficio</label>
                 <select
                   class="cli-input-white"
-                  [(ngModel)]="dataRegistroEditar.naturaleza"
+                  [(ngModel)]="dataIniciativa.naturaleza"
                   [ngModelOptions]="{ standalone: true }"
                   #naturaleza1
                   (change)="getInfoNaturaleza(naturaleza1.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="nat.id" *ngFor="let nat of naturaleza">
-                          {{ nat.nombre }}
-                  </option>
+                  <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
                 </select>
               </div>
 
-              <!-- <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-3 cli-form-element">
                 <div class="form-group">
                     <label>Fecha creación</label>
                     <input type="date"
                     class="form-control"
-                    [value]="dataRegistroEditar.fechaCrea | date:'yyyy-MM-dd'"
+                    [value]="dataIniciativa.fechaCrea | date:'yyyy-MM-dd'"
                     #fechaCrea
                     (blur)="actualizarFechaCreacion(fechaCrea.value)"
-                    >
+                    disabled>
                 </div>
-              </div> -->
+              </div>
             </ng-container>
           </form>
       </div>
@@ -182,7 +166,7 @@
                     min="0"
                     class="form-control cli-input-white"
                     placeholder="25"
-                    [(ngModel)]="dataRegistroEditar.qtrxMes"
+                    [(ngModel)]="dataIniciativa.qtrxMes"
                     [ngModelOptions]="{ standalone: true }"
                   />
               </div>
@@ -194,7 +178,7 @@
                   min="0"
                   class="form-control cli-input-white"
                   placeholder="4"
-                  [(ngModel)]="dataRegistroEditar.tmoTrx"
+                  [(ngModel)]="dataIniciativa.tmoTrx"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -210,7 +194,7 @@
                       id="gridRadios1"
                       name="pi"
                       [value]="1"
-                      [(ngModel)]="dataRegistroEditar.pi"
+                      [(ngModel)]="dataIniciativa.pi"
                       [ngModelOptions]="{ standalone: true }"
                       />
                     <label class="form-check-label" for="gridRadios1">Si</label>
@@ -222,7 +206,7 @@
                       name="pi"
                       id="gridRadios2"
                       [value]="0"
-                      [(ngModel)]="dataRegistroEditar.pi"
+                      [(ngModel)]="dataIniciativa.pi"
                       [ngModelOptions]="{ standalone: true }"
                     />
                     <label class="form-check-label" for="gridRadios2">No</label>
@@ -240,7 +224,7 @@
                       name="Si"
                       id="gridRadios3"
                       [value]="1"
-                      [(ngModel)]="dataRegistroEditar.fluContx"
+                      [(ngModel)]="dataIniciativa.fluContx"
                       [ngModelOptions]="{ standalone: true }"
 
                     />
@@ -254,7 +238,7 @@
                       name="No"
                       id="gridRadios4"
                       [value]="0"
-                      [(ngModel)]="dataRegistroEditar.fluContx"
+                      [(ngModel)]="dataIniciativa.fluContx"
                       [ngModelOptions]="{ standalone: true }"
                       />
                     <label class="form-check-label" for="gridRadios4">No</label>
@@ -277,7 +261,7 @@
                     style="resize: none"
                     rows="3"
                     placeholder="Detalle el contexto y la problemática actual..."
-                    [(ngModel)]="dataRegistroEditar.probActual"
+                    [(ngModel)]="dataIniciativa.probActual"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   ></textarea>
@@ -290,7 +274,7 @@
                     style="resize: none"
                     rows="3"
                     placeholder="Defina la problemática de la función .."
-                    [(ngModel)]="dataRegistroEditar.funcRobotiz"
+                    [(ngModel)]="dataIniciativa.funcRobotiz"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   ></textarea>
@@ -303,7 +287,7 @@
                     rows="3"
                     style="resize: none"
                     placeholder="Defina los objetivos y alcances del RPA"
-                    [(ngModel)]="dataRegistroEditar.defAlcance"
+                    [(ngModel)]="dataIniciativa.defAlcance"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   >
@@ -317,7 +301,7 @@
                     rows="3"
                     style="resize: none"
                     placeholder="Describa los riesgos de no realizar el RPA"
-                    [(ngModel)]="dataRegistroEditar.riesgoNoRpa"
+                    [(ngModel)]="dataIniciativa.riesgoNoRpa"
                     [ngModelOptions]="{ standalone: true }"
                     required
                   >
@@ -348,7 +332,7 @@
 
                 <tbody>
                   <tr
-                    *ngFor=" let cambios of dataICambios; let i = index ">
+                    *ngFor=" let cambios of historicoCambios; let i = index ">
                     <td>{{i+1}}</td>
                     <td>{{ cambios.idiniciativa }}</td>
                     <td>{{ cambios.estado }}</td>
@@ -374,8 +358,7 @@
           </button>
           <button
             class="cli-btn btn-m btn-magenta"
-            (click)="actualizarRegistro()"
-            #btnActualizarRegistro
+            (click)="actualizarIniciativa()"
           ><mat-icon class="icon-18">save</mat-icon> Actualizar
           </button>
         </div>
