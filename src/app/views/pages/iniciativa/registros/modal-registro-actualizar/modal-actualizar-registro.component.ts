@@ -76,6 +76,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
   ngOnInit() {
     this.cargarRegistroId();
     // this.getListEstados();
+    this.getListResponsable();
     this.getListGerencia();
     this.getListaVP();
     this.getListNaturaleza();
@@ -151,6 +152,24 @@ export class ModalActualizarRegistroComponent implements OnInit {
         this.listEstados.push({
           idEstado:     estadosData[0].list[i].idEstado,
           cNombre :     estadosData[0].list[i].cNombre,
+        });
+      }
+    })
+  };
+
+  listResponsable: Array<any> = [];
+  getListResponsable(){
+    let parametro: any[] = [
+      { queryId: 102 }
+    ];
+   this.iniciativaService.getListResponsable(parametro[0]).subscribe(resp => {
+      const responsableData: any[] = Array.of(resp);
+     console.log('RESPONSABLE', responsableData);
+     this.listResponsable = [];
+      for (let i = 0; i < responsableData[0].list.length; i++) {
+        this.listResponsable.push({
+          id     :     responsableData[0].list[i].id,
+          nombre :     responsableData[0].list[i].nombre,
         });
       }
     })

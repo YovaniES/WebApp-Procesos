@@ -49,6 +49,17 @@
               </div>
 
               <div class="col-sm-3 cli-form-element">
+                <label>Responsable</label>
+                  <select
+                    class="cli-input-white"
+                    [(ngModel)]="dataIniciativa.responsable"
+                    [ngModelOptions]="{ standalone: true }"
+                  > <option [value]="0" disabled>-Seleccionar-</option>
+                    <option [value]="r.id" *ngFor="let r of listResponsable">{{ r.nombre }}</option>
+                  </select>
+              </div>
+
+              <div class="col-sm-3 cli-form-element">
                 <label>PO del proyecto</label>
                 <input
                   type="text"
@@ -150,6 +161,8 @@
                     disabled>
                 </div>
               </div>
+              <!-- JSON----------------DATA -->
+              <!-- <pre>{{dataIniciativa | json}}</pre> -->
             </ng-container>
           </form>
       </div>
@@ -363,6 +376,5 @@
           </button>
         </div>
     </div>
-
 
 

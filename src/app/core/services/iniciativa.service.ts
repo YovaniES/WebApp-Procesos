@@ -34,6 +34,10 @@ export class IniciativaService {
     return this.http.post(API_REG1, obj)
   }
 
+    // lista Gerencia
+   getListResponsable(obj:any){
+    return this.http.post(API_REG1, obj)
+  }
   // lista Gerencia
   getListGerencia(obj:any){
     return this.http.post(API_REG1, obj)
