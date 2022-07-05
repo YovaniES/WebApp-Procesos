@@ -65,9 +65,7 @@ export class AuthService {
       }
 
       if (
-        decodedToken &&
-        decodedToken.exp &&
-        decodedToken.exp > Date.now() / 1000
+        decodedToken && decodedToken.exp // &&    decodedToken.exp > Date.now() / 1000
       ) {
         validSession = true;
       }

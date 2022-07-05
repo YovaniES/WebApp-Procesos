@@ -145,7 +145,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     ];
    this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
       const estadosData: any[] = Array.of(resp);
-     console.log('ESTADOS', estadosData);
+    //  console.log('ESTADOS', estadosData);
      this.listEstados = [];
       for (let i = 0; i < estadosData[0].list.length; i++) {
         this.listEstados.push({
@@ -274,6 +274,8 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
       let msj  = data[0].exitoMessage;
       let msj2 = data[0].errorMessage
+
+      this.getCambiosEstados();
       if(estado){
         this.agregarIniciativaCambios()
         // this.obtenerCambiosPorIniciativa(id);
@@ -398,7 +400,6 @@ getCambiosEstados(){
         });
       }
     });
-
   });
 }
 

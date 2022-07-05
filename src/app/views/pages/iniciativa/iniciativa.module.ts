@@ -7,15 +7,16 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RegistroComponent } from './registros/registro.component';
-import { BuscarRegistrosComponent } from './registros/buscar-registros/buscar-registros.component';
+// import { ReporteIniciativaComponent } from './registros/reporte-iniciativa/reporte-iniciativa.component';
 import { ModalCrearRegistroComponent } from './registros/modal-crear-registro/modal-crear-registro.component';
 import { ModalActualizarRegistroComponent } from './registros/modal-registro-actualizar/modal-actualizar-registro.component';
+import { ReporteIniciativaComponent } from './registros/reporte-iniciativa/reporte-iniciativa.component';
 
 @NgModule({
   declarations: [
     RegistroComponent,
     ModalActualizarRegistroComponent,
-    BuscarRegistrosComponent,
+    ReporteIniciativaComponent,
     ModalCrearRegistroComponent,
   ],
   exports:[

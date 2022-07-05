@@ -6,11 +6,10 @@ import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 
 @Component({
   selector: 'app-buscar-registros',
-  templateUrl: './buscar-registros.component.html',
-  styles: [
-  ]
+  templateUrl: './reporte-iniciativa.component.html',
+  styleUrls: ['./reporte-iniciativa.component.scss'],
 })
-export class BuscarRegistrosComponent implements OnInit {
+export class ReporteIniciativaComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
   registros: Array<any> = [];

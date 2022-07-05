@@ -9,18 +9,43 @@ import { AuthService } from '../services/auth.service';
 export class NoAuthGuard implements CanActivate {
 
   constructor(private authService: AuthService,
-              private route: Router){}
+              private router: Router){}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | boolean {
+  canActivate(): Observable<boolean> | boolean {
 
     if (this.authService.isLoggedIn()) {
-      this.route.navigate(['/'])
+      this.router.navigateByUrl('/')
       return false
     } else {
       return true;
     }
   }
+
+  // canActivate(
+
+  //   next: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+
+  //     //const currentUser = this.authenticationService.currentUser;
+  //     const currentUser = localStorage.getItem('currentUser');
+  //     if(currentUser){
+  //       return true;
+  //     }
+  //     this.router.navigate(['auth'], { queryParams: { returnUrl: state.url }});
+  //     return false;
+  // }
+
+
+  // canActivate(
+  //   next: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot){
+
+  //     //const currentUser = this.authenticationService.currentUser;
+  //     const currentUser = localStorage.getItem('token');
+  //     if(currentUser){
+  //       return true;
+  //     }
+  //     this.router.navigateByUrl('auth',);
+  //     return false;
+  // }
 
 }
