@@ -13,6 +13,11 @@ export class IniciativaService {
     return this.http.post(url, id);
   }
 
+  eliminarIniciativa(id: number){
+    return this.http.post(API_REG1, id)
+  }
+
+
   // OBTENEMOS LA DATA DESDE .NET
   listaTecnologia(obj:any){
     return this.http.post(API_REG1, obj)

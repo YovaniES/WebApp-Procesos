@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import Swal from 'sweetalert2';
 
@@ -19,9 +20,10 @@ export class ModalCrearRegistroComponent implements OnInit {
     po_proyecto          : '',
     gerencia_beneficiaria: '',
     naturaleza           : '',
-    fecha_creacion       : ''
+    fecha_creacion       : '',
   }
   constructor(private iniciativaService: IniciativaService,
+              private authService: AuthService,
               private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<ModalCrearRegistroComponent>,
               @Inject(MAT_DIALOG_DATA) public editData: any
@@ -98,8 +100,10 @@ export class ModalCrearRegistroComponent implements OnInit {
         });
   }
 
+  // currentUser: string = '',
   crearIniciativa(){
     this.spinner.show();
+    let currentUser = this.authService.getUsername();
 
     let nombre                = this.datosRegistroAgregar.nombre;
     let codigo                = this.datosRegistroAgregar.codigo;
@@ -126,7 +130,7 @@ export class ModalCrearRegistroComponent implements OnInit {
         "p_qtrx_mes"          : ''  ,
         "p_tmo_trx"           : ''  ,
         "p_flu_contx"         : ''  ,
-        "p_user_crea"         : 'jjsoto'  ,
+        "p_user_crea"         : currentUser ,
         "p_fecha_crea"        : fecha_creacion  ,
         "p_user_act"          : ''  ,
         "p_fecha_act"         : ''  ,

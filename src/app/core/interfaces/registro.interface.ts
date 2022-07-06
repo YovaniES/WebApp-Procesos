@@ -31,17 +31,17 @@ export interface IniciativaInterface {
 
 export interface Registro {
   idIniciativa          : number;
-  Nombre                : string;
-  Codigo                : string;
-  VP                    : string[];
-  Gerencia_Solicitante  : string[];
-  PO_Proyecto           : string;
-  Responsable           : string;
-  Gerencia_Beneficiaria : string[];
-  Planner               : string[];
-  Controller_Ger_Ben    : string;
-  Controller_Aprob_BC   : string[];
-  Tecnologia            : string[];
-  Licencias             : number;
-  Naturaleza            : string[];
+  nombre                : string;
+  codigo                : string;
+  vp                    : string[];
+  gerencia_Solicitante  : string[];
+  po_Proyecto           : string;
+  responsable           : string;
+  gerencia_Beneficiaria : string[];
+  planner               : string[];
+  controller_Ger_Ben    : string;
+  controller_Aprob_BC   : string[];
+  tecnologia            : string[];
+  licencias             : number;
+  naturaleza            : string[];
 }

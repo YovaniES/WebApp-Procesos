@@ -257,50 +257,61 @@ export class RegistroComponent implements OnInit {
   }
 
 
-  @ViewChild('modalEliminar') modalEliminar!: ElementRef;
-  eliminarRegistro(idRegistro: any){
+  // @ViewChild('modalEliminar') modalEliminar!: ElementRef;
+  eliminarIniciativa(id: any){
     this.spinner.show();
 
     let parametro:any[] = [{
-      queryId: 98,
+      queryId: 104,
       mapValue: {
-        'param_id_registro'   : idRegistro,
+        'param_id_iniciativa' : id ,
         // 'CONFIG_REGIS_ID'  : this.usuario.user.userId,
-        'CONFIG_OUT_MSG_ERROR': '',
+        'CONFIG_REGIS_ID'     : '' ,
+        'CONFIG_OUT_MSG_ERROR': '' ,
         'CONFIG_OUT_MSG_EXITO': ''
       }
     }];
 
-    this.iniciativaService.eliminarRegistro(parametro[0]).subscribe(resp => {
-      const data:any[] = Array.of(resp);
 
-      let msj = data[0].exitoMessage;
-      let msj2 = data[0].errorMessage
+    Swal.fire({
+      title: '¿Borrar registro?',
+      text: `¿Estas seguro que deseas eliminar el registro?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+    }).then((resp) => {
+      if (resp.value) {
+        this.iniciativaService.eliminarIniciativa(parametro[0]).subscribe(resp => {
+          const data:any[] = Array.of(resp);
 
-      this.modalEliminar.nativeElement.click();
-      this.cargarRegistro();
+            console.log('ELIMINADO-IN', resp);
 
+            this.cargarRegistro();
 
-      Swal.fire({
-        title: 'Registro eliminado',
-        text: 'El registro fue eliminado con éxito',
-        icon: 'success',
-      });
+            Swal.fire({
+              title: 'Registro eliminado',
+              text: 'El registro fue eliminado con éxito',
+              icon: 'success',
+            });
+          });
+      }
     });
     this.spinner.hide();
   }
 
-  borrarRegistroX(regist: Registro) {
+  borrarRegistro(regist: Registro) {
     let arrayParametro:any[] = [{
-      "queryId": 98,
+      "queryId": 103,
       "mapValue": {
-        "param_id_persona": regist
+        "p_id": regist.idIniciativa
       }
     }];
 
     Swal.fire({
       title: '¿Borrar registro?',
-      text: `¿Estas seguro que deseas eliminar a ${regist.Nombre} del registro?`,
+      text: `¿Estas seguro que deseas eliminar a ${regist.nombre} del registro?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -309,8 +320,10 @@ export class RegistroComponent implements OnInit {
     }).then((resp) => {
       if (resp.value) {
         this.iniciativaService
-          .eliminarRegistro(regist.idIniciativa)
-          .subscribe((resp1) => {
+          .eliminarRegistro(regist.idIniciativa).subscribe((resp) => {
+
+            console.log('ELIMINADO', resp);
+
             this.cargarRegistro();
 
             Swal.fire({

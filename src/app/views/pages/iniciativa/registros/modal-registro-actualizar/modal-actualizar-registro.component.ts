@@ -6,6 +6,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { IniciativaInterface } from 'src/app/core/interfaces/registro.interface';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 
 
@@ -47,7 +48,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
       qtrxMes      : '',
       tmoTrx       : '',
       fluContx     : 0,
-      userCrea     : 'Jhon Soto',
+      userCrea     : '',
       fechaCrea    : new Date,
       userAct      : '',
       fechaAct     : ''
@@ -65,6 +66,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
   constructor(
     private iniciativaService: IniciativaService,
+    private authService: AuthService,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<ModalActualizarRegistroComponent>,
@@ -215,6 +217,8 @@ export class ModalActualizarRegistroComponent implements OnInit {
   actualizarIniciativa(){
     this.spinner.show();
 
+    let currentUser = this.authService.getUsername();
+
     let id          = this.dataIniciativa.idIniciativa;
     let nombre      = this.dataIniciativa.nombre
     let codigo      = this.dataIniciativa.codigo
@@ -238,9 +242,9 @@ export class ModalActualizarRegistroComponent implements OnInit {
     let qtrxMes     = this.dataIniciativa.qtrxMes
     let tmoTrx      = this.dataIniciativa.tmoTrx
     let fluContx    = this.dataIniciativa.fluContx
-    let userCrea    = this.dataIniciativa.userCrea
+    // let userCrea    = this.dataIniciativa.userCrea
     let fechaCrea   = this.dataIniciativa.fechaCrea
-    let userAct     = this.dataIniciativa.userAct
+    // let userAct     = this.dataIniciativa.userAct
     let fechaAct    = this.dataIniciativa.fechaAct
 
     let parametro: any[] = [{
@@ -269,9 +273,9 @@ export class ModalActualizarRegistroComponent implements OnInit {
         "param_qtrx_mes"       : qtrxMes  ,
         "param_tmo_trx"        : tmoTrx  ,
         "param_flu_contx"      : fluContx  ,
-        "param_user_crea"      : userCrea  ,
+        "param_user_crea"      : currentUser  ,
         "param_fecha_crea"     : fechaCrea  ,
-        "param_user_act"       : userAct  ,
+        "param_user_act"       : currentUser  ,
         "param_fecha_act"      : fechaAct ,
                               // "CONFIG_REG_ID"        : this.usuario.user.userId,
         "CONFIG_REG_ID"        : 100,
@@ -319,7 +323,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( resp => {
       const editData:any[] = Array.of(resp);
 
-      console.log('EDITX',editData );
+      console.log('LISTA-EDITAR',editData );
       for (let i = 0; i < editData[0].list.length; i++) {
 
         this.dataIniciativa.idIniciativa = editData[0].list[i].idIniciativa ;
@@ -422,9 +426,11 @@ getCambiosEstados(){
   });
 }
 
-
+// currentUser: string = '';
 historicoCambios: Array<any> = [];
 getHistoricoCambios(id: number){
+let currentUser = this.authService.getUsername();
+
   this.spinner.show();
 
     let parametro: any[] = [{
@@ -438,6 +444,8 @@ getHistoricoCambios(id: number){
       const data:any[] = Array.of(resp);
 
       this.historicoCambios = [];   console.log('ListHistCambID',data );
+      console.log('USER-LOGIN', currentUser);
+
 
       for (let i = 0; i < data[0].list.length; i++) {
       this.historicoCambios.push({
@@ -447,7 +455,9 @@ getHistoricoCambios(id: number){
         estado       : data[0].list[i].estado ,
         motivo       : data[0].list[i].motivo ,
         fecha_cambio : data[0].list[i].fecha_cambio ,
-        usuario      : data[0].list[i].usuario ,
+        // usuario      : data[0].list[i].usuario ,
+        usuario      : currentUser
+
         });
       }
     });
