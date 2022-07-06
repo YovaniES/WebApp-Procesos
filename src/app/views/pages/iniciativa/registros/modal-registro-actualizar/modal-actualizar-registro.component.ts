@@ -141,23 +141,49 @@ export class ModalActualizarRegistroComponent implements OnInit {
       }
     })
   }
+
+
+
+
     listEstados: Array<any> = [];
-  getListEstados(){
+  getListEstadosBypadre(idEstadoPadre: any){
     let parametro: any[] = [
       { queryId: 89 }
     ];
-   this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
-      const estadosData: any[] = Array.of(resp);
-    //  console.log('ESTADOS', estadosData);
+   this.iniciativaService.getListEstados(parametro[0]).subscribe((resp:any) => {
+      // const estadosData: any[] = Array.of(resp);
      this.listEstados = [];
-      for (let i = 0; i < estadosData[0].list.length; i++) {
+
+     resp.list.map((estado:any) => {
+      //  console.log('ESTADOS', estado);
+
+      const estadosPadre = estado.idEstadoPadre.split(',')
+      console.log('padre', estadosPadre);
+
+      if (estadosPadre.includes(idEstadoPadre)) {
+        console.log('estadosPadre', estado);
+
         this.listEstados.push({
-          idEstado:     estadosData[0].list[i].idEstado,
-          cNombre :     estadosData[0].list[i].cNombre,
+          idEstado:     estado.idEstado,
+          cNombre :     estado.cNombre,
         });
       }
+
+
+
+     })
+      // for (let i = 0; i < resp.list.length; i++) {
+
+      //   // this.listEstados.push({
+      //   //   idEstado:     resp.list[i].idEstado,
+      //   //   cNombre :     resp.list[i].cNombre,
+      //   // });
+      // }
     })
   };
+
+
+
 
   listResponsable: Array<any> = [];
   getListResponsable(){
@@ -352,7 +378,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
         this.dataIniciativa.tmoTrx       = editData[0].list[i].tmo;
         this.dataIniciativa.fluContx     = editData[0].list[i].flujo,
 
-        this.getListEstados();
+        this.getListEstadosBypadre(this.dataIniciativa.estado.toString());
 
         console.log('PII', this.dataIniciativa);
 
