@@ -4,8 +4,8 @@ import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalCrearRegistroComponent } from './modal-crear-registro/modal-crear-registro.component';
-import { ModalActualizarRegistroComponent } from './modal-registro-actualizar/modal-actualizar-registro.component';
+import { ModalCrearIniciativaComponent } from './crear-iniciativa/modal-crear-iniciativa.component';
+import { ModalActualizarIniciativaComponent } from './actualizar-iniciativa/modal-actualizar-iniciativa.component';
 import { Registro } from 'src/app/core/interfaces/registro.interface';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 
@@ -205,7 +205,6 @@ export class RegistroComponent implements OnInit {
            const dataReg: any[] = Array.of(resp);
            this.totalRegistros = dataReg[0].list.length;
            this.registros = [];
-             console.log('REGISTROS_TABLA', dataReg, this.totalRegistros);
 
              for (let i = 0; i < dataReg[0].list.length; i++) {
                this.registros.push({
@@ -347,7 +346,7 @@ export class RegistroComponent implements OnInit {
   }
 
   crearIniciativa(){
-    const dialogRef = this.dialog.open(ModalCrearRegistroComponent, {width:'1000px'});
+    const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'1000px'});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -358,7 +357,7 @@ export class RegistroComponent implements OnInit {
 
   editarIniciativa(idIniciativa: any) {
     this.dialog
-      .open(ModalActualizarRegistroComponent, { width: '1125px', data: idIniciativa, })
+      .open(ModalActualizarIniciativaComponent, { width: '1125px', data: idIniciativa, })
       .afterClosed()
       .subscribe((resp) => {
         if (resp) {

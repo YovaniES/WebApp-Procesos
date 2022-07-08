@@ -1,27 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CoreModule } from 'src/app/core/core.module';
-
+import { ReporteIniciativaComponent } from '../iniciativa/registros/reporte-iniciativa/reporte-iniciativa.component';
 
 @NgModule({
-  declarations: [
-  ],
-  exports:[
-  ],
+  declarations: [],
+  exports: [],
   imports: [
     RouterModule.forChild([
-      {
-        path: 'tracking',
-      },
+      { path: 'iniciativa', component:ReporteIniciativaComponent},
       {
         path: 'poraprobar',
-        // component:ToaprobeComponent
-      }
+        // component:
+      },
     ]),
     CoreModule,
-    MaterialModule
-  ]
+    MaterialModule,
+  ],
 })
-export class VacanciesModule { }
+export class VacanciesModule {}

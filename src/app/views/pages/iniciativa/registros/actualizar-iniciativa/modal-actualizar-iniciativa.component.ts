@@ -8,15 +8,13 @@ import Swal from 'sweetalert2';
 import { IniciativaInterface } from 'src/app/core/interfaces/registro.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-
-
 @Component({
-  selector: 'app-modal-registro',
-  templateUrl: './modal-actualizar-registro.component.html',
-  styleUrls: ['./modal-actualizar-registro.component.scss'],
+  selector: 'app-modal-iniciativa',
+  templateUrl: './modal-actualizar-iniciativa.component.html',
+  styleUrls: ['./modal-actualizar-iniciativa.component.scss'],
 
 })
-export class ModalActualizarRegistroComponent implements OnInit {
+export class ModalActualizarIniciativaComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
   fechaing:any;
@@ -69,7 +67,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     private authService: AuthService,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
-    public dialogRef: MatDialogRef<ModalActualizarRegistroComponent>,
+    public dialogRef: MatDialogRef<ModalActualizarIniciativaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // this.usuario = JSON.parse(localStorage.getItem('currentUser'))
@@ -77,7 +75,6 @@ export class ModalActualizarRegistroComponent implements OnInit {
   id:any = 0;
   ngOnInit() {
     this.cargarRegistroId();
-    // this.getListEstados();
     this.getListResponsable();
     this.getListGerencia();
     this.getListaVP();
@@ -85,9 +82,6 @@ export class ModalActualizarRegistroComponent implements OnInit {
     this.getListaTecnologia();
 
     this.getHistoricoCambios(this.data);
-    // this.getHistoricoCambios(this.id);
-
-    // this.agregarHistoricoCambios(this.data)
    }
 
   getInfoEstados(id: any){ }
@@ -142,9 +136,6 @@ export class ModalActualizarRegistroComponent implements OnInit {
     })
   }
 
-
-
-
     listEstados: Array<any> = [];
   getListEstadosBypadre(idEstadoPadre: any){
     let parametro: any[] = [
@@ -158,32 +149,19 @@ export class ModalActualizarRegistroComponent implements OnInit {
       //  console.log('ESTADOS', estado);
 
       const estadosPadre = estado.idEstadoPadre.split(',')
-      console.log('padre', estadosPadre);
+      // console.log('padre', estadosPadre);
 
       if (estadosPadre.includes(idEstadoPadre)) {
-        console.log('estadosPadre', estado);
+        // console.log('estadosPadre', estado);
 
         this.listEstados.push({
           idEstado:     estado.idEstado,
           cNombre :     estado.cNombre,
         });
       }
-
-
-
      })
-      // for (let i = 0; i < resp.list.length; i++) {
-
-      //   // this.listEstados.push({
-      //   //   idEstado:     resp.list[i].idEstado,
-      //   //   cNombre :     resp.list[i].cNombre,
-      //   // });
-      // }
     })
   };
-
-
-
 
   listResponsable: Array<any> = [];
   getListResponsable(){
@@ -192,7 +170,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     ];
    this.iniciativaService.getListResponsable(parametro[0]).subscribe(resp => {
       const responsableData: any[] = Array.of(resp);
-     console.log('RESPONSABLE', responsableData);
+    //  console.log('RESPONSABLE', responsableData);
      this.listResponsable = [];
       for (let i = 0; i < responsableData[0].list.length; i++) {
         this.listResponsable.push({
@@ -316,12 +294,18 @@ export class ModalActualizarRegistroComponent implements OnInit {
       this.spinner.hide();
 
       const data: any[] = Array.of(resp);
-      console.log('DATA_ACTUALIZADO', data);
+      // console.log('DATA_ACTUALIZADO', data);
 
       this.cargarRegistroId();
       this.close(true)
       this.getHistoricoCambios(id);
 
+      Swal.fire({
+        title: 'Actualizar Iniciativa!',
+        text : 'Iniciativa actualizado con éxito',
+        icon : 'success',
+        confirmButtonText: 'Ok'
+        })
       let msj  = data[0].exitoMessage;
       let msj2 = data[0].errorMessage
 
@@ -331,8 +315,6 @@ export class ModalActualizarRegistroComponent implements OnInit {
       }else{
         this.close(true)
       }
-
-
     });
   };
 
@@ -348,7 +330,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
     this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( resp => {
       const editData:any[] = Array.of(resp);
 
-      console.log('LISTA-EDITAR',editData );
+      // console.log('LISTA-EDITAR',editData );
       for (let i = 0; i < editData[0].list.length; i++) {
 
         this.dataIniciativa.idIniciativa = editData[0].list[i].idIniciativa ;
@@ -379,7 +361,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
         this.getListEstadosBypadre(this.dataIniciativa.estado.toString());
 
-        console.log('PII', this.dataIniciativa);
+        // console.log('PII', this.dataIniciativa);
 
         if (editData[0].list[i].fecha_creacion !='null' && editData[0].list[i].fecha_creacion != '') {
           let fechaCrea = editData[0].list[i].fecha_creacion
@@ -420,7 +402,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
   this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
     const newEstatoData: any[] = Array.of(resp);
-    console.log('NuevoEstIDGuard', newEstatoData);
+    // console.log('NuevoEstIDGuard', newEstatoData);
 
   })
 }
@@ -438,7 +420,7 @@ getCambiosEstados(){
 
       if(element.padre != null){
         let padresElemento = element.padre.split(",");
-            console.log('EST-PADRE',padresElemento);
+            // console.log('EST-PADRE',padresElemento);
 
         padresElemento.forEach((padre: string) => {
           if(padre.localeCompare(this.dataIniciativa.estado) == 0){
@@ -468,8 +450,8 @@ let currentUser = this.authService.getUsername();
     this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
       const data:any[] = Array.of(resp);
 
-      this.historicoCambios = [];   console.log('ListHistCambID',data );
-      console.log('USER-LOGIN', currentUser);
+      // this.historicoCambios = [];   console.log('ListHistCambID',data );
+      // console.log('USER-LOGIN', currentUser);
 
 
       for (let i = 0; i < data[0].list.length; i++) {

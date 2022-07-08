@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   userFullName() {
     this.authService.login(this.userLoged.value)
         .subscribe((resp) => {
-          console.log('USER-AC', resp.user);
+          // console.log('USER-AC', resp.user);
           this.currentUser = resp.user.nombres + ' '+resp.user.apellidoPaterno ;
         })
       }

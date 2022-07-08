@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoAuthGuard } from './core/guards/no-auth.guard';
+import { ValidarTokenGuard } from './core/guards/validar-token.guard';
 import { BaseComponent } from './layout/base/base.component';
 
 const routes: Routes = [
@@ -12,19 +13,22 @@ const routes: Routes = [
     loadChildren: () => import('./views/errors/errors.module').then((m) => m.ErrorsModule),
   },
   {
-    path:'',component:BaseComponent,  //canActivate: [NoAuthGuard],
+    path:'',component:BaseComponent,
     children:[
       { path:'home',
-        loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule)
+        loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule),
+        canActivate: [ValidarTokenGuard],
       },
       {
         path:'iniciativa',
-        loadChildren: () => import ('./views/pages/iniciativa/iniciativa.module').then((m)=>m.IniciativaModule)
+        loadChildren: () => import ('./views/pages/iniciativa/iniciativa.module').then((m)=>m.IniciativaModule),
+        canActivate: [ValidarTokenGuard],
+
       },
       { path:'', redirectTo:'home', pathMatch:'full'},
       {
         path:'dashboard',
-        loadChildren: () => import('./views/pages/vacancies/vacancies.module').then((m)=>m.VacanciesModule),
+        loadChildren: () => import('./views/pages/dashboard/dashboard.module').then((m)=>m.VacanciesModule),
       },
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       { path:'**', redirectTo:'/error/404' }

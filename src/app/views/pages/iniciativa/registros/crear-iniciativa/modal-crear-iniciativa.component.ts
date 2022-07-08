@@ -6,11 +6,11 @@ import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-modal-crear-registro',
-  templateUrl: './modal-crear-registro.component.html',
-  styleUrls: ['./modal-crear-registro.component.scss']
+  selector: 'app-modal-crear-iniciativa',
+  templateUrl: './modal-crear-iniciativa.component.html',
+  styleUrls: ['./modal-crear-iniciativa.component.scss']
 })
-export class ModalCrearRegistroComponent implements OnInit {
+export class ModalCrearIniciativaComponent implements OnInit {
 
   datosRegistroAgregar = {
     idIniciativa         : '',
@@ -25,7 +25,7 @@ export class ModalCrearRegistroComponent implements OnInit {
   constructor(private iniciativaService: IniciativaService,
               private authService: AuthService,
               private spinner: NgxSpinnerService,
-              private dialogRef: MatDialogRef<ModalCrearRegistroComponent>,
+              private dialogRef: MatDialogRef<ModalCrearIniciativaComponent>,
               @Inject(MAT_DIALOG_DATA) public editData: any
     ) { }
 
@@ -140,11 +140,8 @@ export class ModalCrearRegistroComponent implements OnInit {
       }];
 
       this.iniciativaService.crearIniciativa(parametro[0]).subscribe(resp => {
-        console.log('AGREGAR_INIC', resp);
+        // console.log('AGREGAR_INIC', resp);
         const regData: any[] = Array.of(resp);
-
-        let msj  = regData[0].exitoMessage;
-        let msj2 = regData[0].errorMessage;
 
         Swal.fire({
           title: 'Crear Iniciativa!',

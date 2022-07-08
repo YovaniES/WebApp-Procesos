@@ -8,19 +8,19 @@ import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RegistroComponent } from './registros/registro.component';
 // import { ReporteIniciativaComponent } from './registros/reporte-iniciativa/reporte-iniciativa.component';
-import { ModalCrearRegistroComponent } from './registros/modal-crear-registro/modal-crear-registro.component';
-import { ModalActualizarRegistroComponent } from './registros/modal-registro-actualizar/modal-actualizar-registro.component';
+import { ModalCrearIniciativaComponent } from './registros/crear-iniciativa/modal-crear-iniciativa.component';
+import { ModalActualizarIniciativaComponent } from './registros/actualizar-iniciativa/modal-actualizar-iniciativa.component';
 import { ReporteIniciativaComponent } from './registros/reporte-iniciativa/reporte-iniciativa.component';
 
 @NgModule({
   declarations: [
     RegistroComponent,
-    ModalActualizarRegistroComponent,
+    ModalActualizarIniciativaComponent,
     ReporteIniciativaComponent,
-    ModalCrearRegistroComponent,
+    ModalCrearIniciativaComponent,
   ],
   exports:[
-    ModalActualizarRegistroComponent,
+    ModalActualizarIniciativaComponent,
   ],
   imports: [
     FactorizacionRoutingModule,

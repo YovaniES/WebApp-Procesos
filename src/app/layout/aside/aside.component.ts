@@ -11,37 +11,37 @@ export class AsideComponent implements OnInit {
     {
       id: 1,
       code: 'MAN',
-      text: 'Reporte iniciativa',
+      text: 'Reportes',
       order: 1,
       icon: 'business',
       type: 'PAREN',
-      link: 'reporte',
+      link: 'dashboard',
       enable: false,
       module: 'Reporte',
       displayed: false,
       submenus: [
         {
           code: 'MAN-001',
-          text: 'reporte',
+          text: 'Reporte iniciativa',
           order: 0,
-          icon: 'business',
+          icon: 'dashboard_customize',
           type: 'ALONE',
-          link: 'reporte/iniciativa',
+          link: 'dashboard/iniciativa',
           enable: false,
           module: 'MAN',
           displayed: false,
         },
-        {
-          code: 'MAN-002',
-          text: 'Entidad',
-          order: 20,
-          icon: 'people',
-          type: 'PAREN',
-          link: 'reporte/dashboard',
-          enable: false,
-          module: 'MAN',
-          displayed: false,
-        },
+        // {
+        //   code: 'MAN-002',
+        //   text: 'otros',
+        //   order: 20,
+        //   icon: 'people',
+        //   type: 'PAREN',
+        //   link: 'dashboard/abc',
+        //   enable: false,
+        //   module: 'MAN',
+        //   displayed: false,
+        // },
       ],
     },
 
@@ -86,8 +86,7 @@ export class AsideComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 
   clickLinkMenu() {

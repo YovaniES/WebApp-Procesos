@@ -198,7 +198,7 @@ export class ReporteIniciativaComponent implements OnInit {
              const dataReg: any[] = Array.of(resp);
              this.totalRegistros = dataReg[0].list.length;
              this.registros = [];
-               console.log('REGISTROS_TABLA', dataReg, this.totalRegistros);
+              //  console.log('REGISTROS_TABLA', dataReg, this.totalRegistros);
 
                for (let i = 0; i < dataReg[0].list.length; i++) {
                  this.registros.push({
