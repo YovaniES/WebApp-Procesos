@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { first } from "rxjs/operators";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,20 +22,35 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private spinner: NgxSpinnerService
+
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.login()
+  }
 
   login() {
+    this.spinner.show();
     this.authService.login(this.loginForm.value)
         .subscribe((resp) => {
           console.log('CREDENCIALES', resp.user);
 
       if (resp.user.aplicacion == 1 && resp.user.acceso == 1) {
+        this.spinner.hide();
+        Swal.fire(
+          "Inicio de Sesión",
+          "Bienvenido <br />" +
+          resp.user.nombres + " " + resp.user.apellidoPaterno,
+          "success"
+        );
+
         this.router.navigateByUrl('home');
+
+
       } else {
-        Swal.fire('Error', 'Credenciales incorrectas', 'error');
+        Swal.fire('Inicio de Sesión', 'Credenciales incorrectas', 'error');
       }
     });
   }

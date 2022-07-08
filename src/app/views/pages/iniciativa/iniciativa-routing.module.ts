@@ -5,9 +5,9 @@ import { ReporteIniciativaComponent } from './registros/reporte-iniciativa/repor
 
 const routes: Routes = [
   {path: '', children: [
-    { path:'iniciativa', component:RegistroComponent, },
+    { path:'registros', component:RegistroComponent, },
     { path: 'reporte', component: ReporteIniciativaComponent },
-    { path: '**', redirectTo: 'iniciativa'}
+    { path: '**', redirectTo: 'registros'}
   ]}
 ];
 

@@ -283,7 +283,8 @@ export class ModalActualizarRegistroComponent implements OnInit {
         "param_id_gerencia_sol": gerenciaSol  ,
         "param_id_estado"      : estado  ,
         "param_po_proyecto"    : poProyecto  ,
-        "param_responsable"    : responsable  ,
+        // "param_responsable"    : responsable  ,
+        "param_responsable"    : currentUser  ,
         "param_id_gerencia_ben": gerenciaBen  ,
         "param_planner"        : planner  ,
         "param_cont_ger_ben"   : contGerBen  ,
@@ -327,8 +328,6 @@ export class ModalActualizarRegistroComponent implements OnInit {
       this.getCambiosEstados();
       if(estado){
         this.agregarIniciativaCambios()
-        // this.obtenerCambiosPorIniciativa(id);
-
       }else{
         this.close(true)
       }
@@ -398,7 +397,7 @@ export class ModalActualizarRegistroComponent implements OnInit {
 
 
   agregarIniciativaCambios(){
-   // let idiniciativa = this.dataRegistroEditar.idIniciativa ;
+    let currentUser = this.authService.getUsername();
    let idEstado     = this.dataIniciativa.estado ;
 
    let id_motivo    = this.datosInicCambios.id_motivo ;
@@ -406,13 +405,13 @@ export class ModalActualizarRegistroComponent implements OnInit {
    let usuario      = this.datosInicCambios.usuario
 
    let parametro: any[] = [{
-     queryId:98,
+     queryId: 98,
      mapValue: {
 	 	 "p_idiniciativa"        : this.data ,
 	 	 "p_idEstado"            : parseInt(idEstado) ,
 	 	 "p_id_motivo"           : id_motivo ,
 	 	 "p_dFecha"              : dFecha ,
-	 	 "p_usuario"             : usuario,
+	 	 "p_usuario"             : currentUser,
      "@CONFIG_USER_ID"       : '' ,
      "@CONFIG_OUT_MSG_ERROR" : '' ,
      "@CONFIG_OUT_MSG_EXITO" : ''
@@ -495,4 +494,5 @@ let currentUser = this.authService.getUsername();
    this.dialogRef.close(success);
   }
 }
+
 

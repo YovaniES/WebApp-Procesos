@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { catchError, map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
-import { AuthResponse, Users } from '../interfaces/auth.interface';
+import { Usuario } from '../interfaces/auth.interface';
 import { API_AUTH_SESSION } from '../constants/url.constants';
 
 @Injectable({
@@ -13,16 +13,12 @@ import { API_AUTH_SESSION } from '../constants/url.constants';
 export class AuthService {
   toggleUserPanel = new EventEmitter<boolean>();
 
-  private _usuario!: Users;
+  constructor(private http: HttpClient,
+              private router: Router,
+  ) {}
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  get usuario() {
-    return { ...this._usuario };
-  }
-
-  login(loginData: AuthResponse) {
-    return this.http.post(API_AUTH_SESSION, loginData).pipe(
+  login(loginData: Usuario) {
+    return this.http.post<any>(API_AUTH_SESSION, loginData).pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.user.token);
         localStorage.setItem('currentUser', JSON.stringify(resp))
@@ -38,7 +34,15 @@ export class AuthService {
   getUsername() {
     const decodedToken: any = this.decodeToken();
     console.log('NAME_USER', decodedToken);
+
     return decodedToken ? decodedToken.unique_name : '';
+  }
+
+  getCurrentUser(){
+    const currentUser: any = localStorage.getItem('currentUser')
+    console.log('USER-ACTUAL',currentUser);
+
+    return currentUser ? currentUser.userName : '';
   }
 
   decodeToken() {
@@ -50,9 +54,6 @@ export class AuthService {
     }
   }
 
-  // getToken(){
-  //   return localStorage.getItem('token')
-  // }
 
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token')
@@ -65,7 +66,7 @@ export class AuthService {
       }
 
       if (
-        decodedToken && decodedToken.exp // &&    decodedToken.exp > Date.now() / 1000
+        decodedToken && decodedToken.exp
       ) {
         validSession = true;
       }

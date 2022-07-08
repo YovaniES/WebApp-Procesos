@@ -100,7 +100,6 @@ export class ModalCrearRegistroComponent implements OnInit {
         });
   }
 
-  // currentUser: string = '',
   crearIniciativa(){
     this.spinner.show();
     let currentUser = this.authService.getUsername();

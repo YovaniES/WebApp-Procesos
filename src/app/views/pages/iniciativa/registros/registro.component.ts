@@ -18,14 +18,13 @@ import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 })
 export class RegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-  // @ViewChild('btnRegistrarRegistro') btnRegistrarRegistro!: ElementRef;
 
   showing=1;
   actionBtn: number = 0
 
   page = 1;
   totalBandeja:number = 0;
-  pageSize = 8;
+  pageSize = 10;
   pageSizes = [3, 6, 9];
 
   totalRegistros: number = 0;
@@ -257,7 +256,6 @@ export class RegistroComponent implements OnInit {
   }
 
 
-  // @ViewChild('modalEliminar') modalEliminar!: ElementRef;
   eliminarIniciativa(id: any){
     this.spinner.show();
 

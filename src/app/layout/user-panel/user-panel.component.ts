@@ -7,52 +7,46 @@ import { MenuService } from 'src/app/core/services/menu.service';
 @Component({
   selector: 'app-user-panel',
   templateUrl: './user-panel.component.html',
-  styles: []
+  styles: [],
 })
-export class UserPanelComponent implements OnInit ,OnDestroy{
-  active:boolean = false;
-  observablePanel: Subscription = new Subscription;
+export class UserPanelComponent implements OnInit, OnDestroy {
+  active: boolean = false;
+  observablePanel: Subscription = new Subscription();
   fullname!: string;
   nameini!: string;
   subtitle: string = 'Usuario';
-  phtouri:string = 'NONE';
   @ViewChild('ovelay') overlay: any;
 
   constructor(
-    private menuServices:MenuService,
-    private authService:AuthService,
+    private menuServices: MenuService,
+    private authService: AuthService,
     private router: Router
-    ) { }
-
+  ) {}
 
   ngOnInit(): void {
     this.fullname = this.authService.getUsername();
 
-    // FOTO
-    // if (this.authService.getUserPhotoUri()!=null){
-    //   this.phtouri = BLOB_STORAGE  + BLOBCONT_PROFILE + this.authService.getUserPhotoUri();
-    // }
-
-    const names:string[] = this.fullname.split(" ");
-    if (names.length > 1){
+    const names: string[] = this.fullname.split(' ');
+    if (names.length > 1) {
       this.nameini = names[0].charAt(0) + names[1].charAt(0);
-    }else{
-      this.nameini = names[0].substr(0,2).toUpperCase();
+    } else {
+      this.nameini = names[0].substr(0, 2).toUpperCase();
     }
-    this.observablePanel = this.menuServices.toggleUserPanel.subscribe( flag => this.active = flag );
+    this.observablePanel = this.menuServices.toggleUserPanel.subscribe(
+      (flag) => (this.active = flag)
+    );
   }
 
   ngOnDestroy(): void {
     this.observablePanel.unsubscribe();
   }
 
-  close(){
+  close() {
     this.active = false;
   }
 
-  logOut(){
+  logOut() {
     localStorage.clear();
-    this.router.navigateByUrl('/login')
+    this.router.navigateByUrl('/auth');
   }
-
 }

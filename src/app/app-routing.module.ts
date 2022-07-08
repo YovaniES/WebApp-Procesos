@@ -18,7 +18,7 @@ const routes: Routes = [
         loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule)
       },
       {
-        path:'registro',
+        path:'iniciativa',
         loadChildren: () => import ('./views/pages/iniciativa/iniciativa.module').then((m)=>m.IniciativaModule)
       },
       { path:'', redirectTo:'home', pathMatch:'full'},

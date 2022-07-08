@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Usuario } from 'src/app/core/interfaces/auth.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -17,12 +19,33 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private fb: FormBuilder,
+
   ) {}
 
   ngOnInit(): void {
     this.initializeUser();
+    this.userFullName();
+
+    // this.userFullName = this.currentUser.user.nombres + ' ' + this.currentUser.user.apellidoPaterno;
   }
+
+
+  userLoged: FormGroup = this.fb.group({
+    username: ['jjsoto'],
+    password: ['jjsoto',],
+  });
+
+  currentUser: string = ''
+  userFullName() {
+    this.authService.login(this.userLoged.value)
+        .subscribe((resp) => {
+          console.log('USER-AC', resp.user);
+          this.currentUser = resp.user.nombres + ' '+resp.user.apellidoPaterno ;
+        })
+      }
+
 
   initializeUser() {
     this.fullName = this.authService.getUsername();
