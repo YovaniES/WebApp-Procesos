@@ -92,7 +92,7 @@
             <div class="cli-form-buttons">
               <button
                 type="submit"
-                class="cli-btn btn-grey mb-2"
+                class="cli-btn btn-grey"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
                 (click)="limpiarFiltro()"
                 ><mat-icon class="icon-18">rotate_left</mat-icon>
@@ -101,7 +101,7 @@
 
               <button
                 type="submit"
-                class="cli-btn btn-blue-light mb-2"
+                class="cli-btn btn-blue-light"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
                 (click)="buscarRegistro()"
                 ><mat-icon class="icon-18">search</mat-icon>
@@ -180,7 +180,7 @@
 
         <div class="cli-loader" *ngIf="loadingItem">
           <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
-          cargando...X
+          cargando...
         </div>
 
         <div *ngIf="!loadingItem && registros.length == 0" class="cli-loader mt-5" style="color: red">

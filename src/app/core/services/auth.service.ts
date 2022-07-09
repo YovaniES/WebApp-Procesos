@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
-
 import { Router } from '@angular/router';
 import { Usuario } from '../interfaces/auth.interface';
 import { API_AUTH_SESSION } from '../constants/url.constants';
@@ -15,7 +14,7 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               private router: Router,
-  ) {}
+             ) {}
 
   login(loginData: Usuario) {
     return this.http.post<any>(API_AUTH_SESSION, loginData).pipe(
@@ -34,7 +33,6 @@ export class AuthService {
   getUsername() {
     const decodedToken: any = this.decodeToken();
     // console.log('NAME_USER', decodedToken);
-
     return decodedToken ? decodedToken.unique_name : '';
   }
 

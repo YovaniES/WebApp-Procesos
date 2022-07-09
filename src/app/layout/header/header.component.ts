@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Usuario } from 'src/app/core/interfaces/auth.interface';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -27,7 +26,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUser();
     this.userFullName();
-
     // this.userFullName = this.currentUser.user.nombres + ' ' + this.currentUser.user.apellidoPaterno;
   }
 
