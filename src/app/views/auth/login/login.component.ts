@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { first } from "rxjs/operators";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,8 +14,8 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup = this.fb.group({
     idaplicacion:['1'],
-    username: ['jjsoto', [Validators.required]],
-    password: ['jjsoto', [Validators.required, Validators.minLength(6)]],
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   constructor(
@@ -27,15 +26,13 @@ export class LoginComponent implements OnInit {
 
   ) {}
 
-  ngOnInit(): void {
-    // this.login()
-  }
+  ngOnInit(): void {}
 
   login() {
     this.spinner.show();
     this.authService.login(this.loginForm.value)
         .subscribe((resp) => {
-          console.log('CREDENCIALES', resp.user);
+          // console.log('CREDENCIALES', resp.user);
 
       if (resp.user.aplicacion == 1 && resp.user.acceso == 1) {
         this.spinner.hide();

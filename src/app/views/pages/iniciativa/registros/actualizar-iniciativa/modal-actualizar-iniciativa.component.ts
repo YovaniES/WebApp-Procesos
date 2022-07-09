@@ -108,7 +108,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     ];
     this.iniciativaService.getListVP(parametro[0]).subscribe(resp =>{
       const vpData: any[] = Array.of(resp);
-     //  console.log('VP', vpData);
     this.listVP = [];
       for (let i = 0; i < vpData[0].list.length; i++) {
       this.listVP.push({
@@ -125,7 +124,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     ];
     this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp =>{
      const dataTecnol:any[] = Array.of(resp)
-      // console.log('TECNOLOGIA_X', dataTecnol);
      this.tecnologias = [];
       for (let i = 0; i < dataTecnol[0].list.length; i++) {
         this.tecnologias.push({
@@ -145,15 +143,11 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       // const estadosData: any[] = Array.of(resp);
      this.listEstados = [];
 
-     resp.list.map((estado:any) => {
-      //  console.log('ESTADOS', estado);
-
+     resp.list.map((estado:any) => { //  console.log('ESTADOS', estado);
       const estadosPadre = estado.idEstadoPadre.split(',')
       // console.log('padre', estadosPadre);
 
       if (estadosPadre.includes(idEstadoPadre)) {
-        // console.log('estadosPadre', estado);
-
         this.listEstados.push({
           idEstado:     estado.idEstado,
           cNombre :     estado.cNombre,
@@ -462,7 +456,6 @@ let currentUser = this.authService.getUsername();
         estado       : data[0].list[i].estado ,
         motivo       : data[0].list[i].motivo ,
         fecha_cambio : data[0].list[i].fecha_cambio ,
-        // usuario      : data[0].list[i].usuario ,
         usuario      : currentUser
 
         });

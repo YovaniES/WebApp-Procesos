@@ -15,8 +15,18 @@
 }
 
 .moda-close-btn {
-  // position: absolute;
+  margin-left: 97%;
   top: -10px;
   right: -10px;
   z-index: 20;
+}
+
+.mat-dialog-container {
+  margin-top: -55% !important;
+}
+
+@media (max-width: 850px) {
+  .moda-close-btn {
+    margin-left: 95%;
+  }
 }

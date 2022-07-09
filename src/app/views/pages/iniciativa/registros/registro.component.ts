@@ -19,9 +19,6 @@ import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 export class RegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
-  showing=1;
-  actionBtn: number = 0
-
   page = 1;
   totalBandeja:number = 0;
   pageSize = 10;
@@ -29,21 +26,17 @@ export class RegistroComponent implements OnInit {
 
   totalRegistros: number = 0;
   loadingItem: boolean = false;
-  loadingInbox = false;
 
-  cargando: boolean = true;
   data: any[] = [];
 
-  fechaing:any;
-
-    filtro = {
+  filtro = {
       nombre              : '',
       codigo              : '',
       estado              : '',
       gerencia_benef      : '',
       naturaleza          : '',
-      fechaCreacion       : '',
-      fechaFinalizacion   : '',
+      fechaCreaInicio     : '',
+      fechaCreaFin        : '',
     };
 
 
@@ -62,22 +55,6 @@ export class RegistroComponent implements OnInit {
     this.getListGerencia();
     this.getListNaturaleza();
   }
-
-  idEstadoBuscar: any;
-  getInfoEstadoBuscar(id:any){
-    this.idEstadoBuscar = id;
-  }
-
-  idGerSolcBuscar: any
-  getInfoGerSolBuscar(id: any){
-    this.idGerSolcBuscar = id
-  }
-
-  idNaturalezaBuscar: any
-  getInfoNaturalezaBuscar(id: any){
-    this.idNaturalezaBuscar = id;
-  }
-
 
   listEstados: Array<any> = [];
   getListEstados(){
@@ -142,7 +119,7 @@ export class RegistroComponent implements OnInit {
       this.registros = [];
       this.totalRegistros = 0;
 
-    this.blockUI.start("Buscando información...");
+    this.blockUI.start("Buscando iniciativas...");
       // this.spinner.show();
       let parametro: any[] = [{
         "queryId": 96,
@@ -152,9 +129,9 @@ export class RegistroComponent implements OnInit {
           "param_id_ger_ben"     : this.filtro.gerencia_benef,
           "param_id_estado"      : this.filtro.estado,
 
-          "param_id_naturaleza"  : this.idNaturalezaBuscar,
-          "inicio": this.datepipe.transform(this.filtro.fechaCreacion,'yyyy/MM/dd'),
-          "fin"   : this.datepipe.transform(this.filtro.fechaFinalizacion,'yyyy/MM/dd'),
+          "param_id_naturaleza"  : this.filtro.naturaleza,
+          "inicio": this.datepipe.transform(this.filtro.fechaCreaInicio,'yyyy/MM/dd'),
+          "fin"   : this.datepipe.transform(this.filtro.fechaCreaFin,'yyyy/MM/dd'),
         }
       }];
 
@@ -164,11 +141,7 @@ export class RegistroComponent implements OnInit {
         const searchData:any[] = Array.of(resp);
         this.totalFiltroEncontrado = searchData[0].list.length;
 
-
-        console.log('RESUL_BUSQ', searchData);
-        console.log('Total-busq', this.totalFiltroEncontrado);
-
-
+        // console.log('RESUL_BUSQ', searchData);
         this.registros = [];
         for (let i = 0; i < searchData[0].list.length; i++) {
 
@@ -192,7 +165,7 @@ export class RegistroComponent implements OnInit {
    cargarRegistro(){
     this.registros = [];
     this.totalRegistros = 0;
-    this.blockUI.start("Cargando registros...");
+    this.blockUI.start("Cargando iniciativas...");
 
      let arrayParametro: any[] = [
        { queryId:92 }
@@ -213,6 +186,7 @@ export class RegistroComponent implements OnInit {
                codigo                : dataReg[0].list[i].codigo,
                estado                : dataReg[0].list[i].estado,
                po_proyecto           : dataReg[0].list[i].po_proyecto,
+               responsable           : dataReg[0].list[i].responsable,
                gerencia_beneficiaria : dataReg[0].list[i].gerencia_beneficiaria,
                naturaleza            : dataReg[0].list[i].naturaleza,
                fecha_creacion        : dataReg[0].list[i].fecha_creacion,
@@ -271,8 +245,8 @@ export class RegistroComponent implements OnInit {
 
 
     Swal.fire({
-      title: '¿Borrar registro?',
-      text: `¿Estas seguro que deseas eliminar el registro?`,
+      title: '¿Borrar Iniciativa?',
+      text: `¿Estas seguro que deseas eliminar la iniciativa?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -283,13 +257,11 @@ export class RegistroComponent implements OnInit {
         this.iniciativaService.eliminarIniciativa(parametro[0]).subscribe(resp => {
           const data:any[] = Array.of(resp);
 
-            console.log('ELIMINADO-IN', resp);
-
             this.cargarRegistro();
 
             Swal.fire({
-              title: 'Registro eliminado',
-              text: 'El registro fue eliminado con éxito',
+              title: 'Iniciativa eliminado',
+              text: 'La Iniciativa fue eliminado con éxito',
               icon: 'success',
             });
           });
@@ -339,8 +311,8 @@ export class RegistroComponent implements OnInit {
     this.filtro.estado             = '',
     this.filtro.gerencia_benef     = '',
     this.filtro.naturaleza         = '',
-    this.filtro.fechaCreacion      = ''
-    this.filtro.fechaFinalizacion  = ''
+    this.filtro.fechaCreaInicio      = ''
+    this.filtro.fechaCreaFin  = ''
 
     this.cargarRegistro();
   }

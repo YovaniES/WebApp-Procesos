@@ -35,9 +35,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
     this.getListNaturaleza()
   }
 
-  getInfoEstados(id: any){ }
-  getInfoNaturaleza(id:any){ }
-
   idNaturalezaBuscar: any
   getInfoNaturalezaBuscar(id: any){
     this.idNaturalezaBuscar = id;
@@ -139,17 +136,16 @@ export class ModalCrearIniciativaComponent implements OnInit {
        }
       }];
 
-      this.iniciativaService.crearIniciativa(parametro[0]).subscribe(resp => {
-        // console.log('AGREGAR_INIC', resp);
+      this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp: any) => {
         const regData: any[] = Array.of(resp);
 
+        // Swal.fire('Crear Iniciativa!', `${ resp.nombre } creado correctamente`, 'success');
         Swal.fire({
           title: 'Crear Iniciativa!',
           text : 'Iniciativa creado con éxito',
           icon : 'success',
           confirmButtonText: 'Ok'
-          }
-        );
+          });
         this.close(true);
       });
       this.spinner.hide();

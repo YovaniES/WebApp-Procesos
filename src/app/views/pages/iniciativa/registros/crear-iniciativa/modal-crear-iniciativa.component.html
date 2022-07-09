@@ -12,7 +12,7 @@
           <input
             type="text"
             class="form-control cli-input-white"
-            placeholder="RPA-PER-CAPL"
+            placeholder="RPA-"
             [(ngModel)]="datosRegistroAgregar.nombre"
             [ngModelOptions]="{ standalone: true }"
           />
@@ -24,12 +24,11 @@
         <input
           type="text"
           class="form-control cli-input-white"
-          placeholder="HISPAM-2201-1"
+          placeholder=""
           [(ngModel)]="datosRegistroAgregar.codigo"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
-
 
       <div class="col-sm-4 cli-form-element">
         <label>Estado</label>
@@ -37,8 +36,7 @@
           class="cli-input-white"
           [(ngModel)]="datosRegistroAgregar.estado"
           [ngModelOptions]="{ standalone: true }"
-          #estadox
-          (change)="getInfoEstados(estadox.value)"
+
         > <option [value]="0" disabled>-Seleccionar-</option>
           <option [value]="estado.idEstado"
             *ngFor="let estado of listEstados">
@@ -63,14 +61,12 @@
           class="cli-input-white"
           [(ngModel)]="datosRegistroAgregar.gerencia_beneficiaria"
           [ngModelOptions]="{ standalone: true }"
-          #selectGerenc
         >
           <option [value]="0" disabled>-Seleccionar-</option>
           <option
             [value]="gerenc.id"
             *ngFor="let gerenc of listGerencia"
-          >
-            {{ gerenc.nombre }}
+            >{{ gerenc.nombre }}
           </option>
         </select>
       </div>
@@ -81,10 +77,7 @@
         <select
           class="cli-input-white"
           [(ngModel)]="datosRegistroAgregar.naturaleza"
-          [ngModelOptions]="{ standalone: true }"
-          #naturalezaX
-          (change)="getInfoNaturaleza(naturalezaX.value)"
-        >
+          [ngModelOptions]="{ standalone: true }">
           <option [value]="0" disabled>-Seleccionar-</option>
           <option [value]="nat.id" *ngFor="let nat of naturaleza">
             {{ nat.nombre }}
@@ -98,15 +91,12 @@
         class="cli-btn btn-m btn-grey"
         type="button"
         (click)="close()"
-      >
-        <mat-icon class="icon-18">cancel</mat-icon> Salir
+      ><mat-icon class="icon-18">cancel</mat-icon> Salir
       </button>
       <button
-        #btnRegistrarRegistro
         class="cli-btn btn-m btn-magenta"
         (click)="crearIniciativa()"
-      >
-        <mat-icon class="icon-18">save</mat-icon> Registrar
+      ><mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>
   </form>

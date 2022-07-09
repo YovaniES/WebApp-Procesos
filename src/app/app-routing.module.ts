@@ -29,6 +29,7 @@ const routes: Routes = [
       {
         path:'dashboard',
         loadChildren: () => import('./views/pages/dashboard/dashboard.module').then((m)=>m.VacanciesModule),
+        canActivate: [ValidarTokenGuard],
       },
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       { path:'**', redirectTo:'/error/404' }
