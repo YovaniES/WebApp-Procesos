@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -15,35 +15,39 @@ export class HeaderComponent implements OnInit {
   fixedAside: boolean = true;
   phtouri = "NONE";
 
+  name: string = ''
+
+  loginForm: FormGroup = this.fb.group({
+    idaplicacion:['1'],
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
+
 
   constructor(
     private authService: AuthService,
     private menuService: MenuService,
     private fb: FormBuilder,
-
   ) {}
 
   ngOnInit(): void {
     this.initializeUser();
     this.userFullName();
-    // this.userFullName = this.currentUser.user.nombres + ' ' + this.currentUser.user.apellidoPaterno;
+
+    // this.authService.getCurrentUser().subscribe( (resp: any) => {
+    //   this.name = resp
+    //   //  console.log('NAME', resp);
+    // })
   }
-
-
-  userLoged: FormGroup = this.fb.group({
-    username: ['jjsoto'],
-    password: ['jjsoto',],
-  });
 
   currentUser: string = ''
   userFullName() {
-    this.authService.login(this.userLoged.value)
+    this.authService.getCurrentUser()
         .subscribe((resp) => {
-          // console.log('USER-AC', resp.user);
-          this.currentUser = resp.user.nombres + ' '+resp.user.apellidoPaterno ;
+          this.currentUser = resp.user.nombres + ' '+ resp.user.apellidoPaterno ;
+          // console.log('USER-NEW', this.currentUser);
         })
       }
-
 
   initializeUser() {
     this.fullName = this.authService.getUsername();

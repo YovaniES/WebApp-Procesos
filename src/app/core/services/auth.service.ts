@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { Usuario } from '../interfaces/auth.interface';
 import { API_AUTH_SESSION } from '../constants/url.constants';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,15 +33,15 @@ export class AuthService {
 
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    // console.log('NAME_USER', decodedToken);
+    // console.log('TOKEN', decodedToken);
     return decodedToken ? decodedToken.unique_name : '';
   }
 
   getCurrentUser(){
     const currentUser: any = localStorage.getItem('currentUser')
-    console.log('USER-ACTUAL',currentUser);
+    // console.log('USER-ACTUAL',JSON.parse(currentUser));
 
-    return currentUser ? currentUser.userName : '';
+    return of(currentUser ? JSON.parse(currentUser) : '');
   }
 
   decodeToken() {
@@ -63,9 +64,7 @@ export class AuthService {
         decodedToken = jwt_decode(token);
       }
 
-      if (
-        decodedToken && decodedToken.exp
-      ) {
+      if ( decodedToken && decodedToken.exp ) {
         validSession = true;
       }
       return validSession;

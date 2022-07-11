@@ -19,10 +19,10 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
   fechaing:any;
   totalRegistros: number = 0;
-  usuario: any;
-  idRegistro: any = 0;
+  userName: string = '';
+  userID: number = 0;
 
-  dataIniciativa: IniciativaInterface= {
+  dataIniciativa: IniciativaInterface = {
       idIniciativa : 0,
       nombre       : '',
       codigo       : '',
@@ -72,7 +72,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   ) {
     // this.usuario = JSON.parse(localStorage.getItem('currentUser'))
   }
-  id:any = 0;
+
   ngOnInit() {
     this.cargarRegistroId();
     this.getListResponsable();
@@ -82,20 +82,18 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getListaTecnologia();
 
     this.getHistoricoCambios(this.data);
+
+    this.getUsuario();
    }
 
-  getInfoEstados(id: any){ }
-  getInfoTecnologia(id: any){ }
-  getInfoNaturaleza(id:any){ }
+   getUsuario(){
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.userName= resp.userName;
+      this.userID = resp.user.userId;
+      // console.log('ID-USER', this.userName, this.userID);
+    })
+   }
 
-  idVP: any
-  getInfoVP(id: any){
-    this.idVP = id
-  }
-
-  idGerSol: any;
-  getInfoGerSol(id: any){ this.idGerSol = id }
-  getInfoGerBen(id: any){ }
 
   actualizarFechaCreacion(fecha: string){
     this.dataIniciativa.fechaCrea = this.datePipe.transform(fecha, 'yyyy-MM-dd');
@@ -210,8 +208,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         });
   }
 
-
-
   actualizarIniciativa(){
     this.spinner.show();
 
@@ -256,7 +252,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "param_id_estado"      : estado  ,
         "param_po_proyecto"    : poProyecto  ,
         // "param_responsable"    : responsable  ,
-        "param_responsable"    : currentUser  ,
+        "param_responsable"    : this.userName ,
         "param_id_gerencia_ben": gerenciaBen  ,
         "param_planner"        : planner  ,
         "param_cont_ger_ben"   : contGerBen  ,
@@ -274,12 +270,12 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "param_flu_contx"      : fluContx  ,
         "param_user_crea"      : currentUser  ,
         "param_fecha_crea"     : fechaCrea  ,
-        "param_user_act"       : currentUser  ,
+        "param_user_act"       : this.userName ,
         "param_fecha_act"      : fechaAct ,
-                              // "CONFIG_REG_ID"        : this.usuario.user.userId,
-        "CONFIG_REG_ID"        : 100,
+        "CONFIG_REG_ID"        : this.userID,
         "CONFIG_OUT_MSJ_ERROR" : '' ,
         "CONFIG_OUT_MSJ_EXITO" : ''
+        // "CONFIG_REG_ID"        : this.usuario.user.userId,
       }
     }];
 
@@ -303,7 +299,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       let msj  = data[0].exitoMessage;
       let msj2 = data[0].errorMessage
 
-      this.getCambiosEstados();
+      // this.getCambiosEstados();
       if(estado){
         this.agregarIniciativaCambios()
       }else{
@@ -384,11 +380,11 @@ export class ModalActualizarIniciativaComponent implements OnInit {
      queryId: 98,
      mapValue: {
 	 	 "p_idiniciativa"        : this.data ,
-	 	 "p_idEstado"            : parseInt(idEstado) ,
+	 	 "p_idEstado"            : idEstado ,
 	 	 "p_id_motivo"           : id_motivo ,
 	 	 "p_dFecha"              : dFecha ,
 	 	 "p_usuario"             : currentUser,
-     "@CONFIG_USER_ID"       : '' ,
+     "@CONFIG_USER_ID"       : this.userID,
      "@CONFIG_OUT_MSG_ERROR" : '' ,
      "@CONFIG_OUT_MSG_EXITO" : ''
      }
@@ -399,32 +395,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     // console.log('NuevoEstIDGuard', newEstatoData);
 
   })
-}
-
-estados:Array<any> = [];
-getCambiosEstados(){
-  this.estados = [];
-  this.iniciativaService.getCambiosEstados().subscribe(resp => {
-    let estadosData: any = [];
-    estadosData = resp;
-
-    console.log('ESTADOS=>', estadosData);
-
-    estadosData.forEach((element: { padre: string | null; }) => {
-
-      if(element.padre != null){
-        let padresElemento = element.padre.split(",");
-            // console.log('EST-PADRE',padresElemento);
-
-        padresElemento.forEach((padre: string) => {
-          if(padre.localeCompare(this.dataIniciativa.estado) == 0){
-            console.log('Elemento-Padre',element.padre);
-            this.estados.push(element);
-          }
-        });
-      }
-    });
-  });
 }
 
 // currentUser: string = '';
@@ -446,7 +416,6 @@ let currentUser = this.authService.getUsername();
 
       // this.historicoCambios = [];   console.log('ListHistCambID',data );
       // console.log('USER-LOGIN', currentUser);
-
 
       for (let i = 0; i < data[0].list.length; i++) {
       this.historicoCambios.push({

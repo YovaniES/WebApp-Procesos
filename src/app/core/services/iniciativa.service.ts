@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_REG1, API_REG2 } from '../constants/url.constants';
+import { API_REG1 } from '../constants/url.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -8,21 +8,14 @@ import { API_REG1, API_REG2 } from '../constants/url.constants';
 export class IniciativaService {
   constructor(private http: HttpClient) {}
 
-  eliminarRegistro(id: number) {
-    const url = `${API_REG1}/${id}`;
-    return this.http.post(url, id);
-  }
-
   eliminarIniciativa(id: number){
     return this.http.post(API_REG1, id)
   }
-
 
   // OBTENEMOS LA DATA DESDE .NET
   listaTecnologia(obj:any){
     return this.http.post(API_REG1, obj)
   }
-
 
   // Lista de Naturaleza
   getListNaturaleza(obj: any){
@@ -88,19 +81,6 @@ export class IniciativaService {
 
   agregarHistoricoCambios(obj: any){
     return this.http.post(API_REG1,obj);
-  }
-
-  getCambiosEstados(){
-    return this.http.get(API_REG2);
-  }
-
-  // getEstados(){
-  //   const urlApiReq = environment.urlApi+'getcustomquery/'+'5-xxx-0000';
-  //   return this.http.get(urlApiReq);
-  // }
-
-  getHistoricoCambios(id: string){
-    return this.http.get(API_REG2)
   }
 
 }

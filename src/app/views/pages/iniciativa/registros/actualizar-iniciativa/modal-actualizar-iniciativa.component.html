@@ -55,7 +55,8 @@
                     [(ngModel)]="dataIniciativa.responsable"
                     [ngModelOptions]="{ standalone: true }"
                   > <option [value]="0" disabled>-Seleccionar-</option>
-                    <option [value]="r.id" *ngFor="let r of listResponsable">{{ r.nombre }}</option>
+                    <!-- <option [value]="r.id" *ngFor="let r of listResponsable">{{ r.nombre }}</option> -->
+                    <option [value]="1">{{userName}}</option>
                   </select>
               </div>
 
@@ -77,8 +78,6 @@
                   class="cli-input-white"
                   [(ngModel)]="dataIniciativa.vp"
                   [ngModelOptions]="{ standalone: true }"
-                  #vp
-                  (change)="getInfoVP(vp.value)"
                 > <option [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
                 </select>
@@ -90,8 +89,6 @@
                   class="cli-input-white"
                   [(ngModel)]="dataIniciativa.gerenciaSol"
                   [ngModelOptions]="{ standalone: true }"
-                  #selectGerenc
-                  (change)="getInfoGerSol(selectGerenc.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
@@ -104,8 +101,6 @@
                   class="cli-input-white"
                   [(ngModel)]="dataIniciativa.gerenciaBen"
                   [ngModelOptions]="{ standalone: true }"
-                  #gerenBenef
-                  (change)="getInfoGerBen(gerenBenef.value)"
                 ><option  [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="gerben.id" *ngFor="let gerben of listGerencia">{{ gerben.nombre }}</option>
                 </select>
@@ -129,8 +124,6 @@
                   class="cli-input-white"
                   [(ngModel)]="dataIniciativa.tecnologia"
                   [ngModelOptions]="{ standalone: true }"
-                  #tecnSol
-                  (change)="getInfoTecnologia(tecnSol.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
@@ -142,8 +135,6 @@
                   class="cli-input-white"
                   [(ngModel)]="dataIniciativa.naturaleza"
                   [ngModelOptions]="{ standalone: true }"
-                  #naturaleza1
-                  (change)="getInfoNaturaleza(naturaleza1.value)"
                 >
                   <option [value]="0" disabled>-Seleccionar-</option>
                   <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>

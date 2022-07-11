@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -151,6 +151,7 @@ export class RegistroComponent implements OnInit {
             codigo                :searchData[0].list[i].codigo,
             estado                :searchData[0].list[i].estado,
             po_proyecto           :searchData[0].list[i].po_proyecto,
+            responsable           :searchData[0].list[i].responsable,
             gerencia_beneficiaria :searchData[0].list[i].gerencia_beneficiaria,
             naturaleza            :searchData[0].list[i].naturaleza,
             fecha_creacion        :searchData[0].list[i].fecha_creacion
@@ -233,7 +234,7 @@ export class RegistroComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      queryId: 104,
+      queryId: 103,
       mapValue: {
         'param_id_iniciativa' : id ,
         // 'CONFIG_REGIS_ID'  : this.usuario.user.userId,
@@ -270,49 +271,14 @@ export class RegistroComponent implements OnInit {
     this.spinner.hide();
   }
 
-  borrarRegistro(regist: Registro) {
-    let arrayParametro:any[] = [{
-      "queryId": 103,
-      "mapValue": {
-        "p_id": regist.idIniciativa
-      }
-    }];
-
-    Swal.fire({
-      title: '¿Borrar registro?',
-      text: `¿Estas seguro que deseas eliminar a ${regist.nombre} del registro?`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Eliminar!',
-    }).then((resp) => {
-      if (resp.value) {
-        this.iniciativaService
-          .eliminarRegistro(regist.idIniciativa).subscribe((resp) => {
-
-            console.log('ELIMINADO', resp);
-
-            this.cargarRegistro();
-
-            Swal.fire({
-              title: 'Registro eliminado',
-              text: 'El registro fue eliminado con éxito',
-              icon: 'success',
-            });
-          });
-      }
-    });
-  }
-
   limpiarFiltro(){
     this.filtro.nombre             = '',
     this.filtro.codigo             = '',
     this.filtro.estado             = '',
     this.filtro.gerencia_benef     = '',
     this.filtro.naturaleza         = '',
-    this.filtro.fechaCreaInicio      = ''
-    this.filtro.fechaCreaFin  = ''
+    this.filtro.fechaCreaInicio    = '',
+    this.filtro.fechaCreaFin       = ''
 
     this.cargarRegistro();
   }

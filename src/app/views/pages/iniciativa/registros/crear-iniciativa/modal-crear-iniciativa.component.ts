@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class ModalCrearIniciativaComponent implements OnInit {
 
+  userID: number= 0;
+
   datosRegistroAgregar = {
     idIniciativa         : '',
     nombre               : '',
@@ -34,6 +36,16 @@ export class ModalCrearIniciativaComponent implements OnInit {
     this.getListGerencia();
     this.getListNaturaleza()
   }
+
+
+  userId(){
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.userID = resp.userId;
+      console.log('ID-USER', this.userID);
+
+    })
+   }
+
 
   idNaturalezaBuscar: any
   getInfoNaturalezaBuscar(id: any){
@@ -130,7 +142,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
         "p_fecha_crea"        : fecha_creacion  ,
         "p_user_act"          : ''  ,
         "p_fecha_act"         : ''  ,
-        "CONFIG_REG_ID"       : ''  ,
+        "CONFIG_REG_ID"       : this.userID  ,
         "CONFIG_OUT_MSG_ERROR": ''  ,
         "CONFIG_OUT_MSG_EXITO": ''
        }
