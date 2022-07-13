@@ -1,12 +1,13 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { IniciativaInterface } from 'src/app/core/interfaces/registro.interface';
+import { Iniciativa } from 'src/app/core/interfaces/registro.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-iniciativa',
@@ -21,8 +22,9 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   totalRegistros: number = 0;
   userName: string = '';
   userID: number = 0;
+  // dataIniciativaForm!: FormGroup
 
-  dataIniciativa: IniciativaInterface = {
+  dataIniciativa: Iniciativa = {
       idIniciativa : 0,
       nombre       : '',
       codigo       : '',
@@ -52,38 +54,65 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       fechaAct     : ''
   }
 
+
+
   datosInicCambios = {
-      id           : 0,
-      idiniciativa : '',
-      idEstado     : '',
       id_motivo    : 0,
       dFecha       : new Date,
-      usuario      : '',
     }
 
+    // dataIniciativaForm = this.fb.group({
+    //   idIniciativa : [''],
+    //   nombre       : [''],
+    //   codigo       : [''],
+    //   vp           : [''],
+    //   gerenciaSol  : [''],
+    //   estado       : [''],
+    //   poProyecto   : [''],
+    //   responsable  : [''],
+    //   gerenciaBen  : [''],
+    //   planner      : [''],
+    //   contGerBen   : [''],
+    //   contAprBc    : [''],
+    //   tecnologia   : [''],
+    //   licencias    : [''],
+    //   naturaleza   : [''],
+    //   probActual   : [''],
+    //   funcRobotiz  : [''],
+    //   defAlcance   : [''],
+    //   riesgoNoRpa  : [''],
+    //   pi           : [''],
+    //   qtrxMes      : [''],
+    //   tmoTrx       : [''],
+    //   fluContx     : [''],
+    //   userCrea     : [''],
+    //   fechaCrea    : [''],
+    //   userAct      : [''],
+    //   fechaAct     : [''],
+    // });
 
   constructor(
     private iniciativaService: IniciativaService,
     private authService: AuthService,
+    private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<ModalActualizarIniciativaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    // this.usuario = JSON.parse(localStorage.getItem('currentUser'))
-  }
+  ) { }
+
 
   ngOnInit() {
     this.cargarRegistroId();
     this.getListResponsable();
     this.getListGerencia();
     this.getListaVP();
+    this.getListEstados(); //OBS
     this.getListNaturaleza();
     this.getListaTecnologia();
-
     this.getHistoricoCambios(this.data);
-
     this.getUsuario();
+
    }
 
    getUsuario(){
@@ -99,47 +128,69 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.dataIniciativa.fechaCrea = this.datePipe.transform(fecha, 'yyyy-MM-dd');
   }
 
-  listVP: Array<any> = [];
+  listVP: any[] = [];
   getListaVP() {
     let parametro: any[] = [
       { queryId: 94 },
     ];
-    this.iniciativaService.getListVP(parametro[0]).subscribe(resp =>{
-      const vpData: any[] = Array.of(resp);
-    this.listVP = [];
-      for (let i = 0; i < vpData[0].list.length; i++) {
+    this.iniciativaService.getListVP(parametro[0]).subscribe((resp: any) =>{
+
+      for (let i = 0; i < resp.list.length; i++) {
       this.listVP.push({
-          id:     vpData[0].list[i].id,
-          nombre: vpData[0].list[i].nombre
-        })
-      }
-    })
-  }
-  tecnologias:Array<any> = []
-  getListaTecnologia(){
-    let parametro: any[]=[
-      { queryId:93 }
-    ];
-    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp =>{
-     const dataTecnol:any[] = Array.of(resp)
-     this.tecnologias = [];
-      for (let i = 0; i < dataTecnol[0].list.length; i++) {
-        this.tecnologias.push({
-          id    : dataTecnol[0].list[i].id,
-          nombre: dataTecnol[0].list[i].nombre
+          id:     resp.list[i].id,
+          nombre: resp.list[i].nombre
         })
       }
     })
   }
 
-    listEstados: Array<any> = [];
+  tecnologias:any[] = []
+  getListaTecnologia(){
+    let parametro: any[]=[
+      { queryId:93 }
+    ];
+    this.iniciativaService.listaTecnologia(parametro[0]).subscribe((resp: any) =>{
+
+      for (let i = 0; i < resp.list.length; i++) {
+        this.tecnologias.push({
+          id    : resp.list[i].id,
+          nombre: resp.list[i].nombre
+        })
+      }
+    })
+  }
+
+
+  estadoInit: any[] = [];
+  getListEstados() {
+    let parametro: any[] = [
+      { queryId: 89,
+      },
+    ];
+    this.iniciativaService.getListEstados(parametro[0]).subscribe((resp:any) => {
+
+      for (let i = 0; i < resp.list.length; i++) {
+            this.estadoInit.push({
+              idEstado       : resp.list[i].idEstado,
+              cNombre        : resp.list[i].cNombre
+            })
+          }
+        });
+  }
+
+  listEstados: any[] = [];
   getListEstadosBypadre(idEstadoPadre: any){
     let parametro: any[] = [
       { queryId: 89 }
     ];
    this.iniciativaService.getListEstados(parametro[0]).subscribe((resp:any) => {
-      // const estadosData: any[] = Array.of(resp);
-     this.listEstados = [];
+
+     for (let i = 0; i < resp.list.length; i++) {
+      this.listEstados.push({
+        idEstado       : resp.list[i].idEstado,
+        cNombre        : resp.list[i].cNombre
+      })
+    }
 
      resp.list.map((estado:any) => { //  console.log('ESTADOS', estado);
       const estadosPadre = estado.idEstadoPadre.split(',')
@@ -147,58 +198,55 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
       if (estadosPadre.includes(idEstadoPadre)) {
         this.listEstados.push({
-          idEstado:     estado.idEstado,
-          cNombre :     estado.cNombre,
+          idEstado: estado.idEstado,
+          cNombre : estado.cNombre,
         });
       }
      })
     })
   };
 
-  listResponsable: Array<any> = [];
+  listResponsable: any[] = [];
   getListResponsable(){
     let parametro: any[] = [
       { queryId: 102 }
     ];
-   this.iniciativaService.getListResponsable(parametro[0]).subscribe(resp => {
-      const responsableData: any[] = Array.of(resp);
-    //  console.log('RESPONSABLE', responsableData);
-     this.listResponsable = [];
-      for (let i = 0; i < responsableData[0].list.length; i++) {
+   this.iniciativaService.getListResponsable(parametro[0]).subscribe((resp: any) => {
+
+      for (let i = 0; i < resp.list.length; i++) {
         this.listResponsable.push({
-          id     :     responsableData[0].list[i].id,
-          nombre :     responsableData[0].list[i].nombre,
+          id     :     resp.list[i].id,
+          nombre :     resp.list[i].nombre,
         });
       }
     })
   };
 
-  listGerencia: Array<any> = [];
+  listGerencia: any[] = [];
   getListGerencia(){
     let parametro: any[] = [
       { queryId: 95 }
     ];
-  this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
-      const gerencData: any[] = Array.of(resp);
-    this.listGerencia = [];
-      for (let i = 0; i < gerencData[0].list.length; i++) {
+  this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp: any) => {
+
+    for (let i = 0; i < resp.list.length; i++) {
         this.listGerencia.push({
-          id:     gerencData[0].list[i].id,
-          nombre: gerencData[0].list[i].nombre,
+          id:     resp.list[i].id,
+          nombre: resp.list[i].nombre,
         });
       }
     })
   };
 
-  naturaleza: Array<any> = [];
+  naturaleza: any[] = [];
   getListNaturaleza() {
     let parametro: any[] = [
       { queryId: 90,
       },
     ];
     this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp:any) => {
-         this.naturaleza = [];
-          for (let i = 0; i < resp.list.length; i++) {
+
+      for (let i = 0; i < resp.list.length; i++) {
             this.naturaleza.push({
               id            : resp.list[i].id,
               id_naturaleza : resp.list[i].id_naturaleza,
@@ -275,7 +323,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "CONFIG_REG_ID"        : this.userID,
         "CONFIG_OUT_MSJ_ERROR" : '' ,
         "CONFIG_OUT_MSJ_EXITO" : ''
-        // "CONFIG_REG_ID"        : this.usuario.user.userId,
       }
     }];
 
@@ -283,8 +330,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
       this.spinner.hide();
 
-      const data: any[] = Array.of(resp);
-      // console.log('DATA_ACTUALIZADO', data);
+      console.log('DATA_ACTUALIZADO', resp);
 
       this.cargarRegistroId();
       this.close(true)
@@ -296,10 +342,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         icon : 'success',
         confirmButtonText: 'Ok'
         })
-      let msj  = data[0].exitoMessage;
-      let msj2 = data[0].errorMessage
 
-      // this.getCambiosEstados();
       if(estado){
         this.agregarIniciativaCambios()
       }else{
@@ -317,44 +360,42 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       mapValue: {'param_idIniciativa': this.data}
     }];
 
-    this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( resp => {
-      const editData:any[] = Array.of(resp);
+    this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( (resp: any) => {
 
-      // console.log('LISTA-EDITAR',editData );
-      for (let i = 0; i < editData[0].list.length; i++) {
+      console.log('LISTA-EDITAR', resp );
+      for (let i = 0; i < resp.list.length; i++) {
 
-        this.dataIniciativa.idIniciativa = editData[0].list[i].idIniciativa ;
-        this.dataIniciativa.nombre       = editData[0].list[i].nombre ;
-        this.dataIniciativa.codigo       = editData[0].list[i].codigo ;
-        this.dataIniciativa.vp           = editData[0].list[i].vp ;
-        this.dataIniciativa.gerenciaSol  = editData[0].list[i].gerencia_solicitante ;
-        this.dataIniciativa.estado       = editData[0].list[i].estado ;
-        this.dataIniciativa.poProyecto   = editData[0].list[i].po_proyecto ;
-        this.dataIniciativa.responsable  = editData[0].list[i].responsable ;
-        this.dataIniciativa.gerenciaBen  = editData[0].list[i].gerencia_beneficiaria ;
-        this.dataIniciativa.planner      = editData[0].list[i].planner ;
-        this.dataIniciativa.contGerBen   = editData[0].list[i].controller_ger_ben ;
-        this.dataIniciativa.contAprBc    = editData[0].list[i].controller_aprob_bc ;
-        this.dataIniciativa.tecnologia   = editData[0].list[i].tecnologia ;
-        this.dataIniciativa.licencias    = editData[0].list[i].licencias ;
-        this.dataIniciativa.naturaleza   = editData[0].list[i].naturaleza ;
+        this.dataIniciativa.idIniciativa = resp.list[i].idIniciativa ;
+        this.dataIniciativa.nombre       = resp.list[i].nombre ;
+        this.dataIniciativa.codigo       = resp.list[i].codigo ;
+        this.dataIniciativa.vp           = resp.list[i].vp ;
+        this.dataIniciativa.gerenciaSol  = resp.list[i].gerencia_solicitante ;
+        this.dataIniciativa.estado       = resp.list[i].estado ;
+        this.dataIniciativa.poProyecto   = resp.list[i].po_proyecto ;
+        this.dataIniciativa.responsable  = resp.list[i].responsable ;
+        this.dataIniciativa.gerenciaBen  = resp.list[i].gerencia_beneficiaria ;
+        this.dataIniciativa.planner      = resp.list[i].planner ;
+        this.dataIniciativa.contGerBen   = resp.list[i].controller_ger_ben ;
+        this.dataIniciativa.contAprBc    = resp.list[i].controller_aprob_bc ;
+        this.dataIniciativa.tecnologia   = resp.list[i].tecnologia ;
+        this.dataIniciativa.licencias    = resp.list[i].licencias ;
+        this.dataIniciativa.naturaleza   = resp.list[i].naturaleza ;
 
-        this.dataIniciativa.probActual   = editData[0].list[i].problema ;
-        this.dataIniciativa.funcRobotiz  = editData[0].list[i].robotizacion ;
-        this.dataIniciativa.defAlcance   = editData[0].list[i].alcance ;
-        this.dataIniciativa.riesgoNoRpa  = editData[0].list[i].riesgo ;
+        this.dataIniciativa.probActual   = resp.list[i].problema ;
+        this.dataIniciativa.funcRobotiz  = resp.list[i].robotizacion ;
+        this.dataIniciativa.defAlcance   = resp.list[i].alcance ;
+        this.dataIniciativa.riesgoNoRpa  = resp.list[i].riesgo ;
 
-        this.dataIniciativa.pi           = editData[0].list[i].pi;
-        this.dataIniciativa.qtrxMes      = editData[0].list[i].qtrx;
-        this.dataIniciativa.tmoTrx       = editData[0].list[i].tmo;
-        this.dataIniciativa.fluContx     = editData[0].list[i].flujo,
+        this.dataIniciativa.pi           = resp.list[i].pi;
+        this.dataIniciativa.qtrxMes      = resp.list[i].qtrx;
+        this.dataIniciativa.tmoTrx       = resp.list[i].tmo;
+        this.dataIniciativa.fluContx     = resp.list[i].flujo,
 
         this.getListEstadosBypadre(this.dataIniciativa.estado.toString());
 
         // console.log('PII', this.dataIniciativa);
-
-        if (editData[0].list[i].fecha_creacion !='null' && editData[0].list[i].fecha_creacion != '') {
-          let fechaCrea = editData[0].list[i].fecha_creacion
+        if (resp.list[i].fecha_creacion !='null' && resp.list[i].fecha_creacion != '') {
+          let fechaCrea = resp.list[i].fecha_creacion
           const str   = fechaCrea.split('/');
           const year  = Number(str[2]);
           const month = Number(str[1]);
@@ -371,10 +412,9 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   agregarIniciativaCambios(){
     let currentUser = this.authService.getUsername();
    let idEstado     = this.dataIniciativa.estado ;
-
    let id_motivo    = this.datosInicCambios.id_motivo ;
    let dFecha       = this.datosInicCambios.dFecha ;
-   let usuario      = this.datosInicCambios.usuario
+  //  let usuario      = this.datosInicCambios.usuario
 
    let parametro: any[] = [{
      queryId: 98,
@@ -391,14 +431,11 @@ export class ModalActualizarIniciativaComponent implements OnInit {
    }];
 
   this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
-    const newEstatoData: any[] = Array.of(resp);
-    // console.log('NuevoEstIDGuard', newEstatoData);
-
+    // console.log('NuevoEstIDGuard', resp);
   })
 }
 
-// currentUser: string = '';
-historicoCambios: Array<any> = [];
+historicoCambios: any[] = [];
 getHistoricoCambios(id: number){
 let currentUser = this.authService.getUsername();
 
@@ -411,28 +448,23 @@ let currentUser = this.authService.getUsername();
       }
     }];
 
-    this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe( resp => {
-      const data:any[] = Array.of(resp);
+    this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe( (resp: any) => {
 
-      // this.historicoCambios = [];   console.log('ListHistCambID',data );
-      // console.log('USER-LOGIN', currentUser);
-
-      for (let i = 0; i < data[0].list.length; i++) {
+      // this.historicoCambios = [];   console.log('ListHistCambID',resp)
+      for (let i = 0; i < resp.list.length; i++) {
       this.historicoCambios.push({
-        id           : data[0].list[i].id ,
-        idiniciativa : data[0].list[i].idiniciativa ,
-        cdescripcion : data[0].list[i].cdescripcion ,
-        estado       : data[0].list[i].estado ,
-        motivo       : data[0].list[i].motivo ,
-        fecha_cambio : data[0].list[i].fecha_cambio ,
+        id           : resp.list[i].id ,
+        idiniciativa : resp.list[i].idiniciativa ,
+        cdescripcion : resp.list[i].cdescripcion ,
+        estado       : resp.list[i].estado ,
+        motivo       : resp.list[i].motivo ,
+        fecha_cambio : resp.list[i].fecha_cambio ,
         usuario      : currentUser
-
         });
       }
     });
     this.spinner.hide();
   }
-
 
   close(success?: boolean){
    this.dialogRef.close(success);

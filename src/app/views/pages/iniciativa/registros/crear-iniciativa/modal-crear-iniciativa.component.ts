@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -13,19 +14,26 @@ import Swal from 'sweetalert2';
 export class ModalCrearIniciativaComponent implements OnInit {
 
   userID: number= 0;
+  // iniciativaForm!: FormGroup;
 
-  datosRegistroAgregar = {
-    idIniciativa         : '',
-    nombre               : '',
-    codigo               : '',
-    estado               : '',
-    po_proyecto          : '',
-    gerencia_beneficiaria: '',
-    naturaleza           : '',
-    fecha_creacion       : '',
-  }
+  iniciativaForm = this.fb.group({
+    idIniciativa          : ['', Validators.required],
+    nombre                : ['', Validators.required],
+    codigo                : ['', Validators.required],
+    estado                : ['', Validators.required],
+    po_proyecto           : ['', Validators.required],
+    vp                    : ['', Validators.required],
+    gerencia_solicitante  : ['', Validators.required],
+    gerencia_beneficiaria : ['', Validators.required],
+    contAprBc             : ['', Validators.required],
+    tecnologia            : ['', Validators.required],
+    naturaleza            : ['', Validators.required],
+    fecha_creacion        : ['', Validators.required],
+  })
+
   constructor(private iniciativaService: IniciativaService,
               private authService: AuthService,
+              private fb: FormBuilder,
               private spinner: NgxSpinnerService,
               private dialogRef: MatDialogRef<ModalCrearIniciativaComponent>,
               @Inject(MAT_DIALOG_DATA) public editData: any
@@ -34,7 +42,9 @@ export class ModalCrearIniciativaComponent implements OnInit {
   ngOnInit(): void {
     this.getListEstados();
     this.getListGerencia();
-    this.getListNaturaleza()
+    this.getListNaturaleza();
+    this.getListaTecnologia();
+    this.getListaVP();
   }
 
 
@@ -42,7 +52,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
     this.authService.getCurrentUser().subscribe( resp => {
       this.userID = resp.userId;
       console.log('ID-USER', this.userID);
-
     })
    }
 
@@ -52,58 +61,83 @@ export class ModalCrearIniciativaComponent implements OnInit {
     this.idNaturalezaBuscar = id;
   }
 
-  listEstados: Array<any> = [];
+  listEstados: any[] = [];
   getListEstados(){
     let parametro: any[] = [
       { queryId: 89 }
     ];
 
-    this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
-      const estadosData: any[] = Array.of(resp);
+    this.iniciativaService.getListEstados(parametro[0]).subscribe((resp: any) => {
 
-      this.listEstados = [];
-      for (let i = 0; i < estadosData[0].list.length; i++) {
+      for (let i = 0; i < resp.list.length; i++) {
         this.listEstados.push({
-          idEstado:     estadosData[0].list[i].idEstado,
-          cNombre :     estadosData[0].list[i].cNombre,
+          idEstado:     resp.list[i].idEstado,
+          cNombre :     resp.list[i].cNombre,
         });
       }
     })
   };
 
-  listGerencia: Array<any> = [];
+  listGerencia: any[] = [];
   getListGerencia(){
       let parametro: any[] = [
         { queryId: 95 }
       ];
 
-      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp) => {
-        const gerencData: any[] = Array.of(resp);
+      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp: any) => {
 
-        this.listGerencia = [];
-        for (let i = 0; i < gerencData[0].list.length; i++) {
+        for (let i = 0; i < resp.list.length; i++) {
           this.listGerencia.push({
-            id:     gerencData[0].list[i].id,
-            nombre: gerencData[0].list[i].nombre,
+            id:     resp.list[i].id,
+            nombre: resp.list[i].nombre,
           });
         }
       })
     };
 
-    naturaleza: Array<any> = [];
+  listVP: any[] = [];
+  getListaVP() {
+    let parametro: any[] = [
+      { queryId: 94 },
+    ];
+    this.iniciativaService.getListVP(parametro[0]).subscribe((resp: any) =>{
+
+      for (let i = 0; i < resp.list.length; i++) {
+      this.listVP.push({
+          id:     resp.list[i].id,
+          nombre: resp.list[i].nombre
+        })
+      }
+    })
+  }
+
+  tecnologias:any[] = []
+  getListaTecnologia(){
+    let parametro: any[]=[
+      { queryId:93 }
+    ];
+    this.iniciativaService.listaTecnologia(parametro[0]).subscribe((resp: any) =>{
+
+      for (let i = 0; i < resp.list.length; i++) {
+        this.tecnologias.push({
+          id    : resp.list[i].id,
+          nombre: resp.list[i].nombre
+        })
+      }
+    })
+  }
+
+  naturaleza: any[] = [];
   getListNaturaleza() {
     let parametro: any[] = [
       { queryId: 90, },
     ];
-    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp) => {
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp: any) => {
 
-      const dataNaturaleza: any[] = Array.of(resp);
-
-          this.naturaleza = [];
-          for (let i = 0; i < dataNaturaleza[0].list.length; i++) {
+          for (let i = 0; i < resp.list.length; i++) {
             this.naturaleza.push({
-              id    : dataNaturaleza[0].list[i].id,
-              nombre: dataNaturaleza[0].list[i].nombre
+              id    : resp.list[i].id,
+              nombre: resp.list[i].nombre
             })
           }
         });
@@ -113,22 +147,28 @@ export class ModalCrearIniciativaComponent implements OnInit {
     this.spinner.show();
     let currentUser = this.authService.getUsername();
 
-    let nombre                = this.datosRegistroAgregar.nombre;
-    let codigo                = this.datosRegistroAgregar.codigo;
-    let po_proyecto           = this.datosRegistroAgregar.po_proyecto;
-    let estado                = this.datosRegistroAgregar.estado;
-    let gerencia_beneficiaria = this.datosRegistroAgregar.gerencia_beneficiaria;
-    let naturaleza            = this.datosRegistroAgregar.naturaleza;
-    let fecha_creacion        = this.datosRegistroAgregar.fecha_creacion;
+    let nombre                = this.iniciativaForm.value.nombre;
+    let codigo                = this.iniciativaForm.value.codigo;
+    let po_proyecto           = this.iniciativaForm.value.po_proyecto;
+    let gerencia_solicitante  = this.iniciativaForm.value.gerencia_solicitante;
+    let gerencia_beneficiaria = this.iniciativaForm.value.gerencia_beneficiaria;
+    let vp                    = this.iniciativaForm.value.vp;
+    let contAprBc             = this.iniciativaForm.value.contAprBc;
+    let tecnologia            = this.iniciativaForm.value.tecnologia;
+    let naturaleza            = this.iniciativaForm.value.naturaleza;
+    let fecha_creacion        = this.iniciativaForm.value.fecha_creacion;
 
     let parametro: any[] = [
       {queryId: 97,
        mapValue: {
         "p_cdescripcion"      : nombre  ,
         "p_cod_proyecto"      : codigo  ,
-        "p_id_estado"         : estado  ,
         "p_po_proyecto"       : po_proyecto  ,
+        "p_id_gerencia_sol"   : gerencia_solicitante,
         "p_id_gerencia_ben"   : gerencia_beneficiaria,
+        "p_id_vp"             : vp,
+        "p_cont_apr_bc"       : contAprBc,
+        "p_id_tecnologia"     : tecnologia,
         "p_id_naturaleza"     : naturaleza  ,
         "p_prob_actual"       : ''  ,
         "p_func_robotiz"      : ''  ,
@@ -148,10 +188,8 @@ export class ModalCrearIniciativaComponent implements OnInit {
        }
       }];
 
-      this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp: any) => {
-        const regData: any[] = Array.of(resp);
+      this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp) => {
 
-        // Swal.fire('Crear Iniciativa!', `${ resp.nombre } creado correctamente`, 'success');
         Swal.fire({
           title: 'Crear Iniciativa!',
           text : 'Iniciativa creado con éxito',

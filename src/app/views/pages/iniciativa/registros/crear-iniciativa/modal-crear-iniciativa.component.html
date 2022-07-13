@@ -4,7 +4,7 @@
 <div class="modal-title">Crear iniciativa </div>
 
 <div class="cli-form newvac-wrapper">
-  <form class="row g-3">
+  <form class="row g-3" [formGroup]="iniciativaForm">
     <ng-container>
       <div class="col-sm-4 cli-form-element">
         <div class="form-group">
@@ -13,8 +13,7 @@
             type="text"
             class="form-control cli-input-white"
             placeholder="RPA-"
-            [(ngModel)]="datosRegistroAgregar.nombre"
-            [ngModelOptions]="{ standalone: true }"
+            formControlName="nombre"
           />
         </div>
       </div>
@@ -25,24 +24,8 @@
           type="text"
           class="form-control cli-input-white"
           placeholder=""
-          [(ngModel)]="datosRegistroAgregar.codigo"
-          [ngModelOptions]="{ standalone: true }"
+          formControlName="codigo"
         />
-      </div>
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Estado</label>
-        <select
-          class="cli-input-white"
-          [(ngModel)]="datosRegistroAgregar.estado"
-          [ngModelOptions]="{ standalone: true }"
-
-        > <option [value]="0" disabled>-Seleccionar-</option>
-          <option [value]="estado.idEstado"
-            *ngFor="let estado of listEstados">
-            {{ estado.cNombre }}
-          </option>
-        </select>
       </div>
 
       <div class="col-sm-4 cli-form-element">
@@ -50,17 +33,36 @@
         <input
           type="text"
           class="form-control cli-input-white"
-          [(ngModel)]="datosRegistroAgregar.po_proyecto"
-          [ngModelOptions]="{ standalone: true }"
+          formControlName="po_proyecto"
         />
       </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>VP</label>
+        <select
+          class="cli-input-white"
+          formControlName="vp"
+        > <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
+        </select>
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Gerencia Solicitante</label>
+        <select
+          class="cli-input-white"
+          formControlName="gerencia_solicitante">
+          <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
+        </select>
+      </div>
+
 
       <div class="col-sm-4 cli-form-element">
         <label>Gerencia Beneficiaria</label>
         <select
           class="cli-input-white"
-          [(ngModel)]="datosRegistroAgregar.gerencia_beneficiaria"
-          [ngModelOptions]="{ standalone: true }"
+          formControlName="gerencia_beneficiaria"
         >
           <option [value]="0" disabled>-Seleccionar-</option>
           <option
@@ -71,13 +73,32 @@
         </select>
       </div>
 
+      <div class="col-sm-4 cli-form-element">
+        <label>Controller Aprob. BC</label>
+        <input
+            type="text"
+            class="form-control cli-input-white"
+            formControlName="contAprBc"
+          />
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Tecnología de Solución</label>
+        <select
+          class="cli-input-white"
+          formControlName="tecnologia"
+          >
+          <option [value]="0" disabled>-Seleccionar-</option>
+          <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
+        </select>
+      </div>
 
       <div class="col-sm-4 cli-form-element">
         <label>Naturaleza del Beneficio</label>
         <select
           class="cli-input-white"
-          [(ngModel)]="datosRegistroAgregar.naturaleza"
-          [ngModelOptions]="{ standalone: true }">
+          formControlName="naturaleza"
+          >
           <option [value]="0" disabled>-Seleccionar-</option>
           <option [value]="nat.id" *ngFor="let nat of naturaleza">
             {{ nat.nombre }}
@@ -89,7 +110,7 @@
     <div class="cli-form-buttons" style="margin-top: 100px;">
       <button
         class="cli-btn btn-m btn-grey"
-        type="button"
+        type="submit"
         (click)="close()"
       ><mat-icon class="icon-18">cancel</mat-icon> Salir
       </button>

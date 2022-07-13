@@ -70,7 +70,7 @@ export class AsideComponent implements OnInit {
         },
         {
           code: 'PAS-003',
-          text: 'reporte',
+          text: 'Reporte',
           order: 3,
           icon: 'format_list_numbered',
           type: 'ALONE',
