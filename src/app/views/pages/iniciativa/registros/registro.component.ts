@@ -116,26 +116,29 @@ export class RegistroComponent implements OnInit {
         "param_codigo"         : this.filtro.codigo,
         "param_id_ger_ben"     : this.filtro.gerencia_benef,
         "param_id_estado"      : this.filtro.estado,
-       "param_id_naturaleza"  : this.filtro.naturaleza,
+       "param_id_naturaleza"   : this.filtro.naturaleza,
         "inicio": this.datepipe.transform(this.filtro.fechaCreaInicio,'yyyy/MM/dd'),
         "fin"   : this.datepipe.transform(this.filtro.fechaCreaFin,'yyyy/MM/dd'),
       }
     }];
    this.iniciativaService.buscarRegistro(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
+
      this.totalFiltroEncontrado = resp.list.length;
-     // console.log('RESUL_BUSQ', resp);
+     console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
+
+      this.registros = [];
       for (let i = 0; i < resp.list.length; i++) {
         this.registros.push({
-          idIniciativa          :resp.list[i].idIniciativa,
-          nombre                :resp.list[i].nombre,
-          codigo                :resp.list[i].codigo,
-          estado                :resp.list[i].estado,
-          po_proyecto           :resp.list[i].po_proyecto,
-          responsable           :resp.list[i].responsable,
-          gerencia_beneficiaria :resp.list[i].gerencia_beneficiaria,
-          naturaleza            :resp.list[i].naturaleza,
-          fecha_creacion        :resp.list[i].fecha_creacion
+          idIniciativa          : resp.list[i].idIniciativa,
+          nombre                : resp.list[i].nombre,
+          codigo                : resp.list[i].codigo,
+          estado                : resp.list[i].estado,
+          po_proyecto           : resp.list[i].po_proyecto,
+          responsable           : resp.list[i].responsable,
+          gerencia_beneficiaria : resp.list[i].gerencia_beneficiaria,
+          naturaleza            : resp.list[i].naturaleza,
+          fecha_creacion        : resp.list[i].fecha_creacion
         });
       }
     // this.blockUI.stop();

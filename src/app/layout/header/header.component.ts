@@ -18,9 +18,9 @@ export class HeaderComponent implements OnInit {
   name: string = ''
 
   loginForm: FormGroup = this.fb.group({
-    idaplicacion:['1'],
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    idaplicacion: ['1'],
+    username    : ['', [Validators.required]],
+    password    : ['', [Validators.required, Validators.minLength(6)]],
   });
 
 

@@ -74,13 +74,23 @@
       </div>
 
       <div class="col-sm-4 cli-form-element">
+        <label>Estado</label>
+          <select
+            class="cli-input-white"
+            formControlName="estado"
+          > <option [value]="0" disabled>-Seleccionar-</option>
+            <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
+          </select>
+      </div>
+
+      <!-- <div class="col-sm-4 cli-form-element">
         <label>Controller Aprob. BC</label>
         <input
             type="text"
             class="form-control cli-input-white"
             formControlName="contAprBc"
           />
-      </div>
+      </div> -->
 
       <div class="col-sm-4 cli-form-element">
         <label>Tecnología de Solución</label>

@@ -75,3 +75,8 @@ export interface Registro {
   naturaleza            : string[];
 }
 
+export interface Estados {
+  idEstado     : number,
+  cNombre      : string,
+  idEstadoPadre: string
+}

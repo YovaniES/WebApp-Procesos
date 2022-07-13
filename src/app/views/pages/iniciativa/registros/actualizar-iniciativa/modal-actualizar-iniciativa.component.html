@@ -42,7 +42,6 @@
                     class="cli-input-white"
                     [(ngModel)]="dataIniciativa.estado"
                     [ngModelOptions]="{ standalone: true }"
-                    #estadox
                   > <option [value]="0" disabled>-Seleccionar-</option>
                     <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
                   </select>

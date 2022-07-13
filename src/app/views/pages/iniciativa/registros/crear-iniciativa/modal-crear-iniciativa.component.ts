@@ -155,6 +155,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
     let vp                    = this.iniciativaForm.value.vp;
     let contAprBc             = this.iniciativaForm.value.contAprBc;
     let tecnologia            = this.iniciativaForm.value.tecnologia;
+    let estado            = this.iniciativaForm.value.estado;
     let naturaleza            = this.iniciativaForm.value.naturaleza;
     let fecha_creacion        = this.iniciativaForm.value.fecha_creacion;
 
@@ -169,6 +170,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
         "p_id_vp"             : vp,
         "p_cont_apr_bc"       : contAprBc,
         "p_id_tecnologia"     : tecnologia,
+        "p_id_estado"         : estado,
         "p_id_naturaleza"     : naturaleza  ,
         "p_prob_actual"       : ''  ,
         "p_func_robotiz"      : ''  ,

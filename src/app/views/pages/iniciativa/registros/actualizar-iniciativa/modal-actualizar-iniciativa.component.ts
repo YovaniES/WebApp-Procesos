@@ -54,8 +54,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       fechaAct     : ''
   }
 
-
-
   datosInicCambios = {
       id_motivo    : 0,
       dFecha       : new Date,
@@ -112,7 +110,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getListaTecnologia();
     this.getHistoricoCambios(this.data);
     this.getUsuario();
-
    }
 
    getUsuario(){
@@ -185,14 +182,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     ];
    this.iniciativaService.getListEstados(parametro[0]).subscribe((resp:any) => {
 
-     for (let i = 0; i < resp.list.length; i++) {
-      this.listEstados.push({
-        idEstado       : resp.list[i].idEstado,
-        cNombre        : resp.list[i].cNombre
-      })
-    }
-
-     resp.list.map((estado:any) => { //  console.log('ESTADOS', estado);
+     resp.list.map((estado: any) => { //  console.log('ESTADOS', estado);
       const estadosPadre = estado.idEstadoPadre.split(',')
       // console.log('padre', estadosPadre);
 
