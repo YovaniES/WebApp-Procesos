@@ -1,368 +1,316 @@
+<button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+  <mat-icon>close</mat-icon>
+</button>
 
+<div class="modal-title c-male">Actualizar iniciativa</div>
 
-      <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
-        <mat-icon>close</mat-icon>
-      </button>
-
-      <div class="modal-title c-male">Actualizar iniciativa</div>
-      <div class="cli-form newvac-wrapper">
-        <!-- -------------------------------------------REGISTROS ACTUALIZAR--------------------------->
-        <div class="pr-subtitle mt-2">Registros</div>
-        <div class="pr-section">
-          <form class="row g-3">
-            <ng-container>
-              <div class="col-sm-3 cli-form-element">
-                <div class="form-group">
-                  <label>Nombre de Iniciativa</label>
-                  <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    placeholder="RPA-PER-CAPL"
-                    [(ngModel)]="dataIniciativa.nombre"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-                </div>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Código de Iniciativa</label>
-                  <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    placeholder="HISPAM-2201-1"
-                    [(ngModel)]="dataIniciativa.codigo"
-                    [ngModelOptions]="{ standalone: true }"
-                    disabled
-                  />
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Estado</label>
-                  <select
-                    class="cli-input-white"
-                    [(ngModel)]="dataIniciativa.estado"
-                    [ngModelOptions]="{ standalone: true }"
-                  > <option [value]="0" disabled>-Seleccionar-</option>
-                    <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
-                  </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Responsable</label>
-                  <select
-                    class="cli-input-white"
-                    [(ngModel)]="dataIniciativa.responsable"
-                    [ngModelOptions]="{ standalone: true }"
-                  > <option [value]="0" disabled>-Seleccionar-</option>
-                    <!-- <option [value]="r.id" *ngFor="let r of listResponsable">{{ r.nombre }}</option> -->
-                    <option [value]="1">{{userName}}</option>
-                  </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>PO del proyecto</label>
-                <input
-                  type="text"
-                  class="form-control cli-input-white"
-                  [(ngModel)]="dataIniciativa.poProyecto"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </ng-container>
-
-            <ng-container>
-              <div class="col-sm-3 cli-form-element">
-                <label>VP</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataIniciativa.vp"
-                  [ngModelOptions]="{ standalone: true }"
-                > <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
-                </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Gerencia Solicitante</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataIniciativa.gerenciaSol"
-                  [ngModelOptions]="{ standalone: true }"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
-                </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Gerencia beneficiaria</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataIniciativa.gerenciaBen"
-                  [ngModelOptions]="{ standalone: true }"
-                ><option  [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="gerben.id" *ngFor="let gerben of listGerencia">{{ gerben.nombre }}</option>
-                </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Controller Aprob. BC</label>
-                <input
-                    type="text"
-                    class="form-control cli-input-white"
-                    [(ngModel)]="dataIniciativa.contAprBc"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-              </div>
-            </ng-container>
-
-            <ng-container>
-              <div class="col-sm-3 cli-form-element">
-                <label>Tecnología de Solución</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataIniciativa.tecnologia"
-                  [ngModelOptions]="{ standalone: true }"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
-                </select>
-              </div>
-              <div class="col-sm-3 cli-form-element">
-                <label>Naturaleza del Beneficio</label>
-                <select
-                  class="cli-input-white"
-                  [(ngModel)]="dataIniciativa.naturaleza"
-                  [ngModelOptions]="{ standalone: true }"
-                >
-                  <option [value]="0" disabled>-Seleccionar-</option>
-                  <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
-                </select>
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <div class="form-group">
-                    <label>Fecha creación</label>
-                    <input type="date"
-                    class="form-control"
-                    [value]="dataIniciativa.fechaCrea | date:'yyyy-MM-dd'"
-                    #fechaCrea
-                    (blur)="actualizarFechaCreacion(fechaCrea.value)"
-                    disabled>
-                </div>
-              </div>
-            </ng-container>
-          </form>
-      </div>
-
-        <!-- --------------------------------------------CONTEXTO --------------------------->
-        <div class="pr-subtitle mt-2">Contexto</div>
-        <div class="pr-section">
-          <div class="pr-module-container">
-            <form class="row g-3">
-              <div class="col-sm-3 cli-form-element">
-                  <label>QTRX mensual</label>
-                  <input
-                    type="text"
-                    min="0"
-                    class="form-control cli-input-white"
-                    placeholder="25"
-                    [(ngModel)]="dataIniciativa.qtrxMes"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-              </div>
-
-              <div class="col-sm-3 cli-form-element">
-                <label>TMO POR TRX</label>
-                <input
-                  type="number"
-                  min="0"
-                  class="form-control cli-input-white"
-                  placeholder="4"
-                  [(ngModel)]="dataIniciativa.tmoTrx"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-              <div class="form-group col-md-3">
-                <legend class="col-form-label col-sm-12 pt-0">
-                  Pedido por PI
-                </legend>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      id="gridRadios1"
-                      name="pi"
-                      [value]="1"
-                      [(ngModel)]="dataIniciativa.pi"
-                      [ngModelOptions]="{ standalone: true }"
-                      />
-                    <label class="form-check-label" for="gridRadios1">Si</label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="pi"
-                      id="gridRadios2"
-                      [value]="0"
-                      [(ngModel)]="dataIniciativa.pi"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
-                    <label class="form-check-label" for="gridRadios2">No</label>
-                  </div>
-              </div>
-
-              <div class="form-group col-md-3">
-                <legend class="col-form-label col-sm-12 pt-0">
-                  Cuenta con flujo contextual
-                </legend>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="Si"
-                      id="gridRadios3"
-                      [value]="1"
-                      [(ngModel)]="dataIniciativa.fluContx"
-                      [ngModelOptions]="{ standalone: true }"
-
-                    />
-                    <label class="form-check-label" for="gridRadios3">Si</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="No"
-                      id="gridRadios4"
-                      [value]="0"
-                      [(ngModel)]="dataIniciativa.fluContx"
-                      [ngModelOptions]="{ standalone: true }"
-                      />
-                    <label class="form-check-label" for="gridRadios4">No</label>
-                  </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- --------------------------------------------DIAGNOSTICO -------------------------------------->
-        <div class="pr-subtitle mt-2">Diagnóstico</div>
-        <div class="pr-section">
-          <div class="pr-module-container">
-            <form class="row was-validated g-3 mt-2">
-              <div class="row">
-                <div class="col-sm-6 cli-form-element mb-4">
-                  <label>Contexto</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    style="resize: none"
-                    rows="3"
-                    placeholder="Detalle el contexto y la problemática actual..."
-                    [(ngModel)]="dataIniciativa.probActual"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  ></textarea>
-                </div>
-
-                <div class="col-sm-6 cli-form-element mb-4">
-                  <label>Función Robotización</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    style="resize: none"
-                    rows="3"
-                    placeholder="Defina la problemática de la función .."
-                    [(ngModel)]="dataIniciativa.funcRobotiz"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  ></textarea>
-                </div>
-
-                <div class="col-md-6 cli-form-element mb-4">
-                  <label>Objetivo</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    rows="3"
-                    style="resize: none"
-                    placeholder="Defina los objetivos y alcances del RPA"
-                    [(ngModel)]="dataIniciativa.defAlcance"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  >
-                  </textarea>
-                </div>
-
-                <div class="col-md-6 cli-form-element mb-4">
-                  <label>Riesgos</label>
-                  <textarea
-                    class="form-control is-invalid"
-                    rows="3"
-                    style="resize: none"
-                    placeholder="Describa los riesgos de no realizar el RPA"
-                    [(ngModel)]="dataIniciativa.riesgoNoRpa"
-                    [ngModelOptions]="{ standalone: true }"
-                    required
-                  >
-                  </textarea>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- --------------------------------------------HISTORICO CAMBIOS -------------------------------------->
-        <div class="pr-subtitle mt-2">Historico de Cambios de Estado</div>
-          <div class="pr-section">
-
-          <div class="pr-module-container">
-            <div style="overflow: auto; min-height: 150px">
-              <table class="cli-table stripedtable underlinedtable">
-                <thead>
-                  <tr class="bgc-green c-white">
-                    <th>#</th>
-                    <th>idIniciativa</th>
-                    <th>Estados</th>
-                    <th>Motivo</th>
-                    <th>Fecha y Hora de Cambio</th>
-                    <th>Usuario</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr
-                    *ngFor=" let cambios of historicoCambios; let i = index ">
-                    <td>{{i+1}}</td>
-                    <td>{{ cambios.idiniciativa }}</td>
-                    <td>{{ cambios.estado }}</td>
-                    <td>{{ cambios.motivo }}</td>
-                    <td>{{ cambios.fecha_cambio }}</td>
-                    <td>{{ cambios.usuario }}</td>
-                  </tr>
-                </tbody>
-              </table>
+<form [formGroup]="iniciativaEditForm">
+  <div class="cli-form newvac-wrapper">
+    <!-- -------------------------------------------REGISTROS ACTUALIZAR--------------------------->
+    <div class="pr-subtitle mt-2">Registros</div>
+    <div class="pr-section">
+      <div class="row g-3">
+          <div class="col-sm-3 cli-form-element">
+            <div class="form-group">
+              <label>Nombre de Iniciativa</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="nombre"/>
             </div>
           </div>
 
+          <div class="col-sm-3 cli-form-element">
+            <label>Código de Iniciativa</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="codigo"/>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Estado</label>
+              <select
+                class="cli-input-white"
+                formControlName="estado"
+              > <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
+              </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Responsable</label>
+              <select
+                class="cli-input-white"
+                formControlName="responsable"
+              > <option [value]="0" disabled>-Seleccionar-</option>
+                <!-- <option [value]="r.id" *ngFor="let r of listResponsable">{{ r.nombre }}</option> -->
+                <option [value]="1">{{userName}}</option>
+              </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>PO del proyecto</label>
+            <input
+              type="text"
+              class="form-control cli-input-white"
+              formControlName="poProyecto"/>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>VP</label>
+            <select
+              class="cli-input-white"
+              formControlName="vp"
+            > <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
+            </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Gerencia Solicitante</label>
+            <select
+              class="cli-input-white"
+              formControlName="gerenciaSol">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Gerencia beneficiaria</label>
+            <select
+              class="cli-input-white"
+              formControlName="gerenciaBen"
+            ><option  [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="gerben.id" *ngFor="let gerben of listGerencia">{{ gerben.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Controller Aprob. BC</label>
+            <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="contAprBc"/>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>Tecnología de Solución</label>
+            <select
+              class="cli-input-white"
+              formControlName="tecnologia">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
+            </select>
+          </div>
+          <div class="col-sm-3 cli-form-element">
+            <label>Naturaleza del Beneficio</label>
+            <select
+              class="cli-input-white"
+              formControlName="naturaleza">
+              <option [value]="0" disabled>-Seleccionar-</option>
+              <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <div class="form-group">
+                <label>Fecha creación</label>
+                <input type="date"
+                formControlName="fechaCrea"
+                class="form-control"
+                [value]="iniciativaEditForm.value.fechaCrea | date:'yyyy-MM-dd'"
+                #fechaCrea
+                (blur)="actualizarFechaCreacion(fechaCrea.value)">
+            </div>
+          </div>
+      </div>
+  </div>
+
+    <!-- --------------------------------------------CONTEXTO --------------------------->
+    <div class="pr-subtitle mt-2">Contexto</div>
+    <div class="pr-section">
+      <div class="pr-module-container">
+        <div class="row g-3">
+          <div class="col-sm-3 cli-form-element">
+              <label>QTRX mensual</label>
+              <input
+                type="text"
+                min="0"
+                class="form-control cli-input-white"
+                formControlName="qtrxMes"/>
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>TMO POR TRX</label>
+            <input
+              type="number"
+              min="0"
+              class="form-control cli-input-white"
+              formControlName="tmoTrx"/>
+          </div>
+
+          <div class="form-group col-md-3">
+            <legend class="col-form-label col-sm-12 pt-0">
+              Pedido por PI
+            </legend>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="pi"/>
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="pi"/>
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+          </div>
+
+          <div class="form-group col-md-3">
+            <legend class="col-form-label col-sm-12 pt-0">
+              Cuenta con flujo contextual
+            </legend>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="fluContx"/>
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="fluContx"/>
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+          </div>
         </div>
-        <!-- --------------------------------------------BOTONES ------------------------------------------->
-        <div class="cli-form-buttons mb-4">
-          <button
-            class="cli-btn btn-m btn-grey"
-            type="submit"
-            data-dismiss="modal"
-            (click)="close()"
-            >
-            <mat-icon class="icon-18">cancel</mat-icon> Cancelar
-          </button>
-          <button
-            class="cli-btn btn-m btn-magenta"
-            (click)="actualizarIniciativa()"
-          ><mat-icon class="icon-18">save</mat-icon> Actualizar
-          </button>
-        </div>
+      </div>
     </div>
 
+    <!-- --------------------------------------------DIAGNOSTICO -------------------------------------->
+    <div class="pr-subtitle mt-2">Diagnóstico</div>
+    <div class="pr-section">
+      <div class="pr-module-container">
+        <div class="row was-validated g-3 mt-2">
+          <div class="row">
+            <div class="col-sm-6 cli-form-element mb-4">
+              <label>Contexto</label>
+              <textarea
+                class="form-control is-invalid"
+                style="resize: none"
+                rows="3"
+                placeholder="Detalle el contexto y la problemática actual..."
+                formControlName="probActual"
+                required
+              ></textarea>
+            </div>
 
+            <div class="col-sm-6 cli-form-element mb-4">
+              <label>Función Robotización</label>
+              <textarea
+                class="form-control is-invalid"
+                style="resize: none"
+                rows="3"
+                placeholder="Defina la problemática de la función .."
+                formControlName="funcRobotiz"
+                required
+              ></textarea>
+            </div>
+
+            <div class="col-md-6 cli-form-element mb-4">
+              <label>Objetivo</label>
+              <textarea
+                class="form-control is-invalid"
+                rows="3"
+                style="resize: none"
+                placeholder="Defina los objetivos y alcances del RPA"
+                formControlName="defAlcance"
+                required
+              >
+              </textarea>
+            </div>
+
+            <div class="col-md-6 cli-form-element mb-4">
+              <label>Riesgos</label>
+              <textarea
+                class="form-control is-invalid"
+                rows="3"
+                style="resize: none"
+                placeholder="Describa los riesgos de no realizar el RPA"
+                formControlName="riesgoNoRpa"
+                required >
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------HISTORICO CAMBIOS -------------------------------------->
+    <div class="pr-subtitle mt-2">Historico de Cambios de Estado</div>
+      <div class="pr-section">
+
+      <div class="pr-module-container">
+        <div style="overflow: auto; min-height: 150px">
+          <table class="cli-table stripedtable underlinedtable">
+            <thead>
+              <tr class="bgc-green c-white">
+                <th>#</th>
+                <th>idIniciativa</th>
+                <th>Estados</th>
+                <th>Motivo</th>
+                <th>Fecha y Hora de Cambio</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor=" let cambios of historicoCambios; let i = index ">
+                <td>{{i+1}}</td>
+                <td>{{ cambios.idiniciativa }}</td>
+                <td>{{ cambios.estado }}</td>
+                <td>{{ cambios.motivo }}</td>
+                <td>{{ cambios.fecha_cambio }}</td>
+                <td>{{ cambios.usuario }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <!-- --------------------------------------------BOTONES ------------------------------------------->
+    <div class="cli-form-buttons mb-4">
+      <button
+        class="cli-btn btn-m btn-grey"
+        type="submit"
+        data-dismiss="modal"
+        (click)="close()"
+        ><mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button
+        class="cli-btn btn-m btn-magenta"
+        (click)="actualizarIniciativa()"
+      ><mat-icon class="icon-18">save</mat-icon> Actualizar
+      </button>
+    </div>
+  </div>
+</form>

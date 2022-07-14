@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalCrearIniciativaComponent } from './crear-iniciativa/modal-crear-iniciativa.component';
 import { ModalActualizarIniciativaComponent } from './actualizar-iniciativa/modal-actualizar-iniciativa.component';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 
 @Component({
@@ -19,28 +20,29 @@ export class RegistroComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
 
   page = 1;
-  totalBandeja: number = 0;
+  totalIniciativa: number = 0;
   pageSize = 10;
   pageSizes = [3, 6, 9];
 
   totalRegistros: number = 0;
   loadingItem: boolean = false;
-
   data: any[] = [];
+  userID: number = 0;
 
   filtro = {
-      nombre              : '',
-      codigo              : '',
-      estado              : '',
-      gerencia_benef      : '',
-      naturaleza          : '',
-      fechaCreaInicio     : '',
-      fechaCreaFin        : '',
+      nombre          : '',
+      codigo          : '',
+      estado          : '',
+      gerencia_benef  : '',
+      naturaleza      : '',
+      fechaCreaInicio : '',
+      fechaCreaFin    : '',
     };
 
 
   constructor(
     private iniciativaService: IniciativaService,
+    private authService: AuthService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
     private dialog: MatDialog
@@ -55,93 +57,62 @@ export class RegistroComponent implements OnInit {
     this.getListNaturaleza();
   }
 
+  userId() {
+    this.authService.getCurrentUser().subscribe((resp) => {
+      this.userID = resp.userId;
+      // console.log('ID-USER', this.userID);
+    });
+  };
+
   listEstados: any[] = [];
   getListEstados(){
-    let parametro: any[] = [
-      { queryId: 89 }
-    ];
+    let parametro: any[] = [{ queryId: 89 }];
     this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
-      const estadosData: any[] = Array.of(resp);
-
-      for (let i = 0; i < estadosData[0].list.length; i++) {
-        this.listEstados.push({
-          idEstado:     estadosData[0].list[i].idEstado,
-          cNombre :     estadosData[0].list[i].cNombre,
-        });
-      }
+      this.listEstados = resp
     })
   };
 
   listGerencia: any[] = [];
-  getListGerencia(){
-      let parametro: any[] = [
-        { queryId: 95 }
-      ];
-      this.iniciativaService.getListGerencia(parametro[0]).subscribe((resp: any) => {
+  getListGerencia() {
+    let parametro: any[] = [{ queryId: 95 }];
+    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
+        this.listGerencia = resp;
+      });
+  }
 
-        for (let i = 0; i < resp.list.length; i++) {
-          this.listGerencia.push({
-            id:     resp.list[i].id,
-            nombre: resp.list[i].nombre,
-          });
-        }
-      })
-    };
 
   naturaleza: any[] = [];
   getListNaturaleza() {
-    let parametro: any[] = [
-      { queryId: 90, },
-    ];
-    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe((resp: any) => {
-
-          for (let i = 0; i < resp.list.length; i++) {
-            this.naturaleza.push({
-              id    : resp.list[i].id,
-              nombre: resp.list[i].nombre
-            })
-          }
-        });
+    let parametro: any[] = [{ queryId: 90, }];
+    this.iniciativaService.getListNaturaleza(parametro[0]).subscribe(resp => {
+          this.naturaleza = resp;
+          });
   }
 
   totalFiltroEncontrado: number = 0;
   buscarRegistro(){
     this.totalRegistros = 0;
     this.blockUI.start("Buscando iniciativas...");
-    // this.spinner.show();
     let parametro: any[] = [{
       "queryId": 96,
       "mapValue": {
-        "param_nombre"         : this.filtro.nombre,
-        "param_codigo"         : this.filtro.codigo,
-        "param_id_ger_ben"     : this.filtro.gerencia_benef,
-        "param_id_estado"      : this.filtro.estado,
-       "param_id_naturaleza"   : this.filtro.naturaleza,
+        "param_nombre"      : this.filtro.nombre,
+        "param_codigo"      : this.filtro.codigo,
+        "param_id_ger_ben"  : this.filtro.gerencia_benef,
+        "param_id_estado"   : this.filtro.estado,
+       "param_id_naturaleza": this.filtro.naturaleza,
         "inicio": this.datepipe.transform(this.filtro.fechaCreaInicio,'yyyy/MM/dd'),
         "fin"   : this.datepipe.transform(this.filtro.fechaCreaFin,'yyyy/MM/dd'),
       }
     }];
-   this.iniciativaService.buscarRegistro(parametro[0]).subscribe((resp: any) => {
+   this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
     this.blockUI.stop();
 
-     this.totalFiltroEncontrado = resp.list.length;
-     console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
+     this.totalFiltroEncontrado = resp.length;
+    //  console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
 
       this.registros = [];
-      for (let i = 0; i < resp.list.length; i++) {
-        this.registros.push({
-          idIniciativa          : resp.list[i].idIniciativa,
-          nombre                : resp.list[i].nombre,
-          codigo                : resp.list[i].codigo,
-          estado                : resp.list[i].estado,
-          po_proyecto           : resp.list[i].po_proyecto,
-          responsable           : resp.list[i].responsable,
-          gerencia_beneficiaria : resp.list[i].gerencia_beneficiaria,
-          naturaleza            : resp.list[i].naturaleza,
-          fecha_creacion        : resp.list[i].fecha_creacion
-        });
-      }
-    // this.blockUI.stop();
+      this.registros = resp;
       this.spinner.hide();
     });
   }
@@ -154,23 +125,10 @@ export class RegistroComponent implements OnInit {
     let arrayParametro: any[] = [
       { queryId:92 }
     ];
-    this.iniciativaService.getListaBandeja(arrayParametro[0])
-        .subscribe((resp: any) => {
+    this.iniciativaService.cargarRegistro(arrayParametro[0]).subscribe((resp: any) => {
           this.blockUI.stop();
-          this.totalRegistros = resp.list.length;
-            for (let i = 0; i < resp.list.length; i++) {
-              this.registros.push({
-              idIniciativa          : resp.list[i].idIniciativa,
-              nombre                : resp.list[i].nombre,
-              codigo                : resp.list[i].codigo,
-              estado                : resp.list[i].estado,
-              po_proyecto           : resp.list[i].po_proyecto,
-              responsable           : resp.list[i].responsable,
-              gerencia_beneficiaria : resp.list[i].gerencia_beneficiaria,
-              naturaleza            : resp.list[i].naturaleza,
-              fecha_creacion        : resp.list[i].fecha_creacion,
-            })
-          }
+          this.registros = resp;
+          this.totalRegistros = resp.length;
         })
   };
 
@@ -179,23 +137,10 @@ export class RegistroComponent implements OnInit {
     let offset = event*10;
     this.spinner.show();
 
-    if (this.totalfiltro != this.totalBandeja) {
-      this.iniciativaService.getListaBandeja(offset.toString())
-          .subscribe( (resp: any) => {
-            console.log('TABLA', resp);
-
-            for (let i = 0; i < resp.length; i++) {
-              this.registros.push({
-                idIniciativa          : resp.list[i].idIniciativa,
-                nombre                : resp.list[i].nombre,
-                codigo                : resp.list[i].codigo,
-                estado                : resp.list[i].estado,
-                po_proyecto           : resp.list[i].po_proyecto,
-                gerencia_beneficiaria : resp.list[i].gerencia_beneficiaria,
-                naturaleza            : resp.list[i].naturaleza,
-                fecha_creacion        : resp.list[i].fecha_creacion,
-              });
-            }
+    if (this.totalfiltro != this.totalIniciativa) {
+      this.iniciativaService.cargarRegistro(offset.toString()).subscribe( resp => {
+            // console.log('TABLA', resp);
+            this.registros = resp;
             this.spinner.hide();
           });
     } else {
@@ -213,7 +158,7 @@ export class RegistroComponent implements OnInit {
       mapValue: {
         'param_id_iniciativa' : id ,
         // 'CONFIG_REGIS_ID'  : this.usuario.user.userId,
-        'CONFIG_REGIS_ID'     : '' ,
+        'CONFIG_REGIS_ID'     : this.userID ,
         'CONFIG_OUT_MSG_ERROR': '' ,
         'CONFIG_OUT_MSG_EXITO': ''
       }
@@ -244,13 +189,13 @@ export class RegistroComponent implements OnInit {
   }
 
   limpiarFiltro(){
-    this.filtro.nombre             = '',
-    this.filtro.codigo             = '',
-    this.filtro.estado             = '',
-    this.filtro.gerencia_benef     = '',
-    this.filtro.naturaleza         = '',
-    this.filtro.fechaCreaInicio    = '',
-    this.filtro.fechaCreaFin       = ''
+    this.filtro.nombre          = '',
+    this.filtro.codigo          = '',
+    this.filtro.estado          = '',
+    this.filtro.gerencia_benef  = '',
+    this.filtro.naturaleza      = '',
+    this.filtro.fechaCreaInicio = '',
+    this.filtro.fechaCreaFin    = ''
 
     this.cargarRegistro();
   }

@@ -8,7 +8,7 @@
   border-radius: 2px;
   &:disabled {
     background-color: $color-grey-1;
-    color: #fff;
+    color:#fff;
   }
 }
 .status-btn {
@@ -37,7 +37,7 @@
     margin: 0 5px;
   }
   &:disabled {
-    background-color: $color-grey-1;
+    background-color: $color-magenta-l;
     color: #fff;
   }
 }

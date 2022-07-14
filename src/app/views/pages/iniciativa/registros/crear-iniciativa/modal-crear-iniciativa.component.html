@@ -12,7 +12,7 @@
           <input
             type="text"
             class="form-control cli-input-white"
-            placeholder="RPA-"
+            placeholder="Ej. RPA-PER-CAPL"
             formControlName="nombre"
           />
         </div>
@@ -73,7 +73,7 @@
         </select>
       </div>
 
-      <div class="col-sm-4 cli-form-element">
+      <!-- <div class="col-sm-4 cli-form-element">
         <label>Estado</label>
           <select
             class="cli-input-white"
@@ -81,16 +81,16 @@
           > <option [value]="0" disabled>-Seleccionar-</option>
             <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
           </select>
-      </div>
+      </div> -->
 
-      <!-- <div class="col-sm-4 cli-form-element">
+      <div class="col-sm-4 cli-form-element">
         <label>Controller Aprob. BC</label>
         <input
             type="text"
             class="form-control cli-input-white"
             formControlName="contAprBc"
           />
-      </div> -->
+      </div>
 
       <div class="col-sm-4 cli-form-element">
         <label>Tecnología de Solución</label>
@@ -122,11 +122,12 @@
         class="cli-btn btn-m btn-grey"
         type="submit"
         (click)="close()"
-      ><mat-icon class="icon-18">cancel</mat-icon> Salir
+      ><mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
       <button
         class="cli-btn btn-m btn-magenta"
         (click)="crearIniciativa()"
+        [disabled]="iniciativaForm.invalid"
       ><mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>

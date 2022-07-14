@@ -68,7 +68,7 @@
     margin: 0 5px;
   }
   &:disabled {
-    background-color: #b4dee6;
+    background-color: #e9ecef;
     color: darkgrey;
     cursor: auto;
   }
@@ -84,10 +84,10 @@
   color: #fff;
   transition: ease 0.3s;
   &:hover:enabled {
-    background-color: #b4dee6;
+    background-color: #019df42e;
   }
   &:hover:enabled:active {
-    background-color: #b4dee6;
+    background-color: #019df42e;
   }
 }
 
