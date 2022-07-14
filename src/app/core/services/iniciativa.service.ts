@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { API_REG1 } from '../constants/url.constants';
+import { Estados } from '../interfaces/estados.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +62,7 @@ export class IniciativaService {
     return this.http.post(API_REG1, obj).pipe(
       map((estados: any) => {
         return mapList
-          ? estados.list.map((estado: any) => {
+          ? estados.list.map((estado: Estados) => {
               return {
                 idEstado: estado.idEstado,
                 cNombre : estado.cNombre,
@@ -72,7 +73,7 @@ export class IniciativaService {
     );
   }
 
-  // lista Gerencia
+  // lista Responsables
   getListResponsable(obj: any) {
     return this.http.post(API_REG1, obj);
   }

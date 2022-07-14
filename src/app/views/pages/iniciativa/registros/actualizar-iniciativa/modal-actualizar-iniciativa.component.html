@@ -3,13 +3,13 @@
 </button>
 
 <div class="modal-title c-male">Actualizar iniciativa</div>
-
-<form [formGroup]="iniciativaEditForm">
+  <form [formGroup]="iniciativaEditForm">
   <div class="cli-form newvac-wrapper">
-    <!-- -------------------------------------------REGISTROS ACTUALIZAR--------------------------->
+    <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
     <div class="pr-subtitle mt-2">Registros</div>
     <div class="pr-section">
-      <div class="row g-3">
+      <div class="pr-module-container">
+        <div class="row g-3">
           <div class="col-sm-3 cli-form-element">
             <div class="form-group">
               <label>Nombre de Iniciativa</label>
@@ -23,6 +23,7 @@
           <div class="col-sm-3 cli-form-element">
             <label>Código de Iniciativa</label>
               <input
+              readonly="true"
                 type="text"
                 class="form-control cli-input-white"
                 formControlName="codigo"/>
@@ -118,17 +119,19 @@
             <div class="form-group">
                 <label>Fecha creación</label>
                 <input type="date"
-                formControlName="fechaCrea"
-                class="form-control"
-                [value]="iniciativaEditForm.value.fechaCrea | date:'yyyy-MM-dd'"
-                #fechaCrea
-                (blur)="actualizarFechaCreacion(fechaCrea.value)">
+                  readonly="true"
+                  formControlName="fechaCrea"
+                  class="form-control"
+                  [value]="iniciativaEditForm.value.fechaCrea | date:'yyyy-MM-dd'"
+                  #fechaCrea
+                  (blur)="actualizarFechaCreacion(fechaCrea.value)">
             </div>
           </div>
       </div>
+    </div>
   </div>
 
-    <!-- --------------------------------------------CONTEXTO --------------------------->
+    <!-- --------------------------------------------CONTEXTO ----------------------------------------->
     <div class="pr-subtitle mt-2">Contexto</div>
     <div class="pr-section">
       <div class="pr-module-container">
@@ -152,35 +155,35 @@
           </div>
 
           <div class="form-group col-md-3">
-            <legend class="col-form-label col-sm-12 pt-0">
-              Pedido por PI
-            </legend>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="gridRadios3"
-                  [value]="1"
-                  formControlName="pi"/>
-                <label class="form-check-label" for="gridRadios3">Si</label>
-              </div>
+            <legend class="col-form-label col-sm-12 pt-0"> Pedido por PI</legend>
+              <div class="row" style="margin-left: 0px;">
+                <div class="form-check col-sm-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="gridRadios3"
+                    [value]="1"
+                    formControlName="pi"/>
+                  <label class="form-check-label" for="gridRadios3">Si</label>
+                </div>
 
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="gridRadios4"
-                  [value]="0"
-                  formControlName="pi"/>
-                <label class="form-check-label" for="gridRadios4">No</label>
+                <div class="form-check col-sm-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="gridRadios4"
+                    [value]="0"
+                    formControlName="pi"/>
+                  <label class="form-check-label" for="gridRadios4">No</label>
+                </div>
+
               </div>
           </div>
 
           <div class="form-group col-md-3">
-            <legend class="col-form-label col-sm-12 pt-0">
-              Cuenta con flujo contextual
-            </legend>
-              <div class="form-check">
+            <legend class="col-form-label col-sm-12 pt-0">Cuenta con flujo contextual</legend>
+            <div class="row" style="margin-left: 0px;">
+            <div class="form-check col-sm-3">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -190,7 +193,7 @@
                 <label class="form-check-label" for="gridRadios3">Si</label>
               </div>
 
-              <div class="form-check">
+              <div class="form-check col-sm-3">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -199,6 +202,7 @@
                   formControlName="fluContx"/>
                 <label class="form-check-label" for="gridRadios4">No</label>
               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -215,7 +219,7 @@
               <textarea
                 class="form-control is-invalid"
                 style="resize: none"
-                rows="3"
+                rows="2"
                 placeholder="Detalle el contexto y la problemática actual..."
                 formControlName="probActual"
                 required
@@ -227,7 +231,7 @@
               <textarea
                 class="form-control is-invalid"
                 style="resize: none"
-                rows="3"
+                rows="2"
                 placeholder="Defina la problemática de la función .."
                 formControlName="funcRobotiz"
                 required
@@ -238,7 +242,7 @@
               <label>Objetivo</label>
               <textarea
                 class="form-control is-invalid"
-                rows="3"
+                rows="2"
                 style="resize: none"
                 placeholder="Defina los objetivos y alcances del RPA"
                 formControlName="defAlcance"
@@ -251,7 +255,7 @@
               <label>Riesgos</label>
               <textarea
                 class="form-control is-invalid"
-                rows="3"
+                rows="2"
                 style="resize: none"
                 placeholder="Describa los riesgos de no realizar el RPA"
                 formControlName="riesgoNoRpa"
@@ -297,7 +301,7 @@
       </div>
 
     </div>
-    <!-- --------------------------------------------BOTONES ------------------------------------------->
+    <!-- --------------------------------------------BOTONES ------------------------------------------------>
     <div class="cli-form-buttons mb-4">
       <button
         class="cli-btn btn-m btn-grey"

@@ -1,135 +1,249 @@
 <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
   <mat-icon>close</mat-icon>
 </button>
-<div class="modal-title">Crear iniciativa </div>
+<div class="modal-title">Crear iniciativa</div>
 
-<div class="cli-form newvac-wrapper">
-  <form class="row g-3" [formGroup]="iniciativaForm">
-    <ng-container>
-      <div class="col-sm-4 cli-form-element">
-        <div class="form-group">
-          <label>Nombre de Iniciativa</label>
-          <input
-            type="text"
-            class="form-control cli-input-white"
-            placeholder="Ej. RPA-PER-CAPL"
-            formControlName="nombre"
-          />
+<form class="row g-3" [formGroup]="iniciativaForm">
+  <div class="cli-form newvac-wrapper">
+    <!-- -------------------------------------------REGISTROS------------------------------------------>
+    <div class="pr-subtitle mt-2">Registros</div>
+    <div class="pr-section">
+      <div class="pr-module-container">
+        <div class="row g-3">
+          <ng-container>
+            <div class="col-sm-3 cli-form-element">
+              <div class="form-group">
+                <label>Nombre de Iniciativa</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  placeholder="Ej. RPA-PER-CAPL"
+                  formControlName="nombre"
+                />
+              </div>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Código de Iniciativa</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                placeholder=""
+                formControlName="codigo"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>PO del proyecto</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="po_proyecto"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>VP</label>
+              <select class="cli-input-white" formControlName="vp">
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="vp.id" *ngFor="let vp of listVP">{{ vp.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Gerencia Solicitante</label>
+              <select
+                class="cli-input-white"
+                formControlName="gerencia_solicitante"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Gerencia Beneficiaria</label>
+              <select
+                class="cli-input-white"
+                formControlName="gerencia_beneficiaria"
+              >
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Controller Aprob. BC</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="contAprBc"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Naturaleza del Beneficio</label>
+              <select class="cli-input-white" formControlName="naturaleza">
+                <option [value]="0" disabled>-Seleccionar-</option>
+                <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
+              </select>
+            </div>
+          </ng-container>
         </div>
       </div>
+    </div>
 
-      <div class="col-sm-4 cli-form-element">
-        <label>Código de Iniciativa</label>
-        <input
-          type="text"
-          class="form-control cli-input-white"
-          placeholder=""
-          formControlName="codigo"
-        />
+    <!-- --------------------------------------------CONTEXTO ----------------------------------------->
+
+    <div class="pr-subtitle mt-2">Contexto</div>
+    <div class="pr-section">
+      <div class="pr-module-container">
+        <div class="row g-3">
+          <div class="col-sm-3 cli-form-element">
+            <label>QTRX mensual</label>
+            <input
+              type="text"
+              min="0"
+              class="form-control cli-input-white"
+              formControlName="qtrxMes"
+            />
+          </div>
+
+          <div class="col-sm-3 cli-form-element">
+            <label>TMO POR TRX</label>
+            <input
+              type="number"
+              min="0"
+              class="form-control cli-input-white"
+              formControlName="tmoTrx"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <legend class="col-form-label col-sm-12 pt-0">Pedido por PI</legend>
+            <div class="row" style="margin-left: 0px">
+              <div class="form-check col-sm-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="pi"
+                />
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check col-sm-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="pi"
+                />
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3">
+            <legend class="col-form-label col-sm-12 pt-0">
+              Cuenta con flujo contextual
+            </legend>
+            <div class="row" style="margin-left: 0px">
+              <div class="form-check col-sm-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="fluContx"
+                />
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check col-sm-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="fluContx"
+                />
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="col-sm-4 cli-form-element">
-        <label>PO del proyecto</label>
-        <input
-          type="text"
-          class="form-control cli-input-white"
-          formControlName="po_proyecto"
-        />
+    <!-- --------------------------------------------DIAGNOSTICO -------------------------------------->
+    <div class="pr-subtitle mt-2">Diagnóstico</div>
+    <div class="pr-section">
+      <div class="pr-module-container">
+        <div class="row was-validated g-3">
+          <div class="row">
+            <div class="col-sm-6 cli-form-element mb-4">
+              <label>Contexto</label>
+              <textarea
+                class="form-control is-invalid"
+                style="resize: none"
+                rows="2"
+                placeholder="Detalle el contexto y la problemática actual..."
+                formControlName="probActual"
+                required
+              ></textarea>
+            </div>
+
+            <div class="col-sm-6 cli-form-element mb-4">
+              <label>Función Robotización</label>
+              <textarea
+                class="form-control is-invalid"
+                style="resize: none"
+                rows="2"
+                placeholder="Defina la problemática de la función .."
+                formControlName="funcRobotiz"
+                required
+              ></textarea>
+            </div>
+
+            <div class="col-md-6 cli-form-element mb-4">
+              <label>Objetivo</label>
+              <textarea
+                class="form-control is-invalid"
+                rows="2"
+                style="resize: none"
+                placeholder="Defina los objetivos y alcances del RPA"
+                formControlName="defAlcance"
+                required
+              >
+              </textarea>
+            </div>
+
+            <div class="col-md-6 cli-form-element mb-4">
+              <label>Riesgos</label>
+              <textarea
+                class="form-control is-invalid"
+                rows="2"
+                style="resize: none"
+                placeholder="Describa los riesgos de no realizar el RPA"
+                formControlName="riesgoNoRpa"
+                required
+              >
+              </textarea>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="col-sm-4 cli-form-element">
-        <label>VP</label>
-        <select
-          class="cli-input-white"
-          formControlName="vp"
-        > <option [value]="0" disabled>-Seleccionar-</option>
-          <option [value]="vp.id" *ngFor="let vp of listVP"> {{ vp.nombre }} </option>
-        </select>
-      </div>
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Gerencia Solicitante</label>
-        <select
-          class="cli-input-white"
-          formControlName="gerencia_solicitante">
-          <option [value]="0" disabled>-Seleccionar-</option>
-          <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
-        </select>
-      </div>
-
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Gerencia Beneficiaria</label>
-        <select
-          class="cli-input-white"
-          formControlName="gerencia_beneficiaria"
-        >
-          <option [value]="0" disabled>-Seleccionar-</option>
-          <option
-            [value]="gerenc.id"
-            *ngFor="let gerenc of listGerencia"
-            >{{ gerenc.nombre }}
-          </option>
-        </select>
-      </div>
-
-      <!-- <div class="col-sm-4 cli-form-element">
-        <label>Estado</label>
-          <select
-            class="cli-input-white"
-            formControlName="estado"
-          > <option [value]="0" disabled>-Seleccionar-</option>
-            <option [value]="s.idEstado" *ngFor="let s of listEstados">{{ s.cNombre }}</option>
-          </select>
-      </div> -->
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Controller Aprob. BC</label>
-        <input
-            type="text"
-            class="form-control cli-input-white"
-            formControlName="contAprBc"
-          />
-      </div>
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Tecnología de Solución</label>
-        <select
-          class="cli-input-white"
-          formControlName="tecnologia"
-          >
-          <option [value]="0" disabled>-Seleccionar-</option>
-          <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
-        </select>
-      </div>
-
-      <div class="col-sm-4 cli-form-element">
-        <label>Naturaleza del Beneficio</label>
-        <select
-          class="cli-input-white"
-          formControlName="naturaleza"
-          >
-          <option [value]="0" disabled>-Seleccionar-</option>
-          <option [value]="nat.id" *ngFor="let nat of naturaleza">
-            {{ nat.nombre }}
-          </option>
-        </select>
-      </div>
-    </ng-container>
-
-    <div class="cli-form-buttons" style="margin-top: 100px;">
-      <button
-        class="cli-btn btn-m btn-grey"
-        type="submit"
-        (click)="close()"
-      ><mat-icon class="icon-18">cancel</mat-icon> Cancelar
+    </div>
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 5%">
+      <button class="cli-btn btn-m btn-grey" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
-      <button
-        class="cli-btn btn-m btn-magenta"
-        (click)="crearIniciativa()"
-        [disabled]="iniciativaForm.invalid"
-      ><mat-icon class="icon-18">save</mat-icon> Registrar
+      <button class="cli-btn btn-m btn-magenta" (click)="crearIniciativa()">
+        <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>
-  </form>
-</div>
+  </div>
+</form>

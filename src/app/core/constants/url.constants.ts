@@ -6,8 +6,8 @@ let MAIN_PATH_AUTH = '';
 
 switch (ENVIROMENT) {
   case 'DEV':
-    MAIN_PATH_AUTH = 'http://b2bsecurityservice.indratools.com/aut/seguridad';
-    // MAIN_PATH_AUTH = 'http://seguridadweb.indratools.com/aut/seguridad';
+    // MAIN_PATH_AUTH = 'http://b2bsecurityservice.indratools.com/aut/seguridad';
+    MAIN_PATH_AUTH = 'http://seguridadweb.indratools.com/aut/seguridad';
     break;
   case 'QA':
     MAIN_PATH_AUTH = '';

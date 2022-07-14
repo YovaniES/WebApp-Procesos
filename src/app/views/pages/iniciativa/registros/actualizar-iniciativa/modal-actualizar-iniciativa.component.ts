@@ -147,8 +147,8 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
       for (let i = 0; i < resp.list.length; i++) {
         this.listResponsable.push({
-          id     :     resp.list[i].id,
-          nombre :     resp.list[i].nombre,
+          id     : resp.list[i].id,
+          nombre : resp.list[i].nombre,
         });
       }
     })

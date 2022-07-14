@@ -1,8 +1,3 @@
-export interface Users {
-  username: string;
-  password: string;
-}
-
 export class Usuario {
   id       : number = 0;
   username : string = '';
