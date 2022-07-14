@@ -8,6 +8,7 @@ import { ModalCrearIniciativaComponent } from './crear-iniciativa/modal-crear-in
 import { ModalActualizarIniciativaComponent } from './actualizar-iniciativa/modal-actualizar-iniciativa.component';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -28,20 +29,11 @@ export class RegistroComponent implements OnInit {
   loadingItem: boolean = false;
   data: any[] = [];
   userID: number = 0;
-
-  filtro = {
-      nombre          : '',
-      codigo          : '',
-      estado          : '',
-      gerencia_benef  : '',
-      naturaleza      : '',
-      fechaCreaInicio : '',
-      fechaCreaFin    : '',
-    };
-
+  filtroForm!: FormGroup;
 
   constructor(
     private iniciativaService: IniciativaService,
+    private fb: FormBuilder,
     private authService: AuthService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
@@ -50,11 +42,24 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.hide();
+    this.newFilfroForm();
 
     this.cargarRegistro();
     this.getListEstados();
     this.getListGerencia();
     this.getListNaturaleza();
+  }
+
+  newFilfroForm(){
+    this.filtroForm = this.fb.group({
+      nombre         : [''],
+      codigo         : [''],
+      estado         : [''],
+      gerencia_benef : [''],
+      naturaleza     : [''],
+      fechaCreaInicio: [''],
+      fechaCreaFin   : [''],
+    })
   }
 
   userId() {
@@ -96,13 +101,13 @@ export class RegistroComponent implements OnInit {
     let parametro: any[] = [{
       "queryId": 96,
       "mapValue": {
-        "param_nombre"      : this.filtro.nombre,
-        "param_codigo"      : this.filtro.codigo,
-        "param_id_ger_ben"  : this.filtro.gerencia_benef,
-        "param_id_estado"   : this.filtro.estado,
-       "param_id_naturaleza": this.filtro.naturaleza,
-        "inicio": this.datepipe.transform(this.filtro.fechaCreaInicio,'yyyy/MM/dd'),
-        "fin"   : this.datepipe.transform(this.filtro.fechaCreaFin,'yyyy/MM/dd'),
+        "param_nombre"      : this.filtroForm.value.nombre,
+        "param_codigo"      : this.filtroForm.value.codigo,
+        "param_id_ger_ben"  : this.filtroForm.value.gerencia_benef,
+        "param_id_estado"   : this.filtroForm.value.estado,
+       "param_id_naturaleza": this.filtroForm.value.naturaleza,
+        "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
+        "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
       }
     }];
    this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
@@ -189,13 +194,13 @@ export class RegistroComponent implements OnInit {
   }
 
   limpiarFiltro(){
-    this.filtro.nombre          = '',
-    this.filtro.codigo          = '',
-    this.filtro.estado          = '',
-    this.filtro.gerencia_benef  = '',
-    this.filtro.naturaleza      = '',
-    this.filtro.fechaCreaInicio = '',
-    this.filtro.fechaCreaFin    = ''
+    this.filtroForm.controls['nombre'].setValue('');
+    this.filtroForm.controls['codigo'].setValue('');
+    this.filtroForm.controls['estado'].setValue('');
+    this.filtroForm.controls['gerencia_benef'].setValue('');
+    this.filtroForm.controls['naturaleza'].setValue('');
+    this.filtroForm.controls['fechaCreaInicio'].setValue('');
+    this.filtroForm.controls['fechaCreaFin'].setValue('');
 
     this.cargarRegistro();
   }

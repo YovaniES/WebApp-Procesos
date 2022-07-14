@@ -6,31 +6,28 @@
       <!-- BUSCADOR POR FILTRO -->
       <div class="card mt-5" style="border-radius: 2px; font-weight: 600">
         <div class="card-body">
-          <form class="row g-3">
+          <form class="row g-3" [formGroup]="filtroForm">
             <div class="col-sm-2 cli-form-element">
-              <label for="inputEmail4" class="form-label">Nombre de Iniciativa</label>
+              <label class="form-label">Nombre de Iniciativa</label>
               <input
                 type="text"
                 class="form-control"
-                [(ngModel)]="filtro.nombre"
-                [ngModelOptions]="{ standalone: true }"
+                formControlName="nombre"
               />
             </div>
             <div class="col-sm-2 cli-form-element">
-              <label for="inputPassword4" class="form-label">Código de Iniciativa</label>
+              <label class="form-label">Código de Iniciativa</label>
               <input
                 type="text"
                 class="form-control"
-                [(ngModel)]="filtro.codigo"
-                [ngModelOptions]="{ standalone: true }"
+                formControlName="codigo"
               />
             </div>
             <div class="col-sm-3 cli-form-element">
-              <label for="" class="form-label">Estado</label>
+              <label class="form-label">Estado</label>
               <select
                 class="form-select"
-                [(ngModel)]="filtro.estado"
-                [ngModelOptions]="{ standalone: true }"
+                formControlName="estado"
               >
                 <option [value]="0" disabled>-Seleccione-</option>
                 <option [value]="estado.idEstado" *ngFor="let estado of listEstados">
@@ -40,11 +37,10 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label for="" class="form-label">Gerencia Beneficiaria</label>
+              <label class="form-label">Gerencia Beneficiaria</label>
               <select
                 class="form-select"
-                [(ngModel)]="filtro.gerencia_benef"
-                [ngModelOptions]="{ standalone: true }"
+                formControlName="gerencia_benef"
               >
                 <option [value]="0" disabled>-Seleccione-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">
@@ -54,11 +50,10 @@
             </div>
 
             <div class="col-sm-2 cli-form-element">
-              <label for="" class="form-label">Naturaleza del Benef.</label>
+              <label class="form-label">Naturaleza del Benef.</label>
                 <select
                   class="form-select"
-                  [(ngModel)]="filtro.naturaleza"
-                  [ngModelOptions]="{ standalone: true }"
+                formControlName="naturaleza"
                 >
                   <option [value]="0" disabled>--Seleccione--</option>
                   <option [value]="nat.id" *ngFor="let nat of naturaleza">
@@ -72,8 +67,7 @@
                   <label>Fecha creación <span class="date-rango">(desde)</span></label>
                   <input type="date"
                   class="form-control"
-                  [(ngModel)]="filtro.fechaCreaInicio"
-                  [ngModelOptions]="{standalone: true}">
+                  formControlName="fechaCreaInicio">
               </div>
             </div>
 
@@ -82,8 +76,7 @@
                   <label>Fecha creación <span class="date-rango">(hasta)</span></label>
                   <input type="date"
                   class="form-control"
-                  [(ngModel)]="filtro.fechaCreaFin"
-                  [ngModelOptions]="{standalone: true}">
+                  formControlName="fechaCreaFin">
               </div>
             </div>
 
