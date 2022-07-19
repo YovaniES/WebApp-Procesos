@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ModalActualizarIniciativaComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-
+ reg: string = 'Regis'
   fechaing:any;
   totalRegistros: number = 0;
   userName: string = '';

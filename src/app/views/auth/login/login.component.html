@@ -5,23 +5,23 @@
 
     <img class="logo" src="../../../assets/images/logos/cardano.svg" />
     <div class="tf-hispam">
-      <span class="c-male">Bienvenido a </span>
-      <br>
-      Web de Procesos
+      <div class="c-male">Bienvenido a </div>
+      <div style="margin-top: 10px">
+        Web de Procesos
+      </div>
     </div>
 
     <form [formGroup]="loginForm"
-          class="loginform my-5">
+          class="loginform my-4">
 
       <!-- email de usuario -->
-      <div style="width: 300px">
-        <label class="col-form-label lab-color">Usuario</label>
+      <div>
+        <label class="col-form-label lab-color">Username</label>
         <div>
           <input
             class="form-control"
             type="email"
             formControlName="username"
-            placeholder="name@example.com"
           />
           <small
             class="form-text text-danger"
@@ -32,13 +32,12 @@
       </div>
 
       <!-- Contraseña -->
-      <div class="form-group" style="width: 300px">
+      <div class="form-group mt-3">
         <label class="col-form-label lab-color">Contraseña</label>
         <div class="">
           <input
             type="password"
             class="form-control"
-            placeholder="Contraseña"
             formControlName="password"
           /><small
             class="form-text text-danger"

@@ -4,8 +4,8 @@
     <div class="modal-title c-male">Mantenimiento iniciativa</div>
     <div>
       <!-- BUSCADOR POR FILTRO -->
-      <div class="card mt-5" style="border-radius: 2px; font-weight: 600">
-        <div class="card-body">
+      <div class="card" style="border-radius: 2px; font-weight: 600">
+        <div class="card-body" style="padding: 10px">
           <form class="row g-3" [formGroup]="filtroForm">
             <div class="col-sm-2 cli-form-element">
               <label class="form-label">Nombre de Iniciativa</label>
@@ -106,18 +106,17 @@
       </div>
 
       <!-- BOTON MODAL PARA CREAR REGISTRO -->
-      <div style="display: flex" class="mt-5">
-        <button class="cli-btn btn-magenta mb-2"
+      <div style="display: flex" class="mt-4 mb-1">
+        <button class="cli-btn btn-magenta"
+                style="margin: 0"
                 type="button"
                 (click)="crearIniciativa()"
         ><mat-icon class="icon-18">add</mat-icon>Crear Iniciativa
         </button>
         <div class="flex-1"></div>
-        <h3 class="card-subtitlte" style="color: #3b4ef6">
-          Total : <span style="color: #adb0b2; font-size: 20px; font-weight: 500">
-            {{ registros.length}} registros</span
-          >
-        </h3>
+        <div class="mt-2" style="color: #2439f7">
+          Total : <span class="total">{{ registros.length}} registros</span>
+        </div>
       </div>
 
       <!-- TABLA DE REGISTROS -->
@@ -159,10 +158,10 @@
                 </div>
               </td>
               <td>{{ registro.idIniciativa }}</td>
-              <td style="width: 135px; height: 68px;">{{ registro.nombre | uppercase }}</td>
-              <td style="width: 135px; height: 68px;">{{ registro.codigo | uppercase }}</td>
+              <td class="w135">{{ registro.nombre | uppercase }}</td>
+              <td class="w135">{{ registro.codigo | uppercase }}</td>
               <td>{{ registro.estado }}</td>
-              <td>{{ registro.po_proyecto }}</td>
+              <td class="w135">{{ registro.po_proyecto }}</td>
               <td>{{ registro.responsable }}</td>
               <td>{{ registro.gerencia_beneficiaria }}</td>
               <td>{{ registro.naturaleza }}</td>

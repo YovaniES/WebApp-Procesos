@@ -206,7 +206,7 @@ export class RegistroComponent implements OnInit {
   }
 
   crearIniciativa(){
-    const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'60%'});
+    const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'65%', height:'85%'});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -217,7 +217,7 @@ export class RegistroComponent implements OnInit {
 
   editarIniciativa(idIniciativa: any) {
     this.dialog
-      .open(ModalActualizarIniciativaComponent, { width: '60%', height: '90%', data: idIniciativa, })
+      .open(ModalActualizarIniciativaComponent, { width: '65%', height: '90%', data: idIniciativa, })
       .afterClosed()
       .subscribe((resp) => {
         if (resp) {

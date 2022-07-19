@@ -1,7 +1,13 @@
-<button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
-  <mat-icon>close</mat-icon>
-</button>
-<div class="modal-title">Crear iniciativa</div>
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title"> Crear iniciativa </div>
+    <div class="flex-1"></div>
+
+    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
 
 <form class="row g-3" [formGroup]="iniciativaForm">
   <div class="cli-form newvac-wrapper">
@@ -118,10 +124,10 @@
             />
           </div>
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-sm-3">
             <legend class="col-form-label col-sm-12 pt-0">Pedido por PI</legend>
             <div class="row" style="margin-left: 0px">
-              <div class="form-check col-sm-3">
+              <div class="form-check col-sm-6">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -132,7 +138,7 @@
                 <label class="form-check-label" for="gridRadios3">Si</label>
               </div>
 
-              <div class="form-check col-sm-3">
+              <div class="form-check col-sm-6">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -145,12 +151,12 @@
             </div>
           </div>
 
-          <div class="form-group col-md-3">
+          <div class="form-group col-sm-3">
             <legend class="col-form-label col-sm-12 pt-0">
               Cuenta con flujo contextual
             </legend>
             <div class="row" style="margin-left: 0px">
-              <div class="form-check col-sm-3">
+              <div class="form-check col-sm-6">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -161,7 +167,7 @@
                 <label class="form-check-label" for="gridRadios3">Si</label>
               </div>
 
-              <div class="form-check col-sm-3">
+              <div class="form-check col-sm-6">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -182,8 +188,8 @@
     <div class="pr-section">
       <div class="pr-module-container">
         <div class="row was-validated g-3">
-          <div class="row">
-            <div class="col-sm-6 cli-form-element mb-4">
+          <div class="row mt-2">
+            <div class="col-sm-6 cli-form-element mb-2">
               <label>Contexto</label>
               <textarea
                 class="form-control is-invalid"
@@ -195,7 +201,7 @@
               ></textarea>
             </div>
 
-            <div class="col-sm-6 cli-form-element mb-4">
+            <div class="col-sm-6 cli-form-element mb-2">
               <label>Función Robotización</label>
               <textarea
                 class="form-control is-invalid"
@@ -207,7 +213,7 @@
               ></textarea>
             </div>
 
-            <div class="col-md-6 cli-form-element mb-4">
+            <div class="col-sm-6 cli-form-element mb-2">
               <label>Objetivo</label>
               <textarea
                 class="form-control is-invalid"
@@ -220,7 +226,7 @@
               </textarea>
             </div>
 
-            <div class="col-md-6 cli-form-element mb-4">
+            <div class="col-sm-6 cli-form-element mb-2">
               <label>Riesgos</label>
               <textarea
                 class="form-control is-invalid"
@@ -237,7 +243,7 @@
       </div>
     </div>
     <!-- --------------------------------------------BOTONES ------------------------------------------>
-    <div class="cli-form-buttons" style="margin-top: 5%">
+    <div class="cli-form-buttons" style="margin-top: 3%">
       <button class="cli-btn btn-m btn-grey" type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>

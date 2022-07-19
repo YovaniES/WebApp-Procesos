@@ -36,7 +36,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
 
   newForm() {
     this.iniciativaForm = this.fb.group({
-      nombre                : ['', Validators.required],
+      nombre                : ['RPA-', Validators.required],
       codigo                : ['', Validators.required],
       po_proyecto           : ['', Validators.required],
       vp                    : ['', Validators.required],
