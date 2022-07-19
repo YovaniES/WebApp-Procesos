@@ -82,7 +82,7 @@
     background-color: $color-grey-2;
   }
 }
-.btn-green {
+.btn-lemon-green {
   background-color: $color-green;
   color: #fff;
   transition: ease 0.3s;
@@ -93,6 +93,19 @@
     background-color: $color-green-d;
   }
 }
+
+.btn-green {
+  background-color: #20c997;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #4efaaa85;
+  }
+  &:hover:enabled:active {
+    background-color: #198754;
+  }
+}
+
 .btn-blue-light {
   background-color: #019df4bd;
   color: #fff;

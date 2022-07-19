@@ -15,8 +15,6 @@ export class HeaderComponent implements OnInit {
   fixedAside: boolean = true;
   phtouri = "NONE";
 
-  name: string = ''
-
   loginForm: FormGroup = this.fb.group({
     idaplicacion: ['1'],
     username    : ['', [Validators.required]],

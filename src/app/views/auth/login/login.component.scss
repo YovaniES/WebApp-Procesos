@@ -1,5 +1,5 @@
 .view-backgrond {
-  background-image: url('../../../../assets/images/background/log7.jpg');
+  background-image: url("../../../../assets/images/background/log7.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 1.7;
@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
 
-  margin-top: 25%;
+  margin-top: 20%;
 }
 
 .loginform {
@@ -35,7 +35,7 @@
   padding: 10px;
 }
 
-.tf-hispam {
+.title-login {
   font-size: 1.6rem;
   color: #50535a;
   letter-spacing: 1px;
@@ -49,7 +49,7 @@
 }
 
 .c-male {
-  color: #019DF4;
+  color: #019df4;
 }
 
 .cli-btn {
@@ -77,18 +77,6 @@
   padding: 0 30px;
 }
 
-.btn-emerald {
-  background-color: #019DF4;
-  color: #fff;
-  transition: ease 0.3s;
-  &:hover:enabled {
-    background-color: #019df42e;
-  }
-  &:hover:enabled:active {
-    background-color: #019df42e;
-  }
-}
-
 .icon-cent {
   display: flex;
   justify-content: center;
@@ -100,12 +88,25 @@
 }
 
 .lab-color {
+  font-size: 14px;
   color: #828282;
+}
+
+.btn-login {
+  background-color: #019df4;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #019df42e;
+  }
+  &:hover:enabled:active {
+    background-color: #019df42e;
+  }
 }
 
 @media (max-width: 850px) {
   .view-backgrond {
-    margin: 2em autos;
+    margin: 2em auto;
     border-radius: 0%;
     height: 0%;
   }
@@ -122,11 +123,7 @@
   }
 
   .lab-color {
-    color: #828282;
-  }
-  .tf-hispam {
-    font-size: 1.5rem;
-
+    font-size: 1rem;
   }
 
   .login-form {

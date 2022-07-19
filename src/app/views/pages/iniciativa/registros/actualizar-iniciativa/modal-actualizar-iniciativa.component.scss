@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@import "variables.scss";
 
 .modal-title {
   font-size: 1.7rem;
@@ -18,27 +18,27 @@
 }
 
 // ESTILOS MODAL LINEA IZQ
-.pr-section{
+.pr-section {
   margin-left: 10px;
   padding-left: 20px;
   padding-top: 4px;
   border-left: 1px solid $color-primary-l3;
 }
 
-.pr-subtitle{
+.pr-subtitle {
   font-size: 0.8rem;
-  font-family: 'Webapp-Bold';
+  font-family: "Webapp-Bold";
   color: $color-primary-l3;
 }
 
-.pr-module{
-  &-container{
-      margin: 2px 0;
-      padding: 15px;
-      border: dashed 1px #D3D4D3;
-      border-radius: 2px;
+.pr-module {
+  &-container {
+    margin: 2px 0;
+    padding: 15px;
+    border: dashed 1px #d3d4d3;
+    border-radius: 2px;
 
-      // width: 100%;
+    // width: 100%;
   }
 }
 
@@ -50,7 +50,7 @@
 }
 
 // BARRA LATERAL--------------------------------
-.bigcotainer-chart{
+.bigcotainer-chart {
   width: 100%;
   display: flex;
   padding: 5px;
@@ -58,35 +58,34 @@
   border: solid 0.5px $color-primary-l3;
   position: relative;
 }
-.chart-draw{
+.chart-draw {
   flex: 1 1;
   // overflow: auto;
 }
 
-.chart-canvas{
+.chart-canvas {
   display: flex;
   margin-bottom: 8px;
 }
 
-.chartlayer-legend{
+.chartlayer-legend {
   width: 24px;
   padding: 2px;
   display: flex;
 
   font-size: 11px;
-  &-box{
-      // min-height: 155px;
-      padding: 10px 0;
-      text-align: end;
-      width: 100%;
-      // height: 100%;
-      background-color: $color-primary-l3;
-      color: #fff;
+  &-box {
+    // min-height: 155px;
+    padding: 10px 0;
+    text-align: end;
+    width: 100%;
+    background-color: $color-primary-l3;
+    color: #fff;
 
-      text-transform: uppercase;
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
-      letter-spacing: 1px;
+    text-transform: uppercase;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    letter-spacing: 1px;
   }
 }
 

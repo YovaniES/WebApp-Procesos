@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@import "variables.scss";
 
 .modal-title {
   font-size: 1.9rem;
@@ -24,7 +24,6 @@
   font-weight: 400;
 }
 
-
 .total {
   color: #97999b;
   font-size: 18px;
@@ -37,7 +36,4 @@
 }
 
 @media (max-width: 850px) {
-  // .newvac-wrapper {
-  //   width: 100%;
-  // }
 }

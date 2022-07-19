@@ -49,6 +49,8 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getListaTecnologia();
     this.getHistoricoCambios(this.data);
     this.getUsuario();
+
+    this.getName()
    }
 
    iniciativaForm(){
@@ -173,8 +175,23 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         });
   }
 
+  fullName: string = ''
+  getName(){
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+      console.log('respons', this.fullName);
+
+    });
+  }
+
   actualizarIniciativa(){
     this.spinner.show();
+
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+      console.log('abc', this.fullName);
+
+    });
 
     let currentUser = this.authService.getUsername();
 
@@ -185,7 +202,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     let gerenciaSol = this.iniciativaEditForm.value.gerenciaSol
     let estado      = this.iniciativaEditForm.value.estado
     let poProyecto  = this.iniciativaEditForm.value.poProyecto
-    let responsable = this.iniciativaEditForm.value.responsable
+    // let responsable = this.iniciativaEditForm.value.responsable
     let gerenciaBen = this.iniciativaEditForm.value.gerenciaBen
     let planner     = this.iniciativaEditForm.value.planner
     let contGerBen  = this.iniciativaEditForm.value.contGerBen
@@ -216,7 +233,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "param_id_gerencia_sol": gerenciaSol  ,
         "param_id_estado"      : estado  ,
         "param_po_proyecto"    : poProyecto  ,
-        "param_responsable"    : this.userName ,
+        "param_responsable"    : this.fullName ,
         "param_id_gerencia_ben": gerenciaBen  ,
         "param_planner"        : planner  ,
         "param_cont_ger_ben"   : contGerBen  ,
@@ -243,9 +260,8 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     }];
 
     this.iniciativaService.actualizarRegistro(parametro[0]).subscribe( resp => {
-
       this.spinner.hide();
-      // console.log('DATA_ACTUALIZADO', resp);
+      console.log('DATA_ACTUALIZADO', resp);
 
       this.cargarRegistroId();
       this.close(true)

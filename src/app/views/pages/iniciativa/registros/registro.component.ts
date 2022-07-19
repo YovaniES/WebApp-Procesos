@@ -9,6 +9,7 @@ import { ModalActualizarIniciativaComponent } from './actualizar-iniciativa/moda
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class RegistroComponent implements OnInit {
     private iniciativaService: IniciativaService,
     private fb: FormBuilder,
     private authService: AuthService,
+    private exportExcellService: ExportExcellService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
     private dialog: MatDialog
@@ -94,34 +96,6 @@ export class RegistroComponent implements OnInit {
           });
   }
 
-  totalFiltroEncontrado: number = 0;
-  buscarRegistro(){
-    this.totalRegistros = 0;
-    this.blockUI.start("Buscando iniciativas...");
-    let parametro: any[] = [{
-      "queryId": 96,
-      "mapValue": {
-        "param_nombre"      : this.filtroForm.value.nombre,
-        "param_codigo"      : this.filtroForm.value.codigo,
-        "param_id_ger_ben"  : this.filtroForm.value.gerencia_benef,
-        "param_id_estado"   : this.filtroForm.value.estado,
-       "param_id_naturaleza": this.filtroForm.value.naturaleza,
-        "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
-        "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
-      }
-    }];
-   this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
-    this.blockUI.stop();
-
-     this.totalFiltroEncontrado = resp.length;
-    //  console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
-
-      this.registros = [];
-      this.registros = resp;
-      this.spinner.hide();
-    });
-  }
-
   registros:any[] = [];
   cargarRegistro(){
    this.registros = [];
@@ -132,10 +106,50 @@ export class RegistroComponent implements OnInit {
     ];
     this.iniciativaService.cargarRegistro(arrayParametro[0]).subscribe((resp: any) => {
           this.blockUI.stop();
+
           this.registros = resp;
           this.totalRegistros = resp.length;
         })
   };
+
+  totalFiltroEncontrado: number = 0;
+  registroFiltrado: any[] = [];
+  buscarRegistro(){
+    this.totalRegistros = 0;
+    this.blockUI.start("Buscando iniciativas...");
+    let parametro: any[] = [{
+      "queryId": 96,
+      "mapValue": {
+        "param_nombre"       : this.filtroForm.value.nombre,
+        "param_codigo"       : this.filtroForm.value.codigo,
+        "param_id_ger_ben"   : this.filtroForm.value.gerencia_benef,
+        "param_id_estado"    : this.filtroForm.value.estado,
+        "param_id_naturaleza": this.filtroForm.value.naturaleza,
+        "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
+        "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
+      }
+    }];
+   this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
+    this.blockUI.stop();
+
+     this.totalFiltroEncontrado = resp.length;
+     console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
+
+      this.registros = [];
+      this.registros = resp;
+      this.registroFiltrado = resp;
+
+      this.spinner.hide();
+    });
+  }
+
+  exportarRegistro(){
+    this.exportExcellService.exportarExcel(this.registros, 'Iniciativa')
+  }
+
+  exportarRegistFiltrado(){
+    this.exportExcellService.exportarExcel(this.registroFiltrado, 'Iniciativa')
+  }
 
   totalfiltro = 0;
   cambiarPagina(event: number) {
@@ -204,6 +218,7 @@ export class RegistroComponent implements OnInit {
 
     this.cargarRegistro();
   }
+
 
   crearIniciativa(){
     const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'65%', height:'85%'});

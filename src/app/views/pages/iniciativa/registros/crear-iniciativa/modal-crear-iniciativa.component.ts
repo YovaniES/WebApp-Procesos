@@ -43,7 +43,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
       gerencia_solicitante  : ['', Validators.required],
       gerencia_beneficiaria : ['', Validators.required],
       contAprBc             : ['', Validators.required],
-      // tecnologia            : ['', Validators.required],
       naturaleza            : ['', Validators.required],
       qtrxMes               : [''],
       tmoTrx                : [''],
@@ -162,7 +161,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
         },
       },
     ];
-
     this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp) => {
       Swal.fire({
         title: 'Crear Iniciativa!',
