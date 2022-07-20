@@ -26,7 +26,6 @@ export class RegistroComponent implements OnInit {
   pageSize = 10;
   pageSizes = [3, 6, 9];
 
-  totalRegistros: number = 0;
   loadingItem: boolean = false;
   data: any[] = [];
   userID: number = 0;
@@ -99,7 +98,6 @@ export class RegistroComponent implements OnInit {
   registros:any[] = [];
   cargarRegistro(){
    this.registros = [];
-   this.totalRegistros = 0;
    this.blockUI.start("Cargando iniciativas...");
     let arrayParametro: any[] = [
       { queryId:92 }
@@ -108,14 +106,11 @@ export class RegistroComponent implements OnInit {
           this.blockUI.stop();
 
           this.registros = resp;
-          this.totalRegistros = resp.length;
         })
   };
 
-  totalFiltroEncontrado: number = 0;
   registroFiltrado: any[] = [];
   buscarRegistro(){
-    this.totalRegistros = 0;
     this.blockUI.start("Buscando iniciativas...");
     let parametro: any[] = [{
       "queryId": 96,
@@ -132,9 +127,7 @@ export class RegistroComponent implements OnInit {
    this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
     this.blockUI.stop();
 
-     this.totalFiltroEncontrado = resp.length;
-     console.log('RESUL_BUSQ', resp, this.totalFiltroEncontrado);
-
+     console.log('RESUL_BUSQ', resp, resp.length);
       this.registros = [];
       this.registros = resp;
       this.registroFiltrado = resp;
@@ -148,7 +141,7 @@ export class RegistroComponent implements OnInit {
   }
 
   exportarRegistFiltrado(){
-    this.exportExcellService.exportarExcel(this.registroFiltrado, 'Iniciativa')
+    this.exportExcellService.exportarExcel(this.registroFiltrado, 'Iniciativa_filtrado')
   }
 
   totalfiltro = 0;
@@ -233,8 +226,7 @@ export class RegistroComponent implements OnInit {
   editarIniciativa(idIniciativa: any) {
     this.dialog
       .open(ModalActualizarIniciativaComponent, { width: '65%', height: '90%', data: idIniciativa, })
-      .afterClosed()
-      .subscribe((resp) => {
+      .afterClosed().subscribe((resp) => {
         if (resp) {
           this.cargarRegistro();
         }

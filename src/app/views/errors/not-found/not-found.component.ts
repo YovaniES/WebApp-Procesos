@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
@@ -9,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 export class NotFoundComponent implements OnInit {
   year = new Date().getFullYear();
 
-  constructor() { }
+  constructor( private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  regresarHome(){
+    this.router.navigateByUrl('/home')
   }
 
 }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { ErrorsRoutingModule } from './errors-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
   ],
   imports: [
     CommonModule,
-    ErrorsRoutingModule
+    ErrorsRoutingModule,
+    MaterialModule,
+    LayoutModule
   ]
 })
 export class ErrorsModule { }

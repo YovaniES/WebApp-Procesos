@@ -71,6 +71,18 @@
     background-color: $color-grey-3;
   }
 }
+
+.btn-turquoise {
+  background-color: #0dcaf0;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #81eaff;
+  }
+  &:hover:enabled:active {
+    background-color: #0091af;
+  }
+}
+
 .btn-white {
   background-color: #fff;
   border: solid 1px $color-grey-3;
