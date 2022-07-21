@@ -4,8 +4,8 @@
   bottom: 0;
   left: 0;
   z-index: 50;
-  background-color: #f2f4ff;
-  color: #132a34;
+  background-color: #24344b;
+  color: #fff;
   display: flex;
   flex-direction: column;
   box-shadow: 0 1px 1px 0 #0000004d, 0 2px 5px 0 #00000036;
@@ -35,7 +35,6 @@
 }
 .cli-aside-fixed {
   width: 235px;
-  // width: 265px;
 }
 .cli-aside-hover {
   width: 70px;
@@ -73,27 +72,28 @@
   text-decoration: none;
   position: relative;
   transition: 0.3s ease;
-  background-color: #f2f4ff;
-  color: $color-blue;
+  background-color: #24344b;
+  color: #fff;
 }
 .menu-link:hover {
   text-decoration: none;
-  background-color: #ff40812e;
-  color: #fff;
+  background-color: #f8f9fa;
+  color: rgb(63, 63, 63);
 }
 .active-link {
-  // color: $color-blue !important;
-  color: $color-blue !important;
+  color: #011821 !important;
   background-color: #f2f4ff;
-  border-right: 4px #ff4081 solid;
+  border-right: 4px #03fff2 solid;
 }
+
 .active-sublink {
-  background-color: #ff40963d;
-  border-right: 4px #ff4081 solid;
-  color: #fff !important;
+  background-color: #c2c3c92e;
+  border-right: 4px #03fff2 solid;
+  color: #03fff2 !important;
 }
+
 .menu-link-open {
-  background-color: #ff4081;
+  background-color: #43b6f7;
   color: #fff;
 }
 .menu-icon {
@@ -125,7 +125,7 @@
 .sub-menu {
   max-height: 0px;
   overflow: hidden;
-  background: #eef7fa;
+  background: #3c3949;
   flex-grow: 1;
   flex-direction: column;
   transition: 0.3s ease;
@@ -143,7 +143,7 @@
 
 .submenu-link {
   padding: 4px 25px 4px 40px;
-  color: #132a34;
+  color: #fff;
   cursor: pointer;
   min-height: 44px;
   display: flex;
@@ -155,9 +155,9 @@
   transition: 0.3s ease;
 }
 .submenu-link:hover {
-  color: #132a34;
+  color: #303030;
   text-decoration: none;
-  background-color: #dcdee1;
+  background-color: #f8f9fa;
 }
 
 .submenu-icon {

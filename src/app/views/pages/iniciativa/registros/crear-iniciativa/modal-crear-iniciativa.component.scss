@@ -1,9 +1,8 @@
-@import 'variables.scss';
+@import "variables.scss";
 
 .modal-title {
   font-size: 1.7rem;
   font-weight: 400;
-  color: $color-primary-l3;
   margin: 4px 0;
   text-align: center;
 }
@@ -24,7 +23,7 @@
   margin-left: 10px;
   padding-left: 20px;
   padding-top: 4px;
-  border-left: 1px solid $color-primary-l3;
+  border-left: 1px solid $color-blue;
 }
 
 .pr-module {
@@ -38,14 +37,13 @@
 .pr-subtitle {
   font-size: 0.8rem;
   font-family: "Webapp-bold";
-  color: $color-primary-l3;
+  color: $color-blue;
 }
 
 @media (max-width: 768px) {
   .modal-title {
     font-size: 1.2rem;
     font-weight: 400;
-    color: #00bec0;
     margin: 5px 0;
     text-align: center;
     // margin-left: 20%;

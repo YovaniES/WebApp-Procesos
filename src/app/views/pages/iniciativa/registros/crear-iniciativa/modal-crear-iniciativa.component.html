@@ -1,6 +1,6 @@
 <div style="display: flex">
   <div class="flex-1"></div>
-  <div class="modal-title"> Crear iniciativa </div>
+  <div class="modal-title c-male"> Crear iniciativa </div>
     <div class="flex-1"></div>
 
     <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
@@ -192,36 +192,33 @@
             <div class="col-sm-6 cli-form-element mb-2">
               <label>Contexto</label>
               <textarea
-                class="form-control is-invalid"
-                style="resize: none"
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
                 placeholder="Detalle el contexto y la problemática actual..."
                 formControlName="probActual"
-                required
               ></textarea>
             </div>
 
             <div class="col-sm-6 cli-form-element mb-2">
               <label>Función Robotización</label>
               <textarea
-                class="form-control is-invalid"
-                style="resize: none"
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
                 placeholder="Defina la problemática de la función .."
                 formControlName="funcRobotiz"
-                required
               ></textarea>
             </div>
 
             <div class="col-sm-6 cli-form-element mb-2">
               <label>Objetivo</label>
               <textarea
-                class="form-control is-invalid"
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
-                style="resize: none"
                 placeholder="Defina los objetivos y alcances del RPA"
                 formControlName="defAlcance"
-                required
               >
               </textarea>
             </div>
@@ -229,12 +226,11 @@
             <div class="col-sm-6 cli-form-element mb-2">
               <label>Riesgos</label>
               <textarea
-                class="form-control is-invalid"
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
-                style="resize: none"
                 placeholder="Describa los riesgos de no realizar el RPA"
                 formControlName="riesgoNoRpa"
-                required
               >
               </textarea>
             </div>
@@ -247,7 +243,10 @@
       <button class="cli-btn btn-m btn-grey" type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
-      <button class="cli-btn btn-m btn-magenta" (click)="crearIniciativa()">
+      <button class="cli-btn btn-m btn-blue"
+              (click)="crearIniciativa()"
+              [disabled]="iniciativaForm.invalid"
+              >
         <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>

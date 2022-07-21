@@ -44,14 +44,14 @@ export class ModalCrearIniciativaComponent implements OnInit {
       gerencia_beneficiaria : ['', Validators.required],
       contAprBc             : ['', Validators.required],
       naturaleza            : ['', Validators.required],
-      qtrxMes               : [''],
-      tmoTrx                : [''],
-      pi                    : [''],
-      fluContx              : [''],
-      probActual            : [''],
-      funcRobotiz           : [''],
-      defAlcance            : [''],
-      riesgoNoRpa           : [''],
+      qtrxMes               : ['', Validators.required],
+      tmoTrx                : ['', Validators.required],
+      pi                    : ['', Validators.required],
+      fluContx              : ['', Validators.required],
+      probActual            : ['', Validators.required],
+      funcRobotiz           : ['', Validators.required],
+      defAlcance            : ['', Validators.required],
+      riesgoNoRpa           : ['', Validators.required],
     });
   }
 

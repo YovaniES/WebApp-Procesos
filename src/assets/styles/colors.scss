@@ -32,9 +32,9 @@
 }
 
 .c-blue {
-  color: #6abcff;
+  color: #007bff;
   background-color: rgb(240, 239, 239);
-  border: solid 0.5px #60b7ff;
+  border: solid 0.5px #007bff;
 }
 
 .c-yellow {
@@ -58,6 +58,9 @@
 }
 .bgc-blue {
   background-color: $color-blue;
+}
+.bgc-turquey {
+  background-color: #03bccf;
 }
 .bgc-green {
   background-color: $color-green;
