@@ -62,12 +62,18 @@ export class ModalCrearIniciativaComponent implements OnInit {
     });
   }
 
+  estadoInicial: string = '';
   listEstados: any[] = [];
   getListEstados() {
     let parametro: any[] = [{ queryId: 89 }];
 
     this.iniciativaService.getListEstados(parametro[0]).subscribe((resp) => {
       this.listEstados = resp;
+      console.log('ESTADOS', resp);
+
+      this.estadoInicial = resp.find((estados: any) => estados.cNombre === 'Registrado');
+      console.log('idE', this.estadoInicial);
+
     });
   }
 
@@ -141,7 +147,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
           p_id_vp           : vp,
           p_cont_apr_bc     : contAprBc,
           p_id_tecnologia   : tecnologia,
-          p_id_estado       : '',
+          p_id_estado       : 1,  //id=1 => estado REGISTRADO
           p_id_naturaleza   : naturaleza,
           p_prob_actual     : probActual,
           p_func_robotiz    : funcRobotiz,
@@ -172,6 +178,19 @@ export class ModalCrearIniciativaComponent implements OnInit {
     });
     this.spinner.hide();
   }
+
+
+  campoNoValido(campo: string): boolean {
+    if (
+      this.iniciativaForm.get(campo)?.invalid &&
+      this.iniciativaForm.get(campo)?.touched
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   close(succes?: boolean) {
     this.dialogRef.close(succes);

@@ -24,8 +24,8 @@
                   type="text"
                   class="form-control cli-input-white"
                   placeholder="Ej. RPA-PER-CAPL"
-                  formControlName="nombre"
-                />
+                  formControlName="nombre"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('nombre')">* Este campo es obligatorio</small>
               </div>
             </div>
 
@@ -35,8 +35,8 @@
                 type="text"
                 class="form-control cli-input-white"
                 placeholder=""
-                formControlName="codigo"
-              />
+                formControlName="codigo"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('codigo')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -44,8 +44,8 @@
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="po_proyecto"
-              />
+                formControlName="po_proyecto"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('po_proyecto')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -54,36 +54,35 @@
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="vp.id" *ngFor="let vp of listVP">{{ vp.nombre }}</option>
               </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('vp')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label>Gerencia Solicitante</label>
-              <select
-                class="cli-input-white"
-                formControlName="gerencia_solicitante"
-              >
+              <select class="cli-input-white"
+                      formControlName="gerencia_solicitante">
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
               </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('gerencia_solicitante')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label>Gerencia Beneficiaria</label>
-              <select
-                class="cli-input-white"
-                formControlName="gerencia_beneficiaria"
-              >
+              <select class="cli-input-white"
+                      formControlName="gerencia_beneficiaria">
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
               </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('gerencia_beneficiaria')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label>Controller Aprob. BC</label>
               <input
                 type="text"
-                class="form-control cli-input-white"
-                formControlName="contAprBc"/>
+                class="form-control cli-input-white"  formControlName="contAprBc"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('contAprBc')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -92,6 +91,7 @@
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
               </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('naturaleza')">* Este campo es obligatorio</small>
             </div>
           </ng-container>
         </div>
@@ -99,7 +99,6 @@
     </div>
 
     <!-- --------------------------------------------CONTEXTO ----------------------------------------->
-
     <div class="pr-subtitle mt-2">Contexto</div>
     <div class="pr-section">
       <div class="pr-module-container">
@@ -110,8 +109,8 @@
               type="text"
               min="0"
               class="form-control cli-input-white"
-              formControlName="qtrxMes"
-            />
+              formControlName="qtrxMes"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('qtrxMes')">* Este campo es obligatorio</small>
           </div>
 
           <div class="col-sm-3 cli-form-element">
@@ -120,8 +119,8 @@
               type="number"
               min="0"
               class="form-control cli-input-white"
-              formControlName="tmoTrx"
-            />
+              formControlName="tmoTrx"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('tmoTrx')">* Este campo es obligatorio</small>
           </div>
 
           <div class="form-group col-sm-3">
@@ -133,8 +132,7 @@
                   type="radio"
                   id="gridRadios3"
                   [value]="1"
-                  formControlName="pi"
-                />
+                  formControlName="pi"/>
                 <label class="form-check-label" for="gridRadios3">Si</label>
               </div>
 
@@ -144,10 +142,10 @@
                   type="radio"
                   id="gridRadios4"
                   [value]="0"
-                  formControlName="pi"
-                />
+                  formControlName="pi"/>
                 <label class="form-check-label" for="gridRadios4">No</label>
               </div>
+              <small class="form-text text-alert" *ngIf="campoNoValido('pi')">* Este campo es obligatorio</small>
             </div>
           </div>
 
@@ -162,8 +160,7 @@
                   type="radio"
                   id="gridRadios3"
                   [value]="1"
-                  formControlName="fluContx"
-                />
+                  formControlName="fluContx"  />
                 <label class="form-check-label" for="gridRadios3">Si</label>
               </div>
 
@@ -173,8 +170,7 @@
                   type="radio"
                   id="gridRadios4"
                   [value]="0"
-                  formControlName="fluContx"
-                />
+                  formControlName="fluContx"  />
                 <label class="form-check-label" for="gridRadios4">No</label>
               </div>
             </div>
@@ -196,8 +192,9 @@
                 style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
                 placeholder="Detalle el contexto y la problemática actual..."
-                formControlName="probActual"
-              ></textarea>
+                formControlName="probActual">
+              </textarea>
+              <small class="form-text text-alert" *ngIf="campoNoValido('probActual')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-6 cli-form-element mb-2">
@@ -209,6 +206,7 @@
                 placeholder="Defina la problemática de la función .."
                 formControlName="funcRobotiz"
               ></textarea>
+              <small class="form-text text-alert" *ngIf="campoNoValido('funcRobotiz')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-6 cli-form-element mb-2">
@@ -219,8 +217,8 @@
                 rows="2"
                 placeholder="Defina los objetivos y alcances del RPA"
                 formControlName="defAlcance"
-              >
-              </textarea>
+              ></textarea>
+              <small class="form-text text-alert" *ngIf="campoNoValido('defAlcance')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-6 cli-form-element mb-2">
@@ -231,8 +229,8 @@
                 rows="2"
                 placeholder="Describa los riesgos de no realizar el RPA"
                 formControlName="riesgoNoRpa"
-              >
-              </textarea>
+              ></textarea>
+              <small class="form-text text-alert" *ngIf="campoNoValido('riesgoNoRpa')">* Este campo es obligatorio</small>
             </div>
           </div>
         </div>
@@ -245,8 +243,8 @@
       </button>
       <button class="cli-btn btn-m btn-blue"
               (click)="crearIniciativa()"
-              [disabled]="iniciativaForm.invalid"
               >
+              <!-- [disabled]="iniciativaForm.invalid" -->
         <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>

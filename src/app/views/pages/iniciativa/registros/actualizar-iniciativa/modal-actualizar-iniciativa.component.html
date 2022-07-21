@@ -376,7 +376,7 @@
                     class="cli-input-white"
                     formControlName="responsable"
                   > <option [value]="0" disabled>-Seleccionar-</option>
-                    <option [value]="1">{{fullName}}</option>
+                    <option [value]="r.userName" *ngFor="let r of responsables">{{r.userName}}</option>
                   </select>
               </div>
 

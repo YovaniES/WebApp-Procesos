@@ -12,11 +12,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-modal-iniciativa',
   templateUrl: './modal-actualizar-iniciativa.component.html',
   styleUrls: ['./modal-actualizar-iniciativa.component.scss'],
-
 })
 export class ModalActualizarIniciativaComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
- reg: string = 'Regis'
   fechaing:any;
   totalRegistros: number = 0;
   userName: string = '';
@@ -29,31 +27,14 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       dFecha   : new Date,
     }
 
-  constructor(
-    private iniciativaService: IniciativaService,
-    private authService: AuthService,
-    private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
-    public datePipe: DatePipe,
-    public dialogRef: MatDialogRef<ModalActualizarIniciativaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  role: FormGroup = this.fb.group(
+    { idaplicacion: ['1'],
+      username    : ['106'],
+      password    : ['']
+    }
+  )
 
-  ngOnInit() {
-    this.iniciativaForm();
-    this.cargarRegistroId();
-    this.getListResponsable();
-    this.getListGerencia();
-    this.getListaVP();
-    this.getListNaturaleza();
-    this.getListaTecnologia();
-    this.getHistoricoCambios(this.data);
-    this.getUsuario();
-
-    this.getName()
-   }
-
-   iniciativaForm(){
+  iniciativaForm(){
     this.iniciativaEditForm = this.fb.group({
       idIniciativa : [''],
       nombre       : [''],
@@ -85,6 +66,29 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     });
    }
 
+  constructor(
+    private iniciativaService: IniciativaService,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    public datePipe: DatePipe,
+    public dialogRef: MatDialogRef<ModalActualizarIniciativaComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
+
+  ngOnInit() {
+    this.iniciativaForm();
+    this.cargarRegistroId();
+    this.getListGerencia();
+    this.getListaVP();
+    this.getListNaturaleza();
+    this.getListaTecnologia();
+    this.getHistoricoCambios(this.data);
+    this.getUsuario();
+    this.getName()
+   }
+
+   responsables!: any[]
    getUsuario(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userName = resp.userName;
@@ -113,7 +117,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     })
   }
 
-
   getListEstados(){
     let parametro: any[] = [{ queryId: 89 }];
     this.iniciativaService.getListEstados(parametro[0]).subscribe( resp => {
@@ -134,25 +137,9 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.listEstados.push({
           idEstado: estado.idEstado,
           cNombre : estado.cNombre,
-        });
-      }
+         });
+        }
      })
-    })
-  };
-
-  listResponsable: any[] = [];
-  getListResponsable(){
-    let parametro: any[] = [
-      { queryId: 102 }
-    ];
-   this.iniciativaService.getListResponsable(parametro[0]).subscribe((resp: any) => {
-
-      for (let i = 0; i < resp.list.length; i++) {
-        this.listResponsable.push({
-          id     : resp.list[i].id,
-          nombre : resp.list[i].nombre,
-        });
-      }
     })
   };
 
@@ -164,7 +151,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.listGerencia = resp;
       });
   }
-
 
   naturaleza: any[] = [];
   getListNaturaleza() {
@@ -179,80 +165,50 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   getName(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
-      console.log('respons', this.fullName);
-
+      // console.log('respons', this.fullName);
     });
   }
 
   actualizarIniciativa(){
     this.spinner.show();
-
     this.authService.getCurrentUser().subscribe( resp => {
       this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
       console.log('abc', this.fullName);
-
     });
 
     let currentUser = this.authService.getUsername();
-
-    let id          = this.iniciativaEditForm.value.idIniciativa;
-    let nombre      = this.iniciativaEditForm.value.nombre
-    let codigo      = this.iniciativaEditForm.value.codigo
-    let vp          = this.iniciativaEditForm.value.vp
-    let gerenciaSol = this.iniciativaEditForm.value.gerenciaSol
-    let estado      = this.iniciativaEditForm.value.estado
-    let poProyecto  = this.iniciativaEditForm.value.poProyecto
-    // let responsable = this.iniciativaEditForm.value.responsable
-    let gerenciaBen = this.iniciativaEditForm.value.gerenciaBen
-    let planner     = this.iniciativaEditForm.value.planner
-    let contGerBen  = this.iniciativaEditForm.value.contGerBen
-    let contAprBc   = this.iniciativaEditForm.value.contAprBc
-    let tecnologia  = this.iniciativaEditForm.value.tecnologia
-    let licencias   = this.iniciativaEditForm.value.licencias
-    let naturaleza  = this.iniciativaEditForm.value.naturaleza
-    let probActual  = this.iniciativaEditForm.value.probActual
-    let funcRobotiz = this.iniciativaEditForm.value.funcRobotiz
-    let defAlcance  = this.iniciativaEditForm.value.defAlcance
-    let riesgoNoRpa = this.iniciativaEditForm.value.riesgoNoRpa
-    let pi          = this.iniciativaEditForm.value.pi
-    let qtrxMes     = this.iniciativaEditForm.value.qtrxMes
-    let tmoTrx      = this.iniciativaEditForm.value.tmoTrx
-    let fluContx    = this.iniciativaEditForm.value.fluContx
-    // let userCrea    = this.iniciativaEditForm.value.userCrea
-    let fechaCrea   = this.iniciativaEditForm.value.fechaCrea
-    // let userAct     = this.iniciativaEditForm.value.userAct
-    let fechaAct    = this.iniciativaEditForm.value.fechaAct
+    const formValues = this.iniciativaEditForm.getRawValue();
 
     let parametro: any[] = [{
       queryId: 99 ,
       mapValue: {
-        "param_idIniciativa"   : id  ,
-        "param_cdescripcion"   : nombre  ,
-        "param_cod_proyecto"   : codigo  ,
-        "param_id_vp"          : vp  ,
-        "param_id_gerencia_sol": gerenciaSol  ,
-        "param_id_estado"      : estado  ,
-        "param_po_proyecto"    : poProyecto  ,
-        "param_responsable"    : this.fullName ,
-        "param_id_gerencia_ben": gerenciaBen  ,
-        "param_planner"        : planner  ,
-        "param_cont_ger_ben"   : contGerBen  ,
-        "param_cont_apr_bc"    : contAprBc  ,
-        "param_id_tecnologia"  : tecnologia  ,
-        "param_q_licencias"    : licencias  ,
-        "param_id_naturaleza"  : naturaleza  ,
-        "param_prob_actual"    : probActual  ,
-        "param_func_robotiz"   : funcRobotiz  ,
-        "param_def_alcance"    : defAlcance  ,
-        "param_riesgo_no_rpa"  : riesgoNoRpa  ,
-        "param_pi"             : pi  ,
-        "param_qtrx_mes"       : qtrxMes  ,
-        "param_tmo_trx"        : tmoTrx  ,
-        "param_flu_contx"      : fluContx  ,
+        "param_idIniciativa"   : formValues.idIniciativa  ,
+        "param_cdescripcion"   : formValues.nombre  ,
+        "param_cod_proyecto"   : formValues.codigo  ,
+        "param_id_vp"          : formValues.vp  ,
+        "param_id_gerencia_sol": formValues.gerenciaSol  ,
+        "param_id_estado"      : formValues.estado  ,
+        "param_po_proyecto"    : formValues.poProyecto  ,
+        "param_responsable"    : formValues.responsable ,
+        "param_id_gerencia_ben": formValues.gerenciaBen  ,
+        "param_planner"        : formValues.planner  ,
+        "param_cont_ger_ben"   : formValues.contGerBen  ,
+        "param_cont_apr_bc"    : formValues.contAprBc  ,
+        "param_id_tecnologia"  : formValues.tecnologia  ,
+        "param_q_licencias"    : formValues.licencias  ,
+        "param_id_naturaleza"  : formValues.naturaleza  ,
+        "param_prob_actual"    : formValues.probActual  ,
+        "param_func_robotiz"   : formValues.funcRobotiz  ,
+        "param_def_alcance"    : formValues.defAlcance  ,
+        "param_riesgo_no_rpa"  : formValues.riesgoNoRpa  ,
+        "param_pi"             : formValues.pi  ,
+        "param_qtrx_mes"       : formValues.qtrxMes  ,
+        "param_tmo_trx"        : formValues.tmoTrx  ,
+        "param_flu_contx"      : formValues.fluContx  ,
         "param_user_crea"      : currentUser  ,
-        "param_fecha_crea"     : fechaCrea  ,
+        "param_fecha_crea"     : formValues.fechaCrea  ,
         "param_user_act"       : this.userName ,
-        "param_fecha_act"      : fechaAct ,
+        "param_fecha_act"      : formValues.fechaAct ,
         "CONFIG_REG_ID"        : this.userID,
         "CONFIG_OUT_MSJ_ERROR" : '' ,
         "CONFIG_OUT_MSJ_EXITO" : ''
@@ -261,11 +217,11 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
     this.iniciativaService.actualizarRegistro(parametro[0]).subscribe( resp => {
       this.spinner.hide();
-      console.log('DATA_ACTUALIZADO', resp);
+      // console.log('DATA_ACTUALIZADO', resp);
 
       this.cargarRegistroId();
       this.close(true)
-      this.getHistoricoCambios(id);
+      this.getHistoricoCambios(formValues.id);
 
       Swal.fire({
         title: 'Actualizar Iniciativa!',
@@ -274,7 +230,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         confirmButtonText: 'Ok'
         })
 
-      if(estado){
+      if(formValues.estado){
         this.agregarIniciativaCambios()
       }else{
         this.close(true)
@@ -282,7 +238,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     });
   };
 
-
+  estadoInicial: string = '';
   cargarRegistroId(){
     this.spinner.show();
 
@@ -292,16 +248,15 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     }];
 
     this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( (resp: any) => {
-
       // console.log('LISTA-EDITAR', resp );
       for (let i = 0; i < resp.list.length; i++) {
-
         this.iniciativaEditForm.controls['idIniciativa'].setValue(resp.list[i].idIniciativa);
         this.iniciativaEditForm.controls['nombre'].setValue(resp.list[i].nombre);
         this.iniciativaEditForm.controls['codigo'].setValue(resp.list[i].codigo);
         this.iniciativaEditForm.controls['vp'].setValue(resp.list[i].vp);
         this.iniciativaEditForm.controls['gerenciaSol'].setValue(resp.list[i].gerencia_solicitante);
         this.iniciativaEditForm.controls['estado'].setValue(resp.list[i].estado);
+        this.estadoInicial = resp.list[i].estado;
         this.iniciativaEditForm.controls['poProyecto'].setValue(resp.list[i].po_proyecto);
         this.iniciativaEditForm.controls['responsable'].setValue(resp.list[i].responsable);
         this.iniciativaEditForm.controls['gerenciaBen'].setValue(resp.list[i].gerencia_beneficiaria);
@@ -319,17 +274,15 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.iniciativaEditForm.controls['qtrxMes'].setValue(resp.list[i].qtrx);
         this.iniciativaEditForm.controls['tmoTrx'].setValue(resp.list[i].tmo);
         this.iniciativaEditForm.controls['fluContx'].setValue(resp.list[i].flujo);
-
         this.iniciativaEditForm.controls['estado'].value ? this.getListEstadosBypadre(this.iniciativaEditForm.controls['estado'].value.toString()) : this.getListEstados();
 
-        // console.log('PII', this.iniciativaEditForm.controls);.setValue('')
+        this.validarIfIsGestor();
         if (resp.list[i].fecha_creacion !='null' && resp.list[i].fecha_creacion != '') {
           let fechaCrea = resp.list[i].fecha_creacion
           const str   = fechaCrea.split('/');
           const year  = Number(str[2]);
           const month = Number(str[1]);
           const date  = Number(str[0]);
-
           this.iniciativaEditForm.controls['fechaCrea'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
         }
       }
@@ -337,38 +290,44 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     })
   }
 
+  validarIfIsGestor(){
+    if (!this.authService.esUsuarioGestor()) {
+      this.iniciativaEditForm.controls['estado'].disable()
+      this.iniciativaEditForm.controls['responsable'].disable()
+    }
+  }
+
   agregarIniciativaCambios(){
-    let currentUser = this.authService.getUsername();
-   let idEstado     = this.iniciativaEditForm.value.estado;
-   let id_motivo    = this.datosInicCambios.id_motivo ;
-   let dFecha       = this.datosInicCambios.dFecha ;
-  //  let usuario      = this.datosInicCambios.usuario
-
-   let parametro: any[] = [{
-     queryId: 98,
-     mapValue: {
-	 	 "p_idiniciativa"        : this.data ,
-	 	 "p_idEstado"            : idEstado ,
-	 	 "p_id_motivo"           : id_motivo ,
-	 	 "p_dFecha"              : dFecha ,
-	 	 "p_usuario"             : currentUser,
-     "@CONFIG_USER_ID"       : this.userID,
-     "@CONFIG_OUT_MSG_ERROR" : '' ,
-     "@CONFIG_OUT_MSG_EXITO" : ''
-     }
-   }];
-
-  this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
-    // console.log('NuevoEstIDGuard', resp);
-  })
+    if (this.estadoInicial != this.iniciativaEditForm.value.estado) {
+      let currentUser  = this.authService.getUsername();
+      let idEstado     = this.iniciativaEditForm.value.estado;
+      let id_motivo    = this.datosInicCambios.id_motivo ;
+      let dFecha       = this.datosInicCambios.dFecha ;
+     //  let usuario      = this.datosInicCambios.usuario
+      let parametro: any[] = [{
+        queryId: 98,
+        mapValue: {
+         "p_idiniciativa"        : this.data ,
+         "p_idEstado"            : idEstado ,
+         "p_id_motivo"           : id_motivo ,
+         "p_dFecha"              : dFecha ,
+         "p_usuario"             : currentUser,
+        "@CONFIG_USER_ID"        : this.userID,
+        "@CONFIG_OUT_MSG_ERROR"  : '' ,
+        "@CONFIG_OUT_MSG_EXITO"  : ''
+        }
+      }];
+      // console.log('EST', this.estadoInicial, this.iniciativaEditForm.value);
+      this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
+       // console.log('NuevoEstIDGuard', resp);
+     })
+    }
 }
 
-historicoCambios: any[] = [];
-getHistoricoCambios(id: number){
-let currentUser = this.authService.getUsername();
-
+  historicoCambios: any[] = [];
+  getHistoricoCambios(id: number){
+  // let currentUser = this.authService.getUsername();
   this.spinner.show();
-
     let parametro: any[] = [{
       queryId: 101,
       mapValue: {

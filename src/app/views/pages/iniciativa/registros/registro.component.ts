@@ -11,7 +11,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 
-
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -31,6 +30,15 @@ export class RegistroComponent implements OnInit {
   userID: number = 0;
   filtroForm!: FormGroup;
 
+  responsab:string = '';
+  role: FormGroup = this.fb.group(
+    {
+      idaplicacion: ['1'],
+      username    : ['106'],
+      password    : ['']
+    }
+  )
+
   constructor(
     private iniciativaService: IniciativaService,
     private fb: FormBuilder,
@@ -38,14 +46,14 @@ export class RegistroComponent implements OnInit {
     private exportExcellService: ExportExcellService,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {}
+
 
   ngOnInit(): void {
     this.spinner.hide();
     this.newFilfroForm();
-
-    this.cargarRegistro();
+    this.buscarRegistro();
     this.getListEstados();
     this.getListGerencia();
     this.getListNaturaleza();
@@ -96,18 +104,17 @@ export class RegistroComponent implements OnInit {
   }
 
   registros:any[] = [];
-  cargarRegistro(){
-   this.registros = [];
-   this.blockUI.start("Cargando iniciativas...");
-    let arrayParametro: any[] = [
-      { queryId:92 }
-    ];
-    this.iniciativaService.cargarRegistro(arrayParametro[0]).subscribe((resp: any) => {
-          this.blockUI.stop();
-
-          this.registros = resp;
-        })
-  };
+  // cargarRegistro(){
+  //  this.registros = [];
+  //  this.blockUI.start("Cargando iniciativas...");
+  //   let arrayParametro: any[] = [
+  //     { queryId:92 }
+  //   ];
+  //   this.iniciativaService.cargarRegistro(arrayParametro[0]).subscribe((resp: any) => {
+  //         this.blockUI.stop();
+  //         this.registros = resp;
+  //       })
+  // };
 
   registroFiltrado: any[] = [];
   buscarRegistro(){
@@ -120,6 +127,7 @@ export class RegistroComponent implements OnInit {
         "param_id_ger_ben"   : this.filtroForm.value.gerencia_benef,
         "param_id_estado"    : this.filtroForm.value.estado,
         "param_id_naturaleza": this.filtroForm.value.naturaleza,
+        "param_user_crea": this.authService.getUserNameByRol(),
         "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
         "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
       }
@@ -138,10 +146,6 @@ export class RegistroComponent implements OnInit {
 
   exportarRegistro(){
     this.exportExcellService.exportarExcel(this.registros, 'Iniciativa')
-  }
-
-  exportarRegistFiltrado(){
-    this.exportExcellService.exportarExcel(this.registroFiltrado, 'Iniciativa_filtrado')
   }
 
   totalfiltro = 0;
@@ -187,7 +191,7 @@ export class RegistroComponent implements OnInit {
       if (resp.value) {
         this.iniciativaService.eliminarIniciativa(parametro[0]).subscribe(resp => {
 
-          this.cargarRegistro();
+          this.buscarRegistro();
 
             Swal.fire({
               title: 'Eliminar Iniciativa',
@@ -209,7 +213,7 @@ export class RegistroComponent implements OnInit {
     this.filtroForm.controls['fechaCreaInicio'].setValue('');
     this.filtroForm.controls['fechaCreaFin'].setValue('');
 
-    this.cargarRegistro();
+    this.buscarRegistro();
   }
 
 
@@ -218,7 +222,7 @@ export class RegistroComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        this.cargarRegistro()
+        this.buscarRegistro()
       }
     })
   }
@@ -228,7 +232,7 @@ export class RegistroComponent implements OnInit {
       .open(ModalActualizarIniciativaComponent, { width: '65%', height: '90%', data: idIniciativa, })
       .afterClosed().subscribe((resp) => {
         if (resp) {
-          this.cargarRegistro();
+          this.buscarRegistro();
         }
       });
   }

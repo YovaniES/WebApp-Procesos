@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { API_REG1 } from '../constants/url.constants';
+import { API_REG1, API_ROLE } from '../constants/url.constants';
 import { Estados } from '../interfaces/estados.interface';
+import { Role } from '../interfaces/role.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,10 @@ export class IniciativaService {
         });
       })
     );
+  }
+
+  getResponsables(data: Role){
+    return this.http.post(API_ROLE, data);
   }
 
   // Lista de VP

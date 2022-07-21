@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Usuario } from '../interfaces/auth.interface';
 import { API_AUTH_SESSION } from '../constants/url.constants';
 import { of } from 'rxjs';
+import { ROL_GESTOR, ROL_USUARIO } from '../constants/rol.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -24,17 +25,45 @@ export class AuthService {
     );
   }
 
+  getRolID(){
+    const decodedToken: any = this.decodeToken();
+    console.log('TOKEN', decodedToken);
+    return decodedToken ? decodedToken.ROL_ID : '';
+  }
+
+  getUserNameByRol(){
+    const usuarioLogeado:any = this.decodeToken();
+
+    console.log('ROL', usuarioLogeado);
+
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
+      return null
+    } else {
+      return usuarioLogeado.name
+    }
+  }
+
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    // console.log('TOKEN', decodedToken);
+    console.log('ROL', decodedToken);
     return decodedToken ? decodedToken.name : '';
   }
 
   getCurrentUser() {
     const currentUser: any = localStorage.getItem('currentUser');
     // console.log('USER-ACTUAL',JSON.parse(currentUser));
-
     return of(currentUser ? JSON.parse(currentUser) : '');
+  }
+
+  esUsuarioGestor(): boolean{
+    const usuarioLogeado:any = this.decodeToken();
+    console.log('ROL', usuarioLogeado);
+
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_GESTOR.rolID ) {
+      return false
+    } else {
+      return true
+    }
   }
 
   decodeToken() {
