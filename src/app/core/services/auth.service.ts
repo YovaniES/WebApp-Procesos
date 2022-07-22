@@ -27,14 +27,13 @@ export class AuthService {
 
   getRolID(){
     const decodedToken: any = this.decodeToken();
-    console.log('TOKEN', decodedToken);
+    // console.log('TOKEN', decodedToken);
     return decodedToken ? decodedToken.ROL_ID : '';
   }
 
   getUserNameByRol(){
     const usuarioLogeado:any = this.decodeToken();
-
-    console.log('ROL', usuarioLogeado);
+    // console.log('ROL', usuarioLogeado);
 
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
       return null
@@ -45,7 +44,7 @@ export class AuthService {
 
   getUsername() {
     const decodedToken: any = this.decodeToken();
-    console.log('ROL', decodedToken);
+    // console.log('ROL', decodedToken);
     return decodedToken ? decodedToken.name : '';
   }
 
@@ -57,7 +56,7 @@ export class AuthService {
 
   esUsuarioGestor(): boolean{
     const usuarioLogeado:any = this.decodeToken();
-    console.log('ROL', usuarioLogeado);
+    // console.log('ROL', usuarioLogeado);
 
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_GESTOR.rolID ) {
       return false

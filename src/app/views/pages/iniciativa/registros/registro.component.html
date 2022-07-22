@@ -25,7 +25,7 @@
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Estado</label>
               <select class="form-select" formControlName="estado">
-                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="0">-Seleccione-</option>
                 <option [value]="estado.idEstado" *ngFor="let estado of listEstados">{{ estado.cNombre }}</option>
               </select>
             </div>
@@ -33,7 +33,7 @@
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Gerencia Beneficiaria</label>
               <select class="form-select" formControlName="gerencia_benef">
-                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="0">-Seleccione-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
               </select>
             </div>
@@ -41,7 +41,7 @@
             <div class="col-sm-2 cli-form-element">
               <label class="form-label">Naturaleza del Benef.</label>
               <select class="form-select" formControlName="naturaleza">
-                <option [value]="0" disabled>--Seleccione--</option>
+                <option [value]="0">--Seleccione--</option>
                 <option [value]="nat.id" *ngFor="let nat of naturaleza">{{ nat.nombre }}</option>
               </select>
             </div>
@@ -84,7 +84,7 @@
                 type="button"
                 class="cli-btn btn-blue-light"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
-                (click)="buscarRegistro()"
+                (click)="buscarOcargarRegistro()"
               ><mat-icon class="icon-18">search</mat-icon>
                 Buscar
               </button>

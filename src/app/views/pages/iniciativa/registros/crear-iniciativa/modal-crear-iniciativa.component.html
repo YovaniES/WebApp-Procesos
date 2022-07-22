@@ -173,6 +173,7 @@
                   formControlName="fluContx"  />
                 <label class="form-check-label" for="gridRadios4">No</label>
               </div>
+              <small class="form-text text-alert" *ngIf="campoNoValido('fluContx')">* Este campo es obligatorio</small>
             </div>
           </div>
         </div>
@@ -243,8 +244,8 @@
       </button>
       <button class="cli-btn btn-m btn-blue"
               (click)="crearIniciativa()"
+              [disabled]="iniciativaForm.invalid"
               >
-              <!-- [disabled]="iniciativaForm.invalid" -->
         <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>

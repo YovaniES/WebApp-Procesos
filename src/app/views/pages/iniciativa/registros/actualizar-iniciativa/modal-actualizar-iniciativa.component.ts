@@ -15,11 +15,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ModalActualizarIniciativaComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-  fechaing:any;
-  totalRegistros: number = 0;
   userName: string = '';
   userID: number = 0;
-
   iniciativaEditForm!: FormGroup
 
   datosInicCambios = {
@@ -85,10 +82,19 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getListaTecnologia();
     this.getHistoricoCambios(this.data);
     this.getUsuario();
-    this.getName()
+    this.getName();
+    this.getResponsables();
    }
 
    responsables!: any[]
+   getResponsables(){
+    this.iniciativaService.getResponsables(this.role.value).subscribe( (resp: any) => {
+      this.responsables = resp;
+      console.log('RESPONSABLES', this.responsables);
+
+    })
+   }
+
    getUsuario(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userName = resp.userName;
@@ -101,22 +107,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.iniciativaEditForm.controls['fechaCrea'].setValue(this.datePipe.transform(fecha, 'yyyy-MM-dd'));
   }
 
-  listVP: any[] = [];
-  getListaVP() {
-    let parametro: any[] = [{ queryId: 94 }];
-    this.iniciativaService.getListVP(parametro[0]).subscribe(resp => {
-        this.listVP = resp
-    });
-  }
-
-  tecnologias:any[] = []
-  getListaTecnologia(){
-    let parametro: any[]=[{ queryId:93 }];
-    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp => {
-        this.tecnologias = resp
-    })
-  }
-
+  listEstados: any[] = [];
   getListEstados(){
     let parametro: any[] = [{ queryId: 89 }];
     this.iniciativaService.getListEstados(parametro[0]).subscribe( resp => {
@@ -124,7 +115,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     })
   };
 
-  listEstados: any[] = [];
   getListEstadosBypadre(idEstadoPadre: any){
     let parametro: any[] = [{ queryId: 89 }];
    this.iniciativaService.getListEstados(parametro[0], false).subscribe((resp: any) => {
@@ -133,24 +123,15 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       const estadosPadre = estado.idEstadoPadre.split(',')
       // console.log('padre', estadosPadre);
 
-      if (estadosPadre.includes(idEstadoPadre)) {
-        this.listEstados.push({
-          idEstado: estado.idEstado,
-          cNombre : estado.cNombre,
-         });
-        }
-     })
+          if (estadosPadre.includes(idEstadoPadre)) {
+            this.listEstados.push({
+              idEstado: estado.idEstado,
+              cNombre : estado.cNombre,
+             });
+            }
+        })
     })
   };
-
-  listGerencia: any[] = [];
-  getListGerencia() {
-    let parametro: any[] = [{ queryId: 95 }];
-
-    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
-        this.listGerencia = resp;
-      });
-  }
 
   naturaleza: any[] = [];
   getListNaturaleza() {
@@ -159,6 +140,31 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.iniciativaService.getListNaturaleza(parametro[0]).subscribe(resp => {
         this.naturaleza = resp;
         });
+  }
+
+  tecnologias:any[] = []
+  getListaTecnologia(){
+    let parametro: any[]=[{ queryId: 91 }];
+    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp => {
+        this.tecnologias = resp
+    })
+  }
+
+  listVP: any[] = [];
+  getListaVP() {
+    let parametro: any[] = [{ queryId: 92 }];
+    this.iniciativaService.getListVP(parametro[0]).subscribe(resp => {
+        this.listVP = resp
+    });
+  }
+
+  listGerencia: any[] = [];
+  getListGerencia() {
+    let parametro: any[] = [{ queryId: 93 }];
+
+    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
+        this.listGerencia = resp;
+      });
   }
 
   fullName: string = ''
@@ -173,42 +179,40 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.spinner.show();
     this.authService.getCurrentUser().subscribe( resp => {
       this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
-      console.log('abc', this.fullName);
     });
 
-    let currentUser = this.authService.getUsername();
     const formValues = this.iniciativaEditForm.getRawValue();
 
     let parametro: any[] = [{
       queryId: 99 ,
       mapValue: {
-        "param_idIniciativa"   : formValues.idIniciativa  ,
-        "param_cdescripcion"   : formValues.nombre  ,
-        "param_cod_proyecto"   : formValues.codigo  ,
-        "param_id_vp"          : formValues.vp  ,
-        "param_id_gerencia_sol": formValues.gerenciaSol  ,
-        "param_id_estado"      : formValues.estado  ,
-        "param_po_proyecto"    : formValues.poProyecto  ,
-        "param_responsable"    : formValues.responsable ,
-        "param_id_gerencia_ben": formValues.gerenciaBen  ,
-        "param_planner"        : formValues.planner  ,
-        "param_cont_ger_ben"   : formValues.contGerBen  ,
-        "param_cont_apr_bc"    : formValues.contAprBc  ,
-        "param_id_tecnologia"  : formValues.tecnologia  ,
-        "param_q_licencias"    : formValues.licencias  ,
-        "param_id_naturaleza"  : formValues.naturaleza  ,
-        "param_prob_actual"    : formValues.probActual  ,
-        "param_func_robotiz"   : formValues.funcRobotiz  ,
-        "param_def_alcance"    : formValues.defAlcance  ,
-        "param_riesgo_no_rpa"  : formValues.riesgoNoRpa  ,
-        "param_pi"             : formValues.pi  ,
-        "param_qtrx_mes"       : formValues.qtrxMes  ,
-        "param_tmo_trx"        : formValues.tmoTrx  ,
-        "param_flu_contx"      : formValues.fluContx  ,
-        "param_user_crea"      : currentUser  ,
-        "param_fecha_crea"     : formValues.fechaCrea  ,
-        "param_user_act"       : this.userName ,
-        "param_fecha_act"      : formValues.fechaAct ,
+        "param_idIniciativa"   : formValues.idIniciativa,
+        "param_cdescripcion"   : formValues.nombre,
+        "param_cod_proyecto"   : formValues.codigo,
+        "param_id_vp"          : formValues.vp,
+        "param_id_gerencia_sol": formValues.gerenciaSol,
+        "param_id_estado"      : formValues.estado,
+        "param_po_proyecto"    : formValues.poProyecto,
+        "param_responsable"    : formValues.responsable,
+        "param_id_gerencia_ben": formValues.gerenciaBen,
+        "param_planner"        : formValues.planner,
+        "param_cont_ger_ben"   : formValues.contGerBen,
+        "param_cont_apr_bc"    : formValues.contAprBc,
+        "param_id_tecnologia"  : formValues.tecnologia,
+        "param_q_licencias"    : formValues.licencias,
+        "param_id_naturaleza"  : formValues.naturaleza,
+        "param_prob_actual"    : formValues.probActual,
+        "param_func_robotiz"   : formValues.funcRobotiz,
+        "param_def_alcance"    : formValues.defAlcance,
+        "param_riesgo_no_rpa"  : formValues.riesgoNoRpa,
+        "param_pi"             : formValues.pi,
+        "param_qtrx_mes"       : formValues.qtrxMes,
+        "param_tmo_trx"        : formValues.tmoTrx,
+        "param_flu_contx"      : formValues.fluContx,
+        "param_user_crea"      : formValues.userCrea,
+        "param_fecha_crea"     : formValues.fechaCrea,
+        "param_user_act"       : this.userName,
+        "param_fecha_act"      : formValues.fechaAc,
         "CONFIG_REG_ID"        : this.userID,
         "CONFIG_OUT_MSJ_ERROR" : '' ,
         "CONFIG_OUT_MSJ_EXITO" : ''
@@ -241,7 +245,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   estadoInicial: string = '';
   cargarRegistroId(){
     this.spinner.show();
-
     let parametro: any[] = [{
       queryId: 100,
       mapValue: {'param_idIniciativa': this.data}
@@ -274,6 +277,8 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.iniciativaEditForm.controls['qtrxMes'].setValue(resp.list[i].qtrx);
         this.iniciativaEditForm.controls['tmoTrx'].setValue(resp.list[i].tmo);
         this.iniciativaEditForm.controls['fluContx'].setValue(resp.list[i].flujo);
+        this.iniciativaEditForm.controls['userCrea'].setValue(resp.list[i].user_crea); // USER_CREA==>
+
         this.iniciativaEditForm.controls['estado'].value ? this.getListEstadosBypadre(this.iniciativaEditForm.controls['estado'].value.toString()) : this.getListEstados();
 
         this.validarIfIsGestor();
@@ -303,7 +308,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       let idEstado     = this.iniciativaEditForm.value.estado;
       let id_motivo    = this.datosInicCambios.id_motivo ;
       let dFecha       = this.datosInicCambios.dFecha ;
-     //  let usuario      = this.datosInicCambios.usuario
       let parametro: any[] = [{
         queryId: 98,
         mapValue: {
@@ -319,17 +323,16 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       }];
       // console.log('EST', this.estadoInicial, this.iniciativaEditForm.value);
       this.iniciativaService.agregarIniciativaCambios(parametro[0]).subscribe( resp => {
-       // console.log('NuevoEstIDGuard', resp);
      })
     }
-}
+  }
 
   historicoCambios: any[] = [];
   getHistoricoCambios(id: number){
   // let currentUser = this.authService.getUsername();
   this.spinner.show();
     let parametro: any[] = [{
-      queryId: 101,
+      queryId: 94,
       mapValue: {
         'param_id_iniciativa': this.data
       }

@@ -68,38 +68,10 @@ export class ModalCrearIniciativaComponent implements OnInit {
     let parametro: any[] = [{ queryId: 89 }];
 
     this.iniciativaService.getListEstados(parametro[0]).subscribe((resp) => {
-      this.listEstados = resp;
-      console.log('ESTADOS', resp);
-
-      this.estadoInicial = resp.find((estados: any) => estados.cNombre === 'Registrado');
-      console.log('idE', this.estadoInicial);
+      this.listEstados = resp;   // console.log('ESTADOS', resp);
+      this.estadoInicial = resp.find((estados: any) => estados.cNombre === 'Registrado');  // console.log('idEstado', this.estadoInicial);
 
     });
-  }
-
-  listGerencia: any[] = [];
-  getListGerencia() {
-    let parametro: any[] = [{ queryId: 95 }];
-
-    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
-        this.listGerencia = resp;
-      });
-  }
-
-  listVP: any[] = [];
-  getListaVP() {
-    let parametro: any[] = [{ queryId: 94 }];
-    this.iniciativaService.getListVP(parametro[0]).subscribe(resp => {
-        this.listVP = resp
-    });
-  }
-
-  tecnologias:any[] = []
-  getListaTecnologia(){
-    let parametro: any[]=[{ queryId:93 }];
-    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp => {
-        this.tecnologias = resp
-    })
   }
 
   naturaleza: any[] = [];
@@ -110,55 +82,63 @@ export class ModalCrearIniciativaComponent implements OnInit {
       });
   }
 
+  tecnologias:any[] = []
+  getListaTecnologia(){
+    let parametro: any[]=[{ queryId: 91 }];
+    this.iniciativaService.listaTecnologia(parametro[0]).subscribe(resp => {
+        this.tecnologias = resp
+    })
+  }
+
+    listVP: any[] = [];
+    getListaVP() {
+      let parametro: any[] = [{ queryId: 92 }];
+      this.iniciativaService.getListVP(parametro[0]).subscribe(resp => {
+          this.listVP = resp
+      });
+    }
+
+  listGerencia: any[] = [];
+  getListGerencia() {
+    let parametro: any[] = [{ queryId: 93 }];
+
+    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
+        this.listGerencia = resp;
+      });
+  }
+
+
+
   crearIniciativa() {
     this.spinner.show();
     let currentUser = this.authService.getUsername();
 
-    let nombre                = this.iniciativaForm.value.nombre;
-    let codigo                = this.iniciativaForm.value.codigo;
-    let po_proyecto           = this.iniciativaForm.value.po_proyecto;
-    let gerencia_solicitante  = this.iniciativaForm.value.gerencia_solicitante;
-    let gerencia_beneficiaria = this.iniciativaForm.value.gerencia_beneficiaria;
-    let vp                    = this.iniciativaForm.value.vp;
-    let contAprBc             = this.iniciativaForm.value.contAprBc;
-    let tecnologia            = this.iniciativaForm.value.tecnologia;
-    // let estado                = this.iniciativaForm.value.estado;
-    let naturaleza            = this.iniciativaForm.value.naturaleza;
-    let qtrxMes               = this.iniciativaForm.value.qtrxMes;
-    let tmoTrx                = this.iniciativaForm.value.tmoTrx;
-    let pi                    = this.iniciativaForm.value.pi;
-    let fluContx              = this.iniciativaForm.value.fluContx;
-    let probActual            = this.iniciativaForm.value.probActual;
-    let funcRobotiz           = this.iniciativaForm.value.funcRobotiz;
-    let defAlcance            = this.iniciativaForm.value.defAlcance;
-    let riesgoNoRpa           = this.iniciativaForm.value.riesgoNoRpa;
-
-    let fecha_creacion        = this.iniciativaForm.value.fecha_creacion;
+    const formValues = this.iniciativaForm.getRawValue();
 
     let parametro: any[] = [
       {
         queryId: 97,
         mapValue: {
-          p_cdescripcion    : nombre,
-          p_cod_proyecto    : codigo,
-          p_po_proyecto     : po_proyecto,
-          p_id_gerencia_sol : gerencia_solicitante,
-          p_id_gerencia_ben : gerencia_beneficiaria,
-          p_id_vp           : vp,
-          p_cont_apr_bc     : contAprBc,
-          p_id_tecnologia   : tecnologia,
-          p_id_estado       : 1,  //id=1 => estado REGISTRADO
-          p_id_naturaleza   : naturaleza,
-          p_prob_actual     : probActual,
-          p_func_robotiz    : funcRobotiz,
-          p_def_alcance     : defAlcance,
-          p_riesgo_no_rpa   : riesgoNoRpa,
-          p_pi              : pi,
-          p_qtrx_mes        : qtrxMes,
-          p_tmo_trx         : tmoTrx,
-          p_flu_contx       : fluContx,
+          p_cdescripcion    : formValues.nombre,
+          p_cod_proyecto    : formValues.codigo,
+          p_po_proyecto     : formValues.po_proyecto,
+          p_id_gerencia_sol : formValues.gerencia_solicitante,
+          p_id_gerencia_ben : formValues.gerencia_beneficiaria,
+          p_id_vp           : formValues.vp,
+          p_cont_apr_bc     : formValues.contAprBc,
+          p_id_tecnologia   : formValues.tecnologia,
+          p_id_estado       : 1,  //id=1 => estado: REGISTRADO
+          p_id_naturaleza   : formValues.naturaleza,
+          p_prob_actual     : formValues.probActual,
+          p_func_robotiz    : formValues.funcRobotiz,
+          p_def_alcance     : formValues.defAlcance,
+          p_riesgo_no_rpa   : formValues.riesgoNoRpa,
+          p_pi              : formValues.pi,
+          p_qtrx_mes        : formValues.qtrxMes,
+          p_tmo_trx         : formValues.tmoTrx,
+          p_flu_contx       : formValues.fluContx,
           p_user_crea       : currentUser,
-          p_fecha_crea      : fecha_creacion,
+          p_fecha_crea      : formValues.fecha_creacion,
           p_user_act        : '',
           p_fecha_act       : '',
           CONFIG_REG_ID     : this.userID,
@@ -167,7 +147,9 @@ export class ModalCrearIniciativaComponent implements OnInit {
         },
       },
     ];
-    this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp) => {
+    this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp: any) => {
+      // console.log('NAME', resp);
+
       Swal.fire({
         title: 'Crear Iniciativa!',
         text: 'Iniciativa creado con éxito',

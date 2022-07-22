@@ -149,7 +149,7 @@
         </div> -->
 
     <!-- --------------------------------------------CONTEXTO VERT----------------------------------------->
-        <!-- <div class="chart-canvas">
+    <!-- <div class="chart-canvas">
           <div class="chartlayer-legend"><div class="chartlayer-legend-box">CONTEXTO</div></div>
             <div class="pr-module-container">
               <div class="row">
@@ -242,7 +242,7 @@
             </div>
         </div> -->
 
-         <!-- --------------------------------------------DIAGNOSTICO VERT----------------------------------------->
+    <!-- --------------------------------------------DIAGNOSTICO VERT----------------------------------------->
          <!-- <div class="chart-canvas">
           <div class="chartlayer-legend"><div class="chartlayer-legend-box">DIAGNÓSTICO</div></div>
             <div class="pr-module-container">
@@ -336,7 +336,7 @@
       </div>
     </div> -->
 
-        <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
+    <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
         <div class="pr-subtitle mt-2">Registros</div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -376,7 +376,7 @@
                     class="cli-input-white"
                     formControlName="responsable"
                   > <option [value]="0" disabled>-Seleccionar-</option>
-                    <option [value]="r.userName" *ngFor="let r of responsables">{{r.userName}}</option>
+                    <option [value]="r.userName" *ngFor="let r of responsables">{{r.nombres + '' + r.apellidoPaterno}}</option>
                   </select>
               </div>
 

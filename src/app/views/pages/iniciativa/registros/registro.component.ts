@@ -53,7 +53,7 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.hide();
     this.newFilfroForm();
-    this.buscarRegistro();
+    this.buscarOcargarRegistro();
     this.getListEstados();
     this.getListGerencia();
     this.getListNaturaleza();
@@ -86,15 +86,6 @@ export class RegistroComponent implements OnInit {
     })
   };
 
-  listGerencia: any[] = [];
-  getListGerencia() {
-    let parametro: any[] = [{ queryId: 95 }];
-    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
-        this.listGerencia = resp;
-      });
-  }
-
-
   naturaleza: any[] = [];
   getListNaturaleza() {
     let parametro: any[] = [{ queryId: 90, }];
@@ -103,22 +94,18 @@ export class RegistroComponent implements OnInit {
           });
   }
 
-  registros:any[] = [];
-  // cargarRegistro(){
-  //  this.registros = [];
-  //  this.blockUI.start("Cargando iniciativas...");
-  //   let arrayParametro: any[] = [
-  //     { queryId:92 }
-  //   ];
-  //   this.iniciativaService.cargarRegistro(arrayParametro[0]).subscribe((resp: any) => {
-  //         this.blockUI.stop();
-  //         this.registros = resp;
-  //       })
-  // };
+  listGerencia: any[] = [];
+  getListGerencia() {
+    let parametro: any[] = [{ queryId: 93 }];
+    this.iniciativaService.getListGerencia(parametro[0]).subscribe(resp => {
+        this.listGerencia = resp;
+      });
+  }
 
+  registros:any[] = [];
   registroFiltrado: any[] = [];
-  buscarRegistro(){
-    this.blockUI.start("Buscando iniciativas...");
+  buscarOcargarRegistro(){
+    this.blockUI.start("Cargando iniciativas...");
     let parametro: any[] = [{
       "queryId": 96,
       "mapValue": {
@@ -132,10 +119,10 @@ export class RegistroComponent implements OnInit {
         "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
       }
     }];
-   this.iniciativaService.buscarRegistro(parametro[0]).subscribe(resp => {
+   this.iniciativaService.buscarOcargarRegistro(parametro[0]).subscribe(resp => {
     this.blockUI.stop();
 
-     console.log('RESUL_BUSQ', resp, resp.length);
+    //  console.log('RESUL_BUSQ', resp, resp.length);
       this.registros = [];
       this.registros = resp;
       this.registroFiltrado = resp;
@@ -154,7 +141,7 @@ export class RegistroComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalIniciativa) {
-      this.iniciativaService.cargarRegistro(offset.toString()).subscribe( resp => {
+      this.iniciativaService.buscarOcargarRegistro(offset.toString()).subscribe( resp => {
             // console.log('TABLA', resp);
             this.registros = resp;
             this.spinner.hide();
@@ -170,10 +157,9 @@ export class RegistroComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      queryId: 103,
+      queryId: 95,
       mapValue: {
         'param_id_iniciativa' : id ,
-        // 'CONFIG_REGIS_ID'  : this.usuario.user.userId,
         'CONFIG_REGIS_ID'     : this.userID ,
         'CONFIG_OUT_MSG_ERROR': '' ,
         'CONFIG_OUT_MSG_EXITO': ''
@@ -191,7 +177,7 @@ export class RegistroComponent implements OnInit {
       if (resp.value) {
         this.iniciativaService.eliminarIniciativa(parametro[0]).subscribe(resp => {
 
-          this.buscarRegistro();
+          this.buscarOcargarRegistro();
 
             Swal.fire({
               title: 'Eliminar Iniciativa',
@@ -213,7 +199,7 @@ export class RegistroComponent implements OnInit {
     this.filtroForm.controls['fechaCreaInicio'].setValue('');
     this.filtroForm.controls['fechaCreaFin'].setValue('');
 
-    this.buscarRegistro();
+    this.buscarOcargarRegistro();
   }
 
 
@@ -222,7 +208,7 @@ export class RegistroComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        this.buscarRegistro()
+        this.buscarOcargarRegistro()
       }
     })
   }
@@ -232,7 +218,7 @@ export class RegistroComponent implements OnInit {
       .open(ModalActualizarIniciativaComponent, { width: '65%', height: '90%', data: idIniciativa, })
       .afterClosed().subscribe((resp) => {
         if (resp) {
-          this.buscarRegistro();
+          this.buscarOcargarRegistro();
         }
       });
   }
