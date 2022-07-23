@@ -103,7 +103,6 @@ export class RegistroComponent implements OnInit {
   }
 
   registros:any[] = [];
-  registroFiltrado: any[] = [];
   buscarOcargarRegistro(){
     this.blockUI.start("Cargando iniciativas...");
     let parametro: any[] = [{
@@ -114,18 +113,17 @@ export class RegistroComponent implements OnInit {
         "param_id_ger_ben"   : this.filtroForm.value.gerencia_benef,
         "param_id_estado"    : this.filtroForm.value.estado,
         "param_id_naturaleza": this.filtroForm.value.naturaleza,
-        "param_user_crea": this.authService.getUserNameByRol(),
+        "param_user_crea"    : this.authService.getUserNameByRol(),
         "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
         "fin"   : this.datepipe.transform(this.filtroForm.value.fechaCreaFin,'yyyy/MM/dd'),
       }
     }];
-   this.iniciativaService.buscarOcargarRegistro(parametro[0]).subscribe(resp => {
+    this.iniciativaService.buscarOcargarRegistro(parametro[0]).subscribe(resp => {
     this.blockUI.stop();
 
-    //  console.log('RESUL_BUSQ', resp, resp.length);
+     console.log('INIC_O_BUSQ', resp, resp.length);
       this.registros = [];
       this.registros = resp;
-      this.registroFiltrado = resp;
 
       this.spinner.hide();
     });
@@ -200,8 +198,7 @@ export class RegistroComponent implements OnInit {
     this.filtroForm.controls['fechaCreaFin'].setValue('');
 
     this.buscarOcargarRegistro();
-  }
-
+  };
 
   crearIniciativa(){
     const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'65%', height:'85%'});

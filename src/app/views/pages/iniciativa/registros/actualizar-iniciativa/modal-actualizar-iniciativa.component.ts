@@ -282,6 +282,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.iniciativaEditForm.controls['estado'].value ? this.getListEstadosBypadre(this.iniciativaEditForm.controls['estado'].value.toString()) : this.getListEstados();
 
         this.validarIfIsGestor();
+
         if (resp.list[i].fecha_creacion !='null' && resp.list[i].fecha_creacion != '') {
           let fechaCrea = resp.list[i].fecha_creacion
           const str   = fechaCrea.split('/');

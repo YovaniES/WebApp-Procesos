@@ -106,6 +106,7 @@ export class IniciativaService {
             responsable           : reg.responsable ,
             gerencia_beneficiaria : reg.gerencia_beneficiaria ,
             naturaleza            : reg.naturaleza ,
+            userCrea              : reg.userCrea ,
             fecha_creacion        : reg.fecha_creacion ,
           }
         })

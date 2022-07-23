@@ -44,8 +44,8 @@
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="po_proyecto"/>
-                <small class="form-text text-alert" *ngIf="campoNoValido('po_proyecto')">* Este campo es obligatorio</small>
+                formControlName="poProyecto"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('poProyecto')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -60,21 +60,30 @@
             <div class="col-sm-3 cli-form-element">
               <label>Gerencia Solicitante</label>
               <select class="cli-input-white"
-                      formControlName="gerencia_solicitante">
+                      formControlName="gerenciaSol">
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
               </select>
-              <small class="form-text text-alert" *ngIf="campoNoValido('gerencia_solicitante')">* Este campo es obligatorio</small>
+              <small class="form-text text-alert" *ngIf="campoNoValido('gerenciaSol')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label>Gerencia Beneficiaria</label>
               <select class="cli-input-white"
-                      formControlName="gerencia_beneficiaria">
+                      formControlName="gerenciaBen">
                 <option [value]="0" disabled>-Seleccionar-</option>
                 <option [value]="gerenc.id" *ngFor="let gerenc of listGerencia">{{ gerenc.nombre }}</option>
               </select>
-              <small class="form-text text-alert" *ngIf="campoNoValido('gerencia_beneficiaria')">* Este campo es obligatorio</small>
+              <small class="form-text text-alert" *ngIf="campoNoValido('gerenciaBen')">* Este campo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Controll. Gerenc. Benef.</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="contGerBen"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('contGerBen')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -83,6 +92,25 @@
                 type="text"
                 class="form-control cli-input-white"  formControlName="contAprBc"/>
                 <small class="form-text text-alert" *ngIf="campoNoValido('contAprBc')">* Este campo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>PLANNER</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="planner"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('planner')">* Este campo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Licencias BP</label>
+              <input
+                type="number"
+                min="0"
+                class="form-control cli-input-white"
+                formControlName="licencias"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('licencias')">* Este campo es obligatorio</small>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -106,7 +134,7 @@
           <div class="col-sm-3 cli-form-element">
             <label>QTRX mensual</label>
             <input
-              type="text"
+              type="number"
               min="0"
               class="form-control cli-input-white"
               formControlName="qtrxMes"/>
@@ -244,9 +272,9 @@
       </button>
       <button class="cli-btn btn-m btn-blue"
               (click)="crearIniciativa()"
-              [disabled]="iniciativaForm.invalid"
               >
-        <mat-icon class="icon-18">save</mat-icon> Registrar
+              <!-- [disabled]="iniciativaForm.invalid" -->
+              <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>
   </div>

@@ -32,8 +32,8 @@ export class AuthService {
   }
 
   getUserNameByRol(){
-    const usuarioLogeado:any = this.decodeToken();
-    // console.log('ROL', usuarioLogeado);
+    const usuarioLogeado: any = this.decodeToken();
+    console.log('ROL', usuarioLogeado);
 
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
       return null
