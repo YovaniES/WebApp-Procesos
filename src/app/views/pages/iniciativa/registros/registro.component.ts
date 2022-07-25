@@ -121,7 +121,7 @@ export class RegistroComponent implements OnInit {
     this.iniciativaService.buscarOcargarRegistro(parametro[0]).subscribe(resp => {
     this.blockUI.stop();
 
-     console.log('INIC_O_BUSQ', resp, resp.length);
+    //  console.log('INIC_O_BUSQ', resp, resp.length);
       this.registros = [];
       this.registros = resp;
 

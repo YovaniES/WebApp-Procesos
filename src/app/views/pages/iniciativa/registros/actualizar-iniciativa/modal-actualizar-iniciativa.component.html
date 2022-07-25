@@ -13,20 +13,23 @@
       <div class="chart-draw">
 
     <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
-    <div class="form-group row">
+    <div style="display: flex" >
       <div class="col-1 pr-subtitle mt-2">Registros</div>
-        <div class="col-3 form-group row">
-          <label class="col-sm-6 col-form-label" style="text-align: end; padding: 2px 0px; font-weight: 500;">ID:</label>
-          <div class="col-sm-6">
+      <div class="flex-1"></div>
+      <div  class="mt-2 id-iniciativa">
+        ID : <span  class="total">{{id}}</span>
+      </div>
+        <!-- <div class="col-3 form-group row"> -->
+          <!-- <label class="col-sm-6 col-form-label" style="text-align: end; padding: 2px 0px; font-weight: 500;">ID:</label> -->
+          <!-- <div class="col-sm-6">
             <input type="number"
                    readonly="true"
                    class="form-control id-iniciativa cli-input-white"
                    style="padding: 1px; height: 25px;"
                    formControlName="idIniciativa"
                    >
-          </div>
-        </div>
-
+          </div> -->
+        <!-- </div> -->
     </div>
         <div class="pr-section">
           <div class="pr-module-container">
@@ -330,7 +333,7 @@
                 <thead>
                   <tr class="bgc-green c-white">
                     <th>#</th>
-                    <th>idIniciativa</th>
+                    <th>ID Iniciativa</th>
                     <th>Estados</th>
                     <th>Motivo</th>
                     <th>Fecha y Hora de Cambio</th>

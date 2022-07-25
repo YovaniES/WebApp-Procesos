@@ -46,11 +46,26 @@
 }
 
 .id-iniciativa {
-  color: #ff8a8a;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
   font-weight: 400;
+
+  color: #212529;
+  // font-weight: 500;
+  border: solid 0.5px #6c757d;
+  border-radius: 4px;
+  background: #f8f9fa;
+  padding: 4px;
 }
+
+.total {
+  // color: #97999b;
+  // color: #ff8a8a;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
 
 // BARRA LATERAL--------------------------------
 .bigcotainer-chart {
@@ -91,6 +106,8 @@
     letter-spacing: 1px;
   }
 }
+
+
 
 @media (max-width: 850px) {
   .modal-title {

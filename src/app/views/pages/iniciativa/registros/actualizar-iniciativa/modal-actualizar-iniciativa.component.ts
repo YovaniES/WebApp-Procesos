@@ -90,7 +90,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
    getResponsables(){
     this.iniciativaService.getResponsables(this.role.value).subscribe( (resp: any) => {
       this.responsables = resp;
-      console.log('RESPONSABLES', this.responsables);
+      // console.log('RESPONSABLES', this.responsables);
 
     })
    }
@@ -182,7 +182,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     });
 
     const formValues = this.iniciativaEditForm.getRawValue();
-
     let parametro: any[] = [{
       queryId: 99 ,
       mapValue: {
@@ -241,6 +240,8 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       }
     });
   };
+
+  id = this.data
 
   estadoInicial: string = '';
   cargarRegistroId(){
@@ -341,7 +342,9 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
     this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe((resp: any) => {
       this.historicoCambios = resp;
-      // this.historicoCambios = [];   console.log('ListHistCambID',resp)
+
+      // this.historicoCambios = [];
+      // console.log('ListHistCambID', resp)
     });
     this.spinner.hide();
   }
