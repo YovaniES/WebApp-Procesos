@@ -13,10 +13,32 @@
       <div class="chart-draw">
 
     <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
-        <div class="pr-subtitle mt-2">Registros</div>
+    <div class="form-group row">
+      <div class="col-1 pr-subtitle mt-2">Registros</div>
+        <div class="col-3 form-group row">
+          <label class="col-sm-6 col-form-label" style="text-align: end; padding: 2px 0px; font-weight: 500;">ID:</label>
+          <div class="col-sm-6">
+            <input type="number"
+                   readonly="true"
+                   class="form-control id-iniciativa cli-input-white"
+                   style="padding: 1px; height: 25px;"
+                   formControlName="idIniciativa"
+                   >
+          </div>
+        </div>
+
+    </div>
         <div class="pr-section">
           <div class="pr-module-container">
             <div class="row g-3">
+              <!-- <div class="col-sm-3 cli-form-element">
+                <label style="font-weight: 600">ID Iniciativa</label>
+                  <input
+                    readonly="true"
+                    type="text"
+                    class="form-control id-iniciativa cli-input-white"
+                    formControlName="idIniciativa"/>
+              </div> -->
               <div class="col-sm-3 cli-form-element">
                 <div class="form-group">
                   <label>Nombre de Iniciativa</label>

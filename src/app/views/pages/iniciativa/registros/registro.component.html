@@ -169,7 +169,9 @@
               <td>{{ registro.responsable }}</td>
               <td>{{ registro.gerencia_beneficiaria }}</td>
               <td>{{ registro.naturaleza }}</td>
-              <td>{{ registro.userCrea }}</td>
+              <td>
+                <span class="rol_name" >{{registro.userCrea}}</span>
+              </td>
 
          <!-- <td>
                 <span *ngIf="registro.rol == 'Usuario'" class="rol_name rol_danger">{{registro.userName}}</span>

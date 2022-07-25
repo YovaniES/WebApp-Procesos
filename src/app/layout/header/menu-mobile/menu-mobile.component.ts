@@ -76,17 +76,17 @@ export class MenuMobileComponent implements OnInit {
           module: 'PAS',
           displayed: false,
         },
-        {
-          code: 'PAS-003',
-          text: 'Reporte',
-          order: 3,
-          icon: 'format_list_numbered',
-          type: 'ALONE',
-          link: 'iniciativa/reporte',
-          enable: false,
-          module: 'PAS',
-          displayed: false,
-        }
+        // {
+        //   code: 'PAS-003',
+        //   text: 'Reporte',
+        //   order: 3,
+        //   icon: 'format_list_numbered',
+        //   type: 'ALONE',
+        //   link: 'iniciativa/reporte',
+        //   enable: false,
+        //   module: 'PAS',
+        //   displayed: false,
+        // }
       ],
     },
   ];

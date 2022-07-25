@@ -272,8 +272,8 @@
       </button>
       <button class="cli-btn btn-m btn-blue"
               (click)="crearIniciativa()"
+              [disabled]="iniciativaForm.invalid"
               >
-              <!-- [disabled]="iniciativaForm.invalid" -->
               <mat-icon class="icon-18">save</mat-icon> Registrar
       </button>
     </div>
