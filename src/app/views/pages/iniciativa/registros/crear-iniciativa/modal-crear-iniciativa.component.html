@@ -140,13 +140,28 @@
               <small class="form-text text-alert" *ngIf="campoNoValido('qtrxMes')">* Este campo es obligatorio</small>
           </div>
 
-          <div class="col-sm-3 cli-form-element">
+          <div class="form-group col-sm-3 row" style="margin-top: 15px">
             <label>TMO POR TRX</label>
-            <input
-              type="number"
-              min="0"
-              class="form-control cli-input-white"
-              formControlName="tmoTrx"/>
+
+              <div class="col-sm-5 cli-form-element">
+                <input
+                  style="padding-right: 0; padding: 2px; text-align: center;"
+                  type="number"
+                  min="0"
+                  class="form-control cli-input-white"
+                  formControlName="tmoTrx"/>
+              </div>
+
+              <div class="col-sm-7 cli-form-element"
+                   style="margin-left: -23px">
+                <select class="cli-input-white"
+                        style="padding-left: 0; padding: 2px;"
+                        formControlName="unidad"
+                >
+                  <option value="Minutos">Minutos</option>
+                  <option value="Horas"  >Horas</option>
+                </select>
+              </div>
               <small class="form-text text-alert" *ngIf="campoNoValido('tmoTrx')">* Este campo es obligatorio</small>
           </div>
 

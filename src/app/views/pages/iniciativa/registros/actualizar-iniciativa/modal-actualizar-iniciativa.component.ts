@@ -55,6 +55,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       pi           : [''],
       qtrxMes      : [''],
       tmoTrx       : [''],
+      unidad       : [''],
       fluContx     : [''],
       userCrea     : [''],
       fechaCrea    : [''],
@@ -75,6 +76,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
   ngOnInit() {
     this.iniciativaForm();
+    this.valueChanges();
     this.cargarRegistroId();
     this.getListGerencia();
     this.getListaVP();
@@ -84,16 +86,21 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getUsuario();
     this.getName();
     this.getResponsables();
-   }
+   };
+
+   valueChanges(){
+    this.iniciativaEditForm.get('nombre')?.valueChanges.subscribe((valor: string) => {
+      this.iniciativaEditForm.patchValue( {nombre: valor.toUpperCase()}, {emitEvent: false});
+    });
+  }
 
    responsables!: any[]
    getResponsables(){
     this.iniciativaService.getResponsables(this.role.value).subscribe( (resp: any) => {
       this.responsables = resp;
       // console.log('RESPONSABLES', this.responsables);
-
     })
-   }
+   };
 
    getUsuario(){
     this.authService.getCurrentUser().subscribe( resp => {
@@ -129,7 +136,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
               cNombre : estado.cNombre,
              });
             }
-        })
+      })
     })
   };
 
@@ -206,7 +213,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "param_riesgo_no_rpa"  : formValues.riesgoNoRpa,
         "param_pi"             : formValues.pi,
         "param_qtrx_mes"       : formValues.qtrxMes,
-        "param_tmo_trx"        : formValues.tmoTrx,
+        "param_tmo_trx"        : formValues.tmoTrx + ' ' +  formValues.unidad,
         "param_flu_contx"      : formValues.fluContx,
         "param_user_crea"      : formValues.userCrea,
         "param_fecha_crea"     : formValues.fechaCrea,
@@ -228,7 +235,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
       Swal.fire({
         title: 'Actualizar Iniciativa!',
-        text : 'Iniciativa actualizado con éxito',
+        text : `Iniciativa:  ${formValues.codigo }; actualizado con éxito`,
         icon : 'success',
         confirmButtonText: 'Ok'
         })
@@ -252,6 +259,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     }];
 
     this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( (resp: any) => {
+
       // console.log('LISTA-EDITAR', resp );
       for (let i = 0; i < resp.list.length; i++) {
         this.iniciativaEditForm.controls['idIniciativa'].setValue(resp.list[i].idIniciativa);
@@ -276,10 +284,16 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         this.iniciativaEditForm.controls['riesgoNoRpa'].setValue(resp.list[i].riesgo);
         this.iniciativaEditForm.controls['pi'].setValue(resp.list[i].pi);
         this.iniciativaEditForm.controls['qtrxMes'].setValue(resp.list[i].qtrx);
-        this.iniciativaEditForm.controls['tmoTrx'].setValue(resp.list[i].tmo);
+
+        if (resp.list[i].tmo) {
+           let tiempoTrx = resp.list[i].tmo.split(' ')
+           this.iniciativaEditForm.controls['tmoTrx'].setValue(tiempoTrx[0]);
+           this.iniciativaEditForm.controls['unidad'].setValue(tiempoTrx[1]);
+            // console.log('TIME-UNID', tiempoTrx);
+         }
+
         this.iniciativaEditForm.controls['fluContx'].setValue(resp.list[i].flujo);
         this.iniciativaEditForm.controls['userCrea'].setValue(resp.list[i].user_crea); // USER_CREA==>
-
         this.iniciativaEditForm.controls['estado'].value ? this.getListEstadosBypadre(this.iniciativaEditForm.controls['estado'].value.toString()) : this.getListEstados();
 
         this.validarIfIsGestor();
@@ -342,8 +356,6 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
     this.iniciativaService.cargarIniciatCambios(parametro[0]).subscribe((resp: any) => {
       this.historicoCambios = resp;
-
-      // this.historicoCambios = [];
       // console.log('ListHistCambID', resp)
     });
     this.spinner.hide();

@@ -189,13 +189,8 @@ export class RegistroComponent implements OnInit {
   }
 
   limpiarFiltro(){
-    this.filtroForm.controls['nombre'].setValue('');
-    this.filtroForm.controls['codigo'].setValue('');
-    this.filtroForm.controls['estado'].setValue('');
-    this.filtroForm.controls['gerencia_benef'].setValue('');
-    this.filtroForm.controls['naturaleza'].setValue('');
-    this.filtroForm.controls['fechaCreaInicio'].setValue('');
-    this.filtroForm.controls['fechaCreaFin'].setValue('');
+    // this.filtroForm.controls['nombre'].setValue('');
+    this.filtroForm.reset('', {emitEvent: false})
 
     this.buscarOcargarRegistro();
   };

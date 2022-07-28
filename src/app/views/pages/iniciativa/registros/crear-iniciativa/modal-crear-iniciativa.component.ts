@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -26,7 +26,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
 
   ngOnInit(): void {
     this.newForm();
-
+    this.valueChanges();
     this.getListEstados();
     this.getListGerencia();
     this.getListNaturaleza();
@@ -36,25 +36,26 @@ export class ModalCrearIniciativaComponent implements OnInit {
 
   newForm() {
     this.iniciativaForm = this.fb.group({
-      nombre                : ['RPA-', Validators.required],
-      codigo                : ['', Validators.required],
-      poProyecto            : ['', Validators.required],
-      vp                    : ['', Validators.required],
-      gerenciaSol           : ['', Validators.required],
-      gerenciaBen           : ['', Validators.required],
-      contAprBc             : ['', Validators.required],
-      planner               : ['', Validators.required],
-      contGerBen            : ['', Validators.required],
-      licencias             : ['', Validators.required],
-      naturaleza            : ['', Validators.required],
-      qtrxMes               : ['', Validators.required],
-      tmoTrx                : ['', Validators.required],
-      pi                    : ['', Validators.required],
-      fluContx              : ['', Validators.required],
-      probActual            : ['', Validators.required],
-      funcRobotiz           : ['', Validators.required],
-      defAlcance            : ['', Validators.required],
-      riesgoNoRpa           : ['', Validators.required],
+      nombre      : ['RPA-', Validators.required],
+      codigo      : ['', Validators.required],
+      poProyecto  : ['', Validators.required],
+      vp          : ['', Validators.required],
+      gerenciaSol : ['', Validators.required],
+      gerenciaBen : ['', Validators.required],
+      contAprBc   : ['', Validators.required],
+      planner     : ['', Validators.required],
+      contGerBen  : ['', Validators.required],
+      licencias   : ['', Validators.required],
+      naturaleza  : ['', Validators.required],
+      qtrxMes     : ['', Validators.required],
+      tmoTrx      : ['', Validators.required],
+      unidad      : ['', Validators.required],
+      pi          : ['', Validators.required],
+      fluContx    : ['', Validators.required],
+      probActual  : ['', Validators.required],
+      funcRobotiz : ['', Validators.required],
+      defAlcance  : ['', Validators.required],
+      riesgoNoRpa : ['', Validators.required],
     });
   }
 
@@ -65,15 +66,25 @@ export class ModalCrearIniciativaComponent implements OnInit {
     });
   }
 
+  valueChanges(){
+    this.iniciativaForm.get('nombre')?.valueChanges.subscribe((valor: string) => {
+      this.iniciativaForm.patchValue( {nombre: valor.toUpperCase()}, {emitEvent: false});
+    });
+
+    this.iniciativaForm.get('codigo')?.valueChanges.subscribe((valor: string) => {
+      this.iniciativaForm.patchValue( {codigo: valor.toUpperCase()}, {emitEvent: false});
+    })
+  }
+
+
   estadoInicial: string = '';
   listEstados: any[] = [];
   getListEstados() {
     let parametro: any[] = [{ queryId: 89 }];
 
     this.iniciativaService.getListEstados(parametro[0]).subscribe((resp) => {
-      this.listEstados = resp;   // console.log('ESTADOS', resp);
+      this.listEstados   = resp;   // console.log('ESTADOS', resp);
       this.estadoInicial = resp.find((estados: any) => estados.cNombre === 'Registrado');  // console.log('idEstado', this.estadoInicial);
-
     });
   }
 
@@ -110,16 +121,13 @@ export class ModalCrearIniciativaComponent implements OnInit {
       });
   }
 
-
-
   crearIniciativa() {
     this.spinner.show();
     let currentUser = this.authService.getUsername();
 
     const formValues = this.iniciativaForm.getRawValue();
 
-    let parametro: any[] = [
-      {
+    let parametro: any =  {
         queryId: 97,
         mapValue: {
           p_cdescripcion    : formValues.nombre,
@@ -140,7 +148,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
           p_riesgo_no_rpa   : formValues.riesgoNoRpa,
           p_pi              : formValues.pi,
           p_qtrx_mes        : formValues.qtrxMes,
-          p_tmo_trx         : formValues.tmoTrx,
+          p_tmo_trx         : formValues.tmoTrx + ' ' + formValues.unidad ,
           p_flu_contx       : formValues.fluContx,
           p_user_crea       : currentUser,
           p_fecha_crea      : formValues.fecha_creacion,
@@ -150,14 +158,12 @@ export class ModalCrearIniciativaComponent implements OnInit {
           CONFIG_OUT_MSG_ERROR: '',
           CONFIG_OUT_MSG_EXITO: '',
         },
-      },
-    ];
-    this.iniciativaService.crearIniciativa(parametro[0]).subscribe((resp: any) => {
-      // console.log('NAME', resp);
-
+      };
+    //  console.log('VAOR', this.iniciativaForm.value , parametro);
+    this.iniciativaService.crearIniciativa(parametro).subscribe((resp: any) => {
       Swal.fire({
         title: 'Crear Iniciativa!',
-        text: 'Iniciativa creado con éxito',
+        text: `Iniciativa: ${formValues.codigo} , creado con éxito`,
         icon: 'success',
         confirmButtonText: 'Ok',
       });
@@ -165,7 +171,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
     });
     this.spinner.hide();
   }
-
 
   campoNoValido(campo: string): boolean {
     if (
@@ -177,7 +182,6 @@ export class ModalCrearIniciativaComponent implements OnInit {
       return false;
     }
   }
-
 
   close(succes?: boolean) {
     this.dialogRef.close(succes);
