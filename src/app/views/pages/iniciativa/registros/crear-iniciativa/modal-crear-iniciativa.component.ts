@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Estados } from 'src/app/core/interfaces/estados.interface';
@@ -50,7 +50,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
       naturaleza  : ['', Validators.required],
       qtrxMes     : ['', Validators.required],
       tmoTrx      : ['', Validators.required],
-      unidad      : ['', Validators.required],
+      unidadTrx   : ['Minutos', Validators.required],
       pi          : ['', Validators.required],
       fluContx    : ['', Validators.required],
       probActual  : ['', Validators.required],
@@ -150,7 +150,7 @@ export class ModalCrearIniciativaComponent implements OnInit {
           p_riesgo_no_rpa   : formValues.riesgoNoRpa,
           p_pi              : formValues.pi,
           p_qtrx_mes        : formValues.qtrxMes,
-          p_tmo_trx         : formValues.tmoTrx + ' ' + formValues.unidad ,
+          p_tmo_trx         : formValues.tmoTrx + ' ' + formValues.unidadTrx ,
           p_flu_contx       : formValues.fluContx,
           p_user_crea       : currentUser,
           p_fecha_crea      : formValues.fecha_creacion,
