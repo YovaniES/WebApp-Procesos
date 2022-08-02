@@ -1,11 +1,9 @@
 const ENVIROMENT: string = 'DEV';
 
 // let MAIN_PATH_NET = 'http://backtools.indratools.com/api/configurador/';
-// let MAIN_PATH_NET = 'https://localhost:3061/api/configurador/';
 
 let MAIN_PATH_NET = '';
 let MAIN_PATH_AUTH = '';
-// let MAIN_PATH_ROLE = ''
 switch (ENVIROMENT) {
   case 'DEV':
     MAIN_PATH_AUTH = 'http://seguridadweb.indratools.com/aut/seguridad';

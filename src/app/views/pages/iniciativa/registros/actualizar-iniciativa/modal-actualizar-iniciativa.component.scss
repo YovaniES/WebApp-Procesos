@@ -59,15 +59,17 @@
 }
 
 .total {
-  // color: #97999b;
-  // color: #ff8a8a;
   font-size: 18px;
   font-weight: 700;
 }
 
+.cli-tmoTrx {
+  margin: 16px 0px 0px;
+  font-size: 12.8px;
+  padding: 0 6px;
+}
 
-
-// BARRA LATERAL--------------------------------
+// BARRA LATERAL----------------------------------------------------------------------------------------
 .bigcotainer-chart {
   width: 100%;
   display: flex;
@@ -107,8 +109,6 @@
   }
 }
 
-
-
 @media (max-width: 850px) {
   .modal-title {
     font-size: 1.2rem;
@@ -117,5 +117,11 @@
   .btn-m {
     height: 20px;
     padding: 15px;
+  }
+
+  .pr-module {
+    &-container {
+      padding: 5px;
+    }
   }
 }

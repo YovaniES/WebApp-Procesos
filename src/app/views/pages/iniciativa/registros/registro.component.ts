@@ -10,6 +10,7 @@ import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
+import { Estados } from 'src/app/core/interfaces/estados.interface';
 
 @Component({
   selector: 'app-registro',
@@ -28,16 +29,8 @@ export class RegistroComponent implements OnInit {
   loadingItem: boolean = false;
   data: any[] = [];
   userID: number = 0;
-  filtroForm!: FormGroup;
 
-  responsab:string = '';
-  role: FormGroup = this.fb.group(
-    {
-      idaplicacion: ['1'],
-      username    : ['106'],
-      password    : ['']
-    }
-  )
+  filtroForm!: FormGroup;
 
   constructor(
     private iniciativaService: IniciativaService,
@@ -61,13 +54,14 @@ export class RegistroComponent implements OnInit {
 
   newFilfroForm(){
     this.filtroForm = this.fb.group({
-      nombre         : [''],
-      codigo         : [''],
-      estado         : [''],
-      gerencia_benef : [''],
-      naturaleza     : [''],
-      fechaCreaInicio: [''],
-      fechaCreaFin   : [''],
+      nombre           : [''],
+      codigo           : [''],
+      estado           : [''],
+      gerencia_benef   : [''],
+      naturaleza       : [''],
+      fechaCreaInicio  : [''],
+      fechaCreaFin     : [''],
+      listarSoloActivos: [true],
     })
   }
 
@@ -79,10 +73,12 @@ export class RegistroComponent implements OnInit {
   };
 
   listEstados: any[] = [];
+  estadosActivos: Estados[] = [];
   getListEstados(){
     let parametro: any[] = [{ queryId: 89 }];
     this.iniciativaService.getListEstados(parametro[0]).subscribe(resp => {
-      this.listEstados = resp
+      this.listEstados = resp;                                                     // console.log('LIST_ESTADOS', resp);
+      this.estadosActivos = resp.filter((estAct: Estados) => estAct.iCiclo == 0);  //console.log('EST_ACTIVOS', this.estadosActivos);
     })
   };
 
@@ -102,7 +98,7 @@ export class RegistroComponent implements OnInit {
       });
   }
 
-  registros:any[] = [];
+  registros: any[] = [];
   buscarOcargarRegistro(){
     this.blockUI.start("Cargando iniciativas...");
     let parametro: any[] = [{
@@ -112,6 +108,7 @@ export class RegistroComponent implements OnInit {
         "param_codigo"       : this.filtroForm.value.codigo,
         "param_id_ger_ben"   : this.filtroForm.value.gerencia_benef,
         "param_id_estado"    : this.filtroForm.value.estado,
+        "param_est_act"      : this.filtroForm.value.listarSoloActivos? 1 : 0,
         "param_id_naturaleza": this.filtroForm.value.naturaleza,
         "param_user_crea"    : this.authService.getUserNameByRol(),
         "inicio": this.datepipe.transform(this.filtroForm.value.fechaCreaInicio,'yyyy/MM/dd'),
@@ -129,8 +126,8 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  exportarRegistro(){
-    this.exportExcellService.exportarExcel(this.registros, 'Iniciativa')
+  getEstadosActivos(iCiclo: number){
+    this.iniciativaService.getListEstados
   }
 
   totalfiltro = 0;
@@ -165,7 +162,7 @@ export class RegistroComponent implements OnInit {
     }];
     Swal.fire({
       title: '¿Eliminar Iniciativa?',
-      text: `¿Estas seguro que deseas eliminar la iniciativa?`,
+      text: `¿Estas seguro que deseas eliminar la iniciativa: ${id} ?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -179,7 +176,7 @@ export class RegistroComponent implements OnInit {
 
             Swal.fire({
               title: 'Eliminar Iniciativa',
-              text: 'La Iniciativa fue eliminado con éxito',
+              text: `La Iniciativa: ${id}; fue eliminado con éxito`,
               icon: 'success',
             });
           });
@@ -191,9 +188,14 @@ export class RegistroComponent implements OnInit {
   limpiarFiltro(){
     // this.filtroForm.controls['nombre'].setValue('');
     this.filtroForm.reset('', {emitEvent: false})
+    this.newFilfroForm()
 
     this.buscarOcargarRegistro();
   };
+
+  exportarRegistro(){
+    this.exportExcellService.exportarExcel(this.registros, 'Iniciativa')
+  }
 
   crearIniciativa(){
     const dialogRef = this.dialog.open(ModalCrearIniciativaComponent, {width:'65%', height:'85%'});

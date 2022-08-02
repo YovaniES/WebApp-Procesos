@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Estados } from 'src/app/core/interfaces/estados.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { IniciativaService } from 'src/app/core/services/iniciativa.service';
 import Swal from 'sweetalert2';
@@ -78,13 +79,14 @@ export class ModalCrearIniciativaComponent implements OnInit {
 
 
   estadoInicial: string = '';
-  listEstados: any[] = [];
+  listEstados: Estados[] = [];
+  estadosActivoS: Estados[] = [];
   getListEstados() {
     let parametro: any[] = [{ queryId: 89 }];
 
     this.iniciativaService.getListEstados(parametro[0]).subscribe((resp) => {
-      this.listEstados   = resp;   // console.log('ESTADOS', resp);
-      this.estadoInicial = resp.find((estados: any) => estados.cNombre === 'Registrado');  // console.log('idEstado', this.estadoInicial);
+      this.listEstados    = resp;   // console.log('ESTADOS', resp);
+      this.estadoInicial  = resp.find((estados: Estados) => estados.cNombre === 'Registrado');  // console.log('idEstado', this.estadoInicial);
     });
   }
 

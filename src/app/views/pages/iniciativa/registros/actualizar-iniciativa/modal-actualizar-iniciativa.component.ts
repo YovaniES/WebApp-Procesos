@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Estados } from 'src/app/core/interfaces/estados.interface';
 
 @Component({
   selector: 'app-modal-iniciativa',
@@ -18,6 +19,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
   userName: string = '';
   userID: number = 0;
   iniciativaEditForm!: FormGroup
+  iniciativa_Id = this.ID
 
   datosInicCambios = {
       id_motivo: 0,
@@ -55,7 +57,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       pi           : [''],
       qtrxMes      : [''],
       tmoTrx       : [''],
-      unidad       : [''],
+      unidadTrx    : [''],
       fluContx     : [''],
       userCrea     : [''],
       fechaCrea    : [''],
@@ -71,7 +73,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<ModalActualizarIniciativaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public ID: any
   ) { }
 
   ngOnInit() {
@@ -82,7 +84,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     this.getListaVP();
     this.getListNaturaleza();
     this.getListaTecnologia();
-    this.getHistoricoCambios(this.data);
+    this.getHistoricoCambios(this.ID);
     this.getUsuario();
     this.getName();
     this.getResponsables();
@@ -126,7 +128,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     let parametro: any[] = [{ queryId: 89 }];
    this.iniciativaService.getListEstados(parametro[0], false).subscribe((resp: any) => {
 
-     resp.list.map((estado: any) => { //  console.log('ESTADOS', estado);
+     resp.list.map((estado: Estados) => { //  console.log('ESTADOS', estado);
       const estadosPadre = estado.idEstadoPadre.split(',')
       // console.log('padre', estadosPadre);
 
@@ -184,9 +186,9 @@ export class ModalActualizarIniciativaComponent implements OnInit {
 
   actualizarIniciativa(){
     this.spinner.show();
-    this.authService.getCurrentUser().subscribe( resp => {
-      this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
-    });
+    // this.authService.getCurrentUser().subscribe( resp => {
+    //   this.fullName = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+    // });
 
     const formValues = this.iniciativaEditForm.getRawValue();
     let parametro: any[] = [{
@@ -213,7 +215,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         "param_riesgo_no_rpa"  : formValues.riesgoNoRpa,
         "param_pi"             : formValues.pi,
         "param_qtrx_mes"       : formValues.qtrxMes,
-        "param_tmo_trx"        : formValues.tmoTrx + ' ' +  formValues.unidad,
+        "param_tmo_trx"        : formValues.tmoTrx + ' ' +  formValues.unidadTrx,
         "param_flu_contx"      : formValues.fluContx,
         "param_user_crea"      : formValues.userCrea,
         "param_fecha_crea"     : formValues.fechaCrea,
@@ -248,14 +250,12 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     });
   };
 
-  id = this.data
-
   estadoInicial: string = '';
   cargarRegistroId(){
     this.spinner.show();
     let parametro: any[] = [{
       queryId: 100,
-      mapValue: {'param_idIniciativa': this.data}
+      mapValue: {'param_idIniciativa': this.ID}
     }];
 
     this.iniciativaService.cargarRegistroId(parametro[0]).subscribe( (resp: any) => {
@@ -288,7 +288,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
         if (resp.list[i].tmo) {
            let tiempoTrx = resp.list[i].tmo.split(' ')
            this.iniciativaEditForm.controls['tmoTrx'].setValue(tiempoTrx[0]);
-           this.iniciativaEditForm.controls['unidad'].setValue(tiempoTrx[1]);
+           this.iniciativaEditForm.controls['unidadTrx'].setValue(tiempoTrx[1]);
             // console.log('TIME-UNID', tiempoTrx);
          }
 
@@ -327,7 +327,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
       let parametro: any[] = [{
         queryId: 98,
         mapValue: {
-         "p_idiniciativa"        : this.data ,
+         "p_idiniciativa"        : this.ID ,
          "p_idEstado"            : idEstado ,
          "p_id_motivo"           : id_motivo ,
          "p_dFecha"              : dFecha ,
@@ -350,7 +350,7 @@ export class ModalActualizarIniciativaComponent implements OnInit {
     let parametro: any[] = [{
       queryId: 94,
       mapValue: {
-        'param_id_iniciativa': this.data
+        'param_id_iniciativa': this.ID
       }
     }];
 

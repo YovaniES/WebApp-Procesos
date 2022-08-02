@@ -11,10 +11,6 @@ import { Role } from '../interfaces/role.interface';
 export class IniciativaService {
   constructor(private http: HttpClient) {}
 
-  eliminarIniciativa(id: number) {
-    return this.http.post(API_INIICIATIVAS, id);
-  }
-
   // OBTENEMOS LA DATA DESDE .NET
   listaTecnologia(obj: any) {
     return this.http.post(API_INIICIATIVAS, obj).pipe(
@@ -66,14 +62,13 @@ export class IniciativaService {
   getListEstados(obj: any, mapList: boolean = true): Observable<any> {
     return this.http.post(API_INIICIATIVAS, obj).pipe(
       map((estados: any) => {
-        return mapList
-          ? estados.list.map((estado: Estados) => {
+        return mapList ? estados.list.map((estado: Estados) => {
               return {
                 idEstado: estado.idEstado,
+                iCiclo  : estado.iCiclo,
                 cNombre : estado.cNombre,
               };
-            })
-          : estados;
+            }) : estados;
       })
     );
   }
@@ -98,16 +93,17 @@ export class IniciativaService {
       map((registro: any) => {
         return registro.list.map((reg: any) => {
           return {
-            idIniciativa          : reg.idIniciativa ,
-            nombre                : reg.nombre ,
-            codigo                : reg.codigo ,
-            estado                : reg.estado ,
-            po_proyecto           : reg.po_proyecto ,
-            responsable           : reg.responsable ,
-            gerencia_beneficiaria : reg.gerencia_beneficiaria ,
-            naturaleza            : reg.naturaleza ,
-            userCrea              : reg.userCrea ,
-            fecha_creacion        : reg.fecha_creacion ,
+            idIniciativa         : reg.idIniciativa ,
+            nombre               : reg.nombre ,
+            codigo               : reg.codigo ,
+            estado               : reg.estado ,
+            po_proyecto          : reg.po_proyecto ,
+            responsable          : reg.responsable ,
+            gerencia_beneficiaria: reg.gerencia_beneficiaria ,
+            naturaleza           : reg.naturaleza ,
+            userCrea             : reg.userCrea ,
+            est_act              : reg.est_act ,
+            fecha_creacion       : reg.fecha_creacion ,
           }
         })
       })
@@ -117,6 +113,10 @@ export class IniciativaService {
   //INSERTAR REGISTRO A LA TABLA
   crearIniciativa(obj: any) {
     return this.http.post(API_INIICIATIVAS, obj);
+  }
+
+  eliminarIniciativa(id: number) {
+    return this.http.post(API_INIICIATIVAS, id);
   }
 
   cargarRegistroId(obj: any) {
@@ -129,7 +129,7 @@ export class IniciativaService {
 
   cargarIniciatCambios(obj: any) {
     return this.http.post(API_INIICIATIVAS, obj).pipe(
-      map((histCamb:any) => {
+      map((histCamb: any) => {
         return histCamb.list.map( (historico: any) => {
           return {
             id           : historico.id,

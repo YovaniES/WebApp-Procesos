@@ -33,12 +33,32 @@ export class AuthService {
 
   getUserNameByRol(){
     const usuarioLogeado: any = this.decodeToken();
-    // console.log('ROL', usuarioLogeado);
-
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
       return null
     } else {
       return usuarioLogeado.name
+    }
+  }
+
+  getRolId(){
+    const usuarioLogeado: any = this.decodeToken();
+    // console.log('ROL_ID', usuarioLogeado);
+
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
+      return null
+    } else {
+      return usuarioLogeado.ROL_ID
+    }
+  }
+
+  esUsuarioGestor(): boolean{
+    const usuarioLogeado:any = this.decodeToken();
+    // console.log('ROL_ID', usuarioLogeado);
+
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_GESTOR.rolID ) {
+      return false
+    } else {
+      return true
     }
   }
 
@@ -54,16 +74,6 @@ export class AuthService {
     return of(currentUser ? JSON.parse(currentUser) : '');
   }
 
-  esUsuarioGestor(): boolean{
-    const usuarioLogeado:any = this.decodeToken();
-    // console.log('ROL', usuarioLogeado);
-
-    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_GESTOR.rolID ) {
-      return false
-    } else {
-      return true
-    }
-  }
 
   decodeToken() {
     const token = localStorage.getItem('token');

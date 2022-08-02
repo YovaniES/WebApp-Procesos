@@ -16,7 +16,7 @@
     <div style="display: flex" >
       <div class="col-1 pr-subtitle mt-2">Registros</div>
       <div class="flex-1"></div>
-      <div  class="mt-2 id-iniciativa">ID : <span  class="total">{{id}}</span></div>
+      <div  class="mt-2 id-iniciativa">ID : <span  class="total">{{iniciativa_Id}}</span></div>
     </div>
 
     <div class="pr-section">
@@ -113,6 +113,7 @@
                 class="form-control cli-input-white"
                 formControlName="contAprBc"/>
           </div>
+
           <div class="col-sm-3 cli-form-element">
             <label>PLANNER</label>
             <input
@@ -129,6 +130,7 @@
               class="form-control cli-input-white"
               formControlName="licencias"/>
           </div>
+
           <div class="col-sm-3 cli-form-element">
             <label>Tecnología de Solución</label>
             <select
@@ -138,6 +140,7 @@
               <option [value]="tec.id" *ngFor="let tec of tecnologias">{{ tec.nombre }}</option>
             </select>
           </div>
+
           <div class="col-sm-3 cli-form-element">
             <label>Naturaleza del Benef.</label>
             <select
@@ -170,96 +173,87 @@
       <div class="pr-module-container">
         <div class="row g-3">
           <div class="col-sm-3 cli-form-element">
-              <label>QTRX mensual</label>
+            <label>QTRX mensual</label>
+            <input
+              type="number"
+              min="0"
+              class="form-control cli-input-white"
+              formControlName="qtrxMes"/>
+          </div>
+
+          <div class="form-group col-sm-3 cli-tmoTrx">
+            <label>TMO POR TRX</label>
+            <div class="row" style="padding: 0px">
+              <div class="col-sm-5 cli-form-element" style="padding: 2px 5px;">
               <input
+                style="text-align: center;"
                 type="number"
                 min="0"
                 class="form-control cli-input-white"
-                formControlName="qtrxMes"
-              />
-            </div>
+                formControlName="tmoTrx"/>
+              </div>
 
-            <div class="form-group col-sm-3 row" style="margin-top: 15px">
-              <label>TMO POR TRX</label>
-
-                <div class="col-sm-5 cli-form-element">
-                  <input
-                    style="padding-right: 0; padding: 2px; text-align: center;"
-                    type="number"
-                    min="0"
-                    class="form-control cli-input-white"
-                    formControlName="tmoTrx"/>
-                </div>
-
-                <div class="col-sm-7 cli-form-element"
-                     style="margin-left: -23px">
-                  <select class="cli-input-white"
-                          style="padding-left: 0; padding: 2px;"
-                          formControlName="unidad"
-                  >
+              <div class="col-sm-7 cli-form-element" style="padding: 2px 5px; margin-left: -8px;">
+                  <select class="cli-input-white" style="margin-left: 2px"
+                          formControlName="unidadTrx">
                     <option value="Minutos">Minutos</option>
                     <option value="Horas"  >Horas</option>
                   </select>
-                </div>
-            </div>
-
-            <div class="form-group col-sm-3">
-              <legend class="col-form-label col-sm-12 pt-0">Pedido por PI</legend>
-              <div class="row" style="margin-left: 0px">
-                <div class="form-check col-sm-6">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    id="gridRadios3"
-                    [value]="1"
-                    formControlName="pi"
-                  />
-                  <label class="form-check-label" for="gridRadios3">Si</label>
-                </div>
-
-                <div class="form-check col-sm-6">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    id="gridRadios4"
-                    [value]="0"
-                    formControlName="pi"
-                  />
-                  <label class="form-check-label" for="gridRadios4">No</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group col-sm-3">
-              <legend class="col-form-label col-sm-12 pt-0">
-                Cuenta con flujo contextual
-              </legend>
-              <div class="row" style="margin-left: 0px">
-                <div class="form-check col-sm-6">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    id="gridRadios3"
-                    [value]="1"
-                    formControlName="fluContx"
-                  />
-                  <label class="form-check-label" for="gridRadios3">Si</label>
-                </div>
-
-                <div class="form-check col-sm-6">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    id="gridRadios4"
-                    [value]="0"
-                    formControlName="fluContx"
-                  />
-                  <label class="form-check-label" for="gridRadios4">No</label>
-                </div>
               </div>
             </div>
           </div>
-       </div>
+
+          <div class="form-group col-sm-3">
+            <legend class="col-form-label col-sm-12 pt-0">Pedido por PI</legend>
+            <div class="row" style="margin-left: 0px">
+              <div class="form-check col-sm-6">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="pi"/>
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check col-sm-6">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="pi"/>
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-3">
+            <legend class="col-form-label col-sm-12 pt-0">Cuenta con flujo contextual</legend>
+            <div class="row" style="margin-left: 0px">
+              <div class="form-check col-sm-6">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios3"
+                  [value]="1"
+                  formControlName="fluContx"/>
+                <label class="form-check-label" for="gridRadios3">Si</label>
+              </div>
+
+              <div class="form-check col-sm-6">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="gridRadios4"
+                  [value]="0"
+                  formControlName="fluContx"/>
+                <label class="form-check-label" for="gridRadios4">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- --------------------------------------------DIAGNOSTICO -------------------------------------->
@@ -297,8 +291,7 @@
                 style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
                 placeholder="Defina los objetivos y alcances del RPA"
-                formControlName="defAlcance"
-              >
+                formControlName="defAlcance">
               </textarea>
             </div>
 
@@ -309,8 +302,7 @@
                 style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                 rows="2"
                 placeholder="Describa los riesgos de no realizar el RPA"
-                formControlName="riesgoNoRpa"
-              >
+                formControlName="riesgoNoRpa">
               </textarea>
             </div>
           </div>
